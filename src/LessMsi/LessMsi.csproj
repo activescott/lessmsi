@@ -118,6 +118,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anculus.Core\Collections\IProperyComparer.cs" />
+    <Compile Include="Anculus.Core\Collections\ReverseComparer.cs" />
+    <Compile Include="Anculus.Core\Sorting\AbstractSorter.cs" />
+    <Compile Include="Anculus.Core\Sorting\ISorter.cs" />
+    <Compile Include="Anculus.Core\Sorting\QuickSorter.cs" />
+    <Compile Include="Anculus.Core\Sorting\Sort.cs" />
+    <Compile Include="Anculus.Core\Sorting\SortOrder.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,6 +140,7 @@
     <Compile Include="UI\ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\IMainFormView.cs" />
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,7 +150,8 @@
     <Compile Include="Msi\MsiFile.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\MsiFileListViewItem.cs" />
+    <Compile Include="UI\MainFormPresenter.cs" />
+    <Compile Include="UI\Model\MsiFileItemView.cs" />
     <Compile Include="UI\NativeMethods.cs" />
     <Compile Include="UI\PreferencesForm.cs">
       <SubType>Form</SubType>
@@ -163,6 +172,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\PropertyInfoListViewItem.cs" />
+    <Compile Include="UI\SortableBindingList.cs" />
+    <Compile Include="UI\WinFormsHelper.cs" />
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

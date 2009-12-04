@@ -8,6 +8,8 @@ Done:
 	- Allow copy/paste of rows in the table view & file view tabs of GUI.
 
 TODO:
+	- Make columns of File List sortable.
+	- Make columns of table viewer sortable.
 	- fix problem with Sliksvn: The problem is that it's extracting Windows directories and other directories under the main install dir. I can't figure out how to detect other roots other than the main install directory. I think MSI must replace some of those Directory entry names as "system defined properties" before the MSI actually begins its install. I can't find anything documented about it though...
 		- example: 
 			File: msvcr90.dll, SourceDir\SlikSvn\bin\Windows\winsxs\amd64_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.4148_none_08e3747fa83e48bc, 624448, 9.0.30729.4148

@@ -24,27 +24,32 @@
 //
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using LessMsi.Msi;
+using LessMsi.UI.Model;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using System.Text;
 
 namespace LessMsi.UI
 {
-    internal class MainForm : Form
+    internal class MainForm : Form, IMainFormView
     {
         public MainForm(string defaultInputFile)
         {
+            this.Presenter = new MainFormPresenter(this);
             InitializeComponent();
-            MsiFileListViewItem.InitListViewColumns(fileList);
-            PropertyInfoListViewItem.InitListViewColumns(this.propertiesList);
-            if (defaultInputFile != null && defaultInputFile.Length > 0)
+            Presenter.Initialize();
+            
+            if (!string.IsNullOrEmpty(defaultInputFile))
                 this.txtMsiFileName.Text = defaultInputFile;
+            
         }
+
+        private MainFormPresenter Presenter { get; set; }
 
         #region UI Event Handlers
         private void OpenFileCommand()
@@ -64,7 +69,6 @@ namespace LessMsi.UI
             }
         }
 
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ViewTable();
@@ -72,33 +76,36 @@ namespace LessMsi.UI
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            ArrayList /*<MsiFile>*/ selectedFiles = new ArrayList();
-            if (this.fileList.CheckedItems.Count == 0)
+            var selectedFiles = new List<MsiFile>();
+            if (fileGrid.SelectedRows.Count == 0)
+            {
+                Presenter.ShowUserMessage("Please select some or all of the files to extract them.");
                 return;
+            }
 
-            if (this.folderBrowser.SelectedPath == null || folderBrowser.SelectedPath.Length <= 0)
-                this.folderBrowser.SelectedPath = this.GetSelectedMsiFile().DirectoryName;
+            if (folderBrowser.SelectedPath == null || folderBrowser.SelectedPath.Length <= 0)
+                folderBrowser.SelectedPath = GetSelectedMsiFile().DirectoryName;
 
             if (DialogResult.OK != this.folderBrowser.ShowDialog(this))
                 return;
 
-            this.btnExtract.Enabled = false;
+            btnExtract.Enabled = false;
             ExtractionProgressDialog progressDialog = new ExtractionProgressDialog(this);
             progressDialog.Show();
             progressDialog.Update();
             try
             {
                 DirectoryInfo outputDir = new DirectoryInfo(this.folderBrowser.SelectedPath);
-                foreach (MsiFileListViewItem item in this.fileList.Items)
+                foreach (DataGridViewRow row in fileGrid.SelectedRows)
                 {
-                    if (item.Checked)
-                        selectedFiles.Add(item._file);
+                    MsiFileItemView fileToExtract = (MsiFileItemView)row.DataBoundItem;
+                    selectedFiles.Add(fileToExtract.File);
                 }
 
                 FileInfo msiFile = GetSelectedMsiFile();
                 if (msiFile == null)
                     return;
-                MsiFile[] filesToExtract = (MsiFile[])selectedFiles.ToArray(typeof(MsiFile));
+                var filesToExtract = selectedFiles.ToArray();
                 Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract, new AsyncCallback(progressDialog.UpdateProgress));
             }
             catch (Exception err)
@@ -128,177 +135,23 @@ namespace LessMsi.UI
             bool isBadFile = false;
             try
             {
-                ViewSummary();
-                LoadTables();
-                ViewFiles();
+                Presenter.UpdatePropertyTabView();
+                Presenter.LoadTables();
+                Presenter.ViewFiles();
                 ViewTable();
             }
             catch (Exception eCatchAll)
             {
                 isBadFile = true;
-                Error("Failed to open file.", eCatchAll);
+                Presenter.Error("Failed to open file.", eCatchAll);
             }
             ChangeUiEnabled(!isBadFile);
         }
 
-        private void LoadTables()
-        {
-            this.cboTable.Items.Clear();
-            this.cboTable.Items.AddRange(new object[]
-            {//FYI: This list is from http://msdn.microsoft.com/en-us/library/2k3te2cs%28VS.100%29.aspx
-                "ActionText",
-                "AdminExecuteSequence ",
-                "AdminUISequence",
-                "AdvtExecuteSequence",
-                "AdvtUISequence",
-                "AppId",
-                "AppSearch",
-                "BBControl",
-                "Billboard",
-                "Binary",
-                "BindImage",
-                "CCPSearch",
-                "CheckBox",
-                "Class",
-                "ComboBox",
-                "CompLocator",
-                "Complus",
-                "Component",
-                "Condition",
-                "Control",
-                "ControlCondition",
-                "ControlEvent",
-                "CreateFolder",
-                "CustomAction",
-                "Dialog",
-                "Directory",
-                "DrLocator",
-                "DuplicateFile",
-                "Environment",
-                "Error",
-                "EventMapping",
-                "Extension",
-                "Feature",
-                "FeatureComponents",
-                "File",
-                "FileSFPCatalog",
-                "Font",
-                "Icon",
-                "IniFile",
-                "IniLocator",
-                "InstallExecuteSequence",
-                "InstallUISequence",
-                "IsolatedComponent",
-                "LaunchCondition",
-                "ListBox",
-                "ListView",
-                "LockPermissions",
-                "Media",
-                "MIME",
-                "MoveFile",
-                "MsiAssembly",
-                "MsiAssemblyName",
-                "MsiDigitalCertificate",
-                "MsiDigitalSignature",
-                "MsiEmbeddedChainer",
-                "MsiEmbeddedUI",
-                "MsiFileHash",
-                "MsiLockPermissionsEx Table",
-                "MsiPackageCertificate",
-                "MsiPatchCertificate",
-                "MsiPatchHeaders",
-                "MsiPatchMetadata",
-                "MsiPatchOldAssemblyName",
-                "MsiPatchOldAssemblyFile",
-                "MsiPatchSequence",
-                "MsiServiceConfig",
-                "MsiServiceConfigFailureActions",
-                "MsiSFCBypass",
-                "ODBCAttribute",
-                "ODBCDataSource",
-                "ODBCDriver",
-                "ODBCSourceAttribute",
-                "ODBCTranslator",
-                "Patch",
-                "PatchPackage",
-                "ProgId",
-                "Property",
-                "PublishComponent",
-                "RadioButton",
-                "Registry",
-                "RegLocator",
-                "RemoveFile",
-                "RemoveIniFile",
-                "RemoveRegistry",
-                "ReserveCost",
-                "SelfReg",
-                "ServiceControl",
-                "ServiceInstall",
-                "SFPCatalog",
-                "Shortcut",
-                "Signature",
-                "TextStyle",
-                "TypeLib",
-                "UIText",
-                "Verb",
-                "_Validation",
-                "_Columns",
-                "_Streams",
-                "_Storages",
-                "_Tables",
-                "_TransformView Table",
-                "Upgrade"
-                             
-                                             });
-        }
+        
 
 
-        /// <summary>
-        /// Updates the ui with the currently selected msi file.
-        /// </summary>
-        private void ViewFiles()
-        {
-            using (Database msidb = new Database(GetSelectedMsiFile().FullName, OpenDatabase.ReadOnly))
-            {
-                ViewFiles(msidb);
-            }
-        }
-
-        /// <summary>
-        /// Displays the list of files in the extract tab.
-        /// </summary>
-        /// <param name="msidb">The msi database.</param>
-        private void ViewFiles(Database msidb)
-        {
-            if (msidb == null)
-                return;
-
-            using (new DisposableCursor(this))
-            {
-                //used to filter and sort columns
-                Hashtable /*<string, int>*/ columnMap = new Hashtable(StringComparer.InvariantCulture);
-                columnMap.Add("FileName", 0);
-                columnMap.Add("FileSize", 1);
-                columnMap.Add("Version", 2);
-                columnMap.Add("Language", 3);
-                columnMap.Add("Attributes", 4);
-
-                try
-                {
-                    this.statusPanelDefault.Text = "";
-                    fileList.Items.Clear();
-
-                    foreach (MsiFile msiFile in MsiFile.CreateMsiFilesFromMSI(msidb))
-                        fileList.Items.Add(new MsiFileListViewItem(msiFile));
-                    statusPanelFileCount.Text = string.Concat(fileList.Items.Count, " files found.");
-                }
-                catch (Exception eUnexpected)
-                {
-                    Error(string.Concat("Cannot view files:", eUnexpected.Message), eUnexpected);
-                }
-            }
-        }
-
+       
 
         private void ViewTable()
         {
@@ -309,7 +162,6 @@ namespace LessMsi.UI
             }
         }
 
-
         /// <summary>
         /// Shows the table in the list on the view table tab.
         /// </summary>
@@ -317,10 +169,10 @@ namespace LessMsi.UI
         /// <param name="tableName">The name of the table.</param>
         private void ViewTable(Database msidb, string tableName)
         {
-            if (msidb == null || tableName == null && tableName.Length == 0)
+            if (msidb == null || string.IsNullOrEmpty(tableName))
                 return;
 
-            Status(string.Concat("Processing Table \'", tableName, "\'."));
+            Presenter.Status(string.Concat("Processing Table \'", tableName, "\'."));
 
             using (new DisposableCursor(this))
             {
@@ -329,7 +181,7 @@ namespace LessMsi.UI
                     tableList.Clear();
                     if (!msidb.TableExists(tableName))
                     {
-                        Error("Table \'" + tableName + "' does not exist.", null);
+                        Presenter.Error("Table \'" + tableName + "' does not exist.", null);
                         return;
                     }
 
@@ -354,49 +206,29 @@ namespace LessMsi.UI
                             tableList.Items.Add(item);
                         }
                     }
-                    Status("Idle");
+                    Presenter.Status("Idle");
                 }
                 catch (Exception eUnexpected)
                 {
-                    Error(string.Concat("Cannot view table:", eUnexpected.Message), eUnexpected);
+                    Presenter.Error(string.Concat("Cannot view table:", eUnexpected.Message), eUnexpected);
                 }
             }
 
         }
 
-
-        private FileInfo GetSelectedMsiFile()
+        public FileInfo GetSelectedMsiFile()
         {
             FileInfo file = new FileInfo(this.txtMsiFileName.Text);
             if (!file.Exists)
             {
-                Error(string.Concat("File \'", file.FullName, "\' does not exist."), null);
+                Presenter.Error(string.Concat("File \'", file.FullName, "\' does not exist."), null);
                 return null;
             }
             return file;
         }
 
-        #region Status Stuff
-
-        private void Status(string msg)
-        {
-            this.statusPanelDefault.Text = "Status:" + msg;
-        }
-
-        private void Error(string msg, Exception exception)
-        {
-            this.statusPanelDefault.Text = "ERROR:" + msg;
-            if (exception != null)
-                this.statusPanelDefault.ToolTipText = exception.ToString();
-            else
-                this.statusPanelDefault.ToolTipText = "";
-
-        }
-
-        #endregion	
-
         private StatusBar statusBar1;
-        private StatusBarPanel statusPanelDefault;
+        internal StatusBarPanel statusPanelDefault;
         private StatusBarPanel statusPanelFileCount;
         private Button btnSelectAll;
         private Button btnUnselectAll;
@@ -404,7 +236,7 @@ namespace LessMsi.UI
         private TextBox txtSummaryDescription;
         private GroupBox grpDescription;
         private Panel panel2;
-        private ListView propertiesList;
+        public ListView propertiesList;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
@@ -412,6 +244,7 @@ namespace LessMsi.UI
         private ToolStripMenuItem preferencesToolStripMenuItem;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
+        public DataGridView fileGrid;
 
         #region Designer Stuff
 
@@ -445,7 +278,7 @@ namespace LessMsi.UI
             this.btnBrowse = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabExtractFiles = new System.Windows.Forms.TabPage();
-            this.fileList = new System.Windows.Forms.ListView();
+            this.fileGrid = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
@@ -465,12 +298,12 @@ namespace LessMsi.UI
             this.statusPanelDefault = new System.Windows.Forms.StatusBarPanel();
             this.statusPanelFileCount = new System.Windows.Forms.StatusBarPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -525,7 +358,7 @@ namespace LessMsi.UI
             // 
             // tabExtractFiles
             // 
-            this.tabExtractFiles.Controls.Add(this.fileList);
+            this.tabExtractFiles.Controls.Add(this.fileGrid);
             this.tabExtractFiles.Controls.Add(this.panel2);
             this.tabExtractFiles.Location = new System.Drawing.Point(4, 22);
             this.tabExtractFiles.Name = "tabExtractFiles";
@@ -534,20 +367,19 @@ namespace LessMsi.UI
             this.tabExtractFiles.TabIndex = 0;
             this.tabExtractFiles.Text = "Extract Files";
             // 
-            // fileList
+            // fileGrid
             // 
-            this.fileList.AllowColumnReorder = true;
-            this.fileList.CheckBoxes = true;
-            this.fileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileList.FullRowSelect = true;
-            this.fileList.GridLines = true;
-            this.fileList.LabelWrap = false;
-            this.fileList.Location = new System.Drawing.Point(5, 5);
-            this.fileList.Name = "fileList";
-            this.fileList.Size = new System.Drawing.Size(318, 231);
-            this.fileList.TabIndex = 0;
-            this.fileList.UseCompatibleStateImageBehavior = false;
-            this.fileList.View = System.Windows.Forms.View.Details;
+            this.fileGrid.AllowUserToAddRows = false;
+            this.fileGrid.AllowUserToDeleteRows = false;
+            this.fileGrid.AllowUserToOrderColumns = true;
+            this.fileGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.fileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileGrid.Location = new System.Drawing.Point(5, 5);
+            this.fileGrid.Name = "fileGrid";
+            this.fileGrid.ReadOnly = true;
+            this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.fileGrid.Size = new System.Drawing.Size(318, 231);
+            this.fileGrid.TabIndex = 5;
             // 
             // panel2
             // 
@@ -741,6 +573,21 @@ namespace LessMsi.UI
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -769,21 +616,6 @@ namespace LessMsi.UI
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.preferencesToolStripMenuItem.Text = "&Preferences";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -822,11 +654,10 @@ namespace LessMsi.UI
         private TabControl tabs;
         private TabPage tabExtractFiles;
         private TabPage tabTableView;
-        private ComboBox cboTable;
+        public ComboBox cboTable;
         private ListView tableList;
         private Label label2;
         private Panel panel1;
-        private ListView fileList;
         private Button btnExtract;
         private FolderBrowserDialog folderBrowser;
         private OpenFileDialog openMsiDialog;
@@ -835,54 +666,12 @@ namespace LessMsi.UI
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
-            ToggleSelectAllFiles(true);
+            Presenter.ToggleSelectAllFiles(true);
         }
 
         private void btnUnselectAll_Click(object sender, EventArgs e)
         {
-            ToggleSelectAllFiles(false);
-        }
-
-        /// <summary>
-        /// Selects or unselects all files in the file list.
-        /// </summary>
-        /// <param name="doSelect">True to select the files, false to unselect them.</param>
-        private void ToggleSelectAllFiles(bool doSelect)
-        {
-            this.fileList.BeginUpdate();
-            try
-            {
-                foreach (ListViewItem item in this.fileList.Items)
-                {
-                    item.Checked = doSelect;
-                }
-            }
-            finally
-            {
-                fileList.EndUpdate();
-            }
-        }
-
-        /// <summary>
-        /// Updates the ui with the currently selected msi file.
-        /// </summary>
-        private void ViewSummary()
-        {
-            this.propertiesList.Items.Clear();
-            try
-            {
-                using (Database msidb = new Database(GetSelectedMsiFile().FullName, OpenDatabase.ReadOnly))
-                {
-                    foreach (PropertyInfoListViewItem prop in PropertyInfoListViewItem.GetPropertiesFromDatabase(msidb))
-                    {
-                        this.propertiesList.Items.Add(prop);
-                    }
-                }
-            }
-            catch (Exception eUnexpected)
-            {
-                Error("Error loading Summary Information", eUnexpected);
-            }
+            Presenter.ToggleSelectAllFiles(false);
         }
 
         private void lstSummaryProperties_SelectedIndexChanged(object sender, EventArgs e)
