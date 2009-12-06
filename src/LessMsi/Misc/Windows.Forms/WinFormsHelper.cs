@@ -35,10 +35,10 @@ namespace Misc.Windows.Forms
             }
         }
 
-        public static void FlashDataGridRow(DataGridViewRow item)
+        public static void FlashDataGridRow(DataGridViewRow row)
         {
-            var grid = item.DataGridView;
-            var r = grid.GetRowDisplayRectangle(item.Index, true);
+            var grid = row.DataGridView;
+            var r = grid.GetRowDisplayRectangle(row.Index, false);
             r.Inflate(0, 2);
             using (var g = grid.CreateGraphics())
             {
@@ -55,23 +55,30 @@ namespace Misc.Windows.Forms
             t.Start();
         }
 
-        public static void CopySelectedDataGridRowToClipboard(DataGridView grid)
+        public static void CopySelectedDataGridRowsToClipboard(DataGridView grid)
         {
-            if (grid != null)
-            {
-                var row = grid.SelectedRows.Count > 0 ? grid.SelectedRows[0] : null;
-                if (row != null)
-                {
-                    var sb = new StringBuilder();
-                    int i = 0;
-                    foreach (DataGridViewCell cell in row.Cells)
-                    {
-                        if (i++ > 0)
-                            sb.Append(", ");
-                        sb.Append(cell.Value);
-                    }
-                    Clipboard.SetText(sb.ToString());
-                }
+            if (grid != null && grid.SelectedRows.Count > 0)
+			{
+				var sb = new StringBuilder();
+				//NOTE: the grid.SelectedRows is in a different order than they are in the grid. So enumerating .Rows is better
+				for (int iRow = 0; iRow < grid.Rows.Count; iRow++)
+				{
+					DataGridViewRow row = grid.Rows[iRow];
+					if (row.Selected)
+					{
+						int i = 0;
+						foreach (DataGridViewCell cell in row.Cells)
+						{
+							if (i++ > 0)
+								sb.Append(", ");
+							sb.Append(cell.Value);
+						}
+
+						FlashDataGridRow(row);
+						sb.AppendLine();
+					}
+				}
+				Clipboard.SetText(sb.ToString());
             }
         }
     }
