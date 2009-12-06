@@ -23,7 +23,7 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
@@ -33,7 +33,7 @@ namespace LessMsi.Msi
     {
         public ViewWrapper(View underlyingView)
         {
-            this._underlyingView = underlyingView;
+            _underlyingView = underlyingView;
             CreateColumnInfos();
         }
 
@@ -50,8 +50,8 @@ namespace LessMsi.Msi
         {
             const int MSICOLINFONAMES = 0;
             const int MSICOLINFOTYPES = 1;
-			
-            ArrayList colList = new ArrayList();/*<ColumnInfo>*/
+
+            var colList = new List<ColumnInfo>();
 
             Record namesRecord; Record typesRecord;
             _underlyingView.GetColumnInfo(MSICOLINFONAMES, out namesRecord);
@@ -64,41 +64,45 @@ namespace LessMsi.Msi
             {
                 colList.Add(new ColumnInfo(namesRecord.GetString(colIndex), typesRecord.GetString(colIndex)));
             }
-            _columns = (ColumnInfo[])colList.ToArray(typeof(ColumnInfo));
+            _columns = colList.ToArray();
         }
 
 
-        private ArrayList/*<object[]>*/ _records;
-        public IList/*<object[]>*/ Records
+        private List<object[]> _records;
+        public IList<object[]> Records
         {
             get
             {
                 if (_records == null)
                 {
-                    _records = new ArrayList/*<object[]>*/();
+                    _records = new List<object[]>();
                     Record sourceRecord;
 
                     while (_underlyingView.Fetch(out sourceRecord))
                     {
-                        object[] values = new object[this._columns.Length];
+                        var values = new object[_columns.Length];
 
-                        for (int i = 0; i < this._columns.Length; i++)
+                        for (int i = 0; i < _columns.Length; i++)
                         {
-                            if (this._columns[i].IsString)
+                            if (_columns[i].IsString)
                                 values[i] = sourceRecord.GetString(i + 1);
-                            else if (this._columns[i].IsInteger)
+                            else if (_columns[i].IsInteger)
                                 values[i] = sourceRecord.GetInteger(i + 1);
                             else
                             {
-                                byte[] buffer = new byte[this._columns[i].Size];
-                                int actualLen = sourceRecord.GetStream(i + 1, buffer, buffer.Length);
-                                if (actualLen < buffer.Length)
-                                {
-                                    byte[] trim = new byte[actualLen];
-                                    Buffer.BlockCopy(buffer, 0, trim, 0, actualLen);
-                                    buffer = trim;
-                                }
-                                values[i] = buffer;
+                                var tempBuffer = new byte[_columns[i].Size + 1];
+                                var allData = new byte[_columns[i].Size + 1];
+                                int totalBytesRead = 0;
+                                int bytesReadThisCall;
+                                do
+                                {   
+                                    // It seems to read the Binary table with _columns[i].Size ==0 tempBuffer must be at least 1 in length or an ExecutionEngineException occurs.
+                                    bytesReadThisCall = sourceRecord.GetStream(i + 1, tempBuffer, tempBuffer.Length);
+                                    Buffer.BlockCopy(tempBuffer, 0, allData, totalBytesRead, bytesReadThisCall);
+                                    totalBytesRead += bytesReadThisCall;
+                                    Debug.Assert(bytesReadThisCall > 0);
+                                } while (bytesReadThisCall > 0 && (totalBytesRead < _columns[i].Size));
+                                values[i] = allData;
                             }
                         }
                         _records.Add(values);

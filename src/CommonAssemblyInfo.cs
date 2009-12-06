@@ -22,8 +22,7 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-
 using System.Reflection;
 
-[assembly: AssemblyTitle("Less MSIérables")]
-[assembly: AssemblyProduct("Less MSIérables")]
+[assembly: AssemblyVersion("1.0.7.*")]
+[assembly: AssemblyCopyright("Copyright Scott Willeke ©  2004")]

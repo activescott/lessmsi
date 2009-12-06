@@ -1,7 +1,31 @@
-﻿using System;
-using System.Windows.Forms;
+﻿// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+// Copyright (c) 2004 Scott Willeke (http://scott.willeke.com)
+//
+// Authors:
+//	Scott Willeke (scott@willeke.com)
+//
+using System;
 using LessMsi.Msi;
 using LessMsi.UI.Model;
+using Misc.Windows.Forms;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.UI
@@ -25,26 +49,28 @@ namespace LessMsi.UI
         {
             InitializeFileGrid();
             InitializeTableGrid();
+            InitializePropertyGrid();
+        }
+
+        private void InitializePropertyGrid()
+        {
+            View.AddPropertyGridColumn("Name", "Name");
+            View.AddPropertyGridColumn("Value", "Value");
+            View.AddPropertyGridColumn("ID", "ID");
+            View.AddPropertyGridColumn("Type", "Type");
         }
 
         private void InitializeTableGrid()
         {
-            PropertyInfoListViewItem.InitListViewColumns(View.propertiesList);
+            // Anything to do?
         }
 
         private void InitializeFileGrid()
         {
-            //MsiFileListViewItem.InitListViewColumns(fileList);
-            DataGridViewColumn col;
-            View.fileGrid.Columns.Clear();
-            col = new DataGridViewTextBoxColumn {DataPropertyName = "Name", HeaderText = "Name"};
-            View.fileGrid.Columns.Add(col);
-            col = new DataGridViewTextBoxColumn { DataPropertyName = "Directory", HeaderText = "Directory" };
-            View.fileGrid.Columns.Add(col);
-            col = new DataGridViewTextBoxColumn { DataPropertyName = "Size", HeaderText = "Size" };
-            View.fileGrid.Columns.Add(col);
-            col = new DataGridViewTextBoxColumn { DataPropertyName = "Version", HeaderText = "Version" };
-            View.fileGrid.Columns.Add(col);
+            View.AddFileGridColumn("Name", "Name");
+            View.AddFileGridColumn("Directory", "Directory");
+            View.AddFileGridColumn("Size", "Size");
+            View.AddFileGridColumn("Version", "Version");
         }
 
         public MainForm View
@@ -57,7 +83,7 @@ namespace LessMsi.UI
         /// </summary>
         public void ViewFiles()
         {
-            using (Database msidb = new Database(View.GetSelectedMsiFile().FullName, OpenDatabase.ReadOnly))
+            using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
             {
                 ViewFiles(msidb);
                 ToggleSelectAllFiles(true);
@@ -84,7 +110,7 @@ namespace LessMsi.UI
                         inItem => new MsiFileItemView(inItem)
                         );
                     var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
-                    this.View.fileGrid.DataSource = fileDataSource;
+                    View.fileGrid.DataSource = fileDataSource;
                     Status(fileDataSource.Count + " files found.");
                 }
                 catch (Exception eUnexpected)
@@ -99,16 +125,14 @@ namespace LessMsi.UI
         /// </summary>
         public void UpdatePropertyTabView()
         {
-            View.propertiesList.Items.Clear();
             try
             {
-                using (Database msidb = new Database(View.GetSelectedMsiFile().FullName, OpenDatabase.ReadOnly))
+                MsiPropertyInfo[] props;
+                using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
                 {
-                    foreach (PropertyInfoListViewItem prop in PropertyInfoListViewItem.GetPropertiesFromDatabase(msidb))
-                    {
-                        View.propertiesList.Items.Add(prop);
-                    }
+                    props = MsiPropertyInfo.GetPropertiesFromDatabase(msidb);
                 }
+                View.SetPropertyGridDataSource(props);
             }
             catch (Exception eUnexpected)
             {
@@ -122,7 +146,7 @@ namespace LessMsi.UI
         /// <param name="doSelect">True to select the files, false to unselect them.</param>
         public void ToggleSelectAllFiles(bool doSelect)
         {
-            using (WinFormsHelper.BeginUiUpdate(this.View.fileGrid))
+            using (WinFormsHelper.BeginUiUpdate(View.fileGrid))
             {
                 if (doSelect)
                     View.fileGrid.SelectAll();
@@ -259,9 +283,87 @@ namespace LessMsi.UI
             View.cboTable.Items.AddRange(msiTableNames);
         }
 
-        public void ShowUserMessage(string message)
+        /// <summary>
+        /// Shows the table based on the current UI selections in the view (selected MSI and selected table).
+        /// </summary>
+        public void UpdateMSiTableGrid()
         {
-            MessageBox.Show(View, message, "LessMSI", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+            {
+                string tableName = View.SelectedTableName;
+                UpdateMSiTableGrid(msidb, tableName);
+            }
+        }
+
+        /// <summary>
+        /// Shows the table in the list on the view table tab.
+        /// </summary>
+        /// <param name="msidb">The msi database.</param>
+        /// <param name="tableName">The name of the table.</param>
+        private void UpdateMSiTableGrid(Database msidb, string tableName)
+        {
+            if (msidb == null || string.IsNullOrEmpty(tableName))
+                return;
+
+            Status(string.Concat("Processing Table \'", tableName, "\'."));
+
+            using (new DisposableCursor(View))
+            {   // clear the columns no matter what happens (in the event the table doesn't exist we don't want to show anything).
+                View.ClearTableViewGridColumns();
+                try
+                {
+                    
+                    if (!msidb.TableExists(tableName))
+                    {
+                        Error("Table \'" + tableName + "' does not exist.", null);
+                        return;
+                    }
+
+                    string query = string.Concat("SELECT * FROM `", tableName, "`");
+
+                    using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
+                    {
+                        
+                        foreach (ColumnInfo col in view.Columns)
+                        {
+                            View.AddTableViewGridColumn(string.Concat(col.Name, " (", col.TypeID, ")"));
+                        }
+                        View.SetTableViewGridDataSource(view.Records);
+                    }
+                    Status("Idle");
+                }
+                catch (Exception eUnexpected)
+                {
+                    Error(string.Concat("Cannot view table:", eUnexpected.Message), eUnexpected);
+                }
+            }
+        }
+
+        public void OnSelectedPropertyChanged()
+        {
+            var selectedProperty = View.SelectedMsiProperty;
+            View.PropertySummaryDescription = selectedProperty != null ? selectedProperty.Description : "";
+        }
+
+        /// <summary>
+        /// Loads the file specified in the UI.
+        /// </summary>
+        public void LoadCurrentFile()
+        {
+            bool isBadFile = false;
+            try
+            {
+                UpdatePropertyTabView();
+                LoadTables();
+                ViewFiles();
+                UpdateMSiTableGrid();
+            }
+            catch (Exception eCatchAll)
+            {
+                isBadFile = true;
+                Error("Failed to open file.", eCatchAll);
+            }
+            View.ChangeUiEnabled(!isBadFile);
         }
     }
 }

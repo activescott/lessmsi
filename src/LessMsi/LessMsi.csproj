@@ -118,6 +118,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Anculus.Core\Collections\IProperyComparer.cs" />
     <Compile Include="Anculus.Core\Collections\ReverseComparer.cs" />
     <Compile Include="Anculus.Core\Sorting\AbstractSorter.cs" />
@@ -131,12 +134,13 @@
     <Compile Include="Msi\ColumnInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\DisposableCursor.cs">
+    <Compile Include="Misc\Windows.Forms\DisposableCursor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\CommandLink.cs">
+    <Compile Include="Misc\Windows.Forms\ElevationButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Misc\Windows.Forms\ElevationNativeMethods.cs" />
     <Compile Include="UI\ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,7 +156,6 @@
     </Compile>
     <Compile Include="UI\MainFormPresenter.cs" />
     <Compile Include="UI\Model\MsiFileItemView.cs" />
-    <Compile Include="UI\NativeMethods.cs" />
     <Compile Include="UI\PreferencesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,9 +174,9 @@
     <Compile Include="Msi\Wixtracts.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\PropertyInfoListViewItem.cs" />
-    <Compile Include="UI\SortableBindingList.cs" />
-    <Compile Include="UI\WinFormsHelper.cs" />
+    <Compile Include="UI\Model\MsiPropertyInfo.cs" />
+    <Compile Include="Misc\Windows.Forms\SortableBindingList.cs" />
+    <Compile Include="Misc\Windows.Forms\WinFormsHelper.cs" />
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

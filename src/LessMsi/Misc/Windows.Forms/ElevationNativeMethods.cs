@@ -25,10 +25,9 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
-namespace LessMsi.UI
+namespace Misc.Windows.Forms
 {
 	internal class NativeMethods
 	{

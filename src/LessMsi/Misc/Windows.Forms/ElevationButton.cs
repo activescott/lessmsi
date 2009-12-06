@@ -22,8 +22,57 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-using System.Reflection;
+namespace Misc.Windows.Forms
+{
+    /// <summary>
+    /// This button shows the windows Elevation symbol on it. Win32 refers to this as a "Command Link".
+    /// </summary>
+	internal class ElevationButton : Button
+	{
+		public ElevationButton()
+		{
+			FlatStyle = FlatStyle.System;
+			_textNote = "noteText";
+		}
+		
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.Style |= NativeMethods.BS_COMMANDLINK;
+				return (cp);
+			}
+		}
 
-[assembly: AssemblyTitle("Less MSIérables")]
-[assembly: AssemblyProduct("Less MSIérables")]
+		private string _textNote="";
+		public string TextNote
+		{
+			get { return _textNote; }
+			set
+			{
+				_textNote = value;
+				if (IsHandleCreated)
+					NativeMethods.SendMessage(new HandleRef(this, Handle), NativeMethods.BCM_SETNOTE, IntPtr.Zero, _textNote);
+			}
+		}
+
+		bool _showElevationShield;
+		public bool ShowElevationShield
+		{
+			get
+			{
+				return _showElevationShield;
+			}
+			set
+			{
+				_showElevationShield = value;
+				NativeMethods.Button_SetElevationRequiredState(this, _showElevationShield);
+			}
+		}
+	}
+}
