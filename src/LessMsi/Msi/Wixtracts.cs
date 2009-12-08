@@ -24,11 +24,13 @@
 //
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Microsoft.Tools.WindowsInstallerXml.Cab;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
+using Misc.IO;
 
 namespace LessMsi.Msi
 {
@@ -320,53 +322,98 @@ namespace LessMsi.Msi
             }
             //string query = String.Concat("SELECT * FROM `", tableName, "` WHERE `DiskId` = `", diskIdToExtract, "`");
             string query = String.Concat("SELECT * FROM `", tableName, "`");
-            using (View view = msidb.OpenExecuteView(query))
-            {
-                Record record;
-                while (view.Fetch(out record))
-                {
-                    const int MsiInterop_Media_Cabinet = 4;
-                    string cabSourceName = record[MsiInterop_Media_Cabinet];
-                    if (string.IsNullOrEmpty(cabSourceName))
-                        throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
+			var localCabFiles = new List<CabInfo>();
+			using (View view = msidb.OpenExecuteView(query))
+			{
+				Record record;
+				while (view.Fetch(out record))
+				{
+					const int MsiInterop_Media_Cabinet = 4;
+					string cabSourceName = record[MsiInterop_Media_Cabinet];
+					if (string.IsNullOrEmpty(cabSourceName))
+						throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
+					if (0 < cabSourceName.Length)
+					{
+						if (cabSourceName.StartsWith("#"))
+						{
+							cabSourceName = cabSourceName.Substring(1);
 
-                    DirectoryInfo cabFolder;
-                    // ensure it's a unique folder
-                    int uniqueCounter = 0;
-                    do
-                    {
-                        cabFolder = new DirectoryInfo(Path.Combine(baseOutputPath.FullName, string.Concat("_cab_", cabSourceName, ++uniqueCounter)));
-                    } while (cabFolder.Exists);
+							// extract cabinet, then explode all of the files to a temp directory
+							string localCabFile = Path.Combine(baseOutputPath.FullName, cabSourceName);
 
-                    Trace.WriteLine(string.Concat("Exploding media cab \'", cabSourceName, "\' to folder \'", cabFolder.FullName, "\'."));
-                    if (0 < cabSourceName.Length)
-                    {
-                        if (cabSourceName.StartsWith("#"))
-                        {
-                            cabSourceName = cabSourceName.Substring(1);
+							ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
+							/* http://code.google.com/p/lessmsi/issues/detail?id=1
+					 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
+							 * Thanks to Christopher Hamburg for explaining this!
+					 		*/
+							var c = new CabInfo(localCabFile, cabSourceName);
+							localCabFiles.Add(c);
+						}
+					}
+				}
+			}
 
-                            // extract cabinet, then explode all of the files to a temp directory
-                            string cabFileSpec = Path.Combine(baseOutputPath.FullName, cabSourceName);
+        	/*
+			 * All Cabs are out of the MSI and on disk. 
+			 * Now extract all files from each CAB into a temp dir.
+			 */
+			WixExtractCab decomp = new WixExtractCab();
+			foreach (var c in localCabFiles)
+			{
+				if (File.Exists(c.LocalCabFile))
+				{
+					DirectoryInfo cabFolder;
+					string cabFolderPath = PathEx.Combine(baseOutputPath.FullName, "cabs", c.CabSourceName);
+					//string cabFolderPath = PathEx.Combine("c:\\junk\\cab", "cabs", c.CabSourceName.Replace('.', '_'));
+					cabFolder = new DirectoryInfo(cabFolderPath);
+					Debug.Assert(!cabFolder.Exists, "Cab folder exists already. That's probalby bad");
 
-                            ExtractCabFromPackage(cabFileSpec, cabSourceName, msidb);
-                            WixExtractCab extCab = new WixExtractCab();
-                            if (File.Exists(cabFileSpec))
-                            {
-                                cabFolder.Create();
-                                // track the created folder so we can return it in the list.
-                                cabFolders.Add(cabFolder);
+					Trace.WriteLine(string.Concat("Exploding media cab \'", c.CabSourceName, "\' to folder \'", cabFolder.FullName, "\'."));
+					cabFolder.Create();
 
-                                extCab.Extract(cabFileSpec, cabFolder.FullName);
-                            }
-                            extCab.Close();
-                            File.Delete(cabFileSpec);
-                        }
-                    }
-                }
-            }
-            return (DirectoryInfo[]) cabFolders.ToArray(typeof (DirectoryInfo));
+					// track the created folder so we can return it to the caller of this function
+					cabFolders.Add(cabFolder);
+
+					//Now do the hard work:
+					//c.CabDecompressor.Extract(c.LocalCabFile, cabFolder.FullName);
+					
+					decomp.Extract(c.LocalCabFile, cabFolder.FullName);
+					
+				}
+			}
+			decomp.Close();
+
+			/*
+			 * Now that we have everything out of the CABs, go back and delete the local cab files.
+			 */
+			foreach (var c in localCabFiles)
+			{
+				File.Delete(c.LocalCabFile);
+				c.CabDecompressor.Close();
+			}
+        	return (DirectoryInfo[]) cabFolders.ToArray(typeof (DirectoryInfo));
         }
 
+		class CabInfo
+		{
+			/// <summary>
+			/// Name of the cab in the MSI.
+			/// </summary>
+			public string CabSourceName { get; set; }
+			/// <summary>
+			/// Path of the CAB on local disk after we pop it out of the msi.
+			/// </summary>
+			public string LocalCabFile { get; set; }
+
+			public WixExtractCab CabDecompressor { get; private set; }
+
+			public CabInfo(string localCabFile, string cabSourceName)
+			{
+				LocalCabFile = localCabFile;
+				CabSourceName = cabSourceName;
+				CabDecompressor = new WixExtractCab();
+			}
+		}
 
         /// <summary>
         /// Write the Cab to disk.
@@ -388,18 +435,16 @@ namespace LessMsi.Msi
 
                         // Create the writer for data.
                         writer = new BinaryWriter(cabFilestream);
-                        int count = 512;
-                        byte[] buf = new byte[count];
-                        while (count == buf.Length)
-                        {
-                            const int MsiInterop_Storages_Data = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
-                            count = record.GetStream(MsiInterop_Storages_Data, buf, count);
-                            if (buf.Length > 0)
-                            {
-                                // Write data to Test.data.
-                                writer.Write(buf);
-                            }
-                        }
+                        
+						var buf = new byte[1024*1024];
+						int count;
+						do
+						{
+							const int MsiInterop_Storages_Data = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
+							count = record.GetStream(MsiInterop_Storages_Data, buf, buf.Length);
+							if (count > 0)
+								writer.Write(buf, 0, count);
+						} while (count > 0);
                     }
                     finally
                     {

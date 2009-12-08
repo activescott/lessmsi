@@ -52,11 +52,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="TestFiles\MsiInput\VBRuntime.msi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="TestFiles\ExpectedOutput\NUnit-2.5.2.9222.msi.expected.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LessMsi\LessMsi.csproj">
+      <Project>{7767FCCA-538C-4A11-8942-2F97BFC4BBD4}</Project>
+      <Name>LessMsi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

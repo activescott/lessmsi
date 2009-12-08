@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Misc\IO\PathEx.cs" />
     <Compile Include="Msi\ColumnInfo.cs">
       <SubType>Code</SubType>
     </Compile>

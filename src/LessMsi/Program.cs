@@ -36,61 +36,39 @@ using LessMsi.UI;
 
 namespace LessMsi
 {
-	class Program
+	public class Program
 	{
 		[DllImport("kernel32.dll", SetLastError = true)]
 		static extern int FreeConsole();
+
+		private class Arguments
+		{
+			public string MsiFileName { get; set; }
+			public string OutDirName { get; set; }
+			/// <summary>
+			/// 0==good
+			/// </summary>
+			internal int ErrorCode { get; set; }
+		}
 
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static int Main(string[] args)
+		static int Main(string[] argStrings)
 		{
 			try
-			{				
-				// Handle args:
-				for (int i = 0; i < args.Length; i++)
+			{
+				Arguments args = ParseArguments(argStrings);
+				if (args.ErrorCode != 0)
+					return args.ErrorCode;
+
+				if (!string.IsNullOrEmpty(args.MsiFileName))
 				{
-					if (args.Length < 1)
-						continue;
-
-					if (args[i][0] != '/' && args[i][0] != '-')
-						continue;
-					switch (args[i][1])
-					{
-						case 'x':
-						{
-                            if (++i >= args.Length)
-                            {
-                                ShowHelp("Expected input file argument.");
-                                return -2;
-                            }
-
-						    string msiFileName = args[i];
-                            string outDirName;
-
-                            EnsureFileRooted(ref msiFileName);
-                            if (++i >= args.Length)
-                            {
-                                outDirName = Path.GetDirectoryName(msiFileName);
-                            }
-                            else
-                            {
-                                outDirName = args[i];
-                            }
-						    EnsureFileRooted(ref outDirName);
-
-                            FileInfo msiFile = new FileInfo(msiFileName);
-							DirectoryInfo outDir = new DirectoryInfo(outDirName);
-
-							Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDir + "\'.");
-							
-							Wixtracts.ExtractFiles(msiFile, outDir);
-							return 0;
-						}
-					}
+					DoExtraction(args.MsiFileName, args.OutDirName);
+					return 0;
 				}
+				//Else continue down & show the UI
 			}
 			catch (Exception eCatchAll)
 			{
@@ -100,10 +78,59 @@ namespace LessMsi
 			return LaunchForm("");
 		}
 
-        private void ShowHelp()
-        {
-            ShowHelp("");
-        }
+		/// <summary>
+		/// Extracts all files contained in the specified .msi file into the specified output directory.
+		/// </summary>
+		/// <param name="msiFileName">The path of the specified MSI file.</param>
+		/// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
+		public static void DoExtraction(string msiFileName, string outDirName)
+		{
+			EnsureFileRooted(ref msiFileName);
+			EnsureFileRooted(ref outDirName);
+
+			FileInfo msiFile = new FileInfo(msiFileName);
+			DirectoryInfo outDir = new DirectoryInfo(outDirName);
+
+			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDir + "\'.");
+
+			Wixtracts.ExtractFiles(msiFile, outDir);
+		}
+
+		private static Arguments ParseArguments(string[] args)
+		{
+			var arguments = new Arguments();
+			// Handle args:
+			for (int i = 0; i < args.Length; i++)
+			{
+				if (args.Length < 1)
+					continue;
+
+				if (args[i][0] != '/' && args[i][0] != '-')
+					continue;
+				switch (args[i][1])
+				{
+					case 'x':
+						{
+							if (++i >= args.Length)
+							{
+								ShowHelp("Expected input file argument.");
+								arguments.ErrorCode = -2;
+								return arguments;
+							}
+
+							arguments.MsiFileName = args[i];
+							
+                            
+							if (++i >= args.Length)
+								arguments.OutDirName = Path.GetDirectoryName(arguments.MsiFileName);
+							else
+								arguments.OutDirName = args[i];
+							break;
+						}
+				}
+			}
+			return arguments;
+		}
 
         private static void ShowHelp(string errorMessage)
         {
