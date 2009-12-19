@@ -431,6 +431,7 @@ namespace LessMsi.UI
 			this.msiPropertyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.msiPropertyGrid.Size = new System.Drawing.Size(318, 171);
 			this.msiPropertyGrid.TabIndex = 3;
+			this.msiPropertyGrid.SelectionChanged += new System.EventHandler(this.msiPropertyGrid_SelectionChanged);
 			// 
 			// grpDescription
 			// 

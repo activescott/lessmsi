@@ -88,7 +88,7 @@ namespace LessMsi.Msi
                                 values[i] = sourceRecord.GetString(i + 1);
                             else if (_columns[i].IsInteger)
                                 values[i] = sourceRecord.GetInteger(i + 1);
-                            else
+                            else if (_columns[i].IsStream)
                             {
                                 var tempBuffer = new byte[_columns[i].Size + 1];
                                 var allData = new byte[_columns[i].Size + 1];
@@ -103,6 +103,14 @@ namespace LessMsi.Msi
                                     Debug.Assert(bytesReadThisCall > 0);
                                 } while (bytesReadThisCall > 0 && (totalBytesRead < _columns[i].Size));
                                 values[i] = allData;
+                            }
+                            else if (_columns[i].IsObject )
+                            {
+                                //we deliberately skip this case. Found this case in reading the _Tables table of some recent .msi files.
+                            }
+                            else
+                            {
+                                Debug.Fail("Unknown column type");
                             }
                         }
                         _records.Add(values);

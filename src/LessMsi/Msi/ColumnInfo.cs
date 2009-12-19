@@ -22,6 +22,8 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using System;
+
 namespace LessMsi.Msi
 {
     /// <summary>
@@ -45,6 +47,7 @@ namespace LessMsi.Msi
         /// v0 	Binary Stream
         /// g? 	Temporary string (?=0-255)
         /// j? 	Temporary integer (?=0,1,2,4)
+        /// O0	Temporary object
         /// An uppercase letter indicates that null values are allowed in the column.
         /// </summary>
         public string TypeID;
@@ -79,6 +82,11 @@ namespace LessMsi.Msi
                 return
                     TypeID[0] == 'v' || TypeID[0] == 'V';
             }
+        }
+
+        public bool IsObject
+        {
+            get { return string.Equals("O0", TypeID, StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public int Size

@@ -312,18 +312,11 @@ namespace LessMsi.UI
                 View.ClearTableViewGridColumns();
                 try
                 {
-                    
-                    if (!msidb.TableExists(tableName))
-                    {
-                        Error("Table \'" + tableName + "' does not exist.", null);
-                        return;
-                    }
-
+                    // NOTE: Deliberately not calling msidb.TableExists here as some System tables could not be read due to using it.
                     string query = string.Concat("SELECT * FROM `", tableName, "`");
 
                     using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
                     {
-                        
                         foreach (ColumnInfo col in view.Columns)
                         {
                             View.AddTableViewGridColumn(string.Concat(col.Name, " (", col.TypeID, ")"));
