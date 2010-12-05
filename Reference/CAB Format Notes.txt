@@ -4,3 +4,5 @@ CAB Format Notes
 	http://www.ddj.com/184410186;jsessionid=30Q2P0IQ3EA4XQE1GHPSKH4ATMY32JVN?_requestid=420442
 	http://msdn.microsoft.com/en-us/library/aa367841%28VS.85%29.aspx
 	http://en.wikipedia.org/wiki/Cabinet_%28file_format%29
+
+InstallShield has their own Proprietary CAB format. SynCE Project has a decompressor for it at: http://sourceforge.net/projects/synce/files/Unshield/0.6/

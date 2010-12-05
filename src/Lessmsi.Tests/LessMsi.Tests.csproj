@@ -33,7 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -45,24 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFiles\MsiInput\NUnit-2.5.2.9222.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\MsiInput\Slik-Subversion-1.6.6-x64.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestFiles\MsiInput\VBRuntime.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestFiles\ExpectedOutput\NUnit-2.5.2.9222.msi.expected.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LessMsi\LessMsi.csproj">
       <Project>{7767FCCA-538C-4A11-8942-2F97BFC4BBD4}</Project>
       <Name>LessMsi</Name>
@@ -72,7 +56,9 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(SolutionDir)LessMsi\lib\*.dll" "$(TargetDir)"
 copy /Y "$(SolutionDir)LessMsi\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
-copy /Y "$(SolutionDir)LessMsi\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"</PostBuildEvent>
+copy /Y "$(SolutionDir)LessMsi\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"
+md "$(TargetDir)TestFiles"
+xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

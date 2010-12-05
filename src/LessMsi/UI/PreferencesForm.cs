@@ -51,8 +51,15 @@ namespace LessMsi.UI
 			else
 				isAdding = false;
 
-			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "&Extract Files",
-				'\"' + GetThisExeFile().FullName + "\" /x \"%1\" \"%1_extracted\"");
+			/* FIX for http://code.google.com/p/lessmsi/issues/detail?id=11
+			 * This code below is funky because apparently Win32 requires us to escape double quotes on the command line when passing them through the command line. 
+			 * So we have to actually espcape the escape char here to make sure double quotes are properly escaped
+			 * Explained more at http://bytes.com/topic/net/answers/745324-console-application-command-line-parameter-issue and http://msdn.microsoft.com/en-us/library/system.environment.getcommandlineargs.aspx
+			 */ 
+			const string escapedDoubleQuote = "\\" + "\"";
+			string shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " /x " + escapedDoubleQuote + "%1" + escapedDoubleQuote + " " + escapedDoubleQuote + "%1_extracted" + escapedDoubleQuote;
+			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
+			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "&Extract Files", shellCommand);
 		}
 		
 

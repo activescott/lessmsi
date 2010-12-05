@@ -277,7 +277,7 @@ namespace LessMsi.Msi
                                 destName = uniqueName;
                             }
                             //rename
-                            Trace.WriteLine(string.Concat("Renaming File \'", sourceFile.Name, "\' to \'", entry.LongFileName, "\'"));
+                            Trace.WriteLine(string.Concat("Renaming File \'", sourceFile.FullName, "\' to \'", destName, "\'"));
                             sourceFile.MoveTo(destName);
                             filesExtractedSoFar++;
                         }
