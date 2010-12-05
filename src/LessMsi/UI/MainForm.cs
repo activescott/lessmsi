@@ -622,8 +622,13 @@ namespace LessMsi.UI
                 return;
             }
 
+            FileInfo msiFile = SelectedMsiFile;
+            
+            if (msiFile == null)
+                return;
+
             if (folderBrowser.SelectedPath == null || folderBrowser.SelectedPath.Length <= 0)
-                folderBrowser.SelectedPath = SelectedMsiFile.DirectoryName;
+                folderBrowser.SelectedPath = msiFile.DirectoryName;
 
             if (DialogResult.OK != folderBrowser.ShowDialog(this))
                 return;
@@ -640,9 +645,7 @@ namespace LessMsi.UI
                         selectedFiles.Add(fileToExtract.File);
                     }
 
-                    FileInfo msiFile = SelectedMsiFile;
-                    if (msiFile == null)
-                        return;
+                    
                     var filesToExtract = selectedFiles.ToArray();
                     Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract,
                                            new AsyncCallback(progressDialog.UpdateProgress));
