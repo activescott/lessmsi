@@ -30,6 +30,10 @@ namespace LessMsi.UI
 {
     internal interface IMainFormView
     {
+    	/// <summary>
+    	/// Call to notify the view that a new file has been loaded into the UI.
+    	/// </summary>
+    	void NotifyNewFileLoaded();
         /// <summary>
         /// Returns the currently chosen MSI file in the UI.
         /// </summary>

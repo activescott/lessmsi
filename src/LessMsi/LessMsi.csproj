@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="UI\MainFormPresenter.cs" />
     <Compile Include="UI\Model\MsiFileItemView.cs" />
+    <Compile Include="UI\MruMenuStripManager.cs" />
     <Compile Include="UI\PreferencesForm.cs">
       <SubType>Form</SubType>
     </Compile>
