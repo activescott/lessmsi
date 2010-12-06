@@ -110,7 +110,8 @@ namespace LessMsi.UI
                         inItem => new MsiFileItemView(inItem)
                         );
                     var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
-                    View.fileGrid.DataSource = fileDataSource;
+                    View.fileGrid.DataSource = fileDataSource;					
+                	View.AutoSizeFileGridColumns();
                     Status(fileDataSource.Count + " files found.");
                 }
                 catch (Exception eUnexpected)

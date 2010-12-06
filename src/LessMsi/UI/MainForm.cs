@@ -53,9 +53,16 @@ namespace LessMsi.UI
         #region IMainFormView Implementation
         public void AddFileGridColumn(string boundPropertyName, string headerText)
         {
-            DataGridViewColumn col = new DataGridViewTextBoxColumn { DataPropertyName = boundPropertyName, HeaderText = headerText };
+            DataGridViewColumn col = new DataGridViewTextBoxColumn { DataPropertyName = boundPropertyName, HeaderText = headerText, Name=headerText};
             fileGrid.Columns.Add(col);
         }
+
+		public void AutoSizeFileGridColumns()
+		{
+			foreach (DataGridViewColumn col in this.fileGrid.Columns) {
+				col.Width = col.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, true);
+			}
+		}
 
         public FileInfo SelectedMsiFile
         {
@@ -258,10 +265,10 @@ namespace LessMsi.UI
 			this.txtMsiFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
 			this.txtMsiFileName.Location = new System.Drawing.Point(46, 4);
 			this.txtMsiFileName.Name = "txtMsiFileName";
-			this.txtMsiFileName.Size = new System.Drawing.Size(257, 20);
+			this.txtMsiFileName.Size = new System.Drawing.Size(385, 20);
 			this.txtMsiFileName.TabIndex = 0;
+			this.txtMsiFileName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMsiFileName_KeyDown);
 			this.txtMsiFileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ReloadCurrentUIOnEnterKeyPress);
-			this.txtMsiFileName.KeyDown += new KeyEventHandler(txtMsiFileName_KeyDown);
 			// 
 			// label1
 			// 
@@ -276,7 +283,7 @@ namespace LessMsi.UI
 			// 
 			this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnBrowse.Location = new System.Drawing.Point(309, 5);
+			this.btnBrowse.Location = new System.Drawing.Point(437, 5);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(20, 17);
 			this.btnBrowse.TabIndex = 1;
@@ -292,7 +299,7 @@ namespace LessMsi.UI
 			this.tabs.Location = new System.Drawing.Point(0, 51);
 			this.tabs.Name = "tabs";
 			this.tabs.SelectedIndex = 0;
-			this.tabs.Size = new System.Drawing.Size(336, 299);
+			this.tabs.Size = new System.Drawing.Size(464, 445);
 			this.tabs.TabIndex = 0;
 			this.tabs.TabStop = false;
 			// 
@@ -303,7 +310,7 @@ namespace LessMsi.UI
 			this.tabExtractFiles.Location = new System.Drawing.Point(4, 22);
 			this.tabExtractFiles.Name = "tabExtractFiles";
 			this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
-			this.tabExtractFiles.Size = new System.Drawing.Size(328, 273);
+			this.tabExtractFiles.Size = new System.Drawing.Size(456, 419);
 			this.tabExtractFiles.TabIndex = 0;
 			this.tabExtractFiles.Text = "Extract Files";
 			// 
@@ -318,7 +325,7 @@ namespace LessMsi.UI
 			this.fileGrid.Name = "fileGrid";
 			this.fileGrid.ReadOnly = true;
 			this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.fileGrid.Size = new System.Drawing.Size(318, 231);
+			this.fileGrid.Size = new System.Drawing.Size(446, 377);
 			this.fileGrid.TabIndex = 5;
 			// 
 			// panel2
@@ -327,9 +334,9 @@ namespace LessMsi.UI
 			this.panel2.Controls.Add(this.btnUnselectAll);
 			this.panel2.Controls.Add(this.btnExtract);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(5, 236);
+			this.panel2.Location = new System.Drawing.Point(5, 382);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(318, 32);
+			this.panel2.Size = new System.Drawing.Size(446, 32);
 			this.panel2.TabIndex = 4;
 			// 
 			// btnSelectAll
@@ -357,7 +364,7 @@ namespace LessMsi.UI
 			this.btnExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExtract.Enabled = false;
 			this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.btnExtract.Location = new System.Drawing.Point(241, 8);
+			this.btnExtract.Location = new System.Drawing.Point(369, 8);
 			this.btnExtract.Name = "btnExtract";
 			this.btnExtract.Size = new System.Drawing.Size(75, 23);
 			this.btnExtract.TabIndex = 3;
@@ -471,7 +478,7 @@ namespace LessMsi.UI
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 24);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(336, 27);
+			this.panel1.Size = new System.Drawing.Size(464, 27);
 			this.panel1.TabIndex = 0;
 			// 
 			// openMsiDialog
@@ -481,20 +488,20 @@ namespace LessMsi.UI
 			// 
 			// statusBar1
 			// 
-			this.statusBar1.Location = new System.Drawing.Point(0, 350);
+			this.statusBar1.Location = new System.Drawing.Point(0, 496);
 			this.statusBar1.Name = "statusBar1";
 			this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.statusPanelDefault,
             this.statusPanelFileCount});
 			this.statusBar1.ShowPanels = true;
-			this.statusBar1.Size = new System.Drawing.Size(336, 16);
+			this.statusBar1.Size = new System.Drawing.Size(464, 16);
 			this.statusBar1.TabIndex = 2;
 			// 
 			// statusPanelDefault
 			// 
 			this.statusPanelDefault.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
 			this.statusPanelDefault.Name = "statusPanelDefault";
-			this.statusPanelDefault.Width = 209;
+			this.statusPanelDefault.Width = 337;
 			// 
 			// statusPanelFileCount
 			// 
@@ -508,7 +515,7 @@ namespace LessMsi.UI
             this.editToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(336, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(464, 24);
 			this.menuStrip1.TabIndex = 3;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -560,13 +567,13 @@ namespace LessMsi.UI
 			// MainForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(336, 366);
+			this.ClientSize = new System.Drawing.Size(464, 512);
 			this.Controls.Add(this.tabs);
 			this.Controls.Add(this.statusBar1);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
-			this.MinimumSize = new System.Drawing.Size(272, 184);
+			this.MinimumSize = new System.Drawing.Size(352, 404);
 			this.Name = "MainForm";
 			this.Text = "Less MSIérables";
 			this.tabs.ResumeLayout(false);
@@ -590,13 +597,12 @@ namespace LessMsi.UI
 			this.PerformLayout();
 
         }
-
         #endregion
        
         #endregion
 
         #region UI Event Handlers
-        private void OpenFileCommand()
+    	private void OpenFileCommand()
         {
             if (DialogResult.OK != openMsiDialog.ShowDialog(this))
                 return;
