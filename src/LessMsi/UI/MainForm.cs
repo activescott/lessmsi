@@ -237,11 +237,16 @@ namespace LessMsi.UI
 			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabs.SuspendLayout();
 			this.tabExtractFiles.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
 			this.panel2.SuspendLayout();
 			this.tabTableView.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
 			this.tabSummary.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
 			this.grpDescription.SuspendLayout();
 			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -249,11 +254,14 @@ namespace LessMsi.UI
 			// 
 			this.txtMsiFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMsiFileName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.txtMsiFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
 			this.txtMsiFileName.Location = new System.Drawing.Point(46, 4);
 			this.txtMsiFileName.Name = "txtMsiFileName";
 			this.txtMsiFileName.Size = new System.Drawing.Size(257, 20);
 			this.txtMsiFileName.TabIndex = 0;
 			this.txtMsiFileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ReloadCurrentUIOnEnterKeyPress);
+			this.txtMsiFileName.KeyDown += new KeyEventHandler(txtMsiFileName_KeyDown);
 			// 
 			// label1
 			// 
@@ -563,14 +571,19 @@ namespace LessMsi.UI
 			this.Text = "Less MSIérables";
 			this.tabs.ResumeLayout(false);
 			this.tabExtractFiles.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
 			this.panel2.ResumeLayout(false);
 			this.tabTableView.ResumeLayout(false);
 			this.tabTableView.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).EndInit();
 			this.tabSummary.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
 			this.grpDescription.ResumeLayout(false);
 			this.grpDescription.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -597,6 +610,13 @@ namespace LessMsi.UI
 			else if (tabs.SelectedTab == tabSummary)
 				msiPropertyGrid.Select();
         }
+
+		void txtMsiFileName_KeyDown(object sender, KeyEventArgs e)
+		{
+			const int enterKeyValue = 13;
+			if (e.KeyValue == enterKeyValue)
+				Presenter.LoadCurrentFile();
+		}
 
         private void ReloadCurrentUIOnEnterKeyPress(object sender, KeyPressEventArgs e)
         {
