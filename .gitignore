@@ -4,3 +4,8 @@ obj
 
 # mstest test results
 TestResults
+
+*.DotSettings.user
+*.suo
+
+*~

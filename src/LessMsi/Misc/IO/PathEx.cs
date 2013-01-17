@@ -32,7 +32,7 @@ namespace Misc.IO
 		public static string Combine(params string[] pathParts)
 		{
 			if (pathParts.Length < 2)
-				throw new ArgumentException("Expected at least two parts to combine.");
+                throw new ArgumentOutOfRangeException("pathParts", "Expected at least two parts to combine.");
 
 			var output = Path.Combine(pathParts[0], pathParts[1]);
 			for (var i = 2; i < pathParts.Length; i++)

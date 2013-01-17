@@ -111,15 +111,14 @@
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="wix">
-      <Name>wix</Name>
-      <HintPath>wix.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\wix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Anculus.Core\Collections\IProperyComparer.cs" />
     <Compile Include="Anculus.Core\Collections\ReverseComparer.cs" />
@@ -128,7 +127,7 @@
     <Compile Include="Anculus.Core\Sorting\QuickSorter.cs" />
     <Compile Include="Anculus.Core\Sorting\Sort.cs" />
     <Compile Include="Anculus.Core\Sorting\SortOrder.cs" />
-    <Compile Include="AssemblyInfo.cs">
+    <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\IO\PathEx.cs" />
@@ -219,9 +218,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="!readme.txt" />
   </ItemGroup>

@@ -24,5 +24,5 @@
 //
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.8.*")]
-[assembly: AssemblyCopyright("Copyright Scott Willeke ©  2004")]
+[assembly: AssemblyVersion("1.0.9.*")]
+[assembly: AssemblyCopyright("Copyright Scott Willeke © 2004-2005\nCopyright Scott Willeke © 2012")]
