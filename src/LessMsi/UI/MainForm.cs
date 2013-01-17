@@ -229,6 +229,9 @@ namespace LessMsi.UI
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtMsiFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
@@ -343,8 +346,11 @@ namespace LessMsi.UI
             this.fileGrid.AllowUserToAddRows = false;
             this.fileGrid.AllowUserToDeleteRows = false;
             this.fileGrid.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.fileGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.fileGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.fileGrid.Location = new System.Drawing.Point(5, 5);
             this.fileGrid.Name = "fileGrid";
             this.fileGrid.ReadOnly = true;
@@ -442,6 +448,8 @@ namespace LessMsi.UI
             // 
             this.msiTableGrid.AllowUserToAddRows = false;
             this.msiTableGrid.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.msiTableGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.msiTableGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -468,6 +476,8 @@ namespace LessMsi.UI
             // 
             this.msiPropertyGrid.AllowUserToAddRows = false;
             this.msiPropertyGrid.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.msiPropertyGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.msiPropertyGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.msiPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.msiPropertyGrid.Location = new System.Drawing.Point(5, 5);
@@ -669,12 +679,18 @@ namespace LessMsi.UI
             txtMsiFileName.Text = openMsiDialog.FileName;
             Presenter.LoadCurrentFile();
 			//to make sure shortcut keys for menuitems work properly select a grid:
-			if (tabs.SelectedTab == tabExtractFiles)
-				fileGrid.Select();
-			else if (tabs.SelectedTab == tabTableView)
-				msiTableGrid.Select();
-			else if (tabs.SelectedTab == tabSummary)
-				msiPropertyGrid.Select();
+    	    if (tabs.SelectedTab == tabExtractFiles)
+    	    {
+    	        fileGrid.Select();
+    	    }
+            else if (tabs.SelectedTab == tabTableView)
+            {
+                msiTableGrid.Select();
+            }
+            else if (tabs.SelectedTab == tabSummary)
+            {
+                msiPropertyGrid.Select();
+            }
         }
 
 		void txtMsiFileName_KeyDown(object sender, KeyEventArgs e)
