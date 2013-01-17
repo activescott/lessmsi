@@ -106,9 +106,7 @@ namespace LessMsi.UI
 					Status("");
 
 					MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
-					MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
-						inItem => new MsiFileItemView(inItem)
-						);
+					MsiFileItemView[] viewItems = Array.ConvertAll(dataItems, inItem => new MsiFileItemView(inItem));
 					var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
 					View.fileGrid.DataSource = fileDataSource;
 					View.AutoSizeFileGridColumns();

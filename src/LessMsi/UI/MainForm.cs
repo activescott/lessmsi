@@ -35,7 +35,7 @@ namespace LessMsi.UI
 {
     internal class MainForm : Form, IMainFormView
     {
-    	private MruMenuStripManager _mruManager; 
+    	private readonly MruMenuStripManager _mruManager; 
         public MainForm(string defaultInputFile)
         {
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace LessMsi.UI
             if (!string.IsNullOrEmpty(defaultInputFile))
                 txtMsiFileName.Text = defaultInputFile;
 			_mruManager = new MruMenuStripManager(mruPlaceHolderToolStripMenuItem);
-        	_mruManager.MruItemClicked += (mruFilePathName) =>
+        	_mruManager.MruItemClicked += mruFilePathName =>
         	                              {
 											  this.SelectedMsiFile = new FileInfo(mruFilePathName);
 											  Presenter.LoadCurrentFile();
@@ -207,7 +207,7 @@ namespace LessMsi.UI
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private IContainer components = null;
+        private readonly IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -740,22 +740,21 @@ namespace LessMsi.UI
             {
                 try
                 {
-                    DirectoryInfo outputDir = new DirectoryInfo(folderBrowser.SelectedPath);
+                    var outputDir = new DirectoryInfo(folderBrowser.SelectedPath);
                     foreach (DataGridViewRow row in fileGrid.SelectedRows)
                     {
-                        MsiFileItemView fileToExtract = (MsiFileItemView)row.DataBoundItem;
+                        var fileToExtract = (MsiFileItemView)row.DataBoundItem;
                         selectedFiles.Add(fileToExtract.File);
                     }
 
                     
                     var filesToExtract = selectedFiles.ToArray();
-                    Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract,
-                                           new AsyncCallback(progressDialog.UpdateProgress));
+                    Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract, progressDialog.UpdateProgress);
                 }
                 catch (Exception err)
                 {
                     MessageBox.Show(this,
-                                    "The following error occured extracting the MSI: " + err.ToString(), "MSI Error!",
+                                    string.Format("The following error occured extracting the MSI: {0}", err), "MSI Error!",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error
                         );
                 }
