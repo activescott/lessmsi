@@ -353,10 +353,10 @@ namespace LessMsi.UI
             this.fileGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.fileGrid.Location = new System.Drawing.Point(5, 5);
             this.fileGrid.Name = "fileGrid";
-            this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.fileGrid.ReadOnly = true;
+            this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.fileGrid.Size = new System.Drawing.Size(446, 358);
             this.fileGrid.TabIndex = 5;
-            this.fileGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.msiPropertyGrid_CellValidating);
             // 
             // panel2
             // 
@@ -456,10 +456,10 @@ namespace LessMsi.UI
             this.msiTableGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.msiTableGrid.Location = new System.Drawing.Point(0, 35);
             this.msiTableGrid.Name = "msiTableGrid";
-            this.msiTableGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.msiTableGrid.ReadOnly = true;
+            this.msiTableGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.msiTableGrid.Size = new System.Drawing.Size(453, 370);
             this.msiTableGrid.TabIndex = 10;
-            this.msiTableGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.msiPropertyGrid_CellValidating);
             // 
             // tabSummary
             // 
@@ -482,10 +482,11 @@ namespace LessMsi.UI
             this.msiPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.msiPropertyGrid.Location = new System.Drawing.Point(5, 5);
             this.msiPropertyGrid.Name = "msiPropertyGrid";
-            this.msiPropertyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.msiPropertyGrid.ReadOnly = true;
+            this.msiPropertyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.msiPropertyGrid.Size = new System.Drawing.Size(446, 289);
             this.msiPropertyGrid.TabIndex = 3;
-            this.msiPropertyGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.msiPropertyGrid_CellValidating);
+            this.msiPropertyGrid.SelectionChanged += new System.EventHandler(this.msiPropertyGrid_SelectionChanged);
             // 
             // grpDescription
             // 
@@ -782,13 +783,7 @@ namespace LessMsi.UI
             Presenter.ToggleSelectAllFiles(false);
         }
 
-        private void msiPropertyGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            // We allow copying single cell values by Setting DataGridView.ReadOnly = false. We make it not really editable by doing this.
-            if (((DataGridView)sender).IsCurrentCellDirty) { e.Cancel = true; }
-        }
-
-        private void dgv_SelectionChanged(object sender, EventArgs e)
+        private void msiPropertyGrid_SelectionChanged(object sender, EventArgs e)
         {
             Presenter.OnSelectedPropertyChanged();
         }
