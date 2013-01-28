@@ -30,6 +30,7 @@ namespace LessMsi.Msi
 {
     /// <summary>
     /// Represents an entry in the Directory table of an MSI file.
+    /// See  http://msdn.microsoft.com/en-us/library/aa368295(v=vs.85).aspx for Directory Table Reference.
     /// </summary>
     public class MsiDirectory
     {
@@ -127,7 +128,7 @@ namespace LessMsi.Msi
         }
 
         /// <summary>
-        /// Creates a list of <see cref="MsiFile"/> objects from the specified database.
+        /// Creates a list of <see cref="MsiDirectory"/> objects from the specified database.
         /// </summary>
         /// <param name="allDirectories">All directories in the table.</param>
         /// <param name="msidb">The databse to get directories from.</param>
@@ -185,7 +186,7 @@ namespace LessMsi.Msi
                 directory._directoryParent = row.GetString("Directory_Parent");
                 directoriesByDirID.Add(directory.Directory, directory);
             }
-            //Now we have all directories inthe table, create a structure for them based on their parents.
+            //Now we have all directories in the table, create a structure for them based on their parents.
             ArrayList rootDirectoriesList = new ArrayList();
             foreach (MsiDirectory dir in directoriesByDirID.Values)
             {

@@ -22,6 +22,18 @@ namespace LessMsi.Tests
 			ExtractAndCompareToMaster("NUnit-2.5.2.9222.msi");
         }
 
+        /// <summary>
+        /// Related to issue 28 (http://code.google.com/p/lessmsi/issues/detail?id=28).
+        /// Where GUI extracted files differ from console extracted files.
+        /// Seems console is probably right. If I don't pass in the file list from the GUI it matches GUI. So probably in GUI am doing something wrong.
+        /// Negative: It seems they're both wrong. A dictionary/hashtable used in Wixtracts was using caseinsinitive lookups on MsiFile.File entries and in python msi some entries were differing only by case.
+        /// </summary>
+        [Test]
+        public void Python()
+        {
+            ExtractAndCompareToMaster("python-2.7.3.msi");
+        }
+
 		/// <summary>
 		/// This one demonstrates a problem were paths are screwed up. 
 		/// Note that the output path ends up being SourceDir\SlikSvn\bin\Windows\winsxs\... and it should be just \windows\winsxs\...
@@ -72,7 +84,6 @@ namespace LessMsi.Tests
         /// <param name="msiFileName">The msi file to extract.</param>
         private FileEntryGraph ExtractFilesFromMsi(string msiFileName)
         {
-            // extract all:
             //  build command line
             string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
             outputDir = Path.Combine(outputDir, "_" + msiFileName);
@@ -92,7 +103,7 @@ namespace LessMsi.Tests
 
     	private void ExtractInProcess(string msiFileName, string outputDir)
     	{
-			LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
+            LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
     	}
 
 		/// <summary>

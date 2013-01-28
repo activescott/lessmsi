@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using LibMSPackN;
 using Microsoft.Tools.WindowsInstallerXml.Cab;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using Misc.IO;
@@ -221,77 +222,85 @@ namespace LessMsi.Msi
 
             ExtractionProgress progress = null;
             Database msidb = new Database(msi.FullName, OpenDatabase.ReadOnly);
-            try
-            {
-                if (filesToExtract == null || filesToExtract.Length < 1)
-                    filesToExtract = MsiFile.CreateMsiFilesFromMSI(msidb);
+	        try
+	        {
+		        if (filesToExtract == null || filesToExtract.Length < 1)
+			        filesToExtract = MsiFile.CreateMsiFilesFromMSI(msidb);
 
-                progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
+		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
 
-                if (!msi.Exists)
-                {
-                    Trace.WriteLine("File \'" + msi.FullName + "\' not found.");
-                    progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
-                    return;
-                }
-
-
-                progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
-                outputDir.Create();
+		        if (!msi.Exists)
+		        {
+			        Trace.WriteLine("File \'" + msi.FullName + "\' not found.");
+			        progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
+			        return;
+		        }
 
 
-                //map short file names to the msi file entry
-                //Dictionary<string, MsiFile> fileEntryMap = new Dictionary<string, MsiFile>(StringComparer.InvariantCultureIgnoreCase);
-                Hashtable fileEntryMap = new Hashtable(StringComparer.InvariantCultureIgnoreCase);
-                foreach (MsiFile fileEntry in filesToExtract)
-                    fileEntryMap[fileEntry.File] = fileEntry;
+		        progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
+		        outputDir.Create();
 
-                //extract ALL the files to the folder:
-                progress.ReportProgress(ExtractionActivity.Uncompressing, "", filesExtractedSoFar);
-                DirectoryInfo[] mediaCabs = ExplodeAllMediaCabs(msidb, outputDir);
 
-                // now rename or remove an files not desired.
-                foreach (DirectoryInfo cabDir in mediaCabs)
-                {
-                    foreach (FileInfo sourceFile in cabDir.GetFiles())
-                    {
-                        MsiFile entry = fileEntryMap[sourceFile.Name] as MsiFile;
+		        //map short file names to the msi file entry
+		        var fileEntryMap = new Dictionary<string, MsiFile>(filesToExtract.Length, StringComparer.InvariantCulture);
+		        foreach (var fileEntry in filesToExtract)
+		        {
+			        MsiFile existingFile = null;
+			        if (fileEntryMap.TryGetValue(fileEntry.File, out existingFile))
+			        {	//NOTE: This used to be triggered when we ignored case of file, but now we don't ignore case so this is unlikely to occur.
+						// Differing only by case is not compliant with the msi specification but some installers do it (e.g. python, see issue 28).
+				        Debug.Print("!!Found duplicate file using key {0}. The existing key was {1}", fileEntry.File, existingFile.File);
+			        }
+			        else
+			        {
+				        fileEntryMap.Add(fileEntry.File, fileEntry);
+			        }
+		        }
 
-                        if (entry != null)
-                        {
-                            progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
+		        Debug.Assert(fileEntryMap.Count == filesToExtract.Length, "Duplicate files must have caused some files to not be in the map.");
 
-                            DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-
-                            string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
-                            if (File.Exists(destName))
-                            {
-                                //make unique
-                                Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
-                                int duplicateCount = 0;
-                                string uniqueName;
-                                do
-                                {
-                                    uniqueName = string.Concat(destName, ".", "duplicate", ++duplicateCount);
-                                } while (File.Exists(uniqueName));
-                                destName = uniqueName;
-                            }
-                            //rename
-                            Trace.WriteLine(string.Concat("Renaming File \'", sourceFile.FullName, "\' to \'", destName, "\'"));
-                            sourceFile.MoveTo(destName);
-                            filesExtractedSoFar++;
-                        }
-                    }
-                    cabDir.Delete(true);
-                }
-            }
-            finally
-            {
-                if (msidb != null)
-                    msidb.Close();
-                if (progress != null)
-                    progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
-            }
+		        var cabinets = CabsFromMsiToDisk(msidb, outputDir);
+				foreach (CabInfo cabinfo in cabinets)
+				{
+					using (var cabDecompressor = new MSCabinet(cabinfo.LocalCabFile))
+					{
+						foreach (var compressedFile in cabDecompressor.GetFiles())
+						{
+							var entry = fileEntryMap[compressedFile.Filename];
+							progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
+							DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
+							string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
+							if (File.Exists(destName))
+							{
+								Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
+								//make unique
+// ReSharper disable HeuristicUnreachableCode
+								Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
+								int duplicateCount = 0;
+								string uniqueName;
+								do
+								{
+									uniqueName = string.Concat(destName, ".", "duplicate", ++duplicateCount);
+								} while (File.Exists(uniqueName));
+								destName = uniqueName;
+// ReSharper restore HeuristicUnreachableCode
+							}
+							Trace.WriteLine(string.Concat("Extracting File \'", compressedFile.Filename, "\' to \'", destName, "\'"));
+							compressedFile.ExtractTo(destName);
+							filesExtractedSoFar++;
+						}
+					}
+					//del local cab:
+					File.Delete(cabinfo.LocalCabFile);
+				}
+	        }
+	        finally
+	        {
+		        if (msidb != null)
+			        msidb.Close();
+		        if (progress != null)
+			        progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
+	        }
         }
 
         private static DirectoryInfo GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
@@ -304,97 +313,51 @@ namespace LessMsi.Msi
             return new DirectoryInfo(fullPath);
 
         }
+		
 
-        /// <summary>
-        /// Dumps the entire contents of each cab into it's own subfolder in the specified baseOutputPath.
-        /// </summary>
-        /// <remarks>
-        /// A list of Directories containing the files that were the contents of the cab files.
-        /// </remarks>
-        private static DirectoryInfo[] ExplodeAllMediaCabs(Database msidb, DirectoryInfo baseOutputPath)
-        {
-            ArrayList /*<DirectoryInfo>*/ cabFolders = new ArrayList();
+		/// <summary>
+		/// Extracts cab files from the specified MSIDB and puts them in the specified outputdir.
+		/// </summary>
+		/// <param name="msidb"></param>
+		/// <param name="outputDir"></param>
+		/// <returns></returns>
+	    private static List<CabInfo> CabsFromMsiToDisk(Database msidb, DirectoryInfo outputDir)
+	    {
+		    const string query = "SELECT * FROM `Media`";
+		    var localCabFiles = new List<CabInfo>();
+		    using (View view = msidb.OpenExecuteView(query))
+		    {
+			    Record record;
+			    while (view.Fetch(out record))
+			    {
+				    const int MsiInterop_Media_Cabinet = 4;
+				    string cabSourceName = record[MsiInterop_Media_Cabinet];
+				    if (string.IsNullOrEmpty(cabSourceName))
+					    throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
+				    if (0 < cabSourceName.Length)
+				    {
+					    if (cabSourceName.StartsWith("#"))
+					    {
+						    cabSourceName = cabSourceName.Substring(1);
 
-            const string tableName = "Media";
-            if (!msidb.TableExists(tableName))
-            {
-                return (DirectoryInfo[]) cabFolders.ToArray(typeof (DirectoryInfo));
-            }
-            //string query = String.Concat("SELECT * FROM `", tableName, "` WHERE `DiskId` = `", diskIdToExtract, "`");
-            string query = String.Concat("SELECT * FROM `", tableName, "`");
-			var localCabFiles = new List<CabInfo>();
-			using (View view = msidb.OpenExecuteView(query))
-			{
-				Record record;
-				while (view.Fetch(out record))
-				{
-					const int MsiInterop_Media_Cabinet = 4;
-					string cabSourceName = record[MsiInterop_Media_Cabinet];
-					if (string.IsNullOrEmpty(cabSourceName))
-						throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
-					if (0 < cabSourceName.Length)
-					{
-						if (cabSourceName.StartsWith("#"))
-						{
-							cabSourceName = cabSourceName.Substring(1);
+						    // extract cabinet, then explode all of the files to a temp directory
+						    string localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
 
-							// extract cabinet, then explode all of the files to a temp directory
-							string localCabFile = Path.Combine(baseOutputPath.FullName, cabSourceName);
-
-							ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
-							/* http://code.google.com/p/lessmsi/issues/detail?id=1
+						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
+						    /* http://code.google.com/p/lessmsi/issues/detail?id=1
 					 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
 							 * Thanks to Christopher Hamburg for explaining this!
 					 		*/
-							var c = new CabInfo(localCabFile, cabSourceName);
-							localCabFiles.Add(c);
-						}
-					}
-				}
-			}
+						    var c = new CabInfo(localCabFile, cabSourceName);
+						    localCabFiles.Add(c);
+					    }
+				    }
+			    }
+		    }
+		    return localCabFiles;
+	    }
 
-        	/*
-			 * All Cabs are out of the MSI and on disk. 
-			 * Now extract all files from each CAB into a temp dir.
-			 */
-			WixExtractCab decomp = new WixExtractCab();
-			foreach (var c in localCabFiles)
-			{
-				if (File.Exists(c.LocalCabFile))
-				{
-					DirectoryInfo cabFolder;
-					string cabFolderPath = PathEx.Combine(baseOutputPath.FullName, "cabs", c.CabSourceName);
-					//string cabFolderPath = PathEx.Combine("c:\\junk\\cab", "cabs", c.CabSourceName.Replace('.', '_'));
-					cabFolder = new DirectoryInfo(cabFolderPath);
-					Debug.Assert(!cabFolder.Exists, "Cab folder exists already. That's probalby bad");
-
-					Trace.WriteLine(string.Concat("Exploding media cab \'", c.CabSourceName, "\' to folder \'", cabFolder.FullName, "\'."));
-					cabFolder.Create();
-
-					// track the created folder so we can return it to the caller of this function
-					cabFolders.Add(cabFolder);
-
-					//Now do the hard work:
-					//c.CabDecompressor.Extract(c.LocalCabFile, cabFolder.FullName);
-					
-					decomp.Extract(c.LocalCabFile, cabFolder.FullName);
-					
-				}
-			}
-			decomp.Close();
-
-			/*
-			 * Now that we have everything out of the CABs, go back and delete the local cab files.
-			 */
-			foreach (var c in localCabFiles)
-			{
-				File.Delete(c.LocalCabFile);
-				c.CabDecompressor.Close();
-			}
-        	return (DirectoryInfo[]) cabFolders.ToArray(typeof (DirectoryInfo));
-        }
-
-		class CabInfo
+	    class CabInfo
 		{
 			/// <summary>
 			/// Name of the cab in the MSI.
@@ -405,13 +368,10 @@ namespace LessMsi.Msi
 			/// </summary>
 			public string LocalCabFile { get; set; }
 
-			public WixExtractCab CabDecompressor { get; private set; }
-
 			public CabInfo(string localCabFile, string cabSourceName)
 			{
 				LocalCabFile = localCabFile;
 				CabSourceName = cabSourceName;
-				CabDecompressor = new WixExtractCab();
 			}
 		}
 

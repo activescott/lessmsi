@@ -1,0 +1,9 @@
+*.suo
+src/ExplorerShortcutHelper/bin/
+src/ExplorerShortcutHelper/obj/
+src/LessMsi/bin/
+src/LessMsi/obj/
+src/Lessmsi.Tests/bin/
+src/Lessmsi.Tests/obj/
+*.suo
+*.user

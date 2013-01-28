@@ -66,7 +66,7 @@ namespace LessMsi.Msi
             MsiDirectory.GetMsiDirectories(msidb, out rootDirectories, out allDirectories);
 
             //find the target directory for each by reviewing the Component Table
-            TableRow[] components = TableRow.GetRowsFromTable(msidb, "Component");
+            TableRow[] components = TableRow.GetRowsFromTable(msidb, "Component"); //Component table: http://msdn.microsoft.com/en-us/library/aa368007(v=vs.85).aspx
             //build a table of components keyed by it's "Component" column value
             Hashtable componentsByComponentTable = new Hashtable();
             foreach (TableRow component in components)
@@ -112,11 +112,11 @@ namespace LessMsi.Msi
             MsiDirectory directory = FindDirectoryByDirectoryKey(allDirectories, componentDirectory);
             if (directory != null)
             {
-                Trace.WriteLine(string.Format("Directory for '{0}' is '{1}'.", file.LongFileName, directory.GetPath()));
+                //Trace.WriteLine(string.Format("Directory for '{0}' is '{1}'.", file.LongFileName, directory.GetPath()));
             }
             else
             {
-                Trace.WriteLine(string.Format("directory not found for file '{0}'.", file.LongFileName));
+                Debug.Fail(string.Format("directory not found for file '{0}'.", file.LongFileName));
             }
             return directory;
 			
