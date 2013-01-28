@@ -158,7 +158,7 @@ namespace LessMsi.UI
 			}
 		}
 
-		public void Error(string msg, Exception exception)
+		public void Error(string msg, Exception exception = null)
 		{
 			Status("ERROR:" + msg);
 			View.statusPanelDefault.ToolTipText = exception != null ? exception.ToString() : "";

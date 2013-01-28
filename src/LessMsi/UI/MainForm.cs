@@ -65,7 +65,7 @@ namespace LessMsi.UI
 
         public void AddFileGridColumn(string boundPropertyName, string headerText)
         {
-            DataGridViewColumn col = new DataGridViewTextBoxColumn { DataPropertyName = boundPropertyName, HeaderText = headerText, Name=headerText};
+            DataGridViewColumn col = new DataGridViewTextBoxColumn { DataPropertyName = boundPropertyName, HeaderText = headerText, Name = headerText, SortMode = DataGridViewColumnSortMode.Automatic };
             fileGrid.Columns.Add(col);
         }
 
@@ -76,20 +76,7 @@ namespace LessMsi.UI
 			}
 		}
 
-        public FileInfo SelectedMsiFile
-        {
-            get
-            {
-                var file = new FileInfo(txtMsiFileName.Text);
-                if (!file.Exists)
-                {
-                    Presenter.Error(string.Concat("File \'", file.FullName, "\' does not exist."), null);
-                    return null;
-                }
-                return file;
-            }
-			set { txtMsiFileName.Text = value.FullName; }
-        }
+        public FileInfo SelectedMsiFile { get; set; }
 
         public string SelectedTableName
         {
@@ -129,7 +116,8 @@ namespace LessMsi.UI
             DataGridViewColumn col = new DataGridViewTextBoxColumn
                                      	{
                                      		HeaderText = headerText,
-                                     		Resizable = DataGridViewTriState.True
+                                            Resizable = DataGridViewTriState.True,
+                                            SortMode = DataGridViewColumnSortMode.Automatic
                                      	};
         	msiTableGrid.Columns.Add(col);
         }
@@ -294,8 +282,7 @@ namespace LessMsi.UI
             this.txtMsiFileName.Name = "txtMsiFileName";
             this.txtMsiFileName.Size = new System.Drawing.Size(367, 22);
             this.txtMsiFileName.TabIndex = 0;
-            this.txtMsiFileName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMsiFileName_KeyDown);
-            this.txtMsiFileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ReloadCurrentUIOnEnterKeyPress);
+            this.txtMsiFileName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ReloadCurrentUIOnEnterKeyDown);
             // 
             // label1
             // 
@@ -442,7 +429,6 @@ namespace LessMsi.UI
             this.cboTable.TabIndex = 8;
             this.cboTable.Text = "File";
             this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            this.cboTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ReloadCurrentUIOnEnterKeyPress);
             // 
             // msiTableGrid
             // 
@@ -685,8 +671,12 @@ namespace LessMsi.UI
     	private void OpenFileCommand()
         {
             if (DialogResult.OK != openMsiDialog.ShowDialog(this))
+            {
+                Presenter.Error(string.Format("File '{0}' does not exist.", openMsiDialog.FileName));
                 return;
+            }
             txtMsiFileName.Text = openMsiDialog.FileName;
+            SelectedMsiFile = new FileInfo(openMsiDialog.FileName);
             Presenter.LoadCurrentFile();
 			//to make sure shortcut keys for menuitems work properly select a grid:
 			if (tabs.SelectedTab == tabExtractFiles)
@@ -697,18 +687,18 @@ namespace LessMsi.UI
 				msiPropertyGrid.Select();
         }
 
-		void txtMsiFileName_KeyDown(object sender, KeyEventArgs e)
-		{
-			const int enterKeyValue = 13;
-			if (e.KeyValue == enterKeyValue)
-				Presenter.LoadCurrentFile();
-		}
-
-        private void ReloadCurrentUIOnEnterKeyPress(object sender, KeyPressEventArgs e)
+        private void ReloadCurrentUIOnEnterKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == (char)13)
+            if (e.KeyValue == 13)
             {
                 e.Handled = true;
+                var file = new FileInfo(txtMsiFileName.Text);
+                if (!file.Exists)
+                {
+                    Presenter.Error(string.Format("File '{0}' does not exist.", file.FullName));
+                    return;
+                };
+                SelectedMsiFile = file;
                 Presenter.LoadCurrentFile();
             }
         }
