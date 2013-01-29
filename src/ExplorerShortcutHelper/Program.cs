@@ -17,7 +17,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2004 Scott Willeke (http://scott.willeke.com)
+// Copyright (c) 2004-2013 Scott Willeke (http://scott.willeke.com)
 //
 // Authors:
 //	Scott Willeke (scott@willeke.com)

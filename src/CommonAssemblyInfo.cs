@@ -17,12 +17,18 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2004 Scott Willeke (http://scott.willeke.com)
+// Copyright (c) 2004-2013 Scott Willeke (http://scott.willeke.com)
 //
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.9.*")]
 [assembly: AssemblyCopyright("Copyright Scott Willeke ©  2004-2013")]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
