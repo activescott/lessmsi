@@ -30,8 +30,8 @@ namespace LessMsi.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.cmdAddShortcut = new ElevationButton();
-			this.cmdRemoveShortcut = new ElevationButton();
+			this.cmdAddShortcut = new Misc.Windows.Forms.ElevationButton();
+			this.cmdRemoveShortcut = new Misc.Windows.Forms.ElevationButton();
 			this.creator = new System.Windows.Forms.LinkLabel();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -102,6 +102,7 @@ namespace LessMsi.UI
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "PreferencesForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "LessMSIerables Preferences";
 			this.ResumeLayout(false);
 
