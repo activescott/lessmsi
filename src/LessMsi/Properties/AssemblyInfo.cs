@@ -25,5 +25,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("Less MSIérables")]
-[assembly: AssemblyProduct("Less MSIérables")]
+[assembly: AssemblyTitle("Less MSIérables (lessmsi)")]
+[assembly: AssemblyProduct("Less MSIérables (lessmsi)")]
