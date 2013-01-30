@@ -1,10 +1,8 @@
-*.suo
-src/ExplorerShortcutHelper/bin/
-src/ExplorerShortcutHelper/obj/
-src/LessMsi/bin/
-src/LessMsi/obj/
-src/Lessmsi.Tests/bin/
-src/Lessmsi.Tests/obj/
+bin/
+obj/
 *.suo
 *.user
 *.csproj.user
+# VIM
+*~
+*.swp
