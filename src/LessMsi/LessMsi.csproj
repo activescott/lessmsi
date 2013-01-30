@@ -102,22 +102,15 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
-    <Reference Include="System.XML">
-      <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="wix">
-      <Name>wix</Name>
-      <HintPath>wix.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\wix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
