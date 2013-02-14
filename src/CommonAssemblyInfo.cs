@@ -25,7 +25,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("1.0.9.*")]
+[assembly: AssemblyVersion("1.0.10.*")]
 [assembly: AssemblyCopyright("Copyright Scott Willeke ©  2004-2013")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
