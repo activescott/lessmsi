@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LessMsi\lib\wix.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">

@@ -35,6 +35,19 @@ namespace LessMsi.Tests
         }
 
 		/// <summary>
+		/// This is from issue 37 (http://code.google.com/p/lessmsi/issues/detail?id=37). Basically if you only checked some files in the UI this occured. Lame that I didn't have a test for it!
+		/// </summary>
+		[Test]
+		public void ExtraOnlySomeFiles()
+		{
+			var msiFileName = "ExtractOnlySomeFiles.msi";
+			var testFilesToExtract = new string[] { "SampleSuiteExtensionTests.cs", "testOutputOptions.jpg", "NUnitTests.config_1.1" };
+			var actualFileEntries = ExtractFilesFromMsi(msiFileName, testFilesToExtract);
+			var expectedEntries = GetExpectedEntries(msiFileName);
+			AssertAreEqual(expectedEntries, actualFileEntries);
+		}
+
+		/// <summary>
 		/// This one demonstrates a problem were paths are screwed up. 
 		/// Note that the output path ends up being SourceDir\SlikSvn\bin\Windows\winsxs\... and it should be just \windows\winsxs\...
 		/// Actually many of them do, but this one ends up with such long paths that it causes an exception:
@@ -63,7 +76,7 @@ namespace LessMsi.Tests
 		[DebuggerHidden]
 		private void ExtractAndCompareToMaster(string msiFileName)
 		{
-			var actualFileEntries = ExtractFilesFromMsi(msiFileName);
+			var actualFileEntries = ExtractFilesFromMsi(msiFileName, null);
 			var expectedEntries = GetExpectedEntries(msiFileName);
 			AssertAreEqual(expectedEntries, actualFileEntries);
 		}
@@ -79,10 +92,10 @@ namespace LessMsi.Tests
 		}
 
         /// <summary>
-        /// Extracts all files from the specified MSI and returns a <see cref="FileEntryGraph"/> representing the files that were extracted.
+        /// Extracts some or all of the files from the specified MSI and returns a <see cref="FileEntryGraph"/> representing the files that were extracted.
         /// </summary>
-        /// <param name="msiFileName">The msi file to extract.</param>
-        private FileEntryGraph ExtractFilesFromMsi(string msiFileName)
+        /// <param name="msiFileName">The msi file to extract or null to extract all files.</param>
+        private FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
         {
             //  build command line
             string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
@@ -92,7 +105,7 @@ namespace LessMsi.Tests
             Directory.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
-			ExtractInProcess(msiFileName, outputDir);
+			ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
 
         	//  build actual file entries extracted
             var actualEntries = GetActualEntries(outputDir, msiFileName);
@@ -101,9 +114,30 @@ namespace LessMsi.Tests
             return actualEntries;
         }
 
-    	private void ExtractInProcess(string msiFileName, string outputDir)
+		private void ExtractInProcess(string msiFileName, string outputDir, string[] fileNamesToExtractOrNull)
     	{
-            LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
+            //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
+			if (fileNamesToExtractOrNull == null)
+			{	//extract everything:
+				LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
+			}
+			else
+    		{
+				// convert them to MsiFile objects:
+				var msiFiles = LessMsi.Msi.MsiFile.CreateMsiFilesFromMSI(GetMsiTestFile(msiFileName).FullName);
+    			
+				var msiFilesLookup = new Dictionary<string, LessMsi.Msi.MsiFile>(msiFiles.Length);
+    			Array.ForEach(msiFiles, f => msiFilesLookup.Add(f.File, f));
+
+				var fileNamesToExtractAsMsiFiles = new List<LessMsi.Msi.MsiFile>();
+				foreach (var fileName in fileNamesToExtractOrNull)
+				{
+					var found = msiFilesLookup[fileName];
+					fileNamesToExtractAsMsiFiles.Add(found);
+				}
+    			LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractAsMsiFiles.ToArray(), null);
+    		}
+			
     	}
 
 		/// <summary>

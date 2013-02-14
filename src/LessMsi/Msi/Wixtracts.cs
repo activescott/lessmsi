@@ -266,6 +266,9 @@ namespace LessMsi.Msi
 					{
 						foreach (var compressedFile in cabDecompressor.GetFiles())
 						{
+							// if the user didn't select this in the UI for extraction, skip it.
+							if (!fileEntryMap.ContainsKey(compressedFile.Filename))
+								continue;
 							var entry = fileEntryMap[compressedFile.Filename];
 							progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
 							DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
