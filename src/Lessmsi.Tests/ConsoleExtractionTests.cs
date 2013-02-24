@@ -65,7 +65,7 @@ namespace LessMsi.Tests
 		/// 
 		/// </summary>
 		[Test]
-		[Ignore("I can't figure this one out. Weird CAB in there. -scott")]
+		[Ignore("This seems to have to do with the fact that the two CABs in there are merged cabs. MSVBVM60.dll is split across the cabs and I can get it out now with merging supported, but the olepro32.dll file is in disk2.cab and I can't get out with libmspack. Neither can totalcommander. -scott")]
 		public void VBRuntime()
 		{
 			ExtractAndCompareToMaster("VBRuntime.msi");

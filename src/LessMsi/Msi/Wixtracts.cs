@@ -23,15 +23,12 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using LibMSPackN;
-using Microsoft.Tools.WindowsInstallerXml.Cab;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
-using Misc.IO;
 
 namespace LessMsi.Msi
 {
@@ -259,43 +256,50 @@ namespace LessMsi.Msi
 
 		        Debug.Assert(fileEntryMap.Count == filesToExtract.Length, "Duplicate files must have caused some files to not be in the map.");
 
-		        var cabinets = CabsFromMsiToDisk(msidb, outputDir);
-				foreach (CabInfo cabinfo in cabinets)
-				{
-					using (var cabDecompressor = new MSCabinet(cabinfo.LocalCabFile))
-					{
-						foreach (var compressedFile in cabDecompressor.GetFiles())
-						{
-							// if the user didn't select this in the UI for extraction, skip it.
-							if (!fileEntryMap.ContainsKey(compressedFile.Filename))
-								continue;
-							var entry = fileEntryMap[compressedFile.Filename];
-							progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
-							DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-							string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
-							if (File.Exists(destName))
-							{
-								Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
-								//make unique
-// ReSharper disable HeuristicUnreachableCode
-								Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
-								int duplicateCount = 0;
-								string uniqueName;
-								do
-								{
-									uniqueName = string.Concat(destName, ".", "duplicate", ++duplicateCount);
-								} while (File.Exists(uniqueName));
-								destName = uniqueName;
-// ReSharper restore HeuristicUnreachableCode
-							}
-							Trace.WriteLine(string.Concat("Extracting File \'", compressedFile.Filename, "\' to \'", destName, "\'"));
-							compressedFile.ExtractTo(destName);
-							filesExtractedSoFar++;
-						}
-					}
-					//del local cab:
-					File.Delete(cabinfo.LocalCabFile);
-				}
+		        var cabInfos = CabsFromMsiToDisk(msidb, outputDir);
+		        var cabDecompressors = MergeCabs(cabInfos);
+		        try
+		        {
+			        foreach (MSCabinet decompressor in cabDecompressors)
+			        {
+				        foreach (var compressedFile in decompressor.GetFiles())
+				        {
+					        // if the user didn't select this in the UI for extraction, skip it.
+					        if (!fileEntryMap.ContainsKey(compressedFile.Filename))
+						        continue;
+					        var entry = fileEntryMap[compressedFile.Filename];
+					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
+					        DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
+					        string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
+					        if (File.Exists(destName))
+					        {
+						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
+						        //make unique
+						        // ReSharper disable HeuristicUnreachableCode
+						        Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
+						        int duplicateCount = 0;
+						        string uniqueName;
+						        do
+						        {
+							        uniqueName = string.Concat(destName, ".", "duplicate", ++duplicateCount);
+						        } while (File.Exists(uniqueName));
+						        destName = uniqueName;
+						        // ReSharper restore HeuristicUnreachableCode
+					        }
+					        Trace.WriteLine(string.Concat("Extracting File \'", compressedFile.Filename, "\' to \'", destName, "\'"));
+					        compressedFile.ExtractTo(destName);
+					        filesExtractedSoFar++;
+				        }
+			        }
+		        }
+		        finally
+		        {	//cleanup the decompressors allocated in MergeCabs
+			        foreach (MSCabinet decomp in cabDecompressors)
+			        {
+				        decomp.Close(false);
+						File.Delete(decomp.LocalFilePath);
+			        }
+		        }
 	        }
 	        finally
 	        {
@@ -306,7 +310,69 @@ namespace LessMsi.Msi
 	        }
         }
 
-        private static DirectoryInfo GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
+		/// <summary>
+		/// Allocates a decompressor for each cab and merges any cabs that need merged.
+		/// </summary>
+		/// <param name="cabinets"></param>
+		/// <returns></returns>
+	    private static IEnumerable<MSCabinet> MergeCabs(IList<CabInfo> cabInfos)
+	    {
+			/* Sometimes cab files are part of a set. We must merge those into their set before we leave here. 
+			 * Otherwise extracting a file that extends beyond the bounds of one cab in the set will fail. This happens in VBRuntime.msi
+			 * 
+			 * It can be determined if a cabinet has further parts to load by examining the mscabd_cabinet::flags field:
+			 * if (flags & MSCAB_HDR_PREVCAB) is non-zero, there is a predecessor cabinet to open() and prepend(). Its MS-DOS case-insensitive filename is mscabd_cabinet::prevname
+			 * if (flags & MSCAB_HDR_NEXTCAB) is non-zero, there is a successor cabinet to open() and append(). Its MS-DOS case-insensitive filename is mscabd_cabinet::nextname
+			 */
+			var decompressors = new List<MSCabinet>();
+			for (int i=0; i < cabInfos.Count; i++)
+			{
+				CabInfo cab = cabInfos[i];
+				var msCab = new MSCabinet(cab.LocalCabFile);//NOTE: Deliberately not disposing. Caller must cleanup.
+				
+				if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
+				{
+					Debug.Assert(!string.IsNullOrEmpty(msCab.NextName), "Header indcates next cab but new cab not found.");
+					// load the cab found in NextName:
+					// Append it to msCab
+					Debug.Print("Found cabinet set. Nextname: " + msCab.NextName);
+					var nextCab = FindCabAndRemoveFromList(cabInfos, msCab.NextName);
+					var msCabNext = new MSCabinet(nextCab.LocalCabFile);
+					msCab.Append(msCabNext);
+					decompressors.Add(msCab);
+				}
+				else if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_PREVCAB) != 0)
+				{
+					Debug.Assert(!string.IsNullOrEmpty(msCab.PrevName), "Header indcates prev cab but new cab not found.");
+					Debug.Print("Found cabinet set. PrevName: " + msCab.PrevName);
+					var prevCabInfo = FindCabAndRemoveFromList(cabInfos, msCab.PrevName);
+					var msCabPrev = new MSCabinet(prevCabInfo.LocalCabFile);
+					msCabPrev.Append(msCab);
+					decompressors.Add(msCabPrev);
+				}
+				else
+				{	// just a simple standalone cab
+					decompressors.Add(msCab);
+				}
+			}
+			return decompressors;
+	    }
+
+	    private static CabInfo FindCabAndRemoveFromList(IList<CabInfo> cabInfos, string soughtName)
+	    {
+		    for (var i = 0; i < cabInfos.Count; i++)
+		    {
+				if (string.Equals(cabInfos[i].CabSourceName, soughtName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					var found = cabInfos[i];
+					cabInfos.RemoveAt(i);
+					return found;
+				}
+		    }
+		    throw new Exception("Specified cab not found!");
+	    }
+
+	    private static DirectoryInfo GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
         {
             string fullPath = Path.Combine(rootDirectory.FullName, relativePath.GetPath());
             if (!Directory.Exists(fullPath))
@@ -337,7 +403,7 @@ namespace LessMsi.Msi
 				    string cabSourceName = record[MsiInterop_Media_Cabinet];
 				    if (string.IsNullOrEmpty(cabSourceName))
 					    throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
-				    if (0 < cabSourceName.Length)
+				    if (!string.IsNullOrEmpty(cabSourceName))
 				    {
 					    if (cabSourceName.StartsWith("#"))
 					    {
@@ -357,7 +423,7 @@ namespace LessMsi.Msi
 				    }
 			    }
 		    }
-		    return localCabFiles;
+			return localCabFiles;
 	    }
 
 	    class CabInfo
