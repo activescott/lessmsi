@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Misc.Windows.Forms
 {
@@ -33,7 +34,7 @@ namespace Misc.Windows.Forms
     /// Implements a simple <see cref="System.ComponentModel.IBindingList"/> that provides sorting ability.
     /// </summary>
     /// <remarks>Useful to provide a sortable <see cref="System.Windows.Forms.DataGridView"/>.</remarks>
-    class SortableBindingList<TItem> : BindingList<TItem>
+    internal sealed class SortableBindingList<TItem> : BindingList<TItem>
     {
         private readonly IEnumerable<TItem> _originalItems;
         private PropertyDescriptor _sortProperty;
@@ -45,7 +46,7 @@ namespace Misc.Windows.Forms
             ResetItems();
         }
 
-        protected void ResetItems()
+	    private void ResetItems()
         {
             RaiseListChangedEvents = false;
             if (Items.Count > 0)
@@ -64,12 +65,19 @@ namespace Misc.Windows.Forms
             _sortDirection = direction;
             Debug.WriteLine("ApplySortCore");
             RaiseListChangedEvents = false;
-            Anculus.Core.Sort.QuickSort(Items, new PropertyComparer<TItem>(prop, direction));
+	        Func<TItem, Object> selector = item => prop.GetValue(item);
+	        var sourceItems = Items.ToArray();
+	        IEnumerable<TItem> sorted = direction == ListSortDirection.Ascending ? sourceItems.OrderBy(selector) : sourceItems.OrderByDescending(selector);
+	        Items.Clear();
+			foreach (var item in sorted)
+			{
+				Items.Add(item);
+			}
             RaiseListChangedEvents = true;
             RaiseListSortingChanged();
         }
 
-        protected override PropertyDescriptor SortPropertyCore
+	    protected override PropertyDescriptor SortPropertyCore
         {
             get { Debug.WriteLine("SortPropertyCore"); return _sortProperty; }
         }
@@ -99,29 +107,5 @@ namespace Misc.Windows.Forms
         {
             get { return true; }
         }
-
-		private sealed class PropertyComparer<T> : IComparer<T>
-		{
-			private PropertyDescriptor _prop;
-			private ListSortDirection _direction;
-
-			public PropertyComparer(PropertyDescriptor prop, ListSortDirection direction)
-			{
-				if (prop == null)
-					throw new ArgumentNullException("prop");
-				_prop = prop;
-				_direction = direction;
-			}
-
-			public int Compare(T x, T y)
-			{
-				var xValue = _prop.GetValue(x);
-				var yValue = _prop.GetValue(y);
-				var result = Comparer<object>.Default.Compare(xValue, yValue);
-				if (_direction == ListSortDirection.Descending)
-					result *= -1;
-				return result;
-			}
-		}
     }
 }
