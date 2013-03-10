@@ -66,8 +66,7 @@ namespace Misc.Windows.Forms
             Debug.WriteLine("ApplySortCore");
             RaiseListChangedEvents = false;
 	        Func<TItem, Object> selector = item => prop.GetValue(item);
-	        var sourceItems = Items.ToArray();
-	        IEnumerable<TItem> sorted = direction == ListSortDirection.Ascending ? sourceItems.OrderBy(selector) : sourceItems.OrderByDescending(selector);
+	        var sorted = direction == ListSortDirection.Ascending ? Items.OrderBy(selector).ToList() : Items.OrderByDescending(selector).ToList();
 	        Items.Clear();
 			foreach (var item in sorted)
 			{
