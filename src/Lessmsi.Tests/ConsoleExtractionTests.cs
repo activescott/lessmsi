@@ -100,9 +100,12 @@ namespace LessMsi.Tests
             //  build command line
             string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
             outputDir = Path.Combine(outputDir, "_" + msiFileName);
-            if (Directory.Exists(outputDir))
-                Directory.Delete(outputDir, true);
-            Directory.CreateDirectory(outputDir);
+	        if (Directory.Exists(outputDir))
+	        {
+		        DeleteDirectoryRecursive(new DirectoryInfo(outputDir));
+		        Directory.Delete(outputDir, true);
+	        }
+	        Directory.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
 			ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
@@ -114,7 +117,27 @@ namespace LessMsi.Tests
             return actualEntries;
         }
 
-		private void ExtractInProcess(string msiFileName, string outputDir, string[] fileNamesToExtractOrNull)
+	    private static void DeleteDirectoryRecursive(DirectoryInfo di)
+	    {
+			foreach (var item in di.GetFileSystemInfos())
+			{
+				var file = item as FileInfo;
+				if (file != null)
+				{
+					//NOTE: This is why this method is necessary. Directory.Delete and File.Delete won't delete files that have ReadOnly attribute set. So we clear it here before deleting
+					if (file.IsReadOnly)
+						file.IsReadOnly = false;
+					file.Delete();
+				}
+				else
+				{
+					var dir = (DirectoryInfo) item;
+					DeleteDirectoryRecursive(dir);
+				}
+			}
+	    }
+
+	    private void ExtractInProcess(string msiFileName, string outputDir, string[] fileNamesToExtractOrNull)
     	{
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
 			if (fileNamesToExtractOrNull == null)
