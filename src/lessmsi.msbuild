@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build;Deploy;Zip;UpdateChocolatey">
+	<!--
+	References:
+		http://msdn.microsoft.com/en-us/library/vstudio/dd393574.aspx
+		http://msdn.microsoft.com/en-us/library/vstudio/ms164313.aspx
+	-->
+	<PropertyGroup>
+		<TheDeployDir>.\.deploy</TheDeployDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TheProjects Include="ExplorerShortcutHelper\ExplorerShortcutHelper.csproj"></TheProjects>
+		<TheProjects Include="LessMsi\LessMsi.csproj"></TheProjects>
+	</ItemGroup>
+
+	<ItemGroup>
+		<DeployFiles Include="ExplorerShortcutHelper\bin\Release\AddWindowsExplorerShortcut.exe"></DeployFiles>
+		<DeployFiles Include="LessMsi\bin\Release\lessmsi.exe"></DeployFiles>
+		<DeployFiles Include="LessMsi\lib\libmspackn.dll"></DeployFiles>
+		<DeployFiles Include="LessMsi\lib\mspack.dll"></DeployFiles>
+		<DeployFiles Include="LessMsi\lib\wix.dll"></DeployFiles>
+		<DeployFiles Include="LessMsi\lib\wixcab.dll"></DeployFiles>
+	</ItemGroup>
+
+	<Target Name="Validate">
+		<ItemGroup>
+			<_RequiredProperties Include="TheVersion">
+				<Value>$(TheVersion)</Value>
+			</_RequiredProperties>
+		</ItemGroup>
+
+		<Error 
+			Condition=" '%(_RequiredProperties.Value)'=='' "
+			Text=" Missing required property [%(_RequiredProperties.Identity)]" 
+		/>
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="Validate">
+		<Message Text="Building version: $(TheVersion)" />
+		
+		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
+
+		<MSBuild 
+			Projects="%(TheProjects.FullPath)" 
+			Properties="Configuration=Release;ApplicationVersion=$(TheVersion);SolutionDir=$(MSBuildProjectDirectory)" 
+		/>
+	</Target>
+
+	<Target Name="Deploy" DependsOnTargets="Build">
+		<MakeDir Directories="$(TheDeployDir)" />
+
+		<Copy
+            SourceFiles="%(DeployFiles.FullPath)"
+            DestinationFolder="$(TheDeployDir)"
+        />
+	</Target>
+
+	<Target Name="Zip" DependsOnTargets="Deploy">
+		<Zip 
+			Files="@(DeployFiles)"
+			WorkingDirectory="$(TheDeployDir)"
+			ZipFileName="$(TheDeployDir)\lessmsi.latest.zip"
+		/>
+	</Target>
+
+	<Target Name="UpdateChocolatey" DependsOnTargets="Deploy">
+		<Copy
+            SourceFiles="lessmsi.nuspec"
+            DestinationFolder="$(TheDeployDir)"
+        />
+		<XmlPoke
+			XmlInputPath="$(TheDeployDir)\lessmsi.nuspec"
+			Query="\\Project\PropertyGroup\ApplicationVersion"
+			Value="$(TheVersion)"
+		/>
+	</Target>
+
+</Project>
