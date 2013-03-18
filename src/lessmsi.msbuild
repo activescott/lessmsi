@@ -39,7 +39,7 @@
 	<Target Name="Build" DependsOnTargets="Validate">
 		<Message Text="Building version: $(TheVersion)" />
 		
-		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
+		<Message Text="Absolute project path: %(TheProjects.FullPath)" /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name />
 
 		<MSBuild 
 			Projects="%(TheProjects.FullPath)" 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test">
+
+	<Import Project="zipfile.msbuild.targets" />
+
+	<ItemGroup>
+		<SourceFiles Include=".\LessMsi\lib\libmspackn.dll" />
+		<SourceFiles Include=".\LessMsi\lib\mspack.dll" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TheZipFile>.\!testsipfile.zip</TheZipFile>
+	</PropertyGroup>
+	<Target Name="Test">
+		<Message Text="MSBuildToolsPath=$(MSBuildToolsPath)" />
+
+		<Delete Files="$(TheZipFile)" />
+		
+		<ZipFile
+			SourceFiles="@(SourceFiles)"
+			DestPath="$(TheZipFile)"
+		/>
+
+		<Message Text="The zip should be now at .\testzipfiletask.zip" />
+	</Target>
+
+</Project>

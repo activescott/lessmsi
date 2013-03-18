@@ -1,8 +1,10 @@
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
 *.suo
 *.user
 *.csproj.user
 # VIM
 *~
 *.swp
+/src/.deploy
+_Resharper*/
