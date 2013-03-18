@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build;Deploy;Zip;UpdateChocolatey">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build;Deploy;Zip;UpdateChocolatey">
 	<!--
 	References:
 		http://msdn.microsoft.com/en-us/library/vstudio/dd393574.aspx
 		http://msdn.microsoft.com/en-us/library/vstudio/ms164313.aspx
 	-->
+	<Import Project="zipfile.msbuild.targets" />
+	<Import Project=".build\MSBuild.Community.Tasks.targets" />
+	
+
 	<PropertyGroup>
 		<TheDeployDir>.\.deploy</TheDeployDir>
+		<AssemblyCopyright>Copyright Scott Willeke ©  2004-2013</AssemblyCopyright>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -36,18 +41,40 @@
 		/>
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="Validate">
+	<Target Name="SetProjectVersion">
+		
+		<ItemGroup>
+			<AssemblyInfoFiles Include="CommonAssemblyInfo.cs" />
+		</ItemGroup>
+
+		<AssemblyInfo 
+			OutputFile="@(AssemblyInfoFiles)" 
+			CodeLanguage="C#"
+			AssemblyCopyright="$(AssemblyCopyright)" 
+			AssemblyVersion="$(TheVersion)"
+			AssemblyFileVersion="$(TheVersion)"
+		>
+    	</AssemblyInfo>
+
+	</Target>
+
+	<Target Name="Clean">
+		<RemoveDir Directories="$(TheDeployDir)" />
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion">
 		<Message Text="Building version: $(TheVersion)" />
 		
-		<Message Text="Absolute project path: %(TheProjects.FullPath)" /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name /<name />
+		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
 
 		<MSBuild 
 			Projects="%(TheProjects.FullPath)" 
 			Properties="Configuration=Release;ApplicationVersion=$(TheVersion);SolutionDir=$(MSBuildProjectDirectory)" 
+			Targets="Rebuild"
 		/>
 	</Target>
 
-	<Target Name="Deploy" DependsOnTargets="Build">
+	<Target Name="Deploy" DependsOnTargets="Build;Clean">
 		<MakeDir Directories="$(TheDeployDir)" />
 
 		<Copy
@@ -57,9 +84,8 @@
 	</Target>
 
 	<Target Name="Zip" DependsOnTargets="Deploy">
-		<Zip 
+		<ZipFile
 			Files="@(DeployFiles)"
-			WorkingDirectory="$(TheDeployDir)"
 			ZipFileName="$(TheDeployDir)\lessmsi.latest.zip"
 		/>
 	</Target>
@@ -71,7 +97,7 @@
         />
 		<XmlPoke
 			XmlInputPath="$(TheDeployDir)\lessmsi.nuspec"
-			Query="\\Project\PropertyGroup\ApplicationVersion"
+			Query="//package/metadata/version"
 			Value="$(TheVersion)"
 		/>
 	</Target>

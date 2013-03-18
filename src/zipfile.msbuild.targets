@@ -11,17 +11,28 @@
 		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" 
 	>
 		<ParameterGroup>
-			<SourceDir ParameterType="System.String" Required="True" />
-			<DestPath ParameterType="System.String" Required="True" />
+			<Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="True" />
+			<ZipFileName ParameterType="System.String" Required="True" />
 		</ParameterGroup>
 		<Task>
-			<Reference Include="$(MSBuildToolsPath)\System.IO.Compression.FileSystem.dll" />
+			<Reference Include="$(MSBuildToolsPath)\System.IO.Compression.dll"/>
+			<Reference Include="$(MSBuildToolsPath)\System.IO.Compression.FileSystem.dll"/>
 			<Using Namespace="System"/>
 			<Using Namespace="System.IO"/>
+			<Using Namespace="System.IO.Compression"/>
 			<Code Type="Fragment" Language="cs">
 			<![CDATA[
 
-			System.IO.Compression.ZipFile.CreateFromDirectory(SourceDir, DestPath);
+			using (var fs = new FileStream(ZipFileName, FileMode.Create))
+			using (var zip = new System.IO.Compression.ZipArchive(fs, ZipArchiveMode.Create))
+			{
+				foreach (var sourceItem in Files)
+				{
+					string fileToAdd = sourceItem.ItemSpec;
+					string zippedFileName = ".\\" + Path.GetFileName(fileToAdd);
+					zip.CreateEntryFromFile(fileToAdd, zippedFileName);
+				}
+			}
             
 			]]>
 			</Code>
