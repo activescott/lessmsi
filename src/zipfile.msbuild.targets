@@ -11,53 +11,17 @@
 		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" 
 	>
 		<ParameterGroup>
-			<SourceFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="True" />
+			<SourceDir ParameterType="System.String" Required="True" />
 			<DestPath ParameterType="System.String" Required="True" />
 		</ParameterGroup>
 		<Task>
-			<Reference Include="$(MSBuildToolsPath)\WPF\WindowsBase.dll"/>
+			<Reference Include="$(MSBuildToolsPath)\System.IO.Compression.FileSystem.dll" />
 			<Using Namespace="System"/>
 			<Using Namespace="System.IO"/>
-			<Using Namespace="System.IO.Packaging"/>
 			<Code Type="Fragment" Language="cs">
 			<![CDATA[
 
-			Action<FileStream, Stream> CopyStream = (FileStream inputStream, Stream outputStream) => {
-				const long BUFFER_SIZE = 4096;
-				long bufferSize = inputStream.Length < BUFFER_SIZE ? inputStream.Length : BUFFER_SIZE;
-				byte[] buffer = new byte[bufferSize];
-				int bytesRead = 0;
-				
-				while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) != 0)
-				{
-					outputStream.Write(buffer, 0, bytesRead);
-				}
-			};
-
-			using (Package zip = System.IO.Packaging.Package.Open(DestPath, FileMode.OpenOrCreate))
-			{
-				foreach (var sourceItem in SourceFiles) 
-				{
-					string fileToAdd = sourceItem.ItemSpec;
-					string zippedFileName = ".\\" + Path.GetFileName(fileToAdd);
-					Uri uri = PackUriHelper.CreatePartUri(new Uri(zippedFileName, UriKind.Relative));
-					PackagePart part = zip.CreatePart(uri, "",CompressionOption.Normal);
-					using (FileStream fileStream = new FileStream(fileToAdd, FileMode.Open, FileAccess.Read))
-					{
-						using (Stream dest = part.GetStream())
-						{
-							CopyStream(fileStream, dest);
-						}
-					}
-				}
-				// Now try to remove that silly [Content_Types].xml:
-				/*
-				No worky :(
-				var dumbPart = PackUriHelper.CreatePartUri(new Uri("[Content_Types].xml", UriKind.Relative));
-				Log.LogMessage("URI:{0}", dumbPart.T);
-				zip.DeletePart(dumbPart);
-				*/
-			}
+			System.IO.Compression.ZipFile.CreateFromDirectory(SourceDir, DestPath);
             
 			]]>
 			</Code>

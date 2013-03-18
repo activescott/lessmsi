@@ -3,21 +3,18 @@
 
 	<Import Project="zipfile.msbuild.targets" />
 
-	<ItemGroup>
-		<SourceFiles Include=".\LessMsi\lib\libmspackn.dll" />
-		<SourceFiles Include=".\LessMsi\lib\mspack.dll" />
-	</ItemGroup>
 
 	<PropertyGroup>
 		<TheZipFile>.\!testsipfile.zip</TheZipFile>
+		<TheSourceDir>.\LessMsi\lib</TheSourceDir>
 	</PropertyGroup>
 	<Target Name="Test">
 		<Message Text="MSBuildToolsPath=$(MSBuildToolsPath)" />
 
 		<Delete Files="$(TheZipFile)" />
-		
+
 		<ZipFile
-			SourceFiles="@(SourceFiles)"
+			SourceDir="$(TheSourceDir)"
 			DestPath="$(TheZipFile)"
 		/>
 
