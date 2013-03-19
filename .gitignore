@@ -8,3 +8,4 @@
 *.swp
 /src/.deploy
 _Resharper*/
+src/packages/**

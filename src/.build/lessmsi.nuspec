@@ -1,19 +1,25 @@
 <?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata>
-    <id>lessmsi</id>
-    <title>LessMSI</title>
-    <version>1.0.*</version>
-    <authors>Scott Willeke</authors>
-    <owners>Scott Willeke</owners>
-    <summary>LessMSI - Easily extract the contents of an MSI</summary>
-    <description>LessMSI is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. For Windows.
+	<id>lessmsi</id>
+	<title>LessMSI</title>
+	<version>1.0.*</version>
+	<authors>Scott Willeke</authors>
+	<owners>Scott Willeke</owners>
+	<summary>LessMSI - Easily extract the contents of an MSI</summary>
+	<description>LessMSI is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. For Windows.
 Usage on the command line: lessmsi [/x msiFileName [outDir]] 
 </description>
-    <tags>msi extract extraction install</tags>
-    <projectUrl>http://code.google.com/p/lessmsi/</projectUrl>
-    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!--<iconUrl>32x32.png</iconUrl>-->
+	<frameworkAssemblies>
+		<frameworkAssembly assemblyName="System" targetFramework="net35-client" />
+		<frameworkAssembly assemblyName="System.Data" targetFramework="net35-client" />
+		<frameworkAssembly assemblyName="System.Drawing" targetFramework="net35-client" />
+		<frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net35-client" />
+	</frameworkAssemblies>
+	<tags>msi extract extraction install</tags>
+	<projectUrl>http://code.google.com/p/lessmsi/</projectUrl>
+	<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<!--<iconUrl>32x32.png</iconUrl>-->
   </metadata>
 </package>
