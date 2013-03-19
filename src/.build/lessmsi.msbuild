@@ -31,9 +31,18 @@
 	</ItemGroup>
 
 	<Target Name="Init">
+
 		<ConvertToAbsolutePath Paths="$(RootDir)">
 			<Output TaskParameter="AbsolutePaths" PropertyName="RootDir"/>
 		</ConvertToAbsolutePath>
+		<!-- Apparently the PropertyGroup values are evaluated early and not reevaluated on demand because I had to run this again to get it to accept the new root dir value -->
+		<ConvertToAbsolutePath Paths="$(TheDeployDir)">
+			<Output TaskParameter="AbsolutePaths" PropertyName="TheDeployDir"/>
+		</ConvertToAbsolutePath>
+
+		<Message Text="RootDir=$(RootDir)" />
+		<Message Text="TheDeployDir=$(TheDeployDir)" />
+		
 	</Target>
 
 	<Target Name="Validate">
@@ -130,9 +139,11 @@
 		>
 			<Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
 		</Exec>
+		<Message Text="cpack exit code:$(ErrorCode)" />
 		<Error
 			Condition="$(ErrorCode)!=0"
 			Text="cpack failed. Make sure you have chocolatey installed and accessible from the commandline. See chocolatey.org to install and for more info about packaging see https://github.com/chocolatey/chocolatey/wiki"
 		/>
+		<Message Text="Chocolatey.org package built. To publish run `cpush lessmsi.$(TheVersion).nupkg` AFTER uploading $(TheZipFileName) to google code." />
 	</Target>
 </Project>
