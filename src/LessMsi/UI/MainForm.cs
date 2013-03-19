@@ -673,7 +673,8 @@ namespace LessMsi.UI
             if (DialogResult.OK != openMsiDialog.ShowDialog(this))
             {
                 Presenter.Error(string.Format("File '{0}' does not exist.", openMsiDialog.FileName));
-                txtMsiFileName.Text = SelectedMsiFile.FullName;
+                if (SelectedMsiFile != null)
+                    txtMsiFileName.Text = SelectedMsiFile.FullName;
                 return;
             }
             txtMsiFileName.Text = openMsiDialog.FileName;
