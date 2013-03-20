@@ -48,7 +48,7 @@
     </Compile>
     <Compile Include="FileEntry.cs" />
     <Compile Include="FileEntryGraph.cs" />
-    <Compile Include="ConsoleExtractionTests.cs" />
+    <Compile Include="MiscTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
