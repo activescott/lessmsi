@@ -18,7 +18,7 @@
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LessMsi</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -231,8 +231,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)lib\*.dll" "$(TargetDir)" /Y</PreBuildEvent>
-    <PostBuildEvent>copy "$(SolutionDir)\ExplorerShortcutHelper\bin\$(ConfigurationName)\AddWindowsExplorerShortcut.exe" "$(TargetDir)" /Y
+    <PreBuildEvent>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</PreBuildEvent>
+    <PostBuildEvent>copy /Y "$(SolutionDir)\ExplorerShortcutHelper\bin\$(ConfigurationName)\AddWindowsExplorerShortcut.exe" "$(TargetDir)"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

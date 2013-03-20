@@ -38,8 +38,10 @@ namespace LessMsi
 {
 	public class Program
 	{
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern int FreeConsole();
+        // defines for commandline output
+        [DllImport("kernel32.dll")]
+        static extern bool AttachConsole(int dwProcessId);
+        private const int ATTACH_PARENT_PROCESS = -1;
 
 		private class Arguments
 		{
@@ -59,6 +61,8 @@ namespace LessMsi
 		{
 			try
 			{
+			    AttachConsole(ATTACH_PARENT_PROCESS);
+
 				Arguments args = ParseArguments(argStrings);
 				if (args.ErrorCode != 0)
 					return args.ErrorCode;
@@ -66,6 +70,7 @@ namespace LessMsi
 				if (!string.IsNullOrEmpty(args.MsiFileName))
 				{
 					DoExtraction(args.MsiFileName, args.OutDirName);
+                    Application.Exit();
 					return 0;
 				}
 				//Else continue down & show the UI
@@ -162,7 +167,6 @@ lessmsi [/x <msiFileName> [<outouptDir]]
 
 		static int LaunchForm(string inputFile)
 		{
-            FreeConsole();
 			Application.EnableVisualStyles();
             Application.DoEvents();// make sure EnableVisualStyles works.
             MainForm form = new MainForm(inputFile);
