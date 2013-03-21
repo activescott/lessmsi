@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LessMsi.Tests</RootNamespace>
     <AssemblyName>LessMsi.Tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,11 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Json">
+      <HintPath>..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.XML" />
     <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LessMsi\lib\wix.dll</HintPath>
@@ -46,10 +52,12 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CommandLineExtractTests.cs" />
     <Compile Include="FileEntry.cs" />
     <Compile Include="FileEntryGraph.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LessMsi\LessMsi.csproj">

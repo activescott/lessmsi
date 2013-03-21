@@ -43,14 +43,20 @@ namespace LessMsi
         static extern bool AttachConsole(int dwProcessId);
         private const int ATTACH_PARENT_PROCESS = -1;
 
-		private class Arguments
+		public class Arguments
 		{
+			public Arguments()
+			{
+				this.MsiFileName = "";
+				this.OutDirName = "";
+				this.ErrorCode = 0;
+			}
 			public string MsiFileName { get; set; }
 			public string OutDirName { get; set; }
 			/// <summary>
 			/// 0==good
 			/// </summary>
-			internal int ErrorCode { get; set; }
+			public int ErrorCode { get; set; }
 		}
 
 		/// <summary>
@@ -75,10 +81,15 @@ namespace LessMsi
 				}
 				//Else continue down & show the UI
 			}
+			catch (NDesk.Options.OptionException oe)
+			{
+				Console.WriteLine(oe);
+				return -1;
+			}
 			catch (Exception eCatchAll)
 			{
 			    ShowHelp(eCatchAll.ToString());
-				return -1;
+				return -3;
 			}
 			return LaunchForm("");
 		}
@@ -101,41 +112,24 @@ namespace LessMsi
 			Wixtracts.ExtractFiles(msiFile, outDir);
 		}
 
-		private static Arguments ParseArguments(string[] args)
-		{
-			var arguments = new Arguments();
-			// Handle args:
-			for (int i = 0; i < args.Length; i++)
-			{
-				if (args.Length < 1)
-					continue;
-
-				if (args[i][0] != '/' && args[i][0] != '-')
-					continue;
-				switch (args[i][1])
-				{
-					case 'x':
-						{
-							if (++i >= args.Length)
-							{
-								ShowHelp("Expected input file argument.");
-								arguments.ErrorCode = -2;
-								return arguments;
-							}
-
-							arguments.MsiFileName = args[i];
-							
-                            
-							if (++i >= args.Length)
-								arguments.OutDirName = Path.GetDirectoryName(arguments.MsiFileName);
-							else
-								arguments.OutDirName = args[i];
-							break;
-						}
-				}
-			}
-			return arguments;
-		}
+        public static Arguments ParseArguments(string[] args)
+        {
+            var parsedArgs= new Arguments();
+            var o = new NDesk.Options.OptionSet() {
+                { "h|?|help", v => ShowHelp ("") },
+                {
+                    "x=|value=", 
+                    v => {
+                        parsedArgs.MsiFileName = v;
+                        parsedArgs.OutDirName = Path.GetDirectoryName(v);
+                    } 
+                },
+            };
+            var extra = o.Parse(args);
+            if (!string.IsNullOrEmpty(parsedArgs.MsiFileName) && extra.Count > 0)
+                parsedArgs.OutDirName = extra[0];
+            return parsedArgs;
+        }
 
         private static void ShowHelp(string errorMessage)
         {
