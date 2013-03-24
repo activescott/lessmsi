@@ -25,12 +25,15 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using LessMsi.Msi;
 using LessMsi.UI;
+using NDesk.Options;
 
 #endregion
 
@@ -45,11 +48,12 @@ namespace LessMsi
 
 		public class Arguments
 		{
+			private bool _openGui;
+
 			public Arguments()
 			{
 				this.MsiFileName = "";
 				this.OutDirName = "";
-				this.ErrorCode = 0;
 			}
 			public string MsiFileName { get; set; }
 			public string OutDirName { get; set; }
@@ -57,41 +61,138 @@ namespace LessMsi
 			/// 0==good
 			/// </summary>
 			public int ErrorCode { get; set; }
+
+			public bool OpenGui { get; set; }
+		}
+
+		enum ConsoleReturnCode
+		{
+			Success=0,
+			UnexpectedError=-1,
+			InvalidCommandLineOption=-2,
+			UnrecognizedCommand=-3
 		}
 
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static int Main(string[] argStrings)
+		public static int Main(string[] args)
 		{
 			try
 			{
-			    AttachConsole(ATTACH_PARENT_PROCESS);
+				AttachConsole(ATTACH_PARENT_PROCESS);
 
-				Arguments args = ParseArguments(argStrings);
-				if (args.ErrorCode != 0)
-					return args.ErrorCode;
+				/** 
+				 * See https://code.google.com/p/lessmsi/wiki/CommandLine for some use cases and docs on commandline parsing.
+				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
+				 */
 
-				if (!string.IsNullOrEmpty(args.MsiFileName))
+				var subcommands = new Dictionary<string, LessMsiCommand> {
+					{"o", new OpenGuiCommand()},
+					{"x", new ExtractCommand()},
+					{"/x", new ExtractCommand()},
+					{"l", new ListTableCommand()},
+					{"v", new ShowVersionCommand()}
+				};
+
+				var doShowHelp = false;
+				var o = new NDesk.Options.OptionSet {
+					{ "h|?|help", "Shows help message", v => doShowHelp = true }
+				};
+
+				var extra = o.Parse(args);
+				if (doShowHelp)
 				{
-					DoExtraction(args.MsiFileName, args.OutDirName);
-                    Application.Exit();
-					return 0;
+					ShowHelp("");
+					return (int) ConsoleReturnCode.Success;
 				}
-				//Else continue down & show the UI
+				else if (extra.Count == 0)
+				{
+					LaunchForm("");
+					return (int) ConsoleReturnCode.Success;
+				}
+				else
+				{
+					LessMsiCommand cmd;
+					if (subcommands.TryGetValue(extra[0], out cmd))
+					{
+						cmd.Run(extra);
+						return (int) ConsoleReturnCode.Success;
+					}
+					else
+					{
+						ShowHelp("Unrecognized command");
+						return (int) ConsoleReturnCode.UnrecognizedCommand;
+					}
+				}
 			}
 			catch (NDesk.Options.OptionException oe)
 			{
 				Console.WriteLine(oe);
-				return -1;
+				return (int) ConsoleReturnCode.InvalidCommandLineOption;
 			}
 			catch (Exception eCatchAll)
 			{
-			    ShowHelp(eCatchAll.ToString());
-				return -3;
+				ShowHelp(eCatchAll.ToString());
+				return (int) ConsoleReturnCode.UnexpectedError;
 			}
-			return LaunchForm("");
+		}
+
+		private class ExtractCommand : LessMsiCommand
+		{
+			public override void Run(List<string> allArgs)
+			{
+				var args = allArgs.Skip(1).ToList();
+				// "x msi_name [path_to_extract\] [file_names]+
+				if (args.Count < 1)
+					throw new OptionException("Invalid argument. Extract command must at least specify the name of an msi file.", "x");
+
+				var i = 0; 
+				var msiFile = args[i++];
+				var filesToExtract = new List<string>();
+				var extractDir = "";
+				if (i < args.Count)
+				{
+					if (args[i].EndsWith("\\"))
+						extractDir = args[i];
+					else
+						filesToExtract.Add(args[i]);
+				}
+				while (++i < args.Count)
+					filesToExtract.Add(args[i]);
+
+				DoExtraction(msiFile, extractDir.TrimEnd('\"'), filesToExtract);
+			}
+		}
+
+		private class ShowVersionCommand : LessMsiCommand
+		{
+			public override void Run(List<string> args)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		private class ListTableCommand : LessMsiCommand
+		{
+			public override void Run(List<string> args)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		abstract class LessMsiCommand
+		{
+			public abstract void Run(List<string> args);
+		}
+
+		private class OpenGuiCommand : LessMsiCommand
+		{
+			public override void Run(List<string> args)
+			{
+				throw new NotImplementedException();
+			}
 		}
 
 		/// <summary>
@@ -99,38 +200,22 @@ namespace LessMsi
 		/// </summary>
 		/// <param name="msiFileName">The path of the specified MSI file.</param>
 		/// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
-		public static void DoExtraction(string msiFileName, string outDirName)
+		/// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
+		public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract )
 		{
+			if (string.IsNullOrEmpty(outDirName))
+				outDirName = Path.GetFileNameWithoutExtension(msiFileName);
 			EnsureFileRooted(ref msiFileName);
 			EnsureFileRooted(ref outDirName);
 
-			FileInfo msiFile = new FileInfo(msiFileName);
-			DirectoryInfo outDir = new DirectoryInfo(outDirName);
+			var msiFile = new FileInfo(msiFileName);
+			var outDir = new DirectoryInfo(outDirName);
 
 			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDir + "\'.");
 
-			Wixtracts.ExtractFiles(msiFile, outDir);
+			Wixtracts.ExtractFiles(msiFile, outDir, filesToExtract.ToArray());
 		}
-
-        public static Arguments ParseArguments(string[] args)
-        {
-            var parsedArgs= new Arguments();
-            var o = new NDesk.Options.OptionSet() {
-                { "h|?|help", v => ShowHelp ("") },
-                {
-                    "x=|value=", 
-                    v => {
-                        parsedArgs.MsiFileName = v;
-                        parsedArgs.OutDirName = Path.GetDirectoryName(v);
-                    } 
-                },
-            };
-            var extra = o.Parse(args);
-            if (!string.IsNullOrEmpty(parsedArgs.MsiFileName) && extra.Count > 0)
-                parsedArgs.OutDirName = extra[0];
-            return parsedArgs;
-        }
-
+		
         private static void ShowHelp(string errorMessage)
         {
             string helpString =

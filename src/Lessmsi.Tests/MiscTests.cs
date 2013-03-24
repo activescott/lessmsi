@@ -38,10 +38,10 @@ namespace LessMsi.Tests
 		/// This is from issue 37 (http://code.google.com/p/lessmsi/issues/detail?id=37). Basically if you only checked some files in the UI this occured. Lame that I didn't have a test for it!
 		/// </summary>
 		[Test]
-		public void ExtraOnlySomeFiles()
+		public void ExtractOnlySomeFiles()
 		{
 			var msiFileName = "ExtractOnlySomeFiles.msi";
-			var testFilesToExtract = new string[] { "SampleSuiteExtensionTests.cs", "testOutputOptions.jpg", "NUnitTests.config_1.1" };
+			var testFilesToExtract = new string[] { "SampleSuiteExtensionTests.cs", "testOutputOptions.jpg", "NUnitTests.config" };
 			var actualFileEntries = ExtractFilesFromMsi(msiFileName, testFilesToExtract);
 			var expectedEntries = GetExpectedEntriesForMsi(msiFileName);
 			AssertAreEqual(expectedEntries, actualFileEntries);

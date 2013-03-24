@@ -48,13 +48,13 @@ namespace LessMsi.Tests
             ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
 
             //  build actual file entries extracted
-            var actualEntries = GetActualEntries(outputDir, msiFileName);
+            var actualEntries = FileEntryGraph.GetActualEntries(outputDir, msiFileName);
             // dump to actual dir (for debugging and updating tests)
             actualEntries.Save(GetActualOutputFile(msiFileName));
             return actualEntries;
         }
 
-        private static void DeleteDirectoryRecursive(DirectoryInfo di)
+        public static void DeleteDirectoryRecursive(DirectoryInfo di)
         {
             foreach (var item in di.GetFileSystemInfos())
             {
@@ -83,19 +83,7 @@ namespace LessMsi.Tests
             }
             else
             {
-                // convert them to MsiFile objects:
-                var msiFiles = MsiFile.CreateMsiFilesFromMSI((string) GetMsiTestFile(msiFileName).FullName);
-    			
-                var msiFilesLookup = new Dictionary<string, LessMsi.Msi.MsiFile>(msiFiles.Length);
-                Array.ForEach(msiFiles, f => msiFilesLookup.Add(f.File, f));
-
-                var fileNamesToExtractAsMsiFiles = new List<LessMsi.Msi.MsiFile>();
-                foreach (var fileName in fileNamesToExtractOrNull)
-                {
-                    var found = msiFilesLookup[fileName];
-                    fileNamesToExtractAsMsiFiles.Add(found);
-                }
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractAsMsiFiles.ToArray(), null);
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
             }
 			
         }
@@ -105,35 +93,79 @@ namespace LessMsi.Tests
         /// </summary>
         private void ExtractViaCommandLine(string msiFileName, string outputDir, string[] filenamesToExtractOrNull)
         {
-            string args = string.Format(" /x \"{0}\" \"{1}\"", GetMsiTestFile(msiFileName), outputDir);
-            
-            if (filenamesToExtractOrNull != null && filenamesToExtractOrNull.Length > 0)
-                throw new NotImplementedException();
-
-            //  exec & wait
-            var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), args);
-            startInfo.RedirectStandardOutput=true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
-            var p = Process.Start(startInfo);
-            bool exited = p.WaitForExit(1000*30);
-            if (!exited)
-            {
-                p.Kill();
-                Assert.Fail("Process did not exit for msi file " + msiFileName);
-            }
-            var consoleOutput = p.StandardOutput.ReadToEnd();
-            
-            if (p.ExitCode == 0)
-                Debug.WriteLine(consoleOutput);
-            else
-            {
-                var errorOutput = p.StandardError.ReadToEnd();
-                throw new Exception("lessmsi.exe returned an error code (" + p.ExitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" +consoleOutput);
-            }
+	        string args = string.Format(" /x \"{0}\" \"{1}\"", GetMsiTestFile(msiFileName), outputDir);
+			if (filenamesToExtractOrNull != null && filenamesToExtractOrNull.Length > 0)
+				throw new NotImplementedException();
+	        string consoleOutput;
+			RunCommandLine(args, out consoleOutput);
         }
 
-        /// <summary>
+
+		protected int RunCommandLine(string commandlineArgs)
+		{
+			string consoleOutput;
+			return RunCommandLine(commandlineArgs, out consoleOutput);
+		}
+
+		/// <summary>
+		/// Runs lessmsi.exe via commandline.
+		/// </summary>
+		/// <param name="commandlineArgs">The arguments passed to lessmsi.exe</param>
+		/// <param name="consoleOutput">The console output.</param>
+		/// <returns>The exe return code.</returns>
+	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
+	    {
+		    //  exec & wait
+		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
+		    startInfo.RedirectStandardOutput = true;
+		    startInfo.RedirectStandardError = true;
+		    startInfo.UseShellExecute = false;
+		    var p = Process.Start(startInfo);
+		    bool exited = p.WaitForExit(1000*30);
+		    if (!exited)
+		    {
+			    p.Kill();
+			    Assert.Fail("Process did not exit for commandlineArgs:" + commandlineArgs);
+		    }
+		    consoleOutput = p.StandardOutput.ReadToEnd();
+
+		    if (p.ExitCode == 0)
+			    Debug.WriteLine(consoleOutput);
+		    else
+		    {
+			    var errorOutput = p.StandardError.ReadToEnd();
+			    throw new ExitCodeException(p.ExitCode, errorOutput, consoleOutput);
+		    }
+			return p.ExitCode;
+	    }
+
+		/// <summary>
+		/// Same as <see cref="RunCommandLine"/>, is useful for debugging.
+		/// </summary>
+		/// <param name="commandLineArgs"></param>
+		protected int RunCommandLineInProccess(string commandLineArgs)
+		{
+			//NOTE: Obviously oversimplified splitting of args. 
+			var args = commandLineArgs.Split(' ');
+			for (var i = 0; i < args.Length; i++ )
+			{
+				args[i] = args[i].Trim('\"');
+			}
+			return LessMsi.Program.Main(args);
+		}
+
+		internal sealed class ExitCodeException : Exception
+		{
+			public ExitCodeException(int exitCode, string errorOutput, string consoleOutput)
+				: base("lessmsi.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
+			{
+				this.ExitCode = exitCode;
+			}
+
+			public int ExitCode { get; set; }
+		}
+
+	    /// <summary>
         /// Loads the expected entries for the specified MSI file from the standard location.
         /// </summary>
         /// <param name="forMsi">The msi filename (no path) to load entries for.</param>
@@ -141,30 +173,6 @@ namespace LessMsi.Tests
         protected FileEntryGraph GetExpectedEntriesForMsi(string forMsi)
         {
             return FileEntryGraph.Load(GetExpectedOutputFile(forMsi), forMsi);
-        }
-
-        /// <summary>
-        /// Gets a <see cref="FileEntryGraph"/> representing the files in the specified outputDir (where an MSI was extracted).
-        /// </summary>
-        private FileEntryGraph GetActualEntries(string outputDir, string forFileName)
-        {
-            var actualEntries = new FileEntryGraph(forFileName);
-            var dir = new DirectoryInfo(outputDir);
-            var dirsToProcess = new Stack<DirectoryInfo>();
-            dirsToProcess.Push(dir);
-            while (dirsToProcess.Count > 0)
-            {
-                dir = dirsToProcess.Pop();
-                foreach (var file in dir.GetFiles())
-                {
-                    actualEntries.Add(new FileEntry(file, outputDir));
-                }
-                foreach (var subDir in dir.GetDirectories())
-                {
-                    dirsToProcess.Push(subDir);
-                }
-            }
-            return actualEntries;
         }
 
         private FileInfo GetMsiTestFile(string msiFileName)
@@ -177,7 +185,7 @@ namespace LessMsi.Tests
             return new FileInfo(PathEx.Combine(AppPath, "TestFiles", "ExpectedOutput", msiFileName + ".expected.csv"));
         }
 
-        private FileInfo GetActualOutputFile(string msiFileName)
+        protected FileInfo GetActualOutputFile(string msiFileName)
         {
             // strip any subdirectories here since some input msi files have subdirectories.
             msiFileName = Path.GetFileName(msiFileName); 

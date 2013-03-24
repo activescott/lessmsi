@@ -93,6 +93,30 @@ namespace LessMsi.Tests
             return graph;
         }
 
+		/// <summary>
+		/// Gets a <see cref="FileEntryGraph"/> representing the files in the specified outputDir (where an MSI was extracted).
+		/// </summary>
+		public static FileEntryGraph GetActualEntries(string outputDir, string forFileName)
+		{
+			var actualEntries = new FileEntryGraph(forFileName);
+			var dir = new DirectoryInfo(outputDir);
+			var dirsToProcess = new Stack<DirectoryInfo>();
+			dirsToProcess.Push(dir);
+			while (dirsToProcess.Count > 0)
+			{
+				dir = dirsToProcess.Pop();
+				foreach (var file in dir.GetFiles())
+				{
+					actualEntries.Add(new FileEntry(file, outputDir));
+				}
+				foreach (var subDir in dir.GetDirectories())
+				{
+					dirsToProcess.Push(subDir);
+				}
+			}
+			return actualEntries;
+		}
+
 		private static string ReplaceAltSeperatorWithCommas(string line)
 		{
 			var parts = line.Split(AltSepartor);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -12,140 +13,111 @@ namespace LessMsi.Tests
     [TestFixture]
     public class CommandLineExtractTests : TestBase
     {
-        [Test,Ignore]
-        public void MinimalExtraction()
-        {
-            TestExtraction("o NUnit-2.5.2.9222.msi", GetTestName());            
-        }
-
         [Test]
-        public void MinimalParser()
+        public void Extract1Arg()
         {
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = "someinstall.msi",
-                OutDirName = "someinstall"
-            };
-            TestParser(expected, "o someinstall.msi"); ;
+			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
         }
 
-        
-        [Test]
-        public void BackwardCompatibilityParser1()
-        {
-            var commandLine = @"/x c:\projects\lessmsi\src\Lessmsi.Tests\TestFiles\MsiInput\ExtractOnlySomeFiles.msi";
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = "c:\\projects\\lessmsi\\src\\Lessmsi.Tests\\TestFiles\\MsiInput\\ExtractOnlySomeFiles.msi",
-                OutDirName = "c:\\projects\\lessmsi\\src\\Lessmsi.Tests\\TestFiles\\MsiInput",
-                ErrorCode = 0
-            };
-            TestParser(expected, commandLine);
-        }
+		[Test]
+		public void Extract2Args()
+		{
+			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
+			TestExtraction(commandLine, GetTestName(), "Ex2Args");
+		}
 
-        [Test]
-        public void BackwardCompatibilityParser2()
-        {
-            var commandLine = @"/x ExtractOnlySomeFiles.msi";
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = "ExtractOnlySomeFiles.msi",
-                OutDirName = "",
-                ErrorCode = 0
-            };
-            TestParser(expected, commandLine);
-        }
+	    [Test]
+		public void Extract3Args()
+		{
+			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"nunit.framework.dll\"";
+			TestExtraction(commandLine, GetTestName(), "Ex3");
+		}
 
-        [Test]
-        public void BackwardCompatibilityParser3()
-        {
-            var commandLine = @"/x ExtractOnlySomeFiles.msi somedir";
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = "ExtractOnlySomeFiles.msi",
-                OutDirName = "somedir",
-                ErrorCode = 0
-            };
-            TestParser(expected, commandLine);
-        }
-        
-        [Test]
-        public void BackwardCompatibilityParser4()
-        {
-            var commandLine = @"/x .\Lessmsi.Tests\TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = @".\Lessmsi.Tests\TestFiles\MsiInput\",
-                OutDirName = "",
-                ErrorCode = 0
-            };
-            TestParser(expected, commandLine);
-        }
-        
-        [Test, ExpectedException(typeof(OptionException))]
-        public void BackwardCompatibilityParserNoMsiSpecified()
-        {
-            var commandLine = "/x";
-            var expected = new Program.Arguments()
-            {
-                MsiFileName = "ExtractOnlySomeFiles.msi",
-                OutDirName = "somedir",
-                ErrorCode = -2
-            };
-            TestParser(expected, commandLine); ;
-        }
+		[Test]
+	    public void ExtractCompatibility1Arg()
+		{
+			var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
+			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
+		}
 
-        
+		[Test]
+		public void ExtractCompatibility2Args()
+		{
+			var commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
+			TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args");
+		}
 
-        private void TestParser(Program.Arguments expected, string commandLine)
-        {
-            var split = commandLine.Split(' ');
-            var actual = Program.ParseArguments(split);
-            AssertAreEqual(expected, actual);
-        }
-        
-        private void AssertAreEqual(Program.Arguments expected, Program.Arguments actual)
-        {
-            var serializer = new DataContractJsonSerializer(typeof (Program.Arguments));
-            var expectedStream = new MemoryStream();
-            var actualStream = new MemoryStream(); 
-            serializer.WriteObject(expectedStream, expected);
-            serializer.WriteObject(actualStream, actual);
-            var expectedString = new StreamReader(expectedStream).ReadToEnd();
-            var actualString = new StreamReader(actualStream).ReadToEnd();
-            Assert.AreEqual(expectedString, actualString);
-        }
+		[Test, ExpectedException(typeof(ExitCodeException))]
+		public void BackwardCompatibilityParserNoMsiSpecifiedParser()
+		{
+			var commandLine = "/x";
+			
+			string consoleOutput;
+			var exitCode = RunCommandLine(commandLine, out consoleOutput);
+			Assert.AreEqual(3, exitCode);
+		}
 
+	    [Test]
+		public void List()
+		{
+			var expectedOutput = "TODO";
+			var consoleOutput = RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi");
+			Assert.AreEqual(expectedOutput, consoleOutput);
+		}
+
+		[Test]
+		public void Version()
+		{
+			var expectedOutput = "2.5.2.9222";
+			var consoleOutput = RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi");
+			Assert.AreEqual(expectedOutput, consoleOutput);
+		}
+
+		#region Helpers
+		
         /// <summary>
         /// Returns the name of the calling method.
         /// </summary>
         private string GetTestName()
         {
-            throw new NotImplementedException();
-        }
+	        var method = new StackFrame(1).GetMethod();
+	        return method.Name;
+		}
+
+
+		private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir)
+		{
+			TestExtraction(commandLineArguments, testName, actualEntriesOutputDir, false);
+		}
 
         /// <summary>
         /// Executes the specified command. Assume working directory is TestFiles\MsiInput\ dir.
         /// </summary>
-        /// <param name="theCommand"></param>
-        private void TestExtraction(string theCommand, string testName)
+        /// <param name="commandLineArguments">The command line arguments (everything after the exe name).</param>
+        /// <param name="testName">The name of hte test (used to formulate the expectedEntries output dir).</param>
+        /// <param name="actualEntriesOutputDir">The output directory where the actual extraction is expected to occur.</param>
+        private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir, bool useInProcessForDebugging)
         {
-            throw new NotImplementedException();
-            var actualEntries = RunCommand(theCommand);
-            var expectedEntries = GetExpectedEntriesForTest(testName);
+			string consoleOutput;
+	        var actualOutDir = new DirectoryInfo(actualEntriesOutputDir);
+			if (actualOutDir.Exists)
+				DeleteDirectoryRecursive(actualOutDir);
+	        int exitCode;
+
+			if (useInProcessForDebugging)
+				exitCode = base.RunCommandLineInProccess(commandLineArguments);
+			else
+				exitCode = base.RunCommandLine(commandLineArguments, out consoleOutput);
+			
+			var actualEntries = FileEntryGraph.GetActualEntries(actualEntriesOutputDir, "Actual Entries");
+	        var actualEntriesFile = GetActualOutputFile(testName);
+	        actualEntries.Save(actualEntriesFile);
+			Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
+	        var expectedEntries = GetExpectedEntriesForMsi(testName);
             AssertAreEqual(expectedEntries, actualEntries);
         }
 
-        private FileEntryGraph RunCommand(string commandLine)
-        {
-            //TODO: Process the specified command and get a list of arguments.
-            //TODO:
-            throw new NotImplementedException();
-        }
-
-        private FileEntryGraph GetExpectedEntriesForTest(string getTestName)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		#endregion
+	}
 }

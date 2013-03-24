@@ -23,6 +23,7 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -202,7 +203,49 @@ namespace LessMsi.Msi
             ExtractFiles(msi, outputDir, null, null);
         }
 
-        /// <summary>
+		public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, string[] fileNamesToExtract)
+		{
+			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
+			ExtractFiles(msi, outputDir, msiFiles, null);
+		}
+
+	    private static MsiFile[] GetMsiFileFromFileNames(FileInfo msi, string[] fileNamesToExtract)
+	    {
+		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi.FullName);
+			Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
+
+		    var fileNamesToExtractAsMsiFiles = new List<MsiFile>();
+		    foreach (var fileName in fileNamesToExtract)
+		    {
+			    var found = Array.BinarySearch(msiFiles, fileName, FileNameComparer.Default);
+			    if (found >= 0)
+					fileNamesToExtractAsMsiFiles.Add(msiFiles[found]);
+				else
+				    Console.WriteLine("File {0} was not found in the msi.", fileName);
+		    }
+		    return fileNamesToExtractAsMsiFiles.ToArray();
+	    }
+
+	    private sealed class FileNameComparer : IComparer
+	    {
+		    static readonly FileNameComparer _default = new FileNameComparer();
+			
+			public static FileNameComparer Default
+		    {
+				get { return _default; }
+		    }
+
+		    int IComparer.Compare(object x, object y)
+		    {
+				//expect two MsiFile or one MsiFile and one string:
+			    var getName = new Func<object, string>((object fileOrName) => fileOrName is MsiFile ? ((MsiFile) fileOrName).LongFileName : (string)fileOrName);
+			    var xName = getName(x);
+			    var yName = getName(y);
+				return string.Compare(xName, yName, StringComparison.InvariantCulture);
+		    }
+	    }
+
+	    /// <summary>
         /// Extracts the compressed files from the specified MSI file to the specified output directory.
         /// If specified, the list of <paramref name="filesToExtract"/> objects are the only files extracted.
         /// </summary>
