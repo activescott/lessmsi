@@ -30,7 +30,7 @@ namespace LessMsi.Tests
 	    [Test]
 		public void Extract3Args()
 		{
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"nunit.framework.dll\"";
+			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
 			TestExtraction(commandLine, GetTestName(), "Ex3");
 		}
 
