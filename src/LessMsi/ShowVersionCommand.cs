@@ -32,6 +32,7 @@ namespace LessMsi
 							return;
 						}
 					}
+					Console.WriteLine("Version not found!");
 				}
 			}
 		}

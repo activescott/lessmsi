@@ -57,11 +57,17 @@ namespace LessMsi.UI
 			 * Explained more at http://bytes.com/topic/net/answers/745324-console-application-command-line-parameter-issue and http://msdn.microsoft.com/en-us/library/system.environment.getcommandlineargs.aspx
 			 */ 
 			const string escapedDoubleQuote = "\\" + "\"";
-			string shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " /x " + escapedDoubleQuote + "%1" + escapedDoubleQuote + " " + escapedDoubleQuote + "%1_extracted" + escapedDoubleQuote;
+			var shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote + " " + escapedDoubleQuote + "%1_extracted" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "&Extract Files", shellCommand);
+
+			/* Fix for https://code.google.com/p/lessmsi/issues/detail?id=6&sort=-id
+			 */
+			shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
+			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
+			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Explore", shellCommand);
+			
 		}
-		
 
 		void AddRemoveShortcut(bool isAdding, string commandName, string fileClass, string caption, string shellCommand)
 		{
@@ -84,7 +90,7 @@ namespace LessMsi.UI
 			info.ErrorDialogParentHandle = this.Handle;
 			//AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]
 			
-			StringBuilder args = new StringBuilder();
+			var args = new StringBuilder();
 			if (isAdding)
 				args.Append("add");
 			else
@@ -100,26 +106,11 @@ namespace LessMsi.UI
 			info.Arguments = args.ToString();
 			newProcess.StartInfo = info;
 			newProcess.Start();
-
 		}
-		
 
 		static FileInfo GetThisExeFile()
 		{
 			return new FileInfo(typeof(PreferencesForm).Module.FullyQualifiedName);
 		}
-
-		private void cmdAddShortcut_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void creator_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start("http://blog.scott.willeke.com");
-
-		}
-
-
 	}
 }

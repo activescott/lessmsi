@@ -39,32 +39,13 @@ using NDesk.Options;
 
 namespace LessMsi
 {
-	public partial class Program
+	public class Program
 	{
         // defines for commandline output
         [DllImport("kernel32.dll")]
         static extern bool AttachConsole(int dwProcessId);
         private const int ATTACH_PARENT_PROCESS = -1;
-
-		public class Arguments
-		{
-			private bool _openGui;
-
-			public Arguments()
-			{
-				this.MsiFileName = "";
-				this.OutDirName = "";
-			}
-			public string MsiFileName { get; set; }
-			public string OutDirName { get; set; }
-			/// <summary>
-			/// 0==good
-			/// </summary>
-			public int ErrorCode { get; set; }
-
-			public bool OpenGui { get; set; }
-		}
-
+		
 		enum ConsoleReturnCode
 		{
 			Success=0,

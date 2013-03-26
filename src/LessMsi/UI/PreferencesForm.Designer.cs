@@ -32,7 +32,6 @@ namespace LessMsi.UI
 		{
 			this.cmdAddShortcut = new Misc.Windows.Forms.ElevationButton();
 			this.cmdRemoveShortcut = new Misc.Windows.Forms.ElevationButton();
-			this.creator = new System.Windows.Forms.LinkLabel();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
@@ -45,7 +44,8 @@ namespace LessMsi.UI
 			this.cmdAddShortcut.Size = new System.Drawing.Size(344, 72);
 			this.cmdAddShortcut.TabIndex = 1;
 			this.cmdAddShortcut.Text = "Add Shortcut Item to Explorer";
-			this.cmdAddShortcut.TextNote = "Adds an \'Extract\' menu item to the right-click context menu of .msi files";
+			this.cmdAddShortcut.TextNote = "Adds \'Extract\' & \'Explore\' menu items to the right-click context menu of .msi fil" +
+    "es";
 			this.cmdAddShortcut.UseVisualStyleBackColor = true;
 			this.cmdAddShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
 			// 
@@ -61,19 +61,6 @@ namespace LessMsi.UI
 			this.cmdRemoveShortcut.TextNote = "Removes the context menu if it exists";
 			this.cmdRemoveShortcut.UseVisualStyleBackColor = true;
 			this.cmdRemoveShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
-			// 
-			// creator
-			// 
-			this.creator.Dock = System.Windows.Forms.DockStyle.Top;
-			this.creator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.creator.Location = new System.Drawing.Point(0, 0);
-			this.creator.Name = "creator";
-			this.creator.Size = new System.Drawing.Size(368, 13);
-			this.creator.TabIndex = 3;
-			this.creator.TabStop = true;
-			this.creator.Text = "Created by Scott Willeke  (http://blog.scott.willeke.com)";
-			this.creator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.creator.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.creator_LinkClicked);
 			// 
 			// btnOk
 			// 
@@ -95,7 +82,6 @@ namespace LessMsi.UI
 			this.CancelButton = this.btnOk;
 			this.ClientSize = new System.Drawing.Size(368, 206);
 			this.Controls.Add(this.btnOk);
-			this.Controls.Add(this.creator);
 			this.Controls.Add(this.cmdRemoveShortcut);
 			this.Controls.Add(this.cmdAddShortcut);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -112,7 +98,6 @@ namespace LessMsi.UI
 
 		private ElevationButton cmdAddShortcut;
 		private ElevationButton cmdRemoveShortcut;
-		private System.Windows.Forms.LinkLabel creator;
 		private System.Windows.Forms.Button btnOk;
 
 	}

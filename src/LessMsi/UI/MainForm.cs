@@ -43,15 +43,18 @@ namespace LessMsi.UI
             msiPropertyGrid.AutoGenerateColumns = false;
             Presenter = new MainFormPresenter(this);
             Presenter.Initialize();
-            
-            if (!string.IsNullOrEmpty(defaultInputFile))
-                txtMsiFileName.Text = defaultInputFile;
-			_mruManager = new MruMenuStripManager(mruPlaceHolderToolStripMenuItem);
+
+	        _mruManager = new MruMenuStripManager(mruPlaceHolderToolStripMenuItem);
         	_mruManager.MruItemClicked += (mruFilePathName) =>
         	                              {
 											  this.SelectedMsiFile = new FileInfo(mruFilePathName);
 											  Presenter.LoadCurrentFile();
         	                              };
+			if (!string.IsNullOrEmpty(defaultInputFile))
+			{
+				this.SelectedMsiFile = new FileInfo(defaultInputFile);
+				Presenter.LoadCurrentFile();
+			} 
         }
 
         private MainFormPresenter Presenter { get; set; }
@@ -76,7 +79,17 @@ namespace LessMsi.UI
 			}
 		}
 
-        public FileInfo SelectedMsiFile { get; set; }
+        public FileInfo SelectedMsiFile 
+		{
+			get { return _selectedMsiFile; }
+			set
+			{
+				_selectedMsiFile = value;
+				this.txtMsiFileName.Text = _selectedMsiFile.FullName;
+			}
+		}
+
+	    private FileInfo _selectedMsiFile;
 
         public string SelectedTableName
         {
@@ -677,7 +690,6 @@ namespace LessMsi.UI
                     txtMsiFileName.Text = SelectedMsiFile.FullName;
                 return;
             }
-            txtMsiFileName.Text = openMsiDialog.FileName;
             SelectedMsiFile = new FileInfo(openMsiDialog.FileName);
             Presenter.LoadCurrentFile();
 			//to make sure shortcut keys for menuitems work properly select a grid:
