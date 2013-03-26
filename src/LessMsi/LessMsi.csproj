@@ -139,6 +139,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Misc\Windows.Forms\ElevationNativeMethods.cs" />
+    <Compile Include="ShowHelpCommand.cs" />
     <Compile Include="ShowVersionCommand.cs" />
     <Compile Include="UI\AboutBox.cs">
       <SubType>Form</SubType>

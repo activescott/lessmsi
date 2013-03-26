@@ -63,7 +63,7 @@ namespace LessMsi
 			try
 			{
 				AttachConsole(ATTACH_PARENT_PROCESS);
-
+				
 				/** 
 				 * See https://code.google.com/p/lessmsi/wiki/CommandLine for some use cases and docs on commandline parsing.
 				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
@@ -74,21 +74,11 @@ namespace LessMsi
 					{"x", new ExtractCommand()},
 					{"/x", new ExtractCommand()},
 					{"l", new ListTableCommand()},
-					{"v", new ShowVersionCommand()}
+					{"v", new ShowVersionCommand()},
+					{"h", new ShowHelpCommand()}
 				};
-
-				var doShowHelp = false;
-				var o = new NDesk.Options.OptionSet {
-					{ "h|?|help", "Shows help message", v => doShowHelp = true }
-				};
-
-				var extra = o.Parse(args);
-				if (doShowHelp)
-				{
-					ShowHelp("");
-					return (int) ConsoleReturnCode.Success;
-				}
-				else if (extra.Count == 0)
+				
+				if (args.Length == 0)
 				{
 					LaunchForm("");
 					return (int) ConsoleReturnCode.Success;
@@ -96,27 +86,45 @@ namespace LessMsi
 				else
 				{
 					LessMsiCommand cmd;
-					if (subcommands.TryGetValue(extra[0], out cmd))
+					if (subcommands.TryGetValue(args[0], out cmd))
 					{
-						cmd.Run(extra);
+						cmd.Run(new List<string>(args));
 						return (int) ConsoleReturnCode.Success;
 					}
 					else
 					{
-						ShowHelp("Unrecognized command");
+						ShowHelpCommand.ShowHelp("Unrecognized command");
 						return (int) ConsoleReturnCode.UnrecognizedCommand;
 					}
 				}
 			}
 			catch (NDesk.Options.OptionException oe)
 			{
-				ShowHelp(oe.Message);
+				ShowHelpCommand.ShowHelp(oe.Message);
 				return (int) ConsoleReturnCode.InvalidCommandLineOption;
 			}
 			catch (Exception eCatchAll)
 			{
-				ShowHelp(eCatchAll.ToString());
+				ShowHelpCommand.ShowHelp(eCatchAll.ToString());
+				
 				return (int) ConsoleReturnCode.UnexpectedError;
+			}
+			finally
+			{
+				ConsoleNewLine();
+			}
+		}
+
+		private static void ConsoleNewLine()
+		{
+			try
+			{
+				// When using a winforms app with AttachConsole the app complets but there is no newline after the process stops. This gives the newline and looks normal from the console:
+				SendKeys.SendWait("{ENTER}");
+			}
+			catch (Exception e)
+			{
+				Debug.Fail(e.ToString());
 			}
 		}
 
@@ -140,29 +148,6 @@ namespace LessMsi
 
 			Wixtracts.ExtractFiles(msiFile, outDir, filesToExtract.ToArray());
 		}
-		
-        private static void ShowHelp(string errorMessage)
-        {
-            string helpString =
-				@"Usage:
-lessmsi <command> [options] <msi_name> [<path_to_extract\>] [file_names]
-
-Commands:
-  x  Extracts all or specified files from the specified msi_name.	
-  l  Lists the contents of the specified msi table as CSV to stdout.
-  v  Lists the value of the ProductVersion Property in the msi 
-     (typically this is the version of the MSI).
-  o  Opens the specified msi_name in the GUI.
-  h  Shows this help page.
-
-For more information see https://code.google.com/p/lessmsi/wiki/CommandLine
-";
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                helpString = "\r\nError: " + errorMessage + "\r\n\r\n" + helpString;
-            }
-            Console.WriteLine(helpString);
-        }
 
 	    private static void EnsureFileRooted(ref string sFileName)
 		{
