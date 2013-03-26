@@ -39,7 +39,7 @@ using NDesk.Options;
 
 namespace LessMsi
 {
-	public class Program
+	public partial class Program
 	{
         // defines for commandline output
         [DllImport("kernel32.dll")]
@@ -129,69 +129,13 @@ namespace LessMsi
 			}
 			catch (NDesk.Options.OptionException oe)
 			{
-				Console.WriteLine(oe);
+				ShowHelp(oe.Message);
 				return (int) ConsoleReturnCode.InvalidCommandLineOption;
 			}
 			catch (Exception eCatchAll)
 			{
 				ShowHelp(eCatchAll.ToString());
 				return (int) ConsoleReturnCode.UnexpectedError;
-			}
-		}
-
-		private class ExtractCommand : LessMsiCommand
-		{
-			public override void Run(List<string> allArgs)
-			{
-				var args = allArgs.Skip(1).ToList();
-				// "x msi_name [path_to_extract\] [file_names]+
-				if (args.Count < 1)
-					throw new OptionException("Invalid argument. Extract command must at least specify the name of an msi file.", "x");
-
-				var i = 0; 
-				var msiFile = args[i++];
-				var filesToExtract = new List<string>();
-				var extractDir = "";
-				if (i < args.Count)
-				{
-					if (args[i].EndsWith("\\"))
-						extractDir = args[i];
-					else
-						filesToExtract.Add(args[i]);
-				}
-				while (++i < args.Count)
-					filesToExtract.Add(args[i]);
-
-				DoExtraction(msiFile, extractDir.TrimEnd('\"'), filesToExtract);
-			}
-		}
-
-		private class ShowVersionCommand : LessMsiCommand
-		{
-			public override void Run(List<string> args)
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		private class ListTableCommand : LessMsiCommand
-		{
-			public override void Run(List<string> args)
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		abstract class LessMsiCommand
-		{
-			public abstract void Run(List<string> args);
-		}
-
-		private class OpenGuiCommand : LessMsiCommand
-		{
-			public override void Run(List<string> args)
-			{
-				throw new NotImplementedException();
 			}
 		}
 
@@ -219,17 +163,18 @@ namespace LessMsi
         private static void ShowHelp(string errorMessage)
         {
             string helpString =
-                @"Usage:
-lessmsi [/x <msiFileName> [<outouptDir]]
+				@"Usage:
+lessmsi <command> [options] <msi_name> [<path_to_extract\>] [file_names]
 
-/x <msiFileName>                    Extract contents of the 
-                                    specified msi file into a 
-                                    new directory in the same 
-                                    directory as the msi.
+Commands:
+  x  Extracts all or specified files from the specified msi_name.	
+  l  Lists the contents of the specified msi table as CSV to stdout.
+  v  Lists the value of the ProductVersion Property in the msi 
+     (typically this is the version of the MSI).
+  o  Opens the specified msi_name in the GUI.
+  h  Shows this help page.
 
-/x <msiFileName> <outouptDir>       Extract files in the specified 
-                                    msi file into a directory at the 
-                                    same place as the .msi file.
+For more information see https://code.google.com/p/lessmsi/wiki/CommandLine
 ";
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -244,7 +189,7 @@ lessmsi [/x <msiFileName> [<outouptDir]]
 				sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
 		}
 
-		static int LaunchForm(string inputFile)
+		internal static int LaunchForm(string inputFile)
 		{
 			Application.EnableVisualStyles();
             Application.DoEvents();// make sure EnableVisualStyles works.

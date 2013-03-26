@@ -45,6 +45,20 @@ namespace LessMsi.Msi
             get { return _columns; }
         }
 
+		/// <summary>
+		/// Returns the index of the specified column.
+		/// </summary>
+		/// <param name="columnName">The name of the column to return an index for.</param>
+		public int ColumnIndex(string columnName)
+		{
+			for(var i=0; i < Columns.Length; i++)
+			{
+				if (string.Equals(columnName, Columns[i].Name, StringComparison.InvariantCultureIgnoreCase))
+					return i;
+			}
+			Debug.Fail("Column {0} not found.", columnName);
+			return -1;
+		}
 
         private void CreateColumnInfos()
         {

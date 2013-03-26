@@ -61,16 +61,59 @@ namespace LessMsi.Tests
 	    [Test]
 		public void List()
 		{
-			var expectedOutput = "TODO";
-			var consoleOutput = RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi");
+			var expectedOutput = @"Property,Value
+Manufacturer,nunit.org
+ProductCode,{3AD32EC5-806E-43A8-8757-76D05AD4677A}
+ProductLanguage,1033
+ProductName,NUnit 2.5.2
+ProductVersion,2.5.2.9222
+UpgradeCode,{009074FF-2CEC-4B0C-9951-B07186F9ED3A}
+CMD_EXE,[!SystemFolder]cmd.exe
+ARPCONTACT,Charlie Poole
+ARPPRODUCTICON,nunit_icon.exe
+ARPHELPLINK,http://lists.sourceforge.net/lists/listinfo/nunit-users
+ARPREADME,http://nunit.org/?p=releaseNotes&r=2.5
+ARPURLINFOABOUT,NUnit is a testing framework for all .NET languages
+ARPURLUPDATEINFO,http://nunit.org?p=download
+DefaultUIFont,WixUI_Font_Normal
+WixUI_Mode,Mondo
+WixUI_WelcomeDlg_Next,LicenseAgreementDlg
+WixUI_LicenseAgreementDlg_Back,WelcomeDlg
+WixUI_LicenseAgreementDlg_Next,SetupTypeDlg
+WixUI_SetupTypeDlg_NextTypical,VerifyReadyDlg
+WixUI_SetupTypeDlg_NextCustom,CustomizeDlg
+WixUI_SetupTypeDlg_NextComplete,VerifyReadyDlg
+WixUI_SetupTypeDlg_Back,LicenseAgreementDlg
+WixUI_CustomizeDlg_BackChange,MaintenanceTypeDlg
+WixUI_CustomizeDlg_BackCustom,SetupTypeDlg
+WixUI_CustomizeDlg_BackFeatureTree,**shouldnt_happen**
+WixUI_CustomizeDlg_Next,VerifyReadyDlg
+WixUI_VerifyReadyDlg_BackCustom,CustomizeDlg
+WixUI_VerifyReadyDlg_BackChange,CustomizeDlg
+WixUI_VerifyReadyDlg_BackRepair,MaintenanceTypeDlg
+WixUI_VerifyReadyDlg_BackRemove,MaintenanceTypeDlg
+WixUI_VerifyReadyDlg_BackTypical,SetupTypeDlg
+WixUI_VerifyReadyDlg_BackComplete,SetupTypeDlg
+WixUI_MaintenanceWelcomeDlg_Next,MaintenanceTypeDlg
+WixUI_MaintenanceTypeDlg_Change,CustomizeDlg
+WixUI_MaintenanceTypeDlg_Repair,VerifyReadyDlg
+WixUI_MaintenanceTypeDlg_Remove,VerifyReadyDlg
+WixUI_MaintenanceTypeDlg_Back,MaintenanceWelcomeDlg
+ErrorDialog,ErrorDlg
+WixUIRMOption,UseRM
+";
+
+		    string consoleOutput;
+			RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
 			Assert.AreEqual(expectedOutput, consoleOutput);
 		}
 
 		[Test]
 		public void Version()
 		{
-			var expectedOutput = "2.5.2.9222";
-			var consoleOutput = RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi");
+			var expectedOutput = "2.5.2.9222" + Environment.NewLine;
+			string consoleOutput;
+			RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
 			Assert.AreEqual(expectedOutput, consoleOutput);
 		}
 

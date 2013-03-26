@@ -101,10 +101,12 @@ namespace LessMsi.Tests
         }
 
 
+
 		protected int RunCommandLine(string commandlineArgs)
 		{
-			string consoleOutput;
-			return RunCommandLine(commandlineArgs, out consoleOutput);
+			string temp;
+			return RunCommandLine(commandlineArgs, out temp);
+
 		}
 
 		/// <summary>
