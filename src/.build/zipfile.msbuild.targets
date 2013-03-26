@@ -29,7 +29,7 @@
 				foreach (var sourceItem in Files)
 				{
 					string fileToAdd = sourceItem.ItemSpec;
-					string zippedFileName = ".\\" + Path.GetFileName(fileToAdd);
+					string zippedFileName = Path.GetFileName(fileToAdd);
 					zip.CreateEntryFromFile(fileToAdd, zippedFileName);
 				}
 			}
