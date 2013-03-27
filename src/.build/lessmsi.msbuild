@@ -121,19 +121,9 @@
 			DestinationFolder="$(PackageDir)"
 		/>
 		<Copy
-            SourceFiles=" chocolateyInstall.ps1"
-            DestinationFolder="$(PackageDir)\tools"
-        />
-        <ItemGroup>
-        	<ExcludeBatchRedirect Include="This file just prevents the chocolatey batch redirect." />
-        </ItemGroup>
-        <WriteLinesToFile
-        	File="$(PackageDir)\tools\AddWindowsExplorerShortcut.exe.ignore"
-        	Lines="@ExcludeBatchRedirect"
-        	Overwrite="true"
-        	Encoding="Unicode"
-        	>
-        </WriteLinesToFile>
+			SourceFiles="chocolateyInstall.ps1"
+			DestinationFolder="$(PackageDir)\tools"
+		/>
 		<XmlPoke
 			XmlInputPath="$(PackageDir)\lessmsi.nuspec"
 			Query="//package/metadata/version"
