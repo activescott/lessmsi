@@ -8,7 +8,7 @@
 	<owners>Scott Willeke</owners>
 	<summary>LessMSI - Easily extract the contents of an MSI</summary>
 	<description>LessMSI is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. For Windows.
-Usage on the command line: lessmsi [/x msiFileName [outDir]] 
+Usage on the command line: lessmsi x msiFileName [outDir] 
 </description>
 	<frameworkAssemblies>
 		<frameworkAssembly assemblyName="System" targetFramework="net35-client" />
