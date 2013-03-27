@@ -115,6 +115,7 @@
 		<PropertyGroup>
 			<PackageDir>$(TheDeployDir)\chocolateypackage</PackageDir>
 		</PropertyGroup>
+
 		<Copy
 			SourceFiles="lessmsi.nuspec"
 			DestinationFolder="$(PackageDir)"
@@ -123,6 +124,16 @@
             SourceFiles=" chocolateyInstall.ps1"
             DestinationFolder="$(PackageDir)\tools"
         />
+        <ItemGroup>
+        	<ExcludeBatchRedirect Include="This file just prevents the chocolatey batch redirect." />
+        </ItemGroup>
+        <WriteLinesToFile
+        	File="$(PackageDir)\tools\AddWindowsExplorerShortcut.exe.ignore"
+        	Lines="@ExcludeBatchRedirect"
+        	Overwrite="true"
+        	Encoding="Unicode"
+        	>
+        </WriteLinesToFile>
 		<XmlPoke
 			XmlInputPath="$(PackageDir)\lessmsi.nuspec"
 			Query="//package/metadata/version"
@@ -145,7 +156,11 @@
 			Text="cpack failed. Make sure you have chocolatey installed and accessible from the commandline. See chocolatey.org to install and for more info about packaging see https://github.com/chocolatey/chocolatey/wiki"
 		/>
 		<Message 
-			Text="Chocolatey.org package built. To publish run `cpush lessmsi.$(TheVersion).nupkg` AFTER uploading $(TheZipFileName) to google code." 
+			Text="Chocolatey.org package built. To test the chocolatey.org package run `cinst lessmsi -source $(PackageDir)`"
+			Importance="high"
+		/>
+		<Message 
+			Text="To publish the package run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` AFTER uploading $(TheZipFileName) to google code." 
 			Importance="high"
 		/>
 	</Target>
