@@ -23,6 +23,8 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using LessMsi.Msi;
 using LessMsi.UI.Model;
 using Misc.Windows.Forms;
@@ -171,7 +173,7 @@ namespace LessMsi.UI
 
 		public void LoadTables()
 		{
-			var msiTableNames = new object[]
+			var allTableNames = new string[]
             {
                 #region Hard Coded Table Names
                 //FYI: This list is from http://msdn.microsoft.com/en-us/library/2k3te2cs%28VS.100%29.aspx
@@ -279,9 +281,51 @@ namespace LessMsi.UI
                 "Upgrade"
                 #endregion
             };
+			
+			var systemTables = new string[]
+			{
+				"_Validation",
+				"_Columns",
+				"_Streams",
+				"_Storages",
+				"_Tables",
+				"_TransformView Table"
+			};
 
-			View.cboTable.Items.Clear();
-			View.cboTable.Items.AddRange(msiTableNames);
+			IEnumerable<string> msiTableNames = allTableNames;
+
+			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			{
+				using (new DisposableCursor(View))
+				{
+					try
+					{
+						Status("Loading list of tables...");
+						var query = "SELECT * FROM `_Tables`";
+						using (var msiTable = new ViewWrapper(msidb.OpenExecuteView(query)))
+						{
+							var tableNames = from record in msiTable.Records
+								select record[0] as string;
+							//NOTE: system tables are not usually in the _Tables table.
+							var tempList = tableNames.ToList();
+							tempList.AddRange(systemTables);
+							msiTableNames = tempList.ToArray();
+						}
+						
+						Status("");
+					}
+					catch (Exception e)
+					{
+						Status(e.Message);
+					}
+
+					View.cboTable.Items.Clear();
+					View.cboTable.Items.AddRange(msiTableNames.ToArray());
+					View.cboTable.SelectedIndex = 0;
+				}
+			}
+
+			
 		}
 
 		/// <summary>
