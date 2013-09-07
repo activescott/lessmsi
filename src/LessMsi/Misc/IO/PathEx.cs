@@ -22,12 +22,13 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System;
-using System.IO;
 
-namespace Misc.IO
+namespace LessMsi.Misc.IO
 {
-	public static class PathEx
+    using System;
+    using System.IO;
+
+    public static class PathEx
 	{
 		public static string Combine(params string[] pathParts)
 		{

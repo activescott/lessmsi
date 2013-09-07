@@ -1,12 +1,12 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace Misc.Windows.Forms
+﻿namespace LessMsi.Misc.Windows.Forms
 {
-	/// <summary>
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Text;
+    using System.Windows.Forms;
+
+    /// <summary>
 	/// Contains misc generic helper methods for dealing with <see cref="System.Windows.Forms"/> controls.
 	/// </summary>
 	public class WinFormsHelper
@@ -22,7 +22,7 @@ namespace Misc.Windows.Forms
 
         private struct ControlInitializationToken : IDisposable
         {
-            private ISupportInitialize _control;
+            private readonly ISupportInitialize _control;
 
             public ControlInitializationToken(ISupportInitialize control)
             {
@@ -35,7 +35,7 @@ namespace Misc.Windows.Forms
             }
         }
 
-        public static void FlashDataGridRow(DataGridViewRow row)
+        private static void FlashDataGridRow(DataGridViewRow row)
         {
             var grid = row.DataGridView;
             var r = grid.GetRowDisplayRectangle(row.Index, false);
@@ -57,29 +57,25 @@ namespace Misc.Windows.Forms
 
         public static void CopySelectedDataGridRowsToClipboard(DataGridView grid)
         {
-            if (grid != null && grid.SelectedRows.Count > 0)
-			{
-				var sb = new StringBuilder();
-				//NOTE: the grid.SelectedRows is in a different order than they are in the grid. So enumerating .Rows is better
-				for (int iRow = 0; iRow < grid.Rows.Count; iRow++)
-				{
-					DataGridViewRow row = grid.Rows[iRow];
-					if (row.Selected)
-					{
-						int i = 0;
-						foreach (DataGridViewCell cell in row.Cells)
-						{
-							if (i++ > 0)
-								sb.Append(", ");
-							sb.Append(cell.Value);
-						}
+            if (grid == null || grid.SelectedRows.Count <= 0) return;
+            var sb = new StringBuilder();
+            //NOTE: the grid.SelectedRows is in a different order than they are in the grid. So enumerating .Rows is better
+            for (var iRow = 0; iRow < grid.Rows.Count; iRow++)
+            {
+                var row = grid.Rows[iRow];
+                if (!row.Selected) continue;
+                var i = 0;
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (i++ > 0)
+                        sb.Append(", ");
+                    sb.Append(cell.Value);
+                }
 
-						FlashDataGridRow(row);
-						sb.AppendLine();
-					}
-				}
-				Clipboard.SetText(sb.ToString());
+                FlashDataGridRow(row);
+                sb.AppendLine();
             }
+            Clipboard.SetText(sb.ToString());
         }
     }
 }

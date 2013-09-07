@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using NDesk.Options;
 using NUnit.Framework;
 
 namespace LessMsi.Tests
@@ -16,42 +15,42 @@ namespace LessMsi.Tests
         [Test]
         public void Extract1Arg()
         {
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
-			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
+            const string commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
         }
 
-		[Test]
+        [Test]
 		public void Extract2Args()
-		{
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
-			TestExtraction(commandLine, GetTestName(), "Ex2Args");
-		}
+        {
+            const string commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
+            TestExtraction(commandLine, GetTestName(), "Ex2Args");
+        }
 
-	    [Test]
+        [Test]
 		public void Extract3Args()
-		{
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
-			TestExtraction(commandLine, GetTestName(), "Ex3");
-		}
+        {
+            const string commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "Ex3");
+        }
 
-		[Test]
+        [Test]
 	    public void ExtractCompatibility1Arg()
-		{
-			var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
-			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
-		}
+        {
+            const string commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222");
+        }
 
-		[Test]
+        [Test]
 		public void ExtractCompatibility2Args()
-		{
-			var commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
-			TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args");
-		}
+        {
+            const string commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
+            TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args");
+        }
 
-		[Test, ExpectedException(typeof(ExitCodeException))]
+        [Test, ExpectedException(typeof(ExitCodeException))]
 		public void BackwardCompatibilityParserNoMsiSpecifiedParser()
 		{
-			var commandLine = "/x";
+			const string commandLine = "/x";
 			
 			string consoleOutput;
 			var exitCode = RunCommandLine(commandLine, out consoleOutput);
@@ -61,7 +60,7 @@ namespace LessMsi.Tests
 	    [Test]
 		public void List()
 		{
-			var expectedOutput = @"Property,Value
+			const string expectedOutput = @"Property,Value
 Manufacturer,nunit.org
 ProductCode,{3AD32EC5-806E-43A8-8757-76D05AD4677A}
 ProductLanguage,1033
@@ -148,10 +147,7 @@ WixUIRMOption,UseRM
 				DeleteDirectoryRecursive(actualOutDir);
 	        int exitCode;
 
-			if (useInProcessForDebugging)
-				exitCode = base.RunCommandLineInProccess(commandLineArguments);
-			else
-				exitCode = base.RunCommandLine(commandLineArguments, out consoleOutput);
+			exitCode = useInProcessForDebugging ? base.RunCommandLineInProccess(commandLineArguments) : base.RunCommandLine(commandLineArguments, out consoleOutput);
 			
 			var actualEntries = FileEntryGraph.GetActualEntries(actualEntriesOutputDir, "Actual Entries");
 	        var actualEntriesFile = GetActualOutputFile(testName);

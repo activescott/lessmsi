@@ -28,6 +28,9 @@ using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.Msi
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Represents a file in the msi file table/view.
     /// </summary>
@@ -35,19 +38,16 @@ namespace LessMsi.Msi
     {
         public string File;// a unique id for the file
         public string LongFileName;
-        public string ShortFileName;
         public int FileSize;
         public string Version;
-        public string Component;
-        private MsiDirectory _directory;
+        private string _component;
 
         /// <summary>
         /// Returns the directory that this file belongs in.
         /// </summary>
-        public MsiDirectory Directory
-        {
-            get { return _directory; }
-        }
+        public MsiDirectory Directory { get; private set; }
+
+        private string ShortFileName { get; set; }
 
         private MsiFile()
         {
@@ -56,20 +56,21 @@ namespace LessMsi.Msi
 		/// <summary>
 		/// Creates a list of <see cref="MsiFile"/> objects from the specified database.
 		/// </summary>
-		public static MsiFile[] CreateMsiFilesFromMSI(string msiDatabaseFilePath)
+		public static MsiFile[] CreateMsiFilesFromMsi(string msiDatabaseFilePath)
 		{
-			using (var db = new Database(msiDatabaseFilePath, OpenDatabase.ReadOnly))
-			{
-				return CreateMsiFilesFromMSI(db);
-			}
+		    if (msiDatabaseFilePath != null)
+		        using (var db = new Database(msiDatabaseFilePath, OpenDatabase.ReadOnly))
+		        {
+		            return CreateMsiFilesFromMsi(db);
+		        }
 		}
 
         /// <summary>
         /// Creates a list of <see cref="MsiFile"/> objects from the specified database.
         /// </summary>
-        public static MsiFile[] CreateMsiFilesFromMSI(Database msidb)
+        public static MsiFile[] CreateMsiFilesFromMsi(Database msidb)
         {
-            TableRow[] rows = TableRow.GetRowsFromTable(msidb, "File");
+            var rows = TableRow.GetRowsFromTable(msidb, "File");
 
             // do some prep work to cache values from MSI for finding directories later...
             MsiDirectory[] rootDirectories;
@@ -77,33 +78,30 @@ namespace LessMsi.Msi
             MsiDirectory.GetMsiDirectories(msidb, out rootDirectories, out allDirectories);
 
             //find the target directory for each by reviewing the Component Table
-            TableRow[] components = TableRow.GetRowsFromTable(msidb, "Component"); //Component table: http://msdn.microsoft.com/en-us/library/aa368007(v=vs.85).aspx
+            var components = TableRow.GetRowsFromTable(msidb, "Component"); //Component table: http://msdn.microsoft.com/en-us/library/aa368007(v=vs.85).aspx
             //build a table of components keyed by it's "Component" column value
-            Hashtable componentsByComponentTable = new Hashtable();
-            foreach (TableRow component in components)
+            var componentsByComponentTable = new Hashtable();
+            foreach (var component in components)
             {
                 componentsByComponentTable[component.GetString("Component")] = component;
             }
 
-            ArrayList/*<MsiFile>*/ files = new ArrayList(rows.Length);
-            foreach (TableRow row in rows)
+            var/*<MsiFile>*/ files = new ArrayList(rows.Length);
+            foreach (var row in rows)
             {
-                MsiFile file = new MsiFile();
+                var file = new MsiFile();
 				
-                string fileName = row.GetString("FileName");
-                string[] split = fileName.Split('|');
+                var fileName = row.GetString("FileName");
+                var split = fileName.Split('|');
                 file.ShortFileName = split[0];
-                if (split.Length > 1)
-                    file.LongFileName = split[1];
-                else
-                    file.LongFileName = split[0];
+                file.LongFileName = split.Length > 1 ? split[1] : split[0];
 
                 file.File = row.GetString("File");
                 file.FileSize = row.GetInt32("FileSize");
                 file.Version = row.GetString("Version");
-                file.Component = row.GetString("Component_");
+                file._component = row.GetString("Component_");
 
-                file._directory = GetDirectoryForFile(file, allDirectories, componentsByComponentTable);
+                file.Directory = GetDirectoryForFile(file, allDirectories, componentsByComponentTable);
                 files.Add(file);
             }
             return (MsiFile[])files.ToArray(typeof(MsiFile));
@@ -112,41 +110,34 @@ namespace LessMsi.Msi
         private static MsiDirectory GetDirectoryForFile(MsiFile file, MsiDirectory[] allDirectories, IDictionary componentsByComponentTable)
         {
             // get the component for the file
-            TableRow componentRow = componentsByComponentTable[file.Component] as TableRow;
-            if (componentRow == null)
+            var componentRow = componentsByComponentTable[file._component] as TableRow;
+            if (componentRow != null)
             {
-                Debug.Assert(false, "File '{0}' has no component entry.", file.LongFileName);
-                return null;
+                var componentDirectory = componentRow.GetString("Directory_");
+                var directory = FindDirectoryByDirectoryKey(allDirectories, componentDirectory);
+                if (directory != null)
+                {
+                    //Trace.WriteLine(string.Format("Directory for '{0}' is '{1}'.", file.LongFileName, directory.GetPath()));
+                }
+                else
+                {
+                    Debug.Fail(string.Format("directory not found for file '{0}'.", file.LongFileName));
+                }
+                return directory;
             }
             // found component, get the directory:
-            string componentDirectory = componentRow.GetString("Directory_");
-            MsiDirectory directory = FindDirectoryByDirectoryKey(allDirectories, componentDirectory);
-            if (directory != null)
-            {
-                //Trace.WriteLine(string.Format("Directory for '{0}' is '{1}'.", file.LongFileName, directory.GetPath()));
-            }
-            else
-            {
-                Debug.Fail(string.Format("directory not found for file '{0}'.", file.LongFileName));
-            }
-            return directory;
-			
+            Debug.Assert(false, "File '{0}' has no component entry.", file.LongFileName);
+            return null;
         }
 
         /// <summary>
         /// Returns the directory with the specified value for <see cref="MsiDirectory.Directory"/> or null if it cannot be found.
         /// </summary>
+        /// <param name="allDirectories"></param>
         /// <param name="directory_Value">The value for the sought directory's <see cref="MsiDirectory.Directory"/> column.</param>
-        private static MsiDirectory FindDirectoryByDirectoryKey(MsiDirectory[] allDirectories, string directory_Value)
+        private static MsiDirectory FindDirectoryByDirectoryKey(IEnumerable<MsiDirectory> allDirectories, string directory_Value)
         {
-            foreach (MsiDirectory dir in allDirectories)
-            {
-                if (0 == string.CompareOrdinal(dir.Directory, directory_Value))
-                {
-                    return dir;
-                }
-            }
-            return null;
+            return allDirectories.FirstOrDefault(dir => 0 == string.CompareOrdinal(dir.Directory, directory_Value));
         }
     }
 }

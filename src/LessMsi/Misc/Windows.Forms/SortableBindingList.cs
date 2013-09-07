@@ -22,14 +22,15 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Misc.Windows.Forms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Linq;
+
     /// <summary>
     /// Implements a simple <see cref="System.ComponentModel.IBindingList"/> that provides sorting ability.
     /// </summary>

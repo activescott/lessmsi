@@ -51,7 +51,7 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 			if (args.Length < 2)
 				return CommandLineError("Invalid argument. Expected a unique command name.");
 
-			string commandName = args[1];
+			var commandName = args[1];
 
 			if (args.Length < 3)
 				return CommandLineError("Invalid argument. Expected a file class.");
@@ -104,10 +104,8 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 
 		private static int CommandLineError(string errorMessage)
 		{
-			Console.WriteLine("Adds or removes a shortcut menu item for a specific type of file in Windows Explorer.");
-			Console.WriteLine();
-			Console.WriteLine("Usage:  AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]");
-			Console.WriteLine();
+			Console.WriteLine("Adds or removes a shortcut menu item for a specific type of file in Windows Explorer.\n\n");
+			Console.WriteLine("Usage:  AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]\n\n");
 			Console.WriteLine(errorMessage);
 			return 100;
 		}

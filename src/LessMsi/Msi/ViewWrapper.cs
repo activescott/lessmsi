@@ -38,14 +38,10 @@ namespace LessMsi.Msi
         }
 
         private View _underlyingView;
-        private ColumnInfo[]_columns;
 
-        public ColumnInfo[] Columns
-        {
-            get { return _columns; }
-        }
+        public ColumnInfo[] Columns { get; private set; }
 
-		/// <summary>
+        /// <summary>
 		/// Returns the index of the specified column.
 		/// </summary>
 		/// <param name="columnName">The name of the column to return an index for.</param>
@@ -62,23 +58,23 @@ namespace LessMsi.Msi
 
         private void CreateColumnInfos()
         {
-            const int MSICOLINFONAMES = 0;
-            const int MSICOLINFOTYPES = 1;
+            const int msicolinfonames = 0;
+            const int msicolinfotypes = 1;
 
             var colList = new List<ColumnInfo>();
 
             Record namesRecord; Record typesRecord;
-            _underlyingView.GetColumnInfo(MSICOLINFONAMES, out namesRecord);
-            _underlyingView.GetColumnInfo(MSICOLINFOTYPES, out typesRecord);
+            _underlyingView.GetColumnInfo(msicolinfonames, out namesRecord);
+            _underlyingView.GetColumnInfo(msicolinfotypes, out typesRecord);
 
-            int fieldCount = namesRecord.GetFieldCount();
+            var fieldCount = namesRecord.GetFieldCount();
             Debug.Assert(typesRecord.GetFieldCount() == fieldCount);
 
-            for (int colIndex = 1; colIndex <= fieldCount; colIndex++)
+            for (var colIndex = 1; colIndex <= fieldCount; colIndex++)
             {
                 colList.Add(new ColumnInfo(namesRecord.GetString(colIndex), typesRecord.GetString(colIndex)));
             }
-            _columns = colList.ToArray();
+            Columns = colList.ToArray();
         }
 
 
@@ -94,19 +90,19 @@ namespace LessMsi.Msi
 
                     while (_underlyingView.Fetch(out sourceRecord))
                     {
-                        var values = new object[_columns.Length];
+                        var values = new object[Columns.Length];
 
-                        for (int i = 0; i < _columns.Length; i++)
+                        for (var i = 0; i < Columns.Length; i++)
                         {
-                            if (_columns[i].IsString)
+                            if (Columns[i].IsString)
                                 values[i] = sourceRecord.GetString(i + 1);
-                            else if (_columns[i].IsInteger)
+                            else if (Columns[i].IsInteger)
                                 values[i] = sourceRecord.GetInteger(i + 1);
-                            else if (_columns[i].IsStream)
+                            else if (Columns[i].IsStream)
                             {
-                                var tempBuffer = new byte[_columns[i].Size + 1];
-                                var allData = new byte[_columns[i].Size + 1];
-                                int totalBytesRead = 0;
+                                var tempBuffer = new byte[Columns[i].Size + 1];
+                                var allData = new byte[Columns[i].Size + 1];
+                                var totalBytesRead = 0;
                                 int bytesReadThisCall;
                                 do
                                 {   
@@ -115,10 +111,10 @@ namespace LessMsi.Msi
                                     Buffer.BlockCopy(tempBuffer, 0, allData, totalBytesRead, bytesReadThisCall);
                                     totalBytesRead += bytesReadThisCall;
                                     Debug.Assert(bytesReadThisCall > 0);
-                                } while (bytesReadThisCall > 0 && (totalBytesRead < _columns[i].Size));
+                                } while (bytesReadThisCall > 0 && (totalBytesRead < Columns[i].Size));
                                 values[i] = allData;
                             }
-                            else if (_columns[i].IsObject )
+                            else if (Columns[i].IsObject )
                             {
                                 //we deliberately skip this case. Found this case in reading the _Tables table of some recent .msi files.
                             }

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using LessMsi.Msi;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
-using NDesk.Options;
 
 namespace LessMsi
 {

@@ -34,46 +34,22 @@ namespace LessMsi.Msi
     /// </summary>
     public class MsiDirectory
     {
-        private string _targetName;
         private string _sourceName;
         private string _shortName = "";
         //the "DefaultDir value from the MSI table.
         private string _defaultDir="";
         /// The "Directory" entry from the MSI
         private string _directory="";
-        /// The "Directory_Parent" entry
-        private string _directoryParent;
-        /// Stores the child directories
-        private ArrayList _children = new ArrayList();
-        private MsiDirectory _parent;
 
         private MsiDirectory()
         {
+            Children = new ArrayList();
         }
 
         /// <summary>
         /// The name of this directory on the destination comp.
         /// </summary>
-        public string TargetName
-        {
-            get { return _targetName; }
-        }
-        
-        /// <summary>
-        /// The name of this directory in the source computer (when the MSI was built).
-        /// </summary>
-        public string SourceName
-        {
-            get { return _sourceName; }
-        }
-
-        /// <summary>
-        /// Returns the alternative short name (8.3 format) of this directory.
-        /// </summary>
-        public string ShortName
-        {
-            get { return _shortName; }
-        }
+        private string TargetName { get; set; }
 
         /// The "Directory" entry from the MSI
         public string Directory
@@ -82,29 +58,17 @@ namespace LessMsi.Msi
         }
 
         /// The "Directory_Parent" entry
-        public string DirectoryParent
-        {
-            get { return _directoryParent; }
-        }
+        private string DirectoryParent { get; set; }
 
         /// <summary>
         /// The direct child directories of this directory.
         /// </summary>
-        public ICollection Children
-        {
-            get
-            {
-                return _children;
-            }
-        }
+        private ArrayList Children { get; set; }
 
         /// <summary>
         /// Returns this directory's parent or null if it is a root directory.
         /// </summary>
-        public MsiDirectory Parent
-        {
-            get { return _parent; }
-        }
+        private MsiDirectory Parent { get; set; }
 
         /// <summary>
         /// Returns the full path considering it's parent directories.
@@ -112,8 +76,8 @@ namespace LessMsi.Msi
         /// <returns></returns>
         public string GetPath()
         {
-            string path = this.TargetName;
-            MsiDirectory parent = this.Parent;
+            var path = this.TargetName;
+            var parent = this.Parent;
             while (parent != null)
             {
                 //Sometimes parent is a '.' In this case, the files should be directly put into the parent of the parent. See http://msdn.microsoft.com/en-us/library/aa368295%28VS.85%29.aspx
@@ -137,22 +101,18 @@ namespace LessMsi.Msi
         /// </param>
         public static void GetMsiDirectories(Database msidb, out MsiDirectory[] rootDirectories, out MsiDirectory[] allDirectories)
         {
-            TableRow[] rows = TableRow.GetRowsFromTable(msidb, "Directory");
-            Hashtable directoriesByDirID = new Hashtable();
+            var rows = TableRow.GetRowsFromTable(msidb, "Directory");
+            var directoriesByDirId = new Hashtable();
 
-            foreach (TableRow row in rows)
+            foreach (var row in rows)
             {
-                MsiDirectory directory = new MsiDirectory();
-                directory._defaultDir = row.GetString("DefaultDir");
-                if (directory._defaultDir != null && directory._defaultDir.Length > 0)
+                var directory = new MsiDirectory {_defaultDir = row.GetString("DefaultDir")};
+                if (!string.IsNullOrEmpty(directory._defaultDir))
                 {
-                    string[] split = directory._defaultDir.Split('|');
+                    var split = directory._defaultDir.Split('|');
 
                     directory._shortName = split[0];
-                    if (split.Length > 1)
-                        directory._targetName = split[1];
-                    else
-                        directory._targetName = split[0];
+                    directory.TargetName = split.Length > 1 ? split[1] : split[0];
                     
                     //Semi colons can delmit the "target" and "sorce" names of the directory in DefaultDir, so we're going to use the Target here (in looking at MSI files, I found Target seems most meaningful.
                     #region MSDN Docs on this Table
@@ -170,41 +130,41 @@ namespace LessMsi.Msi
                     {   //semicolon present
                         directory._shortName = split[0];
                     }
-                    split = directory._targetName.Split(':');
+                    split = directory.TargetName.Split(':');
                     if (split.Length > 1)
                     {   //semicolon present
-                        directory._targetName = split[0];
+                        directory.TargetName = split[0];
                         directory._sourceName = split[1];
                     }
                     else
                     {
-                        directory._sourceName = directory._targetName;
+                        directory._sourceName = directory.TargetName;
                     }
                 }
                 
                 directory._directory = row.GetString("Directory");
-                directory._directoryParent = row.GetString("Directory_Parent");
-                directoriesByDirID.Add(directory.Directory, directory);
+                directory.DirectoryParent = row.GetString("Directory_Parent");
+                directoriesByDirId.Add(directory.Directory, directory);
             }
             //Now we have all directories in the table, create a structure for them based on their parents.
-            ArrayList rootDirectoriesList = new ArrayList();
-            foreach (MsiDirectory dir in directoriesByDirID.Values)
+            var rootDirectoriesList = new ArrayList();
+            foreach (MsiDirectory dir in directoriesByDirId.Values)
             {
-                if (dir.DirectoryParent == null || dir.DirectoryParent.Length == 0)
+                if (string.IsNullOrEmpty(dir.DirectoryParent))
                 {
                     rootDirectoriesList.Add(dir);
                     continue;
                 }
 
-                MsiDirectory parent = directoriesByDirID[dir.DirectoryParent] as MsiDirectory;
-                dir._parent = parent;
-                parent._children.Add(dir);
+                var parent = directoriesByDirId[dir.DirectoryParent] as MsiDirectory;
+                dir.Parent = parent;
+                if (parent != null) parent.Children.Add(dir);
             }
             // return the values:
             rootDirectories = (MsiDirectory[])rootDirectoriesList.ToArray(typeof(MsiDirectory));
 			
-            MsiDirectory[] allDirectoriesLocal = new MsiDirectory[directoriesByDirID.Values.Count];
-            directoriesByDirID.Values.CopyTo(allDirectoriesLocal,0);
+            var allDirectoriesLocal = new MsiDirectory[directoriesByDirId.Values.Count];
+            directoriesByDirId.Values.CopyTo(allDirectoriesLocal,0);
             allDirectories = allDirectoriesLocal;
         }
     }

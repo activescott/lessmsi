@@ -22,11 +22,12 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System;
-using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Misc.Windows.Forms
 {
+    using System;
+    using System.Windows.Forms;
+
     /// <summary>
     /// DisposableCursor allows you to use the C# using statement to return to a normal cursor.
     /// </summary>
@@ -42,9 +43,9 @@ namespace Misc.Windows.Forms
     internal class DisposableCursor : IDisposable
     {
         // The cursor used before this DisposableCursor was initialized.
-        private Cursor previousCursor;
+        private readonly Cursor _previousCursor;
         // The control this cursor instance is used with.
-        private Control control;
+        private readonly Control _control;
 
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Misc.Windows.Forms
         public DisposableCursor(Control control)
             :this(control, Cursors.WaitCursor)
         {
+            _control = control;
         }
 
         /// <summary>
@@ -61,15 +63,15 @@ namespace Misc.Windows.Forms
         /// </summary>
         /// <param name="control">The control to display the cursor over.</param>
         /// <param name="newCursor">The cursor to display while the mouse pointer is over the control.</param>
-        public DisposableCursor(Control control, Cursor newCursor)
+        private DisposableCursor(Control control, Cursor newCursor)
         {
             if (control == null)
                 throw new ArgumentNullException("control");
             if (newCursor == null)
-                throw new ArgumentNullException("cursor");
+                throw new ArgumentNullException("newCursor");
 
-            this.previousCursor = control.Cursor;
-            this.control = control;
+            _previousCursor = control.Cursor;
+            _control = control;
             control.Cursor = newCursor;
             control.Update();
         }
@@ -81,7 +83,7 @@ namespace Misc.Windows.Forms
             //this.control.Cursor.Dispose();// DON'T dispose this.  Aparently .NET doesn't like you disposing system cursors :D
 
             // Give the control back it's old cursor
-            this.control.Cursor = this.previousCursor;
+            _control.Cursor = _previousCursor;
         }
         #endregion
 

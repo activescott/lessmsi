@@ -52,16 +52,16 @@ namespace LessMsi.Msi
                 return new TableRow[0];
             }
 
-            string query = string.Concat("SELECT * FROM `", tableName, "`");
-            using (ViewWrapper view = new ViewWrapper(msidb.OpenExecuteView(query)))
+            var query = string.Concat("SELECT * FROM `", tableName, "`");
+            using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
             {
-                ArrayList /*<TableRow>*/ rows = new ArrayList(view.Records.Count);
+                var /*<TableRow>*/ rows = new ArrayList(view.Records.Count);
 
-                ColumnInfo[] columns = view.Columns;
-                foreach (object[] values in view.Records)
+                var columns = view.Columns;
+                foreach (var values in view.Records)
                 {
-                    HybridDictionary valueCollection = new HybridDictionary(values.Length);
-                    for (int cIndex = 0; cIndex < columns.Length; cIndex++)
+                    var valueCollection = new HybridDictionary(values.Length);
+                    for (var cIndex = 0; cIndex < columns.Length; cIndex++)
                     {
                         valueCollection[columns[cIndex].Name] = values[cIndex];
                     }
@@ -75,7 +75,8 @@ namespace LessMsi.Msi
         {
             return Convert.ToString(GetValue(columnName));
         }
-        public object GetValue(string columnName)
+
+        private object GetValue(string columnName)
         {
             return _columns[columnName];
         }

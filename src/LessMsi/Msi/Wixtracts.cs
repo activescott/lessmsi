@@ -33,6 +33,8 @@ using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.Msi
 {
+    using System.Linq;
+
     public class Wixtracts
     {
         #region class ExtractionProgress
@@ -44,15 +46,15 @@ namespace LessMsi.Msi
         {
             private string _currentFileName;
             private ExtractionActivity _activity;
-            private ManualResetEvent _waitSignal;
-            private AsyncCallback _callback;
-            private int _totalFileCount;
+            private readonly ManualResetEvent _waitSignal;
+            private readonly AsyncCallback _callback;
+            private readonly int _totalFileCount;
             private int _filesExtracted;
 
             public ExtractionProgress(AsyncCallback progressCallback, int totalFileCount)
             {
                 _activity = ExtractionActivity.Initializing;
-                _currentFileName = "";
+                _currentFileName = string.Empty;
                 _callback = progressCallback;
                 _waitSignal = new ManualResetEvent(false);
                 _totalFileCount = totalFileCount;
@@ -67,7 +69,7 @@ namespace LessMsi.Msi
                     _currentFileName = currentFileName;
                     _filesExtracted = filesExtractedSoFar;
 
-                    if (this.IsCompleted)
+                    if (IsCompleted)
                         _waitSignal.Set();
 
                     if (_callback != null)
@@ -198,20 +200,16 @@ namespace LessMsi.Msi
 
         #endregion
 
-        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir)
-        {
-            ExtractFiles(msi, outputDir, null, null);
-        }
-
-		public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, string[] fileNamesToExtract)
+        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, IEnumerable<string> fileNamesToExtract)
 		{
 			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
 			ExtractFiles(msi, outputDir, msiFiles, null);
 		}
 
-	    private static MsiFile[] GetMsiFileFromFileNames(FileInfo msi, string[] fileNamesToExtract)
+	    private static MsiFile[] GetMsiFileFromFileNames(FileInfo msi, IEnumerable<string> fileNamesToExtract)
 	    {
-		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi.FullName);
+	        if (msi == null) throw new ArgumentNullException("msi");
+	        var msiFiles = MsiFile.CreateMsiFilesFromMsi(msi.FullName);
 			Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
 
 		    var fileNamesToExtractAsMsiFiles = new List<MsiFile>();
@@ -228,14 +226,14 @@ namespace LessMsi.Msi
 
 	    private sealed class FileNameComparer : IComparer
 	    {
-		    static readonly FileNameComparer _default = new FileNameComparer();
-			
-			public static FileNameComparer Default
-		    {
-				get { return _default; }
-		    }
+	        static FileNameComparer()
+	        {
+	            Default = new FileNameComparer();
+	        }
 
-		    int IComparer.Compare(object x, object y)
+	        public static FileNameComparer Default { get; private set; }
+
+	        int IComparer.Compare(object x, object y)
 		    {
 				//expect two MsiFile or one MsiFile and one string:
 			    var getName = new Func<object, string>((object fileOrName) => fileOrName is MsiFile ? ((MsiFile) fileOrName).LongFileName : (string)fileOrName);
@@ -245,27 +243,29 @@ namespace LessMsi.Msi
 		    }
 	    }
 
-	    /// <summary>
+        /// <summary>
         /// Extracts the compressed files from the specified MSI file to the specified output directory.
         /// If specified, the list of <paramref name="filesToExtract"/> objects are the only files extracted.
         /// </summary>
+        /// <param name="outputDir"></param>
         /// <param name="filesToExtract">The files to extract or null or empty to extract all files.</param>
         /// <param name="progressCallback">Will be called during during the operation with progress information, and upon completion. The argument will be of type <see cref="ExtractionProgress"/>.</param>
-        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        /// <param name="msi"></param>
+        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, MsiFile[] filesToExtract = null, AsyncCallback progressCallback = null)
         {
             if (msi == null)
                 throw new ArgumentNullException("msi");
             if (outputDir == null)
                 throw new ArgumentNullException("outputDir");
 
-            int filesExtractedSoFar = 0;
+            var filesExtractedSoFar = 0;
 
             ExtractionProgress progress = null;
-            Database msidb = new Database(msi.FullName, OpenDatabase.ReadOnly);
+            var msidb = new Database(msi.FullName, OpenDatabase.ReadOnly);
 	        try
 	        {
 		        if (filesToExtract == null || filesToExtract.Length < 1)
-			        filesToExtract = MsiFile.CreateMsiFilesFromMSI(msidb);
+			        filesToExtract = MsiFile.CreateMsiFilesFromMsi(msidb);
 
 		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
 
@@ -285,7 +285,7 @@ namespace LessMsi.Msi
 		        var fileEntryMap = new Dictionary<string, MsiFile>(filesToExtract.Length, StringComparer.InvariantCulture);
 		        foreach (var fileEntry in filesToExtract)
 		        {
-			        MsiFile existingFile = null;
+			        MsiFile existingFile;
 			        if (fileEntryMap.TryGetValue(fileEntry.File, out existingFile))
 			        {	//NOTE: This used to be triggered when we ignored case of file, but now we don't ignore case so this is unlikely to occur.
 						// Differing only by case is not compliant with the msi specification but some installers do it (e.g. python, see issue 28).
@@ -301,9 +301,10 @@ namespace LessMsi.Msi
 
 		        var cabInfos = CabsFromMsiToDisk(msidb, outputDir);
 		        var cabDecompressors = MergeCabs(cabInfos);
-		        try
+	            var msCabinets = cabDecompressors as MSCabinet[] ?? cabDecompressors.ToArray();
+	            try
 		        {
-			        foreach (MSCabinet decompressor in cabDecompressors)
+			        foreach (var decompressor in msCabinets)
 			        {
 				        foreach (var compressedFile in decompressor.GetFiles())
 				        {
@@ -312,15 +313,15 @@ namespace LessMsi.Msi
 						        continue;
 					        var entry = fileEntryMap[compressedFile.Filename];
 					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
-					        DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-					        string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
+					        var targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
+					        var destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
 					        if (File.Exists(destName))
 					        {
 						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
 						        //make unique
 						        // ReSharper disable HeuristicUnreachableCode
 						        Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
-						        int duplicateCount = 0;
+						        var duplicateCount = 0;
 						        string uniqueName;
 						        do
 						        {
@@ -337,7 +338,7 @@ namespace LessMsi.Msi
 		        }
 		        finally
 		        {	//cleanup the decompressors allocated in MergeCabs
-			        foreach (MSCabinet decomp in cabDecompressors)
+			        foreach (var decomp in msCabinets)
 			        {
 				        decomp.Close(false);
 						File.Delete(decomp.LocalFilePath);
@@ -353,12 +354,13 @@ namespace LessMsi.Msi
 	        }
         }
 
-		/// <summary>
-		/// Allocates a decompressor for each cab and merges any cabs that need merged.
-		/// </summary>
-		/// <param name="cabinets"></param>
-		/// <returns></returns>
-	    private static IEnumerable<MSCabinet> MergeCabs(IList<CabInfo> cabInfos)
+        /// <summary>
+        /// Allocates a decompressor for each cab and merges any cabs that need merged.
+        /// </summary>
+        /// <param name="cabinets"></param>
+        /// <param name="cabInfos"></param>
+        /// <returns></returns>
+        private static IEnumerable<MSCabinet> MergeCabs(IList<CabInfo> cabInfos)
 	    {
 			/* Sometimes cab files are part of a set. We must merge those into their set before we leave here. 
 			 * Otherwise extracting a file that extends beyond the bounds of one cab in the set will fail. This happens in VBRuntime.msi
@@ -368,35 +370,32 @@ namespace LessMsi.Msi
 			 * if (flags & MSCAB_HDR_NEXTCAB) is non-zero, there is a successor cabinet to open() and append(). Its MS-DOS case-insensitive filename is mscabd_cabinet::nextname
 			 */
 			var decompressors = new List<MSCabinet>();
-			for (int i=0; i < cabInfos.Count; i++)
+			foreach (var msCab in cabInfos.Select(cab => new MSCabinet(cab.LocalCabFile)))
 			{
-				CabInfo cab = cabInfos[i];
-				var msCab = new MSCabinet(cab.LocalCabFile);//NOTE: Deliberately not disposing. Caller must cleanup.
-				
-				if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
-				{
-					Debug.Assert(!string.IsNullOrEmpty(msCab.NextName), "Header indcates next cab but new cab not found.");
-					// load the cab found in NextName:
-					// Append it to msCab
-					Debug.Print("Found cabinet set. Nextname: " + msCab.NextName);
-					var nextCab = FindCabAndRemoveFromList(cabInfos, msCab.NextName);
-					var msCabNext = new MSCabinet(nextCab.LocalCabFile);
-					msCab.Append(msCabNext);
-					decompressors.Add(msCab);
-				}
-				else if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_PREVCAB) != 0)
-				{
-					Debug.Assert(!string.IsNullOrEmpty(msCab.PrevName), "Header indcates prev cab but new cab not found.");
-					Debug.Print("Found cabinet set. PrevName: " + msCab.PrevName);
-					var prevCabInfo = FindCabAndRemoveFromList(cabInfos, msCab.PrevName);
-					var msCabPrev = new MSCabinet(prevCabInfo.LocalCabFile);
-					msCabPrev.Append(msCab);
-					decompressors.Add(msCabPrev);
-				}
-				else
-				{	// just a simple standalone cab
-					decompressors.Add(msCab);
-				}
+			    if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
+			    {
+			        Debug.Assert(!string.IsNullOrEmpty(msCab.NextName), "Header indcates next cab but new cab not found.");
+			        // load the cab found in NextName:
+			        // Append it to msCab
+			        Debug.Print("Found cabinet set. Nextname: " + msCab.NextName);
+			        var nextCab = FindCabAndRemoveFromList(cabInfos, msCab.NextName);
+			        var msCabNext = new MSCabinet(nextCab.LocalCabFile);
+			        msCab.Append(msCabNext);
+			        decompressors.Add(msCab);
+			    }
+			    else if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_PREVCAB) != 0)
+			    {
+			        Debug.Assert(!string.IsNullOrEmpty(msCab.PrevName), "Header indcates prev cab but new cab not found.");
+			        Debug.Print("Found cabinet set. PrevName: " + msCab.PrevName);
+			        var prevCabInfo = FindCabAndRemoveFromList(cabInfos, msCab.PrevName);
+			        var msCabPrev = new MSCabinet(prevCabInfo.LocalCabFile);
+			        msCabPrev.Append(msCab);
+			        decompressors.Add(msCabPrev);
+			    }
+			    else
+			    {	// just a simple standalone cab
+			        decompressors.Add(msCab);
+			    }
 			}
 			return decompressors;
 	    }
@@ -405,19 +404,20 @@ namespace LessMsi.Msi
 	    {
 		    for (var i = 0; i < cabInfos.Count; i++)
 		    {
-				if (string.Equals(cabInfos[i].CabSourceName, soughtName, StringComparison.InvariantCultureIgnoreCase))
-				{
-					var found = cabInfos[i];
-					cabInfos.RemoveAt(i);
-					return found;
-				}
+		        if (!string.Equals(cabInfos[i].CabSourceName, soughtName, StringComparison.InvariantCultureIgnoreCase))
+		            continue;
+		        var found = cabInfos[i];
+		        cabInfos.RemoveAt(i);
+		        return found;
 		    }
 		    throw new Exception("Specified cab not found!");
 	    }
 
 	    private static DirectoryInfo GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
         {
-            string fullPath = Path.Combine(rootDirectory.FullName, relativePath.GetPath());
+	        if (rootDirectory == null) throw new ArgumentNullException("rootDirectory");
+	        if (relativePath == null) throw new ArgumentNullException("relativePath");
+	        var fullPath = Path.Combine(rootDirectory.FullName, relativePath.GetPath());
             if (!Directory.Exists(fullPath))
             {
                 Directory.CreateDirectory(fullPath);
@@ -435,35 +435,32 @@ namespace LessMsi.Msi
 		/// <returns></returns>
 	    private static List<CabInfo> CabsFromMsiToDisk(Database msidb, DirectoryInfo outputDir)
 	    {
+		    if (outputDir == null) throw new ArgumentNullException("outputDir");
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
-		    using (View view = msidb.OpenExecuteView(query))
+		    using (var view = msidb.OpenExecuteView(query))
 		    {
 			    Record record;
 			    while (view.Fetch(out record))
 			    {
-				    const int MsiInterop_Media_Cabinet = 4;
-				    string cabSourceName = record[MsiInterop_Media_Cabinet];
+				    const int msiInteropMediaCabinet = 4;
+				    var cabSourceName = record[msiInteropMediaCabinet];
 				    if (string.IsNullOrEmpty(cabSourceName))
 					    throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
-				    if (!string.IsNullOrEmpty(cabSourceName))
-				    {
-					    if (cabSourceName.StartsWith("#"))
-					    {
-						    cabSourceName = cabSourceName.Substring(1);
+			        if (string.IsNullOrEmpty(cabSourceName)) continue;
+			        if (!cabSourceName.StartsWith("#")) continue;
+			        cabSourceName = cabSourceName.Substring(1);
 
-						    // extract cabinet, then explode all of the files to a temp directory
-						    string localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
+			        // extract cabinet, then explode all of the files to a temp directory
+			        var localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
 
-						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
-						    /* http://code.google.com/p/lessmsi/issues/detail?id=1
+			        ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
+			        /* http://code.google.com/p/lessmsi/issues/detail?id=1
 					 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
 							 * Thanks to Christopher Hamburg for explaining this!
 					 		*/
-						    var c = new CabInfo(localCabFile, cabSourceName);
-						    localCabFiles.Add(c);
-					    }
-				    }
+			        var c = new CabInfo(localCabFile, cabSourceName);
+			        localCabFiles.Add(c);
 			    }
 		    }
 			return localCabFiles;
@@ -474,11 +471,11 @@ namespace LessMsi.Msi
 			/// <summary>
 			/// Name of the cab in the MSI.
 			/// </summary>
-			public string CabSourceName { get; set; }
+			public string CabSourceName { get; private set; }
 			/// <summary>
 			/// Path of the CAB on local disk after we pop it out of the msi.
 			/// </summary>
-			public string LocalCabFile { get; set; }
+			public string LocalCabFile { get; private set; }
 
 			public CabInfo(string localCabFile, string cabSourceName)
 			{
@@ -492,43 +489,42 @@ namespace LessMsi.Msi
         /// </summary>
         /// <param name="filePath">Specifies the path to the file to contain the stream.</param>
         /// <param name="cabName">Specifies the name of the file in the stream.</param>
-        public static void ExtractCabFromPackage(string filePath, string cabName, Database inputDatabase)
+        /// <param name="inputDatabase"></param>
+        private static void ExtractCabFromPackage(string filePath, string cabName, Database inputDatabase)
         {
-            using (View view = inputDatabase.OpenExecuteView(String.Concat("SELECT * FROM `_Streams` WHERE `Name` = '", cabName, "'")))
+            using (var view = inputDatabase.OpenExecuteView(String.Concat("SELECT * FROM `_Streams` WHERE `Name` = '", cabName, "'")))
             {
                 Record record;
-                if (view.Fetch(out record))
+                if (!view.Fetch(out record)) return;
+                FileStream cabFilestream = null;
+                BinaryWriter writer = null;
+                try
                 {
-                    FileStream cabFilestream = null;
-                    BinaryWriter writer = null;
-                    try
-                    {
-                        cabFilestream = new FileStream(filePath, FileMode.Create);
+                    cabFilestream = new FileStream(filePath, FileMode.Create);
 
-                        // Create the writer for data.
-                        writer = new BinaryWriter(cabFilestream);
+                    // Create the writer for data.
+                    writer = new BinaryWriter(cabFilestream);
                         
-						var buf = new byte[1024*1024];
-						int count;
-						do
-						{
-							const int MsiInterop_Storages_Data = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
-							count = record.GetStream(MsiInterop_Storages_Data, buf, buf.Length);
-							if (count > 0)
-								writer.Write(buf, 0, count);
-						} while (count > 0);
-                    }
-                    finally
+                    var buf = new byte[1024*1024];
+                    int count;
+                    do
                     {
-                        if (writer != null)
-                        {
-                            writer.Close();
-                        }
+                        const int msiInteropStoragesData = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
+                        count = record.GetStream(msiInteropStoragesData, buf, buf.Length);
+                        if (count > 0)
+                            writer.Write(buf, 0, count);
+                    } while (count > 0);
+                }
+                finally
+                {
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
 
-                        if (cabFilestream != null)
-                        {
-                            cabFilestream.Close();
-                        }
+                    if (cabFilestream != null)
+                    {
+                        cabFilestream.Close();
                     }
                 }
             }

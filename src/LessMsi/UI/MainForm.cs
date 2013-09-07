@@ -34,7 +34,9 @@ using Misc.Windows.Forms;
 
 namespace LessMsi.UI
 {
-	internal class MainForm : Form, IMainFormView
+    using Misc.Windows.Forms;
+
+    internal class MainForm : Form, IMainFormView
 	{
 		private MruMenuStripManager _mruManager;
 

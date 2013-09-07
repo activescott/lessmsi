@@ -31,13 +31,13 @@ namespace LessMsi.Msi
     /// </summary>
     class ColumnInfo
     {
-        public ColumnInfo(string name, string typeID)
+        public ColumnInfo(string name, string typeId)
         {
-            this.Name = name;
-            this.TypeID = typeID;
+            Name = name;
+            TypeId = typeId;
         }
 
-        public string Name;
+        public readonly string Name;
 
         /// <summary>
         /// s? 	String, variable length (?=1-255)
@@ -50,7 +50,7 @@ namespace LessMsi.Msi
         /// O0	Temporary object
         /// An uppercase letter indicates that null values are allowed in the column.
         /// </summary>
-        public string TypeID;
+        public readonly string TypeId;
 
 
         public bool IsString
@@ -58,9 +58,9 @@ namespace LessMsi.Msi
             get
             {
                 return
-                    TypeID[0] == 's' || TypeID[0] == 'S'
-                    || TypeID[0] == 'g' || TypeID[0] == 'G'
-                    || TypeID[0] == 'l' || TypeID[0] == 'L';
+                    TypeId[0] == 's' || TypeId[0] == 'S'
+                    || TypeId[0] == 'g' || TypeId[0] == 'G'
+                    || TypeId[0] == 'l' || TypeId[0] == 'L';
             }
         }
 
@@ -69,8 +69,8 @@ namespace LessMsi.Msi
             get
             {
                 return
-                    TypeID[0] == 'i' || TypeID[0] == 'I'
-                    || TypeID[0] == 'j' || TypeID[0] == 'J'
+                    TypeId[0] == 'i' || TypeId[0] == 'I'
+                    || TypeId[0] == 'j' || TypeId[0] == 'J'
                     ;
             }
         }
@@ -80,20 +80,20 @@ namespace LessMsi.Msi
             get
             {
                 return
-                    TypeID[0] == 'v' || TypeID[0] == 'V';
+                    TypeId[0] == 'v' || TypeId[0] == 'V';
             }
         }
 
         public bool IsObject
         {
-            get { return string.Equals("O0", TypeID, StringComparison.InvariantCultureIgnoreCase); }
+            get { return string.Equals("O0", TypeId, StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public int Size
         {
             get
             {
-                return int.Parse(TypeID.Substring(1));
+                return int.Parse(TypeId.Substring(1));
             }
         }
     }

@@ -33,7 +33,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using LessMsi.Msi;
 using LessMsi.UI;
-using NDesk.Options;
 
 #endregion
 
@@ -44,7 +43,7 @@ namespace LessMsi
         // defines for commandline output
         [DllImport("kernel32.dll")]
         static extern bool AttachConsole(int dwProcessId);
-        private const int ATTACH_PARENT_PROCESS = -1;
+        private const int AttachParentProcess = -1;
 		
 		enum ConsoleReturnCode
 		{
@@ -62,7 +61,7 @@ namespace LessMsi
 		{
 			try
 			{
-				AttachConsole(ATTACH_PARENT_PROCESS);
+				AttachConsole(AttachParentProcess);
 				
 				/** 
 				 * See https://code.google.com/p/lessmsi/wiki/CommandLine for some use cases and docs on commandline parsing.
@@ -98,7 +97,7 @@ namespace LessMsi
 					}
 				}
 			}
-			catch (NDesk.Options.OptionException oe)
+			catch (OptionException oe)
 			{
 				ShowHelpCommand.ShowHelp(oe.Message);
 				return (int) ConsoleReturnCode.InvalidCommandLineOption;
@@ -159,7 +158,7 @@ namespace LessMsi
 		{
 			Application.EnableVisualStyles();
             Application.DoEvents();// make sure EnableVisualStyles works.
-            MainForm form = new MainForm(inputFile);
+            var form = new MainForm(inputFile);
 			Application.Run(form);
 			return 0;
 		}

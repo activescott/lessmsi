@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using Misc.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace LessMsi.Tests
 {
@@ -40,8 +35,8 @@ namespace LessMsi.Tests
 		[Test]
 		public void ExtractOnlySomeFiles()
 		{
-			var msiFileName = "ExtractOnlySomeFiles.msi";
-			var testFilesToExtract = new string[] { "SampleSuiteExtensionTests.cs", "testOutputOptions.jpg", "NUnitTests.config" };
+			const string msiFileName = "ExtractOnlySomeFiles.msi";
+			var testFilesToExtract = new[] { "SampleSuiteExtensionTests.cs", "testOutputOptions.jpg", "NUnitTests.config" };
 			var actualFileEntries = ExtractFilesFromMsi(msiFileName, testFilesToExtract);
 			var expectedEntries = GetExpectedEntriesForMsi(msiFileName);
 			AssertAreEqual(expectedEntries, actualFileEntries);
@@ -66,7 +61,7 @@ namespace LessMsi.Tests
 		/// </summary>
 		[Test]
 		[Ignore("This seems to have to do with the fact that the two CABs in there are merged cabs. MSVBVM60.dll is split across the cabs and I can get it out now with merging supported, but the olepro32.dll file is in disk2.cab and I can't get out with libmspack. Neither can totalcommander. -scott")]
-		public void VBRuntime()
+		public void VbRuntime()
 		{
 			ExtractAndCompareToMaster("VBRuntime.msi");
 		}

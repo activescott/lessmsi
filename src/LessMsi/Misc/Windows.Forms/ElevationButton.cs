@@ -28,6 +28,8 @@ using System.Windows.Forms;
 
 namespace Misc.Windows.Forms
 {
+    using LessMsi.Misc.Windows.Forms;
+
     /// <summary>
     /// This button shows the windows Elevation symbol on it. Win32 refers to this as a "Command Link".
     /// </summary>
@@ -44,7 +46,7 @@ namespace Misc.Windows.Forms
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				cp.Style |= NativeMethods.BS_COMMANDLINK;
+				cp.Style |= NativeMethods.BsCommandlink;
 				return (cp);
 			}
 		}
@@ -57,7 +59,7 @@ namespace Misc.Windows.Forms
 			{
 				_textNote = value;
 				if (IsHandleCreated)
-					NativeMethods.SendMessage(new HandleRef(this, Handle), NativeMethods.BCM_SETNOTE, IntPtr.Zero, _textNote);
+					NativeMethods.SendMessage(new HandleRef(this, Handle), NativeMethods.BcmSetnote, IntPtr.Zero, _textNote);
 			}
 		}
 

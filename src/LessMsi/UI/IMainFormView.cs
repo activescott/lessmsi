@@ -42,11 +42,14 @@ namespace LessMsi.UI
         /// The currently selected table headerText in the UI.
         /// </summary>
         string SelectedTableName { get; }
+
         /// <summary>
         /// Adds a column to the file grid.
         /// </summary>
         /// <param headerText="boundPropertyName">The headerText of the property the grid column is bound to.</param>
         /// <param headerText="headerText">The header caption for the column.</param>
+        /// <param name="boundPropertyName"></param>
+        /// <param name="headerText"></param>
         void AddFileGridColumn(string boundPropertyName, string headerText);
 		/// <summary>
 		/// Autosizes file grid columns based on content.

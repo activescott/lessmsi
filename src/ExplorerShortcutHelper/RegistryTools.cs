@@ -39,15 +39,20 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 		/// <param name="shellCommandToExecute">The command to execute (as it would be executed in ShellExecute).</param>
 		public static void RegisterFileVerb(string commandName, string fileClassName, string contextMenuCaption, string shellCommandToExecute)
 		{
-            string regRoot = fileClassName + @"\shell\" + commandName;
-			var extractKey = OpenRegistryKeyWithAddedErrorInfo(regRoot);
-			extractKey.SetValue("", contextMenuCaption);
+            var regRoot = string.Format("{0}\\shell\\{1}", fileClassName, commandName);
+		    using (var extractKey = OpenRegistryKeyWithAddedErrorInfo(regRoot))
+		    {
+		        extractKey.SetValue(string.Empty, contextMenuCaption);
+		    }
 
-			var commandKeyValue = OpenRegistryKeyWithAddedErrorInfo(regRoot + "\\command");
-			var existingValue = commandKeyValue.GetValue("") as string;
-			if (existingValue != null && existingValue.StartsWith(shellCommandToExecute))
-				return;
-			commandKeyValue.SetValue("", shellCommandToExecute);
+		    var commandKeyValue = OpenRegistryKeyWithAddedErrorInfo(string.Format("{0}\\command", regRoot));
+		    if (commandKeyValue != null)
+		    {
+		        var existingValue = commandKeyValue.GetValue(string.Empty) as string;
+		        if (existingValue == null || !existingValue.StartsWith(shellCommandToExecute))
+		            return;
+		    }
+		    if (commandKeyValue != null) commandKeyValue.SetValue(string.Empty, shellCommandToExecute);
 		}
 
 		/// <summary>
@@ -57,19 +62,20 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 		/// <param name="fileClassName">See <see cref="RegisterFileVerb"/>.</param>
 		public static void UnRegisterFileVerb(string commandName, string fileClassName)
 		{
-			var extractKey = OpenRegistryKeyWithAddedErrorInfo(fileClassName + @"\shell\");
-			extractKey.DeleteSubKeyTree(commandName);
+		    var extractKey = OpenRegistryKeyWithAddedErrorInfo(string.Format("{0}\\shell\\", fileClassName));
+		    if (commandName != null) extractKey.DeleteSubKeyTree(commandName);
 		}
-		
-		/// <summary>
+
+	    /// <summary>
 		/// Opens a key with write permission and adds error information if it fails.
 		/// </summary>
 		private static RegistryKey OpenRegistryKeyWithAddedErrorInfo(string registryKeyName)
 		{
-			RegistryKey extractKey;
+			RegistryKey extractKey = null;
 			try
 			{
-				extractKey = Registry.ClassesRoot.CreateSubKey(registryKeyName, RegistryKeyPermissionCheck.ReadWriteSubTree);
+			    if (registryKeyName != null)
+			        extractKey = Registry.ClassesRoot.CreateSubKey(registryKeyName, RegistryKeyPermissionCheck.ReadWriteSubTree);
 			}
 			catch (SecurityException eSecurity)
 			{

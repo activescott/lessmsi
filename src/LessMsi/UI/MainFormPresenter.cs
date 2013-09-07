@@ -27,24 +27,23 @@ using System.Collections.Generic;
 using System.Linq;
 using LessMsi.Msi;
 using LessMsi.UI.Model;
-using Misc.Windows.Forms;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.UI
 {
+    using Misc.Windows.Forms;
+
     /// <summary>
     /// This represents a presenter in the MVP pattern for <see cref="MainForm"/>.
     /// However, this is an old app that didn't use this pattern and will gradually -if ever- completely move to clean MVP.
     /// </summary>
 	class MainFormPresenter
 	{
-		private readonly MainForm _view;
-
-		public MainFormPresenter(MainForm view)
+        public MainFormPresenter(MainForm view)
 		{
 			if (view == null)
 				throw new ArgumentNullException("view");
-			_view = view;
+			View = view;
 		}
 
 		public void Initialize()
@@ -75,15 +74,12 @@ namespace LessMsi.UI
 			View.AddFileGridColumn("Version", "Version");
 		}
 
-		public MainForm View
-		{
-			get { return _view; }
-		}
+        private MainForm View { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Updates the ui with the currently selected msi file.
 		/// </summary>
-		public void ViewFiles()
+        private void ViewFiles()
 		{
 			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
@@ -107,8 +103,8 @@ namespace LessMsi.UI
 				{
 					Status("");
 
-					MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
-					MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
+					var dataItems = MsiFile.CreateMsiFilesFromMsi(msidb);
+					var viewItems = Array.ConvertAll(dataItems,
 						inItem => new MsiFileItemView(inItem)
 						);
 					var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
@@ -126,7 +122,7 @@ namespace LessMsi.UI
 		/// <summary>
 		/// Updates the MSI property tab/list
 		/// </summary>
-		public void UpdatePropertyTabView()
+		private void UpdatePropertyTabView()
 		{
 			try
 			{
@@ -166,12 +162,12 @@ namespace LessMsi.UI
 			View.statusPanelDefault.ToolTipText = exception != null ? exception.ToString() : "";
 		}
 
-		public void Status(string text)
+        private void Status(string text)
 		{
 			View.statusPanelDefault.Text = text;
 		}
 
-		public void LoadTables()
+        private void LoadTables()
 		{
 			var allTableNames = new string[]
             {
@@ -282,7 +278,7 @@ namespace LessMsi.UI
                 #endregion
             };
 			
-			var systemTables = new string[]
+			var systemTables = new[]
 			{
 				"_Validation",
 				"_Columns",
@@ -301,7 +297,7 @@ namespace LessMsi.UI
 					try
 					{
 						Status("Loading list of tables...");
-						var query = "SELECT * FROM `_Tables`";
+						const string query = "SELECT * FROM `_Tables`";
 						using (var msiTable = new ViewWrapper(msidb.OpenExecuteView(query)))
 						{
 							var tableNames = from record in msiTable.Records
@@ -320,7 +316,7 @@ namespace LessMsi.UI
 					}
 
 					View.cboTable.Items.Clear();
-					View.cboTable.Items.AddRange(msiTableNames.ToArray());
+				    View.cboTable.Items.AddRange(msiTableNames.ToArray());
 					View.cboTable.SelectedIndex = 0;
 				}
 			}
@@ -335,7 +331,7 @@ namespace LessMsi.UI
 		{
 			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
-				string tableName = View.SelectedTableName;
+				var tableName = View.SelectedTableName;
 				UpdateMSiTableGrid(msidb, tableName);
 			}
 		}
@@ -358,13 +354,13 @@ namespace LessMsi.UI
 				try
 				{
 					// NOTE: Deliberately not calling msidb.TableExists here as some System tables could not be read due to using it.
-					string query = string.Concat("SELECT * FROM `", tableName, "`");
+					var query = string.Concat("SELECT * FROM `", tableName, "`");
 
 					using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
 					{
-						foreach (ColumnInfo col in view.Columns)
+						foreach (var col in view.Columns)
 						{
-							View.AddTableViewGridColumn(string.Concat(col.Name, " (", col.TypeID, ")"));
+							View.AddTableViewGridColumn(string.Concat(col.Name, " (", col.TypeId, ")"));
 						}
 						View.SetTableViewGridDataSource(view.Records);
 					}
@@ -388,7 +384,7 @@ namespace LessMsi.UI
 		/// </summary>
 		public void LoadCurrentFile()
 		{
-			bool isBadFile = false;
+			var isBadFile = false;
 			try
 			{
 				UpdatePropertyTabView();

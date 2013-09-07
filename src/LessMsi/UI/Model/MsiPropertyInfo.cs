@@ -28,9 +28,11 @@ using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.UI.Model
 {
+    using System.Linq;
+
     internal class MsiPropertyInfo
     {
-        private readonly VT _propertyType;
+        private readonly Vt _propertyType;
 
         #region msdn doc
 
@@ -57,48 +59,48 @@ namespace LessMsi.UI.Model
 
         private static readonly MsiPropertyInfo[] DefaultMsiPropertySet = new MsiPropertyInfo[]
                                                                                     {
-                                                                                        new MsiPropertyInfo("Codepage", 1, VT.I2, "The ANSI code page used for any strings that are stored in the summary information. Note that this is not the same code page for strings in the installation database. The Codepage Summary property is used to translate the strings in the summary information into Unicode when calling the Unicode API functions."),
-                                                                                        new MsiPropertyInfo("Title", 2, VT.LPSTR, "Breifly describes the installer."),
-                                                                                        new MsiPropertyInfo("Subject", 3, VT.LPSTR, "Describes what can be installed using the installer."),
-                                                                                        new MsiPropertyInfo("Author", 4, VT.LPSTR, "The manufacturer of the installer"),
-                                                                                        new MsiPropertyInfo("Keywords", 5, VT.LPSTR, "Keywords that permit the database file to be found in a keyword search"),
-                                                                                        new MsiPropertyInfo("Comments", 6, VT.LPSTR, "Used to describe the general purpose of the installer."),
-                                                                                        new MsiPropertyInfo("Template", 7, VT.LPSTR, "The platform and languages supported by the installer (syntax:[platform property][,platform property][,...];[language id][,language id][,...].)."),
-                                                                                        new MsiPropertyInfo("Last Saved By ", 8, VT.LPSTR, "The installer sets the Last Saved by Summary Property to the value of the LogonUser property during an administrative installation."),
-                                                                                        new MsiPropertyInfo("Revision Number ", 9, VT.LPSTR, "Unique identifier of the installer package. In patch packages authored for Windows Installer version 2.0 this can be followed by a list of patch code GUIDs for obsolete patches that are removed when this patch is applied. The patch codes are concatenated with no delimiters separating GUIDs in the list. Windows Installer version 3.0 can install these earlier package versions and remove the obsolete patches. Windows Installer version 3.0 ignores the list of obsolete patches in the Revision Number Summary property if there is sequencing information present in the MsiPatchSequence table."),
-                                                                                        new MsiPropertyInfo("Last Printed", 11, VT.FILETIME, "The date and time during an administrative installation to record when the administrative image was created. For non-administrative installations this property is the same as the Create Time/Date Summary property."),
-                                                                                        new MsiPropertyInfo("Create Time/Date", 12, VT.FILETIME, "When the installer database was created."),
-                                                                                        new MsiPropertyInfo("Last Save Time/Date", 13, VT.FILETIME, "When the last time the installer database was modified. Each time a user changes an installation the value for this summary property is updated to the current system time/date at the time the installer database was saved. Initially the value for this summary property is set to null to indicate that no changes have yet been made."),
-                                                                                        new MsiPropertyInfo("Page Count", 14, VT.I4, "The minimum installer version required. \r\nFor Windows Installer version 1.0, this property must be set to the integer 100. For 64-bit Windows Installer Packages, this property must be set to the integer 200. For a transform package, the Page Count Summary property contains minimum installer version required to process the transform. Set to the greater of the two Page Count Summary property values belonging to the databases used to generate the transform. Set to Null in patch packages.", "0x{0:x}"),
-                                                                                        new MsiPropertyInfo("Word Count", 15, VT.I4, "Indicates the type of source file image.", "0x{0:x}"),
-                                                                                        new MsiPropertyInfo("Character Count", 16, VT.I4, "Two 16-bit words. The upper word contains the \"transform validation flags\" (used to verify that a transform can be applied to the database). The lower word contains the \"transform error condition flags\" (used to flag the error conditions of a transform)."),
-                                                                                        new MsiPropertyInfo("Creating Application", 18, VT.LPSTR, "The software used to author the installation."),
-                                                                                        new MsiPropertyInfo("Security", 19, VT.I4, "Indicates if the package should be opened as read-only:\r\n 0: No restriction \r\n2:Read-only recommended\r\n 4: Read-only enforced")
+                                                                                        new MsiPropertyInfo("Codepage", 1, Vt.I2, "The ANSI code page used for any strings that are stored in the summary information. Note that this is not the same code page for strings in the installation database. The Codepage Summary property is used to translate the strings in the summary information into Unicode when calling the Unicode API functions."),
+                                                                                        new MsiPropertyInfo("Title", 2, Vt.Lpstr, "Breifly describes the installer."),
+                                                                                        new MsiPropertyInfo("Subject", 3, Vt.Lpstr, "Describes what can be installed using the installer."),
+                                                                                        new MsiPropertyInfo("Author", 4, Vt.Lpstr, "The manufacturer of the installer"),
+                                                                                        new MsiPropertyInfo("Keywords", 5, Vt.Lpstr, "Keywords that permit the database file to be found in a keyword search"),
+                                                                                        new MsiPropertyInfo("Comments", 6, Vt.Lpstr, "Used to describe the general purpose of the installer."),
+                                                                                        new MsiPropertyInfo("Template", 7, Vt.Lpstr, "The platform and languages supported by the installer (syntax:[platform property][,platform property][,...];[language id][,language id][,...].)."),
+                                                                                        new MsiPropertyInfo("Last Saved By ", 8, Vt.Lpstr, "The installer sets the Last Saved by Summary Property to the value of the LogonUser property during an administrative installation."),
+                                                                                        new MsiPropertyInfo("Revision Number ", 9, Vt.Lpstr, "Unique identifier of the installer package. In patch packages authored for Windows Installer version 2.0 this can be followed by a list of patch code GUIDs for obsolete patches that are removed when this patch is applied. The patch codes are concatenated with no delimiters separating GUIDs in the list. Windows Installer version 3.0 can install these earlier package versions and remove the obsolete patches. Windows Installer version 3.0 ignores the list of obsolete patches in the Revision Number Summary property if there is sequencing information present in the MsiPatchSequence table."),
+                                                                                        new MsiPropertyInfo("Last Printed", 11, Vt.Filetime, "The date and time during an administrative installation to record when the administrative image was created. For non-administrative installations this property is the same as the Create Time/Date Summary property."),
+                                                                                        new MsiPropertyInfo("Create Time/Date", 12, Vt.Filetime, "When the installer database was created."),
+                                                                                        new MsiPropertyInfo("Last Save Time/Date", 13, Vt.Filetime, "When the last time the installer database was modified. Each time a user changes an installation the value for this summary property is updated to the current system time/date at the time the installer database was saved. Initially the value for this summary property is set to null to indicate that no changes have yet been made."),
+                                                                                        new MsiPropertyInfo("Page Count", 14, Vt.I4, "The minimum installer version required. \r\nFor Windows Installer version 1.0, this property must be set to the integer 100. For 64-bit Windows Installer Packages, this property must be set to the integer 200. For a transform package, the Page Count Summary property contains minimum installer version required to process the transform. Set to the greater of the two Page Count Summary property values belonging to the databases used to generate the transform. Set to Null in patch packages.", "0x{0:x}"),
+                                                                                        new MsiPropertyInfo("Word Count", 15, Vt.I4, "Indicates the type of source file image.", "0x{0:x}"),
+                                                                                        new MsiPropertyInfo("Character Count", 16, Vt.I4, "Two 16-bit words. The upper word contains the \"transform validation flags\" (used to verify that a transform can be applied to the database). The lower word contains the \"transform error condition flags\" (used to flag the error conditions of a transform)."),
+                                                                                        new MsiPropertyInfo("Creating Application", 18, Vt.Lpstr, "The software used to author the installation."),
+                                                                                        new MsiPropertyInfo("Security", 19, Vt.I4, "Indicates if the package should be opened as read-only:\r\n 0: No restriction \r\n2:Read-only recommended\r\n 4: Read-only enforced")
                                                                                     };
 
         private readonly string _valueFormatString = "{0}";
 
         internal static MsiPropertyInfo[] GetPropertiesFromDatabase(Database msidb)
         {
-            int[] standardIDs = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19};
+            var standardIDs = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19};
 
-            ArrayList properties = new ArrayList();
-            using (SummaryInformation summaryInfo = new SummaryInformation(msidb))
+            var properties = new ArrayList();
+            using (var summaryInfo = new SummaryInformation(msidb))
             {
-                foreach (int propID in standardIDs)
+                foreach (var propId in standardIDs)
                 {
-                    bool failed = false;
+                    var failed = false;
                     object propValue = null;
                     try
                     {
-                        propValue = summaryInfo.GetProperty(propID);
+                        propValue = summaryInfo.GetProperty(propId);
                     }
                     catch
                     {
                         failed = true;
                     }
                     if (!failed)
-                        properties.Add(new MsiPropertyInfo(propID, propValue));
+                        properties.Add(new MsiPropertyInfo(propId, propValue));
                 }
             }
             return (MsiPropertyInfo[]) properties.ToArray(typeof (MsiPropertyInfo));
@@ -106,10 +108,10 @@ namespace LessMsi.UI.Model
 
         private MsiPropertyInfo(int id, object value)
         {
-            ID = id;
+            Id = id;
             Value = value;
 
-            MsiPropertyInfo prototype = GetPropertyInfoByID(id);
+            var prototype = GetPropertyInfoById(id);
             if (prototype != null)
             {
                 Name = prototype.Name;
@@ -118,12 +120,12 @@ namespace LessMsi.UI.Model
                 _valueFormatString = prototype._valueFormatString;
                 switch(_propertyType)
                 {
-                    case VT.FILETIME:
+                    case Vt.Filetime:
                         //everything is coming from wix as a string, need to submit patch to wix:
                         // _value = DateTime.FromFileTime((long)_value);
                         break;
-                    case VT.I2:
-                    case VT.I4:
+                    case Vt.I2:
+                    case Vt.I4:
                         if (Value is string && Value != null && ((string)Value).Length > 0)
                         {
                             try
@@ -140,15 +142,15 @@ namespace LessMsi.UI.Model
             else
             {
                 Name = "non-standard";
-                _propertyType = VT.EMPTY;
+                _propertyType = Vt.Empty;
                 Description = "Unknown.";
             }
         }
 
-        private MsiPropertyInfo(string name, int pid, VT propertyType, string description, string valueFormatString = "{0}")
+        private MsiPropertyInfo(string name, int pid, Vt propertyType, string description, string valueFormatString = "{0}")
         {
             Name = name;
-            ID = pid;
+            Id = pid;
             _propertyType = propertyType;
             Description = description;
             Value = null;
@@ -156,27 +158,22 @@ namespace LessMsi.UI.Model
         }
 
         /// <summary>
-        /// Returns a <see cref="MsiPropertyInfo"/> with the specified <see cref="MsiPropertyInfo.ID"/> or null if the ID is unknown.
+        /// Returns a <see cref="MsiPropertyInfo"/> with the specified <see cref="Id"/> or null if the ID is unknown.
         /// </summary>
-        public static MsiPropertyInfo GetPropertyInfoByID(int id)
+        private static MsiPropertyInfo GetPropertyInfoById(int id)
         {
-            foreach (MsiPropertyInfo info in DefaultMsiPropertySet)
-            {
-                if (info.ID == id)
-                    return info;
-            }
-            return null;
+            return DefaultMsiPropertySet.FirstOrDefault(info => info.Id == id);
         }
 
-        public string Name { get; private set; }
+        private string Name { get; set; }
 
-        public int ID { get; private set; }
+        private int Id { get; set; }
 
         public string Description { get; private set; }
 
-        public object Value { get; private set; }
+        private object Value { get; set; }
 
-        public string ValueFormatString
+        private string ValueFormatString
         {
             get { return _valueFormatString; }
         }
@@ -191,13 +188,13 @@ namespace LessMsi.UI.Model
 
     }
 
-    internal enum VT : uint
+    internal enum Vt : uint
     {
-        EMPTY = 0,
-        NULL = 1,
+        Empty = 0,
+        Null = 1,
         I2 = 2,
         I4 = 3,
-        LPSTR = 30,
-        FILETIME = 0x40,
+        Lpstr = 30,
+        Filetime = 0x40,
     }
 }
