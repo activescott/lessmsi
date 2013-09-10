@@ -46,7 +46,7 @@ namespace Misc.Windows.Forms
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				cp.Style |= NativeMethods.BsCommandlink;
+				cp.Style |= NativeMethods.BS_COMMANDLINK;
 				return (cp);
 			}
 		}
@@ -59,7 +59,7 @@ namespace Misc.Windows.Forms
 			{
 				_textNote = value;
 				if (IsHandleCreated)
-					NativeMethods.SendMessage(new HandleRef(this, Handle), NativeMethods.BcmSetnote, IntPtr.Zero, _textNote);
+					NativeMethods.SendMessage(new HandleRef(this, Handle), NativeMethods.BCM_SETNOTE, IntPtr.Zero, _textNote);
 			}
 		}
 

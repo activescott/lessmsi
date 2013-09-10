@@ -32,10 +32,10 @@ namespace LessMsi.Misc.Windows.Forms
 
     internal class NativeMethods
 	{
-		public const int BsCommandlink = 0x0000000E;
-		public const int BcmSetnote = 0x00001609;
-		const int BcmFirst = 0x1600;
-        private const int BcmSetshield = (BcmFirst + 0x000C);
+        public const int BS_COMMANDLINK = 0x0000000E;
+		public const int BCM_SETNOTE = 0x00001609;
+		const int BCM_FIRST = 0x1600;
+        private const int BCM_SETSHIELD = (BCM_FIRST + 0x000C);
 
         /// <summary>
         /// Sets the elevation required state for a specified button or command link to display an elevated icon.
@@ -62,7 +62,7 @@ namespace LessMsi.Misc.Windows.Forms
 			Trace.WriteLine("handle:" + buttonHandle.Handle);
 
 			var lParam = new IntPtr(Int32.MaxValue - 1);
-			var ret = SendMessage(buttonHandle, BcmSetshield, show ? new IntPtr(1) : IntPtr.Zero, ref lParam);
+			var ret = SendMessage(buttonHandle, BCM_SETSHIELD, show ? new IntPtr(1) : IntPtr.Zero, ref lParam);
 			Trace.WriteLine(ret.ToInt64());
 		}
 
