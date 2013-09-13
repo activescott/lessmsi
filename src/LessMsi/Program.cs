@@ -60,6 +60,7 @@ namespace LessMsi
 		[STAThread]
 		public static int Main(string[] args)
 		{
+			var doShowUI = args.Length == 0;
 			try
 			{
 				AttachConsole(ATTACH_PARENT_PROCESS);
@@ -77,8 +78,8 @@ namespace LessMsi
 					{"v", new ShowVersionCommand()},
 					{"h", new ShowHelpCommand()}
 				};
-				
-				if (args.Length == 0)
+
+				if (doShowUI)
 				{
 					LaunchForm("");
 					return (int) ConsoleReturnCode.Success;
@@ -111,7 +112,8 @@ namespace LessMsi
 			}
 			finally
 			{
-				ConsoleNewLine();
+				if (!doShowUI)
+					ConsoleNewLine();
 			}
 		}
 
@@ -119,7 +121,7 @@ namespace LessMsi
 		{
 			try
 			{
-				// When using a winforms app with AttachConsole the app complets but there is no newline after the process stops. This gives the newline and looks normal from the console:
+				// When using a winforms app with AttachConsole the app completes but there is no newline after the process stops. This gives the newline and looks normal from the console:
 				SendKeys.SendWait("{ENTER}");
 			}
 			catch (Exception e)
