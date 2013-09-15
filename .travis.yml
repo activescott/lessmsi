@@ -4,10 +4,18 @@
 # install:
 #  - sudo apt-get install mono-devel mono-gmcs nunit-console
 # 
-install:
- - sudo apt-add-repository -y 'deb http://debian.meebey.net/experimental/mono /'
- - sudo apt-get update
- - sudo apt-get -y --force-yes install mono-complete # mono should include everything needed.
+language: objective-c
+
+env:
+ global:
+  - EnableNuGetPackageRestore=true 
+ matrix:
+  - MONO_VER="3.2.1"
+  - MONO_SUBVER="_1"
+
+before_install:
+ - wget "http://download.mono-project.com/archive/${MONO_VER}/macos-10-x86/MonoFramework-MDK-${MONO_VER}${MONO_SUBVER}.macos10.xamarin.x86.pkg"
+ - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}${MONO_SUBVER}.macos10.xamarin.x86.pkg" -target /
 
 script:
  - xbuild /p:TargetFrameworkProfile= ./src/ExplorerShortcutHelper/ExplorerShortcutHelper.csproj
