@@ -5,7 +5,7 @@ This is a utility with a graphical user interface and a command line interface t
 
 To extract from the command line:
 
-     lessmsi x &lt;msiFileName&gt; [&lt;outouptDir&gt;]
+     lessmsi x <msiFileName> [<outouptDir>]
 
 For more command line usage see [CommandLine](https://github.com/activescott/lessmsi/wiki/Command-Line).
 

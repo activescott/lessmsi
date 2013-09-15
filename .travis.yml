@@ -5,7 +5,7 @@
 #  - sudo apt-get install mono-devel mono-gmcs nunit-console
 # 
 install:
- - sudo apt-add-repository -y 'deb http://debian.meebey.net/experimental/mono/'
+ - sudo apt-add-repository -y 'deb http://debian.meebey.net/experimental/mono /'
  - sudo apt-get install mono # mono should include everything needed.
 
 script:
