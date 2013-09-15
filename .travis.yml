@@ -9,7 +9,6 @@ language: objective-c
 env:
  global:
   - EnableNuGetPackageRestore=true 
- matrix:
   - MONO_VER="3.2.1"
   - MONO_SUBVER="_1"
 
