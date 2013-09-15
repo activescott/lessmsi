@@ -6,7 +6,8 @@
 # 
 install:
  - sudo apt-add-repository -y 'deb http://debian.meebey.net/experimental/mono /'
- - sudo apt-get install mono # mono should include everything needed.
+ - sudo apt-get update
+ - sudo apt-get install mono-complete # mono should include everything needed.
 
 script:
  - xbuild /p:TargetFrameworkProfile= ./src/ExplorerShortcutHelper/ExplorerShortcutHelper.csproj
