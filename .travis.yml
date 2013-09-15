@@ -1,0 +1,8 @@
+language: c
+
+install:
+	- sudo apt-get install mono-devel mono-gmcs nunit-console
+
+script:
+	- xbuild /p:TargetFrameworkProfile= ./src/ExplorerShortcutHelper/ExplorerShortcutHelper.csproj
+	- xbuild /p:TargetFrameworkProfile= ./src/LessMsi/LessMsi.csproj
