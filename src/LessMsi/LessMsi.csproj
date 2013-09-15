@@ -237,9 +237,18 @@
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>copy /Y "$(ProjectDir)lib\*.dll" "$(TargetDir)"</PreBuildEvent>
-    <PostBuildEvent>copy /Y "$(SolutionDir)\ExplorerShortcutHelper\bin\$(ConfigurationName)\AddWindowsExplorerShortcut.exe" "$(TargetDir)"
-</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <!-- Copy over the dlls that lessmsi.exe is depdent upon -->
+    <ItemGroup>
+      <DependencyDlls Include="$(ProjectDir)lib\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DependencyDlls)" DestinationFolder="$(TargetDir)" />
+  </Target>
+  <Target Name="AfterBuild">
+    <!-- Copy over the AddWindowsExplorerShort.exe that might be needed when running the GUI app (while debugging) -->
+    <ItemGroup>
+      <ExplorerShortCutAdder Include="$(SolutionDir)\ExplorerShortcutHelper\bin\$(ConfigurationName)\AddWindowsExplorerShortcut.exe" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ExplorerShortCutAdder)" DestinationFolder="$(TargetDir)" />
+  </Target>
 </Project>
