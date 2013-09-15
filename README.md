@@ -1,4 +1,4 @@
-LessMsi [![Build Status](https://secure.travis-ci.org/activescott/lessmsi.png?branch=master)](http://travis-ci.org/activescott/lessmsi)
+lessmsi [![Build Status](https://secure.travis-ci.org/activescott/lessmsi.png?branch=master)](http://travis-ci.org/activescott/lessmsi)
 ========
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
@@ -45,11 +45,9 @@ If you have a problem *please* submit it by clicking in the [Issue tracker](http
 
 Contributions
 =====
-Contributions are welcome! There is a `!readme.txt` file included with the source that contains a TODO list and plans. Submit new issues on the issues tab of this project with with patches and I'll merge your contributions ASAP.
+Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.
 
-[![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)]
+![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)
 
-#<wiki:gadget url="http://www.ohloh.net/p/480392/widgets/project_cocomo.xml" height="240" border="0"/>
-#<wiki:gadget url="http://www.ohloh.net/p/480392/widgets/project_languages.xml" border="1"/>
 
 *Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com . It was also called Less Msiérables as well as lessmsi.*
