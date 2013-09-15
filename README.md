@@ -1,9 +1,11 @@
-#<wiki:gadget url="http://www.ohloh.net/p/480392/widgets/project_partner_badge.xml" height="53" border="0"/>
+LessMsi [![Build Status](https://secure.travis-ci.org/activescott/lessmsi.png?branch=master)](http://travis-ci.org/activescott/lessmsi)
+========
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
 
 To extract from the command line:
-	lessmsi x <msiFileName> [<outouptDir>]
+
+     lessmsi x &lt;msiFileName&gt; [&lt;outouptDir&gt;]
 
 For more command line usage see [CommandLine](https://github.com/activescott/lessmsi/wiki/Command-Line).
 
@@ -50,4 +52,4 @@ Contributions are welcome! There is a `!readme.txt` file included with the sourc
 #<wiki:gadget url="http://www.ohloh.net/p/480392/widgets/project_cocomo.xml" height="240" border="0"/>
 #<wiki:gadget url="http://www.ohloh.net/p/480392/widgets/project_languages.xml" border="1"/>
 
-*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and <http://blog.scott.willeke.com>. It was also called Less Msiérables as well as lessmsi.*
+*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com . It was also called Less Msiérables as well as lessmsi.*
