@@ -3,6 +3,7 @@
 *.suo
 *.user
 *.csproj.user
+*.userprefs
 # VIM
 *~
 *.swp
