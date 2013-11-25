@@ -71,6 +71,7 @@ namespace LessMsi.UI
 		{
 			View.AddFileGridColumn("Name", "Name");
 			View.AddFileGridColumn("Directory", "Directory");
+			View.AddFileGridColumn("Component", "Component");
 			View.AddFileGridColumn("Size", "Size");
 			View.AddFileGridColumn("Version", "Version");
 		}

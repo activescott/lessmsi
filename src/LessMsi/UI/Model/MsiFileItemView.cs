@@ -58,6 +58,11 @@ namespace LessMsi.UI.Model
             get { return File.Version; }
         }
 
+	    public string Component
+	    {
+			get { return File.Component; }    
+	    }
+
         internal MsiFile File
         {
             get { return _file; }
