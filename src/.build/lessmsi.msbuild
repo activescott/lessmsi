@@ -131,7 +131,7 @@
 		/>
 		<FileUpdate Files="$(PackageDir)\tools\chocolateyInstall.ps1"
 			Regex="__URL__"
-			ReplacementText="https://lessmsi.googlecode.com/files/$(TheZipFileName)" 
+			ReplacementText="https://github.com/activescott/lessmsi/releases/download/v$(TheVersion)/$(TheZipFileName)"
 		/>
 		<Exec
 			Command="cpack $(PackageDir)\lessmsi.nuspec" 
