@@ -78,10 +78,10 @@ namespace LessMsi.UI
 
 		private void FixupMenuItems()
 		{
-			int placeHolderIndex = PlaceHolderIndexInOwner;
-			var shortcutKeyMap = new Keys[] { Keys.Control | Keys.D0, Keys.Control | Keys.D1, Keys.Control | Keys.D2, Keys.Control | Keys.D3, Keys.Control | Keys.D4, Keys.Control | Keys.D5, Keys.Control | Keys.D6, Keys.Control | Keys.D7, Keys.Control | Keys.D8, Keys.Control | Keys.D9 };
+			var placeHolderIndex = PlaceHolderIndexInOwner;
+			var shortcutKeyMap = new[] { Keys.Control | Keys.D0, Keys.Control | Keys.D1, Keys.Control | Keys.D2, Keys.Control | Keys.D3, Keys.Control | Keys.D4, Keys.Control | Keys.D5, Keys.Control | Keys.D6, Keys.Control | Keys.D7, Keys.Control | Keys.D8, Keys.Control | Keys.D9 };
 			
-			foreach (MruItem item in this._items) {
+			foreach (var item in this._items) {
 				var itemIndex = item.Owner.Items.IndexOf(item);
 				var number = itemIndex - placeHolderIndex;
 				var text = item.Text;
@@ -103,13 +103,13 @@ namespace LessMsi.UI
 
 		public delegate void MruItemClickedHandler(string filePathNameClicked);
 
-		public sealed class MruItem : ToolStripMenuItem
+	    private sealed class MruItem : ToolStripMenuItem
 		{
 			public MruItem(MruMenuStripManager manager, string filePathName)
 			{
-				this.Manager = manager;
-				this.FilePathName = filePathName;
-				this.Text = filePathName;
+				Manager = manager;
+				FilePathName = filePathName;
+				Text = filePathName;
 			}
 
 			protected override void OnClick(EventArgs e)
@@ -118,8 +118,8 @@ namespace LessMsi.UI
 				Manager.ToolStripItemClicked(this);
 			}
 
-			public MruMenuStripManager Manager { get; set; }
-			public string FilePathName { get; set; }
+	        private MruMenuStripManager Manager { get; set; }
+			public string FilePathName { get; private set; }
 		}
 	}
 }

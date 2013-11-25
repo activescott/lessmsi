@@ -22,34 +22,36 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Misc.Windows.Forms
 {
-	internal class NativeMethods
+    using System;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+
+    internal class NativeMethods
 	{
-		public const int BS_COMMANDLINK = 0x0000000E;
+        public const int BS_COMMANDLINK = 0x0000000E;
 		public const int BCM_SETNOTE = 0x00001609;
 		const int BCM_FIRST = 0x1600;
-		public const int BCM_SETSHIELD = (BCM_FIRST + 0x000C);
+        private const int BCM_SETSHIELD = (BCM_FIRST + 0x000C);
 
-		/// <summary>
-		/// Sets the elevation required state for a specified button or command link to display an elevated icon.
-		/// </summary>
-		/// <param name="button"></param>
-		/// <remarks>
-		/// http://msdn.microsoft.com/en-us/library/bb761865(VS.85).aspx
-		/// 
-		/// #define BCM_FIRST               0x1600      // Button control messages
-		/// // Macro to use on a button or command link to display an elevated icon
-		/// #define BCM_SETSHIELD            (BCM_FIRST + 0x000C)
-		/// #define Button_SetElevationRequiredState(hwnd, fRequired) \
-		/// (LRESULT)SNDMSG((hwnd), BCM_SETSHIELD, 0, (LPARAM)fRequired)
-		/// </remarks>
-		public static void Button_SetElevationRequiredState(ButtonBase button, bool show)
+        /// <summary>
+        /// Sets the elevation required state for a specified button or command link to display an elevated icon.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <param name="show"></param>
+        /// <remarks>
+        /// http://msdn.microsoft.com/en-us/library/bb761865(VS.85).aspx
+        /// 
+        /// #define BCM_FIRST               0x1600      // Button control messages
+        /// // Macro to use on a button or command link to display an elevated icon
+        /// #define BCM_SETSHIELD            (BCM_FIRST + 0x000C)
+        /// #define Button_SetElevationRequiredState(hwnd, fRequired) \
+        /// (LRESULT)SNDMSG((hwnd), BCM_SETSHIELD, 0, (LPARAM)fRequired)
+        /// </remarks>
+        public static void Button_SetElevationRequiredState(ButtonBase button, bool show)
 		{
 			if (button == null)
 				throw new ArgumentNullException("button");
@@ -60,12 +62,12 @@ namespace Misc.Windows.Forms
 			Trace.WriteLine("handle:" + buttonHandle.Handle);
 
 			var lParam = new IntPtr(Int32.MaxValue - 1);
-			IntPtr ret = SendMessage(buttonHandle, BCM_SETSHIELD, show ? new IntPtr(1) : IntPtr.Zero, ref lParam);
+			var ret = SendMessage(buttonHandle, BCM_SETSHIELD, show ? new IntPtr(1) : IntPtr.Zero, ref lParam);
 			Trace.WriteLine(ret.ToInt64());
 		}
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-		public static extern IntPtr SendMessage(HandleRef hWnd, Int32 Msg, IntPtr wParam, ref IntPtr lParam);
+		private static extern IntPtr SendMessage(HandleRef hWnd, Int32 Msg, IntPtr wParam, ref IntPtr lParam);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
 		public static extern IntPtr SendMessage(HandleRef hWnd, Int32 Msg, IntPtr wParam, string lParam);

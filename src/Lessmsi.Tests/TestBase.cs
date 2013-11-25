@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using LessMsi.Msi;
-using Misc.IO;
 using NUnit.Framework;
 
 namespace LessMsi.Tests
 {
+    using Misc.IO;
+
     public class TestBase
     {
         [DebuggerHidden]
@@ -22,10 +21,8 @@ namespace LessMsi.Tests
         protected static void AssertAreEqual(FileEntryGraph expected, FileEntryGraph actual)
         {
             string msg;
-            if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
-            {
-                Assert.Fail(msg);
-            }
+            if (FileEntryGraph.CompareEntries(expected, actual, out msg)) return;
+            Assert.Fail(msg);
         }
 
         /// <summary>
@@ -35,7 +32,7 @@ namespace LessMsi.Tests
         protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
         {
             //  build command line
-            string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
+            var outputDir = Path.Combine(AppPath, "MsiOutputTemp");
             outputDir = Path.Combine(outputDir, "_" + msiFileName);
             if (Directory.Exists(outputDir))
             {
@@ -54,7 +51,7 @@ namespace LessMsi.Tests
             return actualEntries;
         }
 
-        public static void DeleteDirectoryRecursive(DirectoryInfo di)
+        protected static void DeleteDirectoryRecursive(DirectoryInfo di)
         {
             foreach (var item in di.GetFileSystemInfos())
             {
@@ -79,11 +76,11 @@ namespace LessMsi.Tests
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
             if (fileNamesToExtractOrNull == null)
             {	//extract everything:
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
+                Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
             }
             else
             {
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
+                Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
             }
 			
         }
@@ -93,7 +90,7 @@ namespace LessMsi.Tests
         /// </summary>
         private void ExtractViaCommandLine(string msiFileName, string outputDir, string[] filenamesToExtractOrNull)
         {
-	        string args = string.Format(" /x \"{0}\" \"{1}\"", GetMsiTestFile(msiFileName), outputDir);
+	        var args = string.Format(" /x \"{0}\" \"{1}\"", GetMsiTestFile(msiFileName), outputDir);
 			if (filenamesToExtractOrNull != null && filenamesToExtractOrNull.Length > 0)
 				throw new NotImplementedException();
 	        string consoleOutput;
@@ -118,12 +115,14 @@ namespace LessMsi.Tests
 	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
 	    {
 		    //  exec & wait
-		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
-		    startInfo.RedirectStandardOutput = true;
-		    startInfo.RedirectStandardError = true;
-		    startInfo.UseShellExecute = false;
+		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs)
+		        {
+		            RedirectStandardOutput = true,
+		            RedirectStandardError = true,
+		            UseShellExecute = false
+		        };
 		    var p = Process.Start(startInfo);
-		    bool exited = p.WaitForExit(1000*30);
+		    var exited = p.WaitForExit(1000*30);
 		    if (!exited)
 		    {
 			    p.Kill();
@@ -153,7 +152,7 @@ namespace LessMsi.Tests
 			{
 				args[i] = args[i].Trim('\"');
 			}
-			return LessMsi.Program.Main(args);
+			return Program.Main(args);
 		}
 
 		internal sealed class ExitCodeException : Exception
@@ -161,10 +160,10 @@ namespace LessMsi.Tests
 			public ExitCodeException(int exitCode, string errorOutput, string consoleOutput)
 				: base("lessmsi.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
 			{
-				this.ExitCode = exitCode;
+				ExitCode = exitCode;
 			}
 
-			public int ExitCode { get; set; }
+		    private int ExitCode { get; set; }
 		}
 
 	    /// <summary>
@@ -195,11 +194,11 @@ namespace LessMsi.Tests
             return fi;
         }
 
-        protected string AppPath
+        private string AppPath
         {
             get
             {
-                var codeBase = new Uri(this.GetType().Assembly.CodeBase);
+                var codeBase = new Uri(GetType().Assembly.CodeBase);
                 var local = Path.GetDirectoryName(codeBase.LocalPath);
                 return local;
             }

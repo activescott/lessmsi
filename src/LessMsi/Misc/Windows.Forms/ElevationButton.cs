@@ -28,6 +28,8 @@ using System.Windows.Forms;
 
 namespace Misc.Windows.Forms
 {
+    using LessMsi.Misc.Windows.Forms;
+
     /// <summary>
     /// This button shows the windows Elevation symbol on it. Win32 refers to this as a "Command Link".
     /// </summary>

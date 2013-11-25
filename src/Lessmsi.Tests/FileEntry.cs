@@ -16,9 +16,9 @@ namespace LessMsi.Tests
         {
             Size = size;
             Path = path;
-	        this.CreationTime = creationTime;
-	        this.LastWriteTime = lastWriteTime;
-	        this.Attributes = attributes;
+	        CreationTime = creationTime;
+	        LastWriteTime = lastWriteTime;
+	        Attributes = attributes;
         }
 
         /// <summary>
@@ -30,14 +30,11 @@ namespace LessMsi.Tests
         {
             Size = file.Length;
 
-            if (file.FullName.StartsWith(relativeTo))
-                Path = file.FullName.Substring(relativeTo.Length);
-            else
-                Path = file.FullName;
+            Path = file.FullName.StartsWith(relativeTo) ? file.FullName.Substring(relativeTo.Length) : file.FullName;
 
-	        this.CreationTime = file.CreationTime;
-	        this.LastWriteTime = file.LastWriteTime;
-	        this.Attributes = file.Attributes;
+	        CreationTime = file.CreationTime;
+	        LastWriteTime = file.LastWriteTime;
+	        Attributes = file.Attributes;
         }
 
 	    public FileAttributes Attributes { get; private set; }
@@ -49,11 +46,11 @@ namespace LessMsi.Tests
 	    #region IEquatable<FileEntry>
         public bool Equals(FileEntry other)
         {
-            return this.Size == other.Size && 
-				string.Equals(this.Path, other.Path, StringComparison.InvariantCultureIgnoreCase) && 
-				this.Attributes == other.Attributes &&
-				this.LastWriteTime == other.LastWriteTime &&
-				this.CreationTime == other.CreationTime
+            return Size == other.Size && 
+				string.Equals(Path, other.Path, StringComparison.InvariantCultureIgnoreCase) && 
+				Attributes == other.Attributes &&
+				LastWriteTime == other.LastWriteTime &&
+				CreationTime == other.CreationTime
 				;
         }
         #endregion

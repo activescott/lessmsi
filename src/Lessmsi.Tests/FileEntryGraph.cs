@@ -17,26 +17,25 @@ namespace LessMsi.Tests
         /// Initializes a new instance of <see cref="FileEntryGraph"/>.
         /// </summary>
         /// <param name="forFileName">The initial value for <see cref="FileEntryGraph.ForFileName"/></param>
-        public FileEntryGraph(string forFileName)
+	    private FileEntryGraph(string forFileName)
         {
-            this.ForFileName = forFileName;
+            ForFileName = forFileName;
         }
 
         /// <summary>
         /// The file name that this graph is for.
         /// </summary>
-        public string ForFileName { get; private set; }
+        private string ForFileName { get; set; }
         
         /// <summary>
         /// The entries of the file graph.
         /// </summary>
-        public List<FileEntry> Entries
+        private List<FileEntry> Entries
         { 
             get { return _entries; }
-            set { _entries = value; } 
-        } private  List<FileEntry> _entries = new List<FileEntry>();
+        } private readonly List<FileEntry> _entries = new List<FileEntry>();
 
-        public void Add(FileEntry entry)
+        private void Add(FileEntry entry)
         {
             Entries.Add(entry);
         }
@@ -54,7 +53,7 @@ namespace LessMsi.Tests
             {
                 f.WriteLine("Path,Size,CreationTime,LastWriteTime,Attributes");
 
-                foreach (var e in this.Entries)
+                foreach (var e in Entries)
                 {
                     f.Write(e.Path);
                     f.Write(",");
@@ -84,7 +83,9 @@ namespace LessMsi.Tests
                 f.ReadLine();//headings
                 while (!f.EndOfStream)
                 {
-                    var line = f.ReadLine().Split(',');
+                    var readLine = f.ReadLine();
+                    if (readLine == null) continue;
+                    var line = readLine.Split(',');
                     if (line.Length != 5)
                         throw new IOException("Expected 5 fields!");
                     graph.Add(new FileEntry(line[0], Int64.Parse(line[1]), DeserializeDate(line[2]), DeserializeDate(line[3]), DeserializeAttributes(line[4])) );
@@ -162,13 +163,11 @@ namespace LessMsi.Tests
                 return false;
             }
 
-            for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
+            for (var i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
             {
-                if (!a.Entries[i].Equals(b.Entries[i]))
-                {
-                    errorMessage = string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
-                    return false;
-                }
+                if (a.Entries[i].Equals(b.Entries[i])) continue;
+                errorMessage = string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
+                return false;
             }
             errorMessage = "";
             return true;
