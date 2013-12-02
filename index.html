@@ -4,9 +4,12 @@
 	<meta charset='utf-8'>
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/pygment_trac.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -24,9 +27,30 @@
 
 				<section id="downloads" class="clearfix">
 					<a href="https://github.com/activescott/lessmsi/releases/latest" id="download-zip" class="button"><span>Download</span></a>
-					<a href="https://chocolatey.org/packages/lessmsi" id="install-chocolatey" class="button"><span>Install</span></a>
+					<a id="install-chocolatey" class="button" target="_blank"><span>Install</span></a>
 					<a href="https://github.com/activescott/lessmsi" id="view-on-github" class="button"><span>View on GitHub</span></a>
 				</section>
+
+				<div style="display:none" id="install-chocolatey-popover">
+					<p>
+						We recommend you install it with chocolatey by simply typing <pre><code>cinst lessmsi</code></pre> at the command line, but you can <a href="https://github.com/activescott/lessmsi/releases/latest" target="_blank">Download</a> and unzip it if you want too.
+					</p>
+					<p>
+						Don't use chocolatey? You should. Visit <a href="http://chocolatey.github.io" target="_blank">chocolatey.github.io</a> to get started.
+					</p>
+				</div>
+
+				<script>
+					$(
+						$('#install-chocolatey').popover({
+							trigger: 'click',
+							placement: 'bottom',
+							html: true,
+							title: 'Install with Chocolatey',
+							content: $('#install-chocolatey-popover').html()
+						})
+					);
+				</script>
 
 				<hr>
 
@@ -45,68 +69,61 @@
 
 					<pre><code>lessmsi x &lt;msiFileName&gt; [&lt;outouptDir&gt;]</code></pre>
 
-					<p>For more information on command line usage see <a href="https://github.com/activescott/lessmsi/wiki/Command-Line">the Command Line documentation</a>.</p>
+					<p>For more information on command line usage see <a href="https://github.com/activescott/lessmsi/wiki/Command-Line">the Command Line documentation</a>.</p>				
 
 					<h1>
-						<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install
-					</h1>
-						<p>
-							We recommend you install it with chocolatey by simply typing `cinst lessmsi`, but you can download and unzip it if you want too. Don't use chocolatey? You should. Visit <a href="http://chocolatey.github.io" target="_blank">chocolatey.github.io</a> to get started.
-						</p>
+						<a name="additional-features" class="anchor" href="#additional-features"><span class="octicon octicon-link"></span></a>Additional Features</h1>
 
-						<h1>
-							<a name="additional-features" class="anchor" href="#additional-features"><span class="octicon octicon-link"></span></a>Additional Features</h1>
+						<h2>
+							<a name="windows-explorer-integration" class="anchor" href="#windows-explorer-integration"><span class="octicon octicon-link"></span></a>Windows Explorer Integration</h2>
+
+							<p>Lessmsi also integrates with Windows Explorer so that you can right-click on a Windows Installer file (.msi file) and select "Extract Files" to extract it into a folder right there:</p>
+
+							<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-explorerintegration.png" alt="lessmsi Explorer Integration screenshot"></p>
+
+							<p>Just select <em>Preferences</em> from the <em>Edit</em> menu to enable (or disable) the explorer integration:</p>
+
+							<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-preferences.png" alt="lessmsi Preferences Dialog screenshot"></p>
 
 							<h2>
-								<a name="windows-explorer-integration" class="anchor" href="#windows-explorer-integration"><span class="octicon octicon-link"></span></a>Windows Explorer Integration</h2>
+								<a name="msi-table-viewer" class="anchor" href="#msi-table-viewer"><span class="octicon octicon-link"></span></a>MSI Table Viewer</h2>
 
-								<p>Lessmsi also integrates with Windows Explorer so that you can right-click on a Windows Installer file (.msi file) and select "Extract Files" to extract it into a folder right there:</p>
+								<p>Windows Installer files (.msi files) are based on an internal database of tables. lessmsi features a viewer for those tables. This is useful for people who work a lot with installers.</p>
 
-								<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-explorerintegration.png" alt="lessmsi Explorer Integration screenshot"></p>
+								<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-tabletab.png" alt="lessmsi Table Tab screenshot"></p>
 
-								<p>Just select <em>Preferences</em> from the <em>Edit</em> menu to enable (or disable) the explorer integration:</p>
+								<h1>
+									<a name="suggestion-problem-comment" class="anchor" href="#suggestion-problem-comment"><span class="octicon octicon-link"></span></a>Suggestion? Problem? Comment?</h1>
 
-								<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-preferences.png" alt="lessmsi Preferences Dialog screenshot"></p>
-
-								<h2>
-									<a name="msi-table-viewer" class="anchor" href="#msi-table-viewer"><span class="octicon octicon-link"></span></a>MSI Table Viewer</h2>
-
-									<p>Windows Installer files (.msi files) are based on an internal database of tables. lessmsi features a viewer for those tables. This is useful for people who work a lot with installers.</p>
-
-									<p><img src="https://raw.github.com/activescott/lessmsi/master/misc/screenshot-tabletab.png" alt="lessmsi Table Tab screenshot"></p>
+									<p>If you have a problem <em>please</em> submit it by clicking in the <a href="https://github.com/activescott/lessmsi/issues">Issue tracker</a> and I'll look into it when I can.</p>
 
 									<h1>
-										<a name="suggestion-problem-comment" class="anchor" href="#suggestion-problem-comment"><span class="octicon octicon-link"></span></a>Suggestion? Problem? Comment?</h1>
+										<a name="contributions" class="anchor" href="#contributions"><span class="octicon octicon-link"></span></a>Contributions</h1>
 
-										<p>If you have a problem <em>please</em> submit it by clicking in the <a href="https://github.com/activescott/lessmsi/issues">Issue tracker</a> and I'll look into it when I can.</p>
+										<p>Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.</p>
 
-										<h1>
-											<a name="contributions" class="anchor" href="#contributions"><span class="octicon octicon-link"></span></a>Contributions</h1>
+										<p><em>Originally from <a href="https://web.archive.org/web/20090926231518/http://blogs.pingpoet.com/overflow/archive/2005/06/02/2449.aspx" target="_blank">Scott Willeke's blog</a>. Previously hosted at google code (code.google.com/p/lessmsi/). It was also called Less Msiérables as well as lessmsi.</em></p>
 
-											<p>Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.</p>
+										<p><img src="http://www.windevpowertools.com/images/wdpt1.gif" alt="Windows Developer Power Tools"></p>
+									</section>
 
-											<p><em>Originally from <a href="https://web.archive.org/web/20090926231518/http://blogs.pingpoet.com/overflow/archive/2005/06/02/2449.aspx" target="_blank">Scott Willeke's blog</a>. Previously hosted at google code (code.google.com/p/lessmsi/). It was also called Less Msiérables as well as lessmsi.</em></p>
+									<footer>
+										lessmsi is maintained by <a href="http://lessmsi.activescott.com" target="_blank">scott willeke</a><br>
+										Generously hosted by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+									</footer>
 
-											<p><img src="http://www.windevpowertools.com/images/wdpt1.gif" alt="Windows Developer Power Tools"></p>
-										</section>
+									<script type="text/javascript">
+										var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+										document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+									</script>
+									<script type="text/javascript">
+										try {
+											var pageTracker = _gat._getTracker("UA-149900-7");
+											pageTracker._trackPageview();
+										} catch(err) {}
+									</script>
 
-										<footer>
-											lessmsi is maintained by <a href="http://lessmsi.activescott.com" target="_blank">scott willeke</a><br>
-											Generously hosted by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-										</footer>
-
-										<script type="text/javascript">
-											var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-											document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-										</script>
-										<script type="text/javascript">
-											try {
-												var pageTracker = _gat._getTracker("UA-149900-7");
-												pageTracker._trackPageview();
-											} catch(err) {}
-										</script>
-
-									</div>
 								</div>
-							</body>
-							</html>
+							</div>
+						</body>
+						</html>

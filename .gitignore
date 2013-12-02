@@ -1,0 +1,5 @@
+.DS_Store
+/Gemfile.lock
+/_site/
+/bower_components/
+/src/
