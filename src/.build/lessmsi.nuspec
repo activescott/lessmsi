@@ -17,7 +17,7 @@ Usage on the command line: lessmsi x msiFileName [outDir]
 		<frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net35-client" />
 	</frameworkAssemblies>
 	<tags>msi extract extraction install</tags>
-	<projectUrl>https://github.com/activescott/lessmsi</projectUrl>
+	<projectUrl>https://lessmsi.activescott.com</projectUrl>
 	<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
 	<requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<!--<iconUrl>32x32.png</iconUrl>-->

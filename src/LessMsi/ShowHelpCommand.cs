@@ -24,7 +24,7 @@ Commands:
   o  Opens the specified msi_name in the GUI.
   h  Shows this help page.
 
-For more information see https://code.google.com/p/lessmsi/wiki/CommandLine
+For more information see http://lessmsi.activescott.com
 ";
 			if (!string.IsNullOrEmpty(errorMessage))
 			{
