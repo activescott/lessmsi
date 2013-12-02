@@ -299,7 +299,7 @@ namespace LessMsi.Msi
 
 		        Debug.Assert(fileEntryMap.Count == filesToExtract.Length, "Duplicate files must have caused some files to not be in the map.");
 
-		        var cabInfos = CabsFromMsiToDisk(msidb, outputDir);
+		        var cabInfos = CabsFromMsiToDisk(msi, msidb, outputDir);
 		        var cabDecompressors = MergeCabs(cabInfos);
 		        try
 		        {
@@ -433,7 +433,7 @@ namespace LessMsi.Msi
 		/// <param name="msidb"></param>
 		/// <param name="outputDir"></param>
 		/// <returns></returns>
-	    private static List<CabInfo> CabsFromMsiToDisk(Database msidb, DirectoryInfo outputDir)
+	    private static List<CabInfo> CabsFromMsiToDisk(FileInfo msi, Database msidb, DirectoryInfo outputDir)
 	    {
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
@@ -448,21 +448,29 @@ namespace LessMsi.Msi
 					    throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
 				    if (!string.IsNullOrEmpty(cabSourceName))
 				    {
+					    bool extract = false;
 					    if (cabSourceName.StartsWith("#"))
 					    {
+						    extract = true;
 						    cabSourceName = cabSourceName.Substring(1);
-
-						    // extract cabinet, then explode all of the files to a temp directory
-						    string localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
-
-						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
-						    /* http://code.google.com/p/lessmsi/issues/detail?id=1
-					 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
-							 * Thanks to Christopher Hamburg for explaining this!
-					 		*/
-						    var c = new CabInfo(localCabFile, cabSourceName);
-						    localCabFiles.Add(c);
 					    }
+					    string localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
+					    if (extract)
+					    {
+						    // extract cabinet, then explode all of the files to a temp directory
+						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
+					    }
+					    else
+					    {
+						    string originalCabFile = Path.Combine(msi.DirectoryName, cabSourceName);
+						    File.Copy(originalCabFile, localCabFile);
+					    }
+					    /* http://code.google.com/p/lessmsi/issues/detail?id=1
+				 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
+						 * Thanks to Christopher Hamburg for explaining this!
+				 		*/
+					    var c = new CabInfo(localCabFile, cabSourceName);
+					    localCabFiles.Add(c);
 				    }
 			    }
 		    }
