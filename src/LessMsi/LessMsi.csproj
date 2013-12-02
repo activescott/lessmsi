@@ -229,6 +229,6 @@
     <ItemGroup>
       <ExplorerShortCutAdder Include="..\ExplorerShortcutHelper\bin\$(ConfigurationName)\AddWindowsExplorerShortcut.exe" />
     </ItemGroup>
-    <Copy SourceFiles="@(ExplorerShortCutAdder)" DestinationFolder="$(TargetDir)" ContinueOnError="WarnAndContinue" />
+    <Copy SourceFiles="@(ExplorerShortCutAdder)" DestinationFolder="$(TargetDir)" ContinueOnError="true" />
   </Target>
 </Project>
