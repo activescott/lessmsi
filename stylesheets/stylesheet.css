@@ -164,6 +164,9 @@ a.button span {
 #view-on-github {
   margin-right: 0;
 }
+#install-chocolatey span {
+  background: transparent url(../images/chocolatey-icon.png) 12px 50% no-repeat;
+}
 
 code, pre {
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
