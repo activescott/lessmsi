@@ -337,10 +337,10 @@ namespace LessMsi.Msi
 		        }
 		        finally
 		        {	//cleanup the decompressors allocated in MergeCabs
-			        foreach (MSCabinet decomp in cabDecompressors)
+			        foreach (var decomp in cabDecompressors)
 			        {
 				        decomp.Close(false);
-						File.Delete(decomp.LocalFilePath);
+				        DeleteFileForcefully(decomp.LocalFilePath);
 			        }
 		        }
 	        }
@@ -354,6 +354,20 @@ namespace LessMsi.Msi
         }
 
 		/// <summary>
+		/// Deletes a file even if it is readonly.
+		/// </summary>
+	    private static void DeleteFileForcefully(string localFilePath)
+	    {
+			// In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
+		    var fileAttributes = File.GetAttributes(localFilePath);
+		    if ((fileAttributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+		    {
+			    File.SetAttributes(localFilePath, (fileAttributes & ~FileAttributes.ReadOnly));
+		    }
+		    File.Delete(localFilePath);
+	    }
+
+	    /// <summary>
 		/// Allocates a decompressor for each cab and merges any cabs that need merged.
 		/// </summary>
 		/// <param name="cabinets"></param>
