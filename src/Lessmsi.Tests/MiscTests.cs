@@ -48,6 +48,15 @@ namespace LessMsi.Tests
 		}
 
 		/// <summary>
+		/// This test is for github issue 4: https://github.com/activescott/lessmsi/issues/4
+		/// </summary>
+		[Test]
+		public void ExtractFromExternalCab()
+		{
+			ExtractAndCompareToMaster("msi_with_external_cab.msi");
+		}
+
+		/// <summary>
 		/// This one demonstrates a problem were paths are screwed up. 
 		/// Note that the output path ends up being SourceDir\SlikSvn\bin\Windows\winsxs\... and it should be just \windows\winsxs\...
 		/// Actually many of them do, but this one ends up with such long paths that it causes an exception:

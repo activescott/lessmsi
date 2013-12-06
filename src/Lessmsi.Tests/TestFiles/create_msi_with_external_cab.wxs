@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+ <Product Id="*" Name="~TestMSIWithExternalCab" Language="1033" Manufacturer="activescott"
+          Version="1.0" UpgradeCode="6C000DC3-C702-4E44-A94B-5A466FE5EB2D">
+  <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
+  
+   <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
+
+   <Media Id="1" Cabinet="msi_with_external_cab.cab" EmbedCab="no" />
+
+   <Directory Id="TARGETDIR" Name="SourceDir">
+     <Directory Id="ProgramFilesFolder" Name="PFiles">
+       <Directory Id="INSTALLFOLDER" Name="~TestMSIWithExternalCab" />
+     </Directory>
+   </Directory>
+
+   <Feature Id="Feature_TEST" Title="TEST Toolset" Level="1">
+     <Component Directory="INSTALLFOLDER">
+       <File Source="create_msi_with_external_cab.wxs" />
+     </Component>
+   </Feature>
+ </Product>
+</Wix>

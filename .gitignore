@@ -5,6 +5,8 @@
 *.user
 *.csproj.user
 *.userprefs
+*.wixpdb
+*.wixobj
 # VIM
 *~
 *.swp
