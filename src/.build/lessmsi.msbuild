@@ -149,9 +149,16 @@
 			Text="Chocolatey.org package built. To test the chocolatey.org package run `cinst lessmsi -source $(PackageDir)`"
 			Importance="high"
 		/>
-		<Message 
-			Text="To publish the package run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` AFTER uploading $(TheZipFileName) to google code." 
+		<Message
 			Importance="high"
+			Text="
+			
+Next Steps to publish:
+- Tag the repo: `git tag v$(TheVersion)`
+- Push the tag to github to create the release: `git push --tags`
+- Upload $(TheZipFileName) at https://github.com/activescott/lessmsi/releases/tag/v$(TheVersion)
+- Run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` to push to chocolatey.org
+" 
 		/>
 	</Target>
 </Project>

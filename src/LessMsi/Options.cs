@@ -696,7 +696,9 @@ namespace NDesk.Options {
 			bool process = true;
 			OptionContext c = CreateOptionContext ();
 			c.OptionIndex = -1;
+#pragma warning disable 618
 			var def = GetOptionForName ("<>");
+#pragma warning restore 618
 			var unprocessed = 
 				from argument in arguments
 				where ++c.OptionIndex >= 0 && (process || def != null)
