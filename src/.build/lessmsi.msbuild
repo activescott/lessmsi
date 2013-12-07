@@ -152,12 +152,12 @@
 		<Message
 			Importance="high"
 			Text="
-			
+
 Next Steps to publish:
 - Tag the repo: `git tag v$(TheVersion)`
 - Push the tag to github to create the release: `git push --tags`
 - Upload $(TheZipFileName) at https://github.com/activescott/lessmsi/releases/tag/v$(TheVersion)
-- Run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` to push to chocolatey.org
+- Run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` to push to chocolatey.org (see https://github.com/chocolatey/chocolatey/wiki/CommandsPush for more info on cpush)
 " 
 		/>
 	</Target>

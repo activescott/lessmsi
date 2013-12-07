@@ -111,5 +111,11 @@ namespace LessMsi.UI
 			Process.Start(e.LinkText);
 		}
 
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var text = ((LinkLabel) sender).Text;
+			var link = text.Substring(e.Link.Start, e.Link.Length);
+			Process.Start(link);
+		}
 	}
 }
