@@ -47,6 +47,10 @@ Contributions
 =====
 Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.
 
+Bitcoin Tips for Accepted Contributions!
+-----
+We're now tipping committers with bitcoin: [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
+
 ![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)
 
 
