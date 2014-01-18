@@ -8,14 +8,8 @@
 	<owners>Scott Willeke</owners>
 	<summary>LessMSI - Easily extract the contents of an MSI</summary>
 	<description>LessMSI is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. For Windows.
-Usage on the command line: lessmsi x msiFileName [outDir] 
+Usage on the command line: lessmsi x msiFileName [outDir]
 </description>
-	<frameworkAssemblies>
-		<frameworkAssembly assemblyName="System" targetFramework="net35-client" />
-		<frameworkAssembly assemblyName="System.Data" targetFramework="net35-client" />
-		<frameworkAssembly assemblyName="System.Drawing" targetFramework="net35-client" />
-		<frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net35-client" />
-	</frameworkAssemblies>
 	<tags>msi extract extraction install</tags>
 	<projectUrl>https://lessmsi.activescott.com</projectUrl>
 	<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
