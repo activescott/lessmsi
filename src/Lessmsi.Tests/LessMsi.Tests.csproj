@@ -36,12 +36,10 @@
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Json">
-      <HintPath>..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.Serialization.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>

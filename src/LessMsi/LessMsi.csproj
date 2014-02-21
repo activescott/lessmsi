@@ -211,9 +211,6 @@
     <EmbeddedResource Include="UI\aboutbox.rtf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="!readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
