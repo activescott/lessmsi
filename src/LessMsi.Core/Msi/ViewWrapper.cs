@@ -29,7 +29,7 @@ using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.Msi
 {
-    class ViewWrapper : IDisposable
+    public class ViewWrapper : IDisposable
     {
         public ViewWrapper(View underlyingView)
         {

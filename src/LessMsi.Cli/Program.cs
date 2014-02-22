@@ -26,14 +26,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using LessMsi.Msi;
-using LessMsi.UI;
-using NDesk.Options;
 
 #endregion
 
@@ -41,11 +35,6 @@ namespace LessMsi
 {
 	public class Program
 	{
-        // defines for commandline output
-        [DllImport("kernel32.dll")]
-        static extern bool AttachConsole(int dwProcessId);
-        private const int ATTACH_PARENT_PROCESS = -1;
-		
 		enum ConsoleReturnCode
 		{
 			Success=0,
@@ -60,18 +49,14 @@ namespace LessMsi
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			var doShowUI = args.Length == 0;
 			try
 			{
-				AttachConsole(ATTACH_PARENT_PROCESS);
-				
 				/** 
 				 * See https://code.google.com/p/lessmsi/wiki/CommandLine for some use cases and docs on commandline parsing.
 				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
 				 */
 
 				var subcommands = new Dictionary<string, LessMsiCommand> {
-					{"o", new OpenGuiCommand()},
 					{"x", new ExtractCommand()},
 					{"/x", new ExtractCommand()},
 					{"l", new ListTableCommand()},
@@ -79,25 +64,17 @@ namespace LessMsi
 					{"h", new ShowHelpCommand()}
 				};
 
-				if (doShowUI)
-				{
-					LaunchForm("");
-					return (int) ConsoleReturnCode.Success;
-				}
-				else
-				{
-					LessMsiCommand cmd;
-					if (subcommands.TryGetValue(args[0], out cmd))
-					{
-						cmd.Run(new List<string>(args));
-						return (int) ConsoleReturnCode.Success;
-					}
-					else
-					{
-						ShowHelpCommand.ShowHelp("Unrecognized command");
-						return (int) ConsoleReturnCode.UnrecognizedCommand;
-					}
-				}
+                LessMsiCommand cmd;
+                if (args.Length > 0 && subcommands.TryGetValue(args[0], out cmd))
+                {
+                    cmd.Run(new List<string>(args));
+                    return (int)ConsoleReturnCode.Success;
+                }
+                else
+                {
+                    ShowHelpCommand.ShowHelp("Unrecognized command");
+                    return (int)ConsoleReturnCode.UnrecognizedCommand;
+                }
 			}
 			catch (NDesk.Options.OptionException oe)
 			{
@@ -109,24 +86,6 @@ namespace LessMsi
 				ShowHelpCommand.ShowHelp(eCatchAll.ToString());
 				
 				return (int) ConsoleReturnCode.UnexpectedError;
-			}
-			finally
-			{
-				if (!doShowUI)
-					ConsoleNewLine();
-			}
-		}
-
-		private static void ConsoleNewLine()
-		{
-			try
-			{
-				// When using a winforms app with AttachConsole the app completes but there is no newline after the process stops. This gives the newline and looks normal from the console:
-				SendKeys.SendWait("{ENTER}");
-			}
-			catch (Exception e)
-			{
-				Debug.Fail(e.ToString());
 			}
 		}
 
@@ -155,15 +114,6 @@ namespace LessMsi
 		{
 			if (!Path.IsPathRooted(sFileName))
 				sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
-		}
-
-		internal static int LaunchForm(string inputFile)
-		{
-			Application.EnableVisualStyles();
-            Application.DoEvents();// make sure EnableVisualStyles works.
-            MainForm form = new MainForm(inputFile);
-			Application.Run(form);
-			return 0;
 		}
 	}
 }

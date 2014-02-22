@@ -29,7 +29,7 @@ namespace LessMsi.Msi
     /// <summary>
     /// FYI: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/msi/setup/column_definition_format.asp
     /// </summary>
-    class ColumnInfo
+    public class ColumnInfo
     {
         public ColumnInfo(string name, string typeID)
         {
