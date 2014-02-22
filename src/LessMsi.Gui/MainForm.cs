@@ -28,11 +28,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using LessMsi.Gui.Model;
+using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
-using LessMsi.UI.Model;
-using Misc.Windows.Forms;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
 	internal class MainForm : Form, IMainFormView
 	{

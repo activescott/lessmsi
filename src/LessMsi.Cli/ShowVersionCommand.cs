@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using LessMsi.Msi;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using NDesk.Options;
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	internal class ShowVersionCommand : LessMsiCommand
 	{

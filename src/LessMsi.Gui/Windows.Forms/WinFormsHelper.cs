@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Gui.Windows.Forms
 {
 	/// <summary>
 	/// Contains misc generic helper methods for dealing with <see cref="System.Windows.Forms"/> controls.

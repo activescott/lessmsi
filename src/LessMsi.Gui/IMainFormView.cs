@@ -24,9 +24,9 @@
 //
 using System.Collections.Generic;
 using System.IO;
-using LessMsi.UI.Model;
+using LessMsi.Gui.Model;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
     internal interface IMainFormView
     {

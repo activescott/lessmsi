@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	internal abstract class LessMsiCommand
 	{

@@ -25,7 +25,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Gui.Windows.Forms
 {
     /// <summary>
     /// DisposableCursor allows you to use the C# using statement to return to a normal cursor.

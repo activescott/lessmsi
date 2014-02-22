@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using LessMsi.IO;
 using LessMsi.Msi;
-using Misc.IO;
 using NUnit.Framework;
 
 namespace LessMsi.Tests
@@ -153,7 +153,7 @@ namespace LessMsi.Tests
 			{
 				args[i] = args[i].Trim('\"');
 			}
-			return LessMsi.Program.Main(args);
+			return LessMsi.Cli.Program.Main(args);
 		}
 
 		internal sealed class ExitCodeException : Exception

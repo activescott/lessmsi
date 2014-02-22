@@ -8,7 +8,7 @@ using LessMsi.Msi;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using NDesk.Options;
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	internal class ListTableCommand : LessMsiCommand
 	{

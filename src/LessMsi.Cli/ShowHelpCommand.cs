@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	internal class ShowHelpCommand : LessMsiCommand
 	{

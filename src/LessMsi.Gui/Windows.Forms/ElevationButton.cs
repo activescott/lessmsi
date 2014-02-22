@@ -26,7 +26,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Gui.Windows.Forms
 {
     /// <summary>
     /// This button shows the windows Elevation symbol on it. Win32 refers to this as a "Command Link".

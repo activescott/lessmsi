@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
 
 	/// <summary>

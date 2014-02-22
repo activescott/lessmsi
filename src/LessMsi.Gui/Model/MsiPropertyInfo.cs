@@ -26,7 +26,7 @@ using System;
 using System.Collections;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
-namespace LessMsi.UI.Model
+namespace LessMsi.Gui.Model
 {
     internal class MsiPropertyInfo
     {

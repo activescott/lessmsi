@@ -25,12 +25,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LessMsi.Gui.Model;
+using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
-using LessMsi.UI.Model;
-using Misc.Windows.Forms;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
     /// <summary>
     /// This represents a presenter in the MVP pattern for <see cref="MainForm"/>.

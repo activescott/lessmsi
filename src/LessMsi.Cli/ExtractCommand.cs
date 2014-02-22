@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NDesk.Options;
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	internal class ExtractCommand : LessMsiCommand
 	{

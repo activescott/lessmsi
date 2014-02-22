@@ -28,7 +28,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Gui.Windows.Forms
 {
     /// <summary>
     /// Implements a simple <see cref="System.ComponentModel.IBindingList"/> that provides sorting ability.

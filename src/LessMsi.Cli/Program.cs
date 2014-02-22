@@ -31,7 +31,7 @@ using LessMsi.Msi;
 
 #endregion
 
-namespace LessMsi
+namespace LessMsi.Cli
 {
 	public class Program
 	{

@@ -27,7 +27,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Misc.Windows.Forms
+namespace LessMsi.Gui.Windows.Forms
 {
 	internal class NativeMethods
 	{

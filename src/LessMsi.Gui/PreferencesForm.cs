@@ -28,7 +28,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
 	internal partial class PreferencesForm : Form
 	{

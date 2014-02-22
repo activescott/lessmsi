@@ -24,7 +24,7 @@
 //
 using LessMsi.Msi;
 
-namespace LessMsi.UI.Model
+namespace LessMsi.Gui.Model
 {
     /// <summary>
     /// Represensts an MSI file item (a file contained in an msi) in the UI.

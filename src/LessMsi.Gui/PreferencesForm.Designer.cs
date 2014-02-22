@@ -1,6 +1,6 @@
-﻿using Misc.Windows.Forms;
+﻿using LessMsi.Gui.Windows.Forms;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
 	partial class PreferencesForm
 	{
@@ -30,8 +30,8 @@ namespace LessMsi.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.cmdAddShortcut = new Misc.Windows.Forms.ElevationButton();
-			this.cmdRemoveShortcut = new Misc.Windows.Forms.ElevationButton();
+			this.cmdAddShortcut = new ElevationButton();
+			this.cmdRemoveShortcut = new ElevationButton();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 

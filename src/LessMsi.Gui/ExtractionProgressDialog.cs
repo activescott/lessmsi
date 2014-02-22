@@ -27,7 +27,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using LessMsi.Msi;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
     internal class ExtractionProgressDialog : Form
     {

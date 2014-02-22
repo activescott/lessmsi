@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace LessMsi.UI
+namespace LessMsi.Gui
 {
 	partial class AboutBox : Form
 	{

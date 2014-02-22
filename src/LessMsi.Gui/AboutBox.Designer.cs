@@ -1,4 +1,4 @@
-﻿namespace LessMsi.UI
+﻿namespace LessMsi.Gui
 {
 	partial class AboutBox
 	{

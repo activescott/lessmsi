@@ -25,7 +25,7 @@
 using System;
 using System.IO;
 
-namespace Misc.IO
+namespace LessMsi.IO
 {
 	public static class PathEx
 	{
