@@ -113,7 +113,7 @@ namespace LessMsi
 			finally
 			{
 				if (!doShowUI)
-					ConsoleNewLine();
+					//ConsoleNewLine();
 			}
 		}
 
