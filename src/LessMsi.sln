@@ -1,10 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerShortcutHelper", "ExplorerShortcutHelper\ExplorerShortcutHelper.csproj", "{13F99803-59EF-4DEA-BE1C-68561A427B08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Tests", "Lessmsi.Tests\LessMsi.Tests.csproj", "{78591E05-341F-450F-B215-D23E959F49F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D9AB5F1-2773-4403-8E50-771721572508} = {3D9AB5F1-2773-4403-8E50-771721572508}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79970F6C-B1A1-4094-8D3E-FC97A39D15C3}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,6 +24,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Core", "LessMsi.Core\LessMsi.Core.csproj", "{1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Gui", "LessMsi.Gui\LessMsi.Gui.csproj", "{3D9AB5F1-2773-4403-8E50-771721572508}"
+	ProjectSection(ProjectDependencies) = postProject
+		{13F99803-59EF-4DEA-BE1C-68561A427B08} = {13F99803-59EF-4DEA-BE1C-68561A427B08}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Cli", "LessMsi.Cli\LessMsi.Cli.csproj", "{169C4EC2-28BC-4928-A536-6776B72FE6CA}"
 EndProject
