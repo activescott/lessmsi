@@ -15,37 +15,35 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Json">
-      <HintPath>..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.Serialization.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LessMsi\lib\wix.dll</HintPath>
+      <HintPath>..\..\lib\wix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -60,16 +58,23 @@
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LessMsi\LessMsi.csproj">
-      <Project>{7767FCCA-538C-4A11-8942-2F97BFC4BBD4}</Project>
-      <Name>LessMsi</Name>
+    <ProjectReference Include="..\LessMsi.Cli\LessMsi.Cli.csproj">
+      <Project>{7ed32f80-2b7b-4f90-ade9-22b8f3935c63}</Project>
+      <Name>LessMsi.Cli</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LessMsi.Core\LessMsi.Core.csproj">
+      <Project>{1fd916f2-1df6-42f6-9ad4-83565fbf8e5c}</Project>
+      <Name>LessMsi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LessMsi.Gui\LessMsi.Gui.csproj">
+      <Project>{3d9ab5f1-2773-4403-8e50-771721572508}</Project>
+      <Name>LessMsi.Gui</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)LessMsi\lib\*.dll" "$(TargetDir)"
-copy /Y "$(SolutionDir)LessMsi\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
-copy /Y "$(SolutionDir)LessMsi\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"
+    <PostBuildEvent>copy /Y "$copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
+copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"
 md "$(TargetDir)TestFiles"
 xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"</PostBuildEvent>
   </PropertyGroup>

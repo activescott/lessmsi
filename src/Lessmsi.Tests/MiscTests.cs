@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using Misc.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace LessMsi.Tests
 {

@@ -18,16 +18,20 @@
 
 	<ItemGroup>
 		<TheProjects Include="$(RootDir)\ExplorerShortcutHelper\ExplorerShortcutHelper.csproj"></TheProjects>
-		<TheProjects Include="$(RootDir)\LessMsi\LessMsi.csproj"></TheProjects>
+		<TheProjects Include="$(RootDir)\LessMsi.Core\LessMsi.Core.csproj"></TheProjects>
+		<TheProjects Include="$(RootDir)\LessMsi.Cli\LessMsi.Cli.csproj"></TheProjects>
+		<TheProjects Include="$(RootDir)\LessMsi.Gui\LessMsi.Gui.csproj"></TheProjects>
 	</ItemGroup>
 
 	<ItemGroup>
-		<DeployFiles Include="$(RootDir)\ExplorerShortcutHelper\bin\Release\AddWindowsExplorerShortcut.exe"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\LessMsi\bin\Release\lessmsi.exe"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\LessMsi\lib\libmspackn.dll"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\LessMsi\lib\mspack.dll"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\LessMsi\lib\wix.dll"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\LessMsi\lib\wixcab.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\AddWindowsExplorerShortcut.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi.Core.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi-cli.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi-gui.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\lib\libmspackn.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\lib\mspack.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\lib\wix.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\lib\wixcab.dll"></DeployFiles>
 	</ItemGroup>
 
 	<Target Name="Init">
@@ -86,7 +90,7 @@
 
 		<MSBuild 
 			Projects="%(TheProjects.FullPath)" 
-			Properties="Configuration=Release;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)" 
+			Properties="Configuration=Release;Platform=x86;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)" 
 			Targets="Rebuild"
 		/>
 	</Target>

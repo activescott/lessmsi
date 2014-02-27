@@ -18,4 +18,6 @@ before_install:
 
 script:
  - xbuild /p:TargetFrameworkProfile= ./src/ExplorerShortcutHelper/ExplorerShortcutHelper.csproj
- - xbuild /p:TargetFrameworkProfile= ./src/LessMsi/LessMsi.csproj
+ - xbuild /p:TargetFrameworkProfile= ./src/LessMsi.Core/LessMsi.Core.csproj
+ - xbuild /p:TargetFrameworkProfile= ./src/LessMsi.Cli/LessMsi.Cli.csproj
+ - xbuild /p:TargetFrameworkProfile= ./src/LessMsi.Gui/LessMsi.Gui.csproj

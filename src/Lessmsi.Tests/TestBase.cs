@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using LessMsi.IO;
 using LessMsi.Msi;
-using Misc.IO;
 using NUnit.Framework;
 
 namespace LessMsi.Tests
@@ -110,15 +110,15 @@ namespace LessMsi.Tests
 		}
 
 		/// <summary>
-		/// Runs lessmsi.exe via commandline.
+		/// Runs LessMsi-cli.exe via commandline.
 		/// </summary>
-		/// <param name="commandlineArgs">The arguments passed to lessmsi.exe</param>
+		/// <param name="commandlineArgs">The arguments passed to LessMsi-cli.exe</param>
 		/// <param name="consoleOutput">The console output.</param>
 		/// <returns>The exe return code.</returns>
 	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
 	    {
 		    //  exec & wait
-		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
+		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "LessMsi-cli.exe"), commandlineArgs);
 		    startInfo.RedirectStandardOutput = true;
 		    startInfo.RedirectStandardError = true;
 		    startInfo.UseShellExecute = false;
@@ -153,13 +153,13 @@ namespace LessMsi.Tests
 			{
 				args[i] = args[i].Trim('\"');
 			}
-			return LessMsi.Program.Main(args);
+			return LessMsi.Cli.Program.Main(args);
 		}
 
 		internal sealed class ExitCodeException : Exception
 		{
 			public ExitCodeException(int exitCode, string errorOutput, string consoleOutput)
-				: base("lessmsi.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
+				: base("LessMsi-cli.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
 			{
 				this.ExitCode = exitCode;
 			}
