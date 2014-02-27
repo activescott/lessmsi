@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LessMsi.Cli\LessMsi.Cli.csproj">
-      <Project>{169c4ec2-28bc-4928-a536-6776b72fe6ca}</Project>
+      <Project>{7ed32f80-2b7b-4f90-ade9-22b8f3935c63}</Project>
       <Name>LessMsi.Cli</Name>
     </ProjectReference>
     <ProjectReference Include="..\LessMsi.Core\LessMsi.Core.csproj">
