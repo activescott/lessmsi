@@ -1,0 +1,3 @@
+# We use this to keep .sh (like build.sh) with lf only line endings to keep bash from puking when it's edited on someone's windows box. See http://git-scm.com/docs/gitattributes#_checking-out_and_checking-in
+
+*.sh		eol=lf
