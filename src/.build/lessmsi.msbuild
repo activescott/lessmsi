@@ -17,17 +17,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TheProjects Include="$(RootDir)\ExplorerShortcutHelper\ExplorerShortcutHelper.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Core\LessMsi.Core.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Cli\LessMsi.Cli.csproj"></TheProjects>
+		<TheProjects Include="$(RootDir)\ExplorerShortcutHelper\ExplorerShortcutHelper.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Gui\LessMsi.Gui.csproj"></TheProjects>
 	</ItemGroup>
 
 	<ItemGroup>
 		<DeployFiles Include="$(RootDir)\..\bin\Release\AddWindowsExplorerShortcut.exe"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi.Core.dll"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi-cli.exe"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\..\bin\Release\LessMsi-gui.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi.core.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi-cli.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi-gui.exe"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\mspack.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wix.dll"></DeployFiles>

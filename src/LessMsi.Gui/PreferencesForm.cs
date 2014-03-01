@@ -77,7 +77,7 @@ namespace LessMsi.Gui
 			{
 				MessageBox.Show(this,
 				                "File '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
-				                "' should be in the same directory as LessMsi-gui.exe.", "Missing File", MessageBoxButtons.OK,
+				                "' should be in the same directory as lessmsi-gui.exe.", "Missing File", MessageBoxButtons.OK,
 				                MessageBoxIcon.Error);
 				return;
 			}

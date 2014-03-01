@@ -110,7 +110,7 @@ namespace LessMsi.Tests
 		}
 
 		/// <summary>
-		/// Runs LessMsi-cli.exe via commandline.
+		/// Runs lessmsi-cli.exe via commandline.
 		/// </summary>
 		/// <param name="commandlineArgs">The arguments passed to LessMsi-cli.exe</param>
 		/// <param name="consoleOutput">The console output.</param>
@@ -159,7 +159,7 @@ namespace LessMsi.Tests
 		internal sealed class ExitCodeException : Exception
 		{
 			public ExitCodeException(int exitCode, string errorOutput, string consoleOutput)
-				: base("LessMsi-cli.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
+				: base("lessmsi-cli.exe returned an error code (" + exitCode + "). Error output was:\r\n" + errorOutput + "\r\nConsole output was:\r\n" + consoleOutput)
 			{
 				this.ExitCode = exitCode;
 			}
