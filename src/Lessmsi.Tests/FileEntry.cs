@@ -7,12 +7,15 @@ namespace LessMsi.Tests
     [DebuggerDisplay("{Path}")]
     public sealed class FileEntry : IEquatable<FileEntry>
     {
-        /// <summary>
-        /// Initializes a new FileEntry.
-        /// </summary>
-        /// <param name="path">The initial value for <see cref="FileEntry.Path"/>.</param>
-        /// <param name="size">The initial value for <see cref="FileEntry.Size"/>.</param>
-        public FileEntry(string path, long size, DateTime creationTime, DateTime lastWriteTime, FileAttributes attributes)
+	    /// <summary>
+	    /// Initializes a new FileEntry.
+	    /// </summary>
+	    /// <param name="path">The initial value for <see cref="FileEntry.Path"/>.</param>
+	    /// <param name="size">The initial value for <see cref="FileEntry.Size"/>.</param>
+	    /// <param name="creationTime"> </param>
+	    /// <param name="lastWriteTime"> </param>
+	    /// <param name="attributes"> </param>
+	    public FileEntry(string path, long size, DateTime creationTime, DateTime lastWriteTime, FileAttributes attributes)
         {
             Size = size;
             Path = path;
@@ -25,15 +28,22 @@ namespace LessMsi.Tests
         /// Initializes a new FileEntry
         /// </summary>
         /// <param name="file">The file this object represents.</param>
-        /// <param name="relativeTo">The root path that the specified file is relative to. The value of <see cref="FileEntry.Path"/> will be changed to be relative to this value.</param>
-        public FileEntry(FileInfo file, string relativeTo)
+		/// <param name="basePathToRemove">
+        /// The root of the path of the specified file that should be removed to ensure that the output is a relative portion of the file. 
+        /// Essentially the value of <see cref="FileEntry.Path"/> will be changed by stripping of the begining portion of this file.
+        /// </param>
+		public FileEntry(FileInfo file, string basePathToRemove)
         {
             Size = file.Length;
 
-            if (file.FullName.StartsWith(relativeTo))
-                Path = file.FullName.Substring(relativeTo.Length);
+			if (file.FullName.StartsWith(basePathToRemove, StringComparison.InvariantCultureIgnoreCase))
+				Path = file.FullName.Substring(basePathToRemove.Length);
             else
-                Path = file.FullName;
+			{
+				Path = file.FullName;
+				Debug.Fail("Why would this happen? Normally the file should be rooted in that path.");
+			}
+                
 
 	        this.CreationTime = file.CreationTime;
 	        this.LastWriteTime = file.LastWriteTime;

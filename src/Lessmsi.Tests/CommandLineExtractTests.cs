@@ -151,12 +151,12 @@ WixUIRMOption,UseRM
 				exitCode = base.RunCommandLineInProccess(commandLineArguments);
 			else
 				exitCode = base.RunCommandLine(commandLineArguments, out consoleOutput);
-			
-			var actualEntries = FileEntryGraph.GetActualEntries(actualEntriesOutputDir, "Actual Entries");
+
+			var actualEntries = FileEntryGraph.GetActualEntries(actualOutDir.FullName, "Actual Entries");
 	        var actualEntriesFile = GetActualOutputFile(testName);
 	        actualEntries.Save(actualEntriesFile);
 			Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
-	        var expectedEntries = GetExpectedEntriesForMsi(testName);
+			var expectedEntries = GetExpectedEntriesForMsi(testName);
             AssertAreEqual(expectedEntries, actualEntries);
         }
 
