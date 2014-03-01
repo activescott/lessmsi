@@ -73,9 +73,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
+    <PostBuildEvent>copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
 copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"
-md "$(TargetDir)TestFiles"
+mkdir "$(TargetDir)TestFiles"
 xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
