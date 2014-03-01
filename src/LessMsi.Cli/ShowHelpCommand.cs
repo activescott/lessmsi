@@ -14,7 +14,7 @@ namespace LessMsi.Cli
 		{
 			string helpString =
 				@"Usage:
-lessmsi <command> [options] <msi_name> [<path_to_extract\>] [file_names]
+lessmsi-cli <command> [options] <msi_name> [<path_to_extract\>] [file_names]
 
 Commands:
   x  Extracts all or specified files from the specified msi_name.	
