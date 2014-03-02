@@ -13,3 +13,4 @@
 /src/.deploy
 _Resharper*/
 src/packages/**
+src/TestResult.xml
