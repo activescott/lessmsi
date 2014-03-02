@@ -155,7 +155,7 @@ WixUIRMOption,UseRM
 			var actualEntries = FileEntryGraph.GetActualEntries(actualOutDir.FullName, "Actual Entries");
 	        var actualEntriesFile = GetActualOutputFile(testName);
 	        actualEntries.Save(actualEntriesFile);
-			Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
+			//Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
 			var expectedEntries = GetExpectedEntriesForMsi(testName);
             AssertAreEqual(expectedEntries, actualEntries);
         }

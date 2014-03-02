@@ -21,6 +21,7 @@
 		<TheProjects Include="$(RootDir)\LessMsi.Cli\LessMsi.Cli.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\ExplorerShortcutHelper\ExplorerShortcutHelper.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Gui\LessMsi.Gui.csproj"></TheProjects>
+		<TheProjects Include="$(RootDir)\LessMsi.Tests\LessMsi.Tests.csproj"></TheProjects>
 	</ItemGroup>
 
 	<ItemGroup>
