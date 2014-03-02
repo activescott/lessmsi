@@ -6,3 +6,4 @@ xbuild /p:TargetFrameworkProfile= ./ExplorerShortcutHelper/ExplorerShortcutHelpe
 xbuild /p:TargetFrameworkProfile= ./LessMsi.Core/LessMsi.Core.csproj
 xbuild /p:TargetFrameworkProfile= ./LessMsi.Cli/LessMsi.Cli.csproj
 xbuild /p:TargetFrameworkProfile= ./LessMsi.Gui/LessMsi.Gui.csproj
+# nuget is giving me errors on travis/xbuild so skipping this: xbuild /p:TargetFrameworkProfile= ./LessMsi.Tests/LessMsi.Tests.csproj
