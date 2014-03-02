@@ -57,6 +57,7 @@ namespace LessMsi.Cli
 				 */
 
 				var subcommands = new Dictionary<string, LessMsiCommand> {
+					{"o", new OpenGuiCommand()},
 					{"x", new ExtractCommand()},
 					{"/x", new ExtractCommand()},
 					{"l", new ListTableCommand()},
@@ -70,6 +71,11 @@ namespace LessMsi.Cli
                     cmd.Run(new List<string>(args));
                     return (int)ConsoleReturnCode.Success;
                 }
+				else if (args.Length == 0)
+				{
+					OpenGuiCommand.ShowGui(new List<string>());
+					return (int)ConsoleReturnCode.Success;
+				}
                 else
                 {
                     ShowHelpCommand.ShowHelp("Unrecognized command");

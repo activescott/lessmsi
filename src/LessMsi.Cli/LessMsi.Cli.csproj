@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LessMsi.Cli</RootNamespace>
-    <AssemblyName>lessmsi-cli</AssemblyName>
+    <AssemblyName>lessmsi</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -45,6 +45,7 @@
     <Compile Include="ExtractCommand.cs" />
     <Compile Include="LessMsiCommand.cs" />
     <Compile Include="ListTableCommand.cs" />
+    <Compile Include="OpenGuiCommand.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
