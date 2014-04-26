@@ -17,5 +17,6 @@ before_install:
  - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}${MONO_SUBVER}.macos10.xamarin.x86.pkg" -target /
 
 script:
- - bash ./src/build.sh
+ - cd src
+ - bash build.sh
 
