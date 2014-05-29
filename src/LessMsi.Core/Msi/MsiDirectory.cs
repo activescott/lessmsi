@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -58,7 +58,7 @@ namespace LessMsi.Msi
         {
             get { return _targetName; }
         }
-        
+
         /// <summary>
         /// The name of this directory in the source computer (when the MSI was built).
         /// </summary>
@@ -121,7 +121,7 @@ namespace LessMsi.Msi
                 {
                     path = Path.Combine(parent.TargetName, path);
                 }
-				
+
                 parent = parent.Parent;
             }
             return path;
@@ -153,12 +153,12 @@ namespace LessMsi.Msi
                         directory._targetName = split[1];
                     else
                         directory._targetName = split[0];
-                    
+
                     //Semi colons can delmit the "target" and "sorce" names of the directory in DefaultDir, so we're going to use the Target here (in looking at MSI files, I found Target seems most meaningful.
                     #region MSDN Docs on this Table
                     /*  From: http://msdn.microsoft.com/en-us/library/aa368295%28VS.85%29.aspx
-                    The DefaultDir column contains the directory's name (localizable)under the parent directory. 
-                    By default, this is the name of both the target and source directories. 
+                    The DefaultDir column contains the directory's name (localizable)under the parent directory.
+                    By default, this is the name of both the target and source directories.
                     To specify different source and target directory names, separate the target and source names with a colon as follows: [targetname]:[sourcename].
                     If the value of the Directory_Parent column is null or is equal to the Directory column, the DefaultDir column specifies the name of a root source directory.
                     For a non-root source directory, a period (.) entered in the DefaultDir column for the source directory name or the target directory name indicates the directory should be located in its parent directory without a subdirectory.
@@ -181,7 +181,7 @@ namespace LessMsi.Msi
                         directory._sourceName = directory._targetName;
                     }
                 }
-                
+
                 directory._directory = row.GetString("Directory");
                 directory._directoryParent = row.GetString("Directory_Parent");
                 directoriesByDirID.Add(directory.Directory, directory);
@@ -202,7 +202,7 @@ namespace LessMsi.Msi
             }
             // return the values:
             rootDirectories = (MsiDirectory[])rootDirectoriesList.ToArray(typeof(MsiDirectory));
-			
+
             MsiDirectory[] allDirectoriesLocal = new MsiDirectory[directoriesByDirID.Values.Count];
             directoriesByDirID.Values.CopyTo(allDirectoriesLocal,0);
             allDirectories = allDirectoriesLocal;

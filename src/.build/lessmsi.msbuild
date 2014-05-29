@@ -7,7 +7,7 @@
 	-->
 	<Import Project="zipfile.msbuild.targets" />
 	<Import Project="MSBuild.Community.Tasks.targets" />
-	
+
 
 	<PropertyGroup>
 		<RootDir>..\</RootDir>
@@ -47,7 +47,7 @@
 
 		<Message Text="RootDir=$(RootDir)" />
 		<Message Text="TheDeployDir=$(TheDeployDir)" />
-		
+
 	</Target>
 
 	<Target Name="Validate">
@@ -57,22 +57,22 @@
 			</_RequiredProperties>
 		</ItemGroup>
 
-		<Error 
+		<Error
 			Condition=" '%(_RequiredProperties.Value)'=='' "
-			Text=" Missing required property [%(_RequiredProperties.Identity)]" 
+			Text=" Missing required property [%(_RequiredProperties.Identity)]"
 		/>
 	</Target>
 
 	<Target Name="SetProjectVersion">
-		
+
 		<ItemGroup>
 			<AssemblyInfoFiles Include="$(RootDir)\CommonAssemblyInfo.cs" />
 		</ItemGroup>
 
-		<AssemblyInfo 
-			OutputFile="@(AssemblyInfoFiles)" 
+		<AssemblyInfo
+			OutputFile="@(AssemblyInfoFiles)"
 			CodeLanguage="C#"
-			AssemblyCopyright="$(AssemblyCopyright)" 
+			AssemblyCopyright="$(AssemblyCopyright)"
 			AssemblyVersion="$(TheVersion)"
 			AssemblyFileVersion="$(TheVersion)"
 		>
@@ -86,12 +86,12 @@
 
 	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion">
 		<Message Text="Building version: $(TheVersion)" />
-		
+
 		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
 
-		<MSBuild 
-			Projects="%(TheProjects.FullPath)" 
-			Properties="Configuration=Release;Platform=x86;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)" 
+		<MSBuild
+			Projects="%(TheProjects.FullPath)"
+			Properties="Configuration=Release;Platform=x86;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)"
 			Targets="Rebuild"
 		/>
 	</Target>
@@ -113,7 +113,7 @@
 	</Target>
 
 	<Target Name="UpdateChocolatey" DependsOnTargets="Deploy">
-		<!-- 
+		<!--
 			For this chocolatey pacaging stuff see:
 			http://www.topbug.net/blog/2012/07/02/a-simple-tutorial-create-and-publish-chocolatey-packages/
 		 -->
@@ -139,7 +139,7 @@
 			ReplacementText="https://github.com/activescott/lessmsi/releases/download/v$(TheVersion)/$(TheZipFileName)"
 		/>
 		<Exec
-			Command="cpack $(PackageDir)\lessmsi.nuspec" 
+			Command="cpack $(PackageDir)\lessmsi.nuspec"
 			WorkingDirectory="$(PackageDir)"
 			ContinueOnError="true"
 		>
@@ -150,7 +150,7 @@
 			Condition="$(ErrorCode)!=0"
 			Text="cpack failed. Make sure you have chocolatey installed and accessible from the commandline. See chocolatey.org to install and for more info about packaging see https://github.com/chocolatey/chocolatey/wiki"
 		/>
-		<Message 
+		<Message
 			Text="Chocolatey.org package built. To test the chocolatey.org package run `cinst lessmsi -source $(PackageDir)`"
 			Importance="high"
 		/>
@@ -163,7 +163,7 @@ Next Steps to publish:
 - Push the tag to github to create the release: `git push --tags`
 - Upload $(TheZipFileName) at https://github.com/activescott/lessmsi/releases/tag/v$(TheVersion)
 - Run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` to push to chocolatey.org (see https://github.com/chocolatey/chocolatey/wiki/CommandsPush for more info on cpush)
-" 
+"
 		/>
 	</Target>
 </Project>

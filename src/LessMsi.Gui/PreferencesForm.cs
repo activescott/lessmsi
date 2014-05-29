@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -52,10 +52,10 @@ namespace LessMsi.Gui
 				isAdding = false;
 
 			/* FIX for http://code.google.com/p/lessmsi/issues/detail?id=11
-			 * This code below is funky because apparently Win32 requires us to escape double quotes on the command line when passing them through the command line. 
+			 * This code below is funky because apparently Win32 requires us to escape double quotes on the command line when passing them through the command line.
 			 * So we have to actually espcape the escape char here to make sure double quotes are properly escaped
 			 * Explained more at http://bytes.com/topic/net/answers/745324-console-application-command-line-parameter-issue and http://msdn.microsoft.com/en-us/library/system.environment.getcommandlineargs.aspx
-			 */ 
+			 */
 			const string escapedDoubleQuote = "\\" + "\"";
 			var shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote + " " + escapedDoubleQuote + "%1_extracted" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
@@ -66,7 +66,7 @@ namespace LessMsi.Gui
 			shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Explore", shellCommand);
-			
+
 		}
 
 		void AddRemoveShortcut(bool isAdding, string commandName, string fileClass, string caption, string shellCommand)
@@ -89,7 +89,7 @@ namespace LessMsi.Gui
 			info.ErrorDialog = true;
 			info.ErrorDialogParentHandle = this.Handle;
 			//AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]
-			
+
 			var args = new StringBuilder();
 			if (isAdding)
 				args.Append("add");

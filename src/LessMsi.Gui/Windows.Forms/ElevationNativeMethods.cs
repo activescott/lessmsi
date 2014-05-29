@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,7 +42,7 @@ namespace LessMsi.Gui.Windows.Forms
 		/// <param name="button"></param>
 		/// <remarks>
 		/// http://msdn.microsoft.com/en-us/library/bb761865(VS.85).aspx
-		/// 
+		///
 		/// #define BCM_FIRST               0x1600      // Button control messages
 		/// // Macro to use on a button or command link to display an elevated icon
 		/// #define BCM_SETSHIELD            (BCM_FIRST + 0x000C)

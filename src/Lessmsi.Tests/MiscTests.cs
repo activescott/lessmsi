@@ -52,7 +52,7 @@ namespace LessMsi.Tests
 		}
 
 		/// <summary>
-		/// This one demonstrates a problem were paths are screwed up. 
+		/// This one demonstrates a problem were paths are screwed up.
 		/// Note that the output path ends up being SourceDir\SlikSvn\bin\Windows\winsxs\... and it should be just \windows\winsxs\...
 		/// Actually many of them do, but this one ends up with such long paths that it causes an exception:
 		/// 	"Error: System.IO.PathTooLongException: The specified path, file name, or both are too long. The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters."
@@ -66,7 +66,7 @@ namespace LessMsi.Tests
 
     	/// <summary>
 		/// from http://code.google.com/p/lessmsi/issues/detail?id=1
-		/// 
+		///
 		/// </summary>
 		[Test]
 		[Ignore("This seems to have to do with the fact that the two CABs in there are merged cabs. MSVBVM60.dll is split across the cabs and I can get it out now with merging supported, but the olepro32.dll file is in disk2.cab and I can't get out with libmspack. Neither can totalcommander. -scott")]

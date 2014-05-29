@@ -51,7 +51,7 @@ namespace LessMsi.Tests
 		public void BackwardCompatibilityParserNoMsiSpecifiedParser()
 		{
 			var commandLine = "/x";
-			
+
 			string consoleOutput;
 			var exitCode = RunCommandLine(commandLine, out consoleOutput);
 			Assert.AreEqual(3, exitCode);
@@ -117,7 +117,7 @@ WixUIRMOption,UseRM
 		}
 
 		#region Helpers
-		
+
         /// <summary>
         /// Returns the name of the calling method.
         /// </summary>

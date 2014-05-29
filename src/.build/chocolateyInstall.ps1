@@ -1,6 +1,6 @@
 
 try {
-	
+
 	$theFile = Join-Path $(Split-Path -parent $MyInvocation.MyCommand.Definition) "AddWindowsExplorerShortcut.exe.ignore"
 	Write-Host "Creating " $theFile
 	New-Item $theFile -type file
@@ -11,5 +11,5 @@ try {
 
 } catch {
 	Write-ChocolateyFailure 'lessmsi' $($_.Exception.Message)
-	throw 
+	throw
 }

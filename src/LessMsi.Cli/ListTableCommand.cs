@@ -28,7 +28,7 @@ namespace LessMsi.Cli
 				throw new OptionException("You must specify the msi file to list from.", "l");
 			if (string.IsNullOrEmpty(tableName))
 				throw new OptionException("You must specify the table name to list.", "t");
-			
+
 			var csv = new StringBuilder();
 			Debug.Print("Opening msi file '{0}'.", extra[0]);
 			using (var msidb = new Database(extra[0], OpenDatabase.ReadOnly))

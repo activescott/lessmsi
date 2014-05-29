@@ -34,9 +34,9 @@ namespace LessMsi.Gui
 			this.cmdRemoveShortcut = new ElevationButton();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.SuspendLayout();
-			// 
+			//
 			// cmdAddShortcut
-			// 
+			//
 			this.cmdAddShortcut.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.cmdAddShortcut.Location = new System.Drawing.Point(12, 16);
 			this.cmdAddShortcut.Name = "cmdAddShortcut";
@@ -48,9 +48,9 @@ namespace LessMsi.Gui
     "es";
 			this.cmdAddShortcut.UseVisualStyleBackColor = true;
 			this.cmdAddShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
-			// 
+			//
 			// cmdRemoveShortcut
-			// 
+			//
 			this.cmdRemoveShortcut.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.cmdRemoveShortcut.Location = new System.Drawing.Point(12, 94);
 			this.cmdRemoveShortcut.Name = "cmdRemoveShortcut";
@@ -61,9 +61,9 @@ namespace LessMsi.Gui
 			this.cmdRemoveShortcut.TextNote = "Removes the context menu if it exists";
 			this.cmdRemoveShortcut.UseVisualStyleBackColor = true;
 			this.cmdRemoveShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
-			// 
+			//
 			// btnOk
-			// 
+			//
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnOk.Location = new System.Drawing.Point(281, 171);
@@ -73,9 +73,9 @@ namespace LessMsi.Gui
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-			// 
+			//
 			// PreferencesForm
-			// 
+			//
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

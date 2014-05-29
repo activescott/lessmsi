@@ -17,9 +17,9 @@ namespace LessMsi.Cli
 lessmsi <command> [options] <msi_name> [<path_to_extract\>] [file_names]
 
 Commands:
-  x  Extracts all or specified files from the specified msi_name.	
+  x  Extracts all or specified files from the specified msi_name.
   l  Lists the contents of the specified msi table as CSV to stdout.
-  v  Lists the value of the ProductVersion Property in the msi 
+  v  Lists the value of the ProductVersion Property in the msi
      (typically this is the version of the MSI).
   o  Opens the specified msi_name in the GUI.
   h  Shows this help page.

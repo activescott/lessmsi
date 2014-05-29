@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -45,7 +45,7 @@ namespace LessMsi.Gui
 		{
 			if (placeHolderItem == null)
 				throw new ArgumentNullException("placeHolderItem");
-			_placeHolderItem = placeHolderItem;	
+			_placeHolderItem = placeHolderItem;
 		}
 
 		private ToolStrip PlaceHolderOwner
@@ -80,7 +80,7 @@ namespace LessMsi.Gui
 		{
 			int placeHolderIndex = PlaceHolderIndexInOwner;
 			var shortcutKeyMap = new Keys[] { Keys.Control | Keys.D0, Keys.Control | Keys.D1, Keys.Control | Keys.D2, Keys.Control | Keys.D3, Keys.Control | Keys.D4, Keys.Control | Keys.D5, Keys.Control | Keys.D6, Keys.Control | Keys.D7, Keys.Control | Keys.D8, Keys.Control | Keys.D9 };
-			
+
 			foreach (MruItem item in this._items) {
 				var itemIndex = item.Owner.Items.IndexOf(item);
 				var number = itemIndex - placeHolderIndex;

@@ -26,14 +26,14 @@ namespace LessMsi.Tests
         /// The file name that this graph is for.
         /// </summary>
         public string ForFileName { get; private set; }
-        
+
         /// <summary>
         /// The entries of the file graph.
         /// </summary>
         public List<FileEntry> Entries
-        { 
+        {
             get { return _entries; }
-            set { _entries = value; } 
+            set { _entries = value; }
         } private  List<FileEntry> _entries = new List<FileEntry>();
 
         public void Add(FileEntry entry)
@@ -87,17 +87,17 @@ namespace LessMsi.Tests
                     var line = f.ReadLine().Split(',');
                     if (line.Length != 5)
                         throw new IOException("Expected 5 fields!");
-					/* FIX for github issue #23: 
+					/* FIX for github issue #23:
 					 * The problem was that old ExpectedOutput files were all prefixed with C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\<msiFileNameWithoutExtension> (something like C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\NUnit-2.5.2.9222\SourceDir\PFiles\NUnit 2.5.2\fit-license.txt)
-					 * We need to remove Since we don't reasonably know what the original msi filename was, we do know it was the subdirectory of C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\. So we should remove C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\ and the next subdirectory from the path. 
+					 * We need to remove Since we don't reasonably know what the original msi filename was, we do know it was the subdirectory of C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\. So we should remove C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\ and the next subdirectory from the path.
 					 * HACK: A better fix would undoubtedly be to cleanup those old file swith code like this and remove this hack from this code forever!
 					 */
 					var path = line[0];
 					const string oldRootPath = @"C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\";
 					if (path.StartsWith(oldRootPath, StringComparison.InvariantCultureIgnoreCase))
-					{	
+					{
 						//this is an old file that would trigger github issue #23, so we'll fix it here...
-						// first remove the old root path: 
+						// first remove the old root path:
 						path = path.Substring(oldRootPath.Length);
 						// now romove the msi filename (which we don't know, but we know it is the next subdirectory of the old root):
 						var lengthOfSubDirectoryName = path.IndexOf('\\', 0);
@@ -151,7 +151,7 @@ namespace LessMsi.Tests
 		    line = ReplaceAltSeperatorWithCommas(line);
 		    return (FileAttributes)Enum.Parse(typeof(FileAttributes), line);
 	    }
-	    
+
 	    private static string SerializeAttributes(FileAttributes attributes)
 		{
 			var output = attributes.ToString();

@@ -4,7 +4,7 @@
  <Product Id="*" Name="~TestMSIWithExternalCab" Language="1033" Manufacturer="activescott"
           Version="1.0" UpgradeCode="6C000DC3-C702-4E44-A94B-5A466FE5EB2D">
   <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
-  
+
    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
    <Media Id="1" Cabinet="msi_with_external_cab.cab" EmbedCab="no" />
