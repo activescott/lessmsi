@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -229,7 +229,7 @@ namespace LessMsi.Msi
 	    private sealed class FileNameComparer : IComparer
 	    {
 		    static readonly FileNameComparer _default = new FileNameComparer();
-			
+
 			public static FileNameComparer Default
 		    {
 				get { return _default; }
@@ -374,9 +374,9 @@ namespace LessMsi.Msi
 		/// <returns></returns>
 	    private static IEnumerable<MSCabinet> MergeCabs(IList<CabInfo> cabInfos)
 	    {
-			/* Sometimes cab files are part of a set. We must merge those into their set before we leave here. 
+			/* Sometimes cab files are part of a set. We must merge those into their set before we leave here.
 			 * Otherwise extracting a file that extends beyond the bounds of one cab in the set will fail. This happens in VBRuntime.msi
-			 * 
+			 *
 			 * It can be determined if a cabinet has further parts to load by examining the mscabd_cabinet::flags field:
 			 * if (flags & MSCAB_HDR_PREVCAB) is non-zero, there is a predecessor cabinet to open() and prepend(). Its MS-DOS case-insensitive filename is mscabd_cabinet::prevname
 			 * if (flags & MSCAB_HDR_NEXTCAB) is non-zero, there is a successor cabinet to open() and append(). Its MS-DOS case-insensitive filename is mscabd_cabinet::nextname
@@ -386,7 +386,7 @@ namespace LessMsi.Msi
 			{
 				CabInfo cab = cabInfos[i];
 				var msCab = new MSCabinet(cab.LocalCabFile);//NOTE: Deliberately not disposing. Caller must cleanup.
-				
+
 				if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
 				{
 					Debug.Assert(!string.IsNullOrEmpty(msCab.NextName), "Header indcates next cab but new cab not found.");
@@ -439,7 +439,7 @@ namespace LessMsi.Msi
             return new DirectoryInfo(fullPath);
 
         }
-		
+
 
 		/// <summary>
 		/// Extracts cab files from the specified MSIDB and puts them in the specified outputdir.
@@ -529,7 +529,7 @@ namespace LessMsi.Msi
 
                         // Create the writer for data.
                         writer = new BinaryWriter(cabFilestream);
-                        
+
 						var buf = new byte[1024*1024];
 						int count;
 						do

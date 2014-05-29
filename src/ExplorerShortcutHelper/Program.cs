@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -66,7 +66,7 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 
 				var contextMenuCaption = args[3]; // e.g. "&Extract Files";
 				var shellCommandToExecute = args[4]; //e.g. '\"' + GetExePath() + "\" /x \"%1\" \"%1_extracted\"";
-				
+
 				var message = string.Format(CultureInfo.InvariantCulture,
 										"Adding a shortcut for '{0}' files that will execute the following command: '{1}'...",
 										fileClass, shellCommandToExecute);

@@ -29,7 +29,7 @@ namespace LessMsi.Tests
         /// </summary>
         /// <param name="file">The file this object represents.</param>
 		/// <param name="basePathToRemove">
-        /// The root of the path of the specified file that should be removed to ensure that the output is a relative portion of the file. 
+        /// The root of the path of the specified file that should be removed to ensure that the output is a relative portion of the file.
         /// Essentially the value of <see cref="FileEntry.Path"/> will be changed by stripping of the begining portion of this file.
         /// </param>
 		public FileEntry(FileInfo file, string basePathToRemove)
@@ -43,7 +43,7 @@ namespace LessMsi.Tests
 				Path = file.FullName;
 				Debug.Fail("Why would this happen? Normally the file should be rooted in that path.");
 			}
-                
+
 
 	        this.CreationTime = file.CreationTime;
 	        this.LastWriteTime = file.LastWriteTime;
@@ -59,8 +59,8 @@ namespace LessMsi.Tests
 	    #region IEquatable<FileEntry>
         public bool Equals(FileEntry other)
         {
-            return this.Size == other.Size && 
-				string.Equals(this.Path, other.Path, StringComparison.InvariantCultureIgnoreCase) && 
+            return this.Size == other.Size &&
+				string.Equals(this.Path, other.Path, StringComparison.InvariantCultureIgnoreCase) &&
 				this.Attributes == other.Attributes &&
 				this.LastWriteTime == other.LastWriteTime &&
 				this.CreationTime == other.CreationTime

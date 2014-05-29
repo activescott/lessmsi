@@ -35,7 +35,7 @@
         <NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
         <PackagesConfig>packages.config</PackagesConfig>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <!-- NuGet command -->
         <NuGetExePath Condition=" '$(NuGetExePath)' == '' ">$(NuGetToolsPath)\NuGet.exe</NuGetExePath>
@@ -84,7 +84,7 @@
         <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
     </Target>
 
-    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">        
+    <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
         <Exec Command="$(RestoreCommand)"
               Condition="'$(OS)' != 'Windows_NT' And Exists('$(PackagesConfig)')" />
 

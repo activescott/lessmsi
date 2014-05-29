@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -89,7 +89,7 @@ namespace LessMsi.Msi
             foreach (TableRow row in rows)
             {
                 MsiFile file = new MsiFile();
-				
+
                 string fileName = row.GetString("FileName");
                 string[] split = fileName.Split('|');
                 file.ShortFileName = split[0];
@@ -130,7 +130,7 @@ namespace LessMsi.Msi
                 Debug.Fail(string.Format("directory not found for file '{0}'.", file.LongFileName));
             }
             return directory;
-			
+
         }
 
         /// <summary>

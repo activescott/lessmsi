@@ -1,7 +1,7 @@
 lessmsi [![Build Status](https://secure.travis-ci.org/activescott/lessmsi.png?branch=master)](http://travis-ci.org/activescott/lessmsi) [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
 ========
 
-This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
+This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file.
 
 To extract from the command line:
 
@@ -26,7 +26,7 @@ Just select _Preferences_ from the _Edit_ menu to enable (or disable) the explor
 
 GUI
 -----
-In addition to allowing you to extract files from the command line and from inside Windows Explorer, lessmsi has a graphical user interface that allows you to view detailed information about any MSI file. 
+In addition to allowing you to extract files from the command line and from inside Windows Explorer, lessmsi has a graphical user interface that allows you to view detailed information about any MSI file.
 
 ![lessmsi Files Tab screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-filestab.png)
 

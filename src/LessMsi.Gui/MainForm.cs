@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -301,9 +301,9 @@ namespace LessMsi.Gui
 			((System.ComponentModel.ISupportInitialize) (this.statusPanelFileCount)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// txtMsiFileName
-			// 
+			//
 			this.txtMsiFileName.Anchor =
 				((System.Windows.Forms.AnchorStyles)
 				 (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -315,18 +315,18 @@ namespace LessMsi.Gui
 			this.txtMsiFileName.Size = new System.Drawing.Size(367, 20);
 			this.txtMsiFileName.TabIndex = 0;
 			this.txtMsiFileName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ReloadCurrentUIOnEnterKeyDown);
-			// 
+			//
 			// label1
-			// 
+			//
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(26, 13);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "File:";
-			// 
+			//
 			// btnBrowse
-			// 
+			//
 			this.btnBrowse.Anchor =
 				((System.Windows.Forms.AnchorStyles)
 				 ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -337,9 +337,9 @@ namespace LessMsi.Gui
 			this.btnBrowse.TabIndex = 1;
 			this.btnBrowse.Text = "...";
 			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-			// 
+			//
 			// tabs
-			// 
+			//
 			this.tabs.Controls.Add(this.tabExtractFiles);
 			this.tabs.Controls.Add(this.tabTableView);
 			this.tabs.Controls.Add(this.tabSummary);
@@ -350,9 +350,9 @@ namespace LessMsi.Gui
 			this.tabs.Size = new System.Drawing.Size(464, 441);
 			this.tabs.TabIndex = 0;
 			this.tabs.TabStop = false;
-			// 
+			//
 			// tabExtractFiles
-			// 
+			//
 			this.tabExtractFiles.Controls.Add(this.fileGrid);
 			this.tabExtractFiles.Controls.Add(this.panel2);
 			this.tabExtractFiles.Location = new System.Drawing.Point(4, 22);
@@ -361,9 +361,9 @@ namespace LessMsi.Gui
 			this.tabExtractFiles.Size = new System.Drawing.Size(456, 415);
 			this.tabExtractFiles.TabIndex = 0;
 			this.tabExtractFiles.Text = "Extract Files";
-			// 
+			//
 			// fileGrid
-			// 
+			//
 			this.fileGrid.AllowUserToAddRows = false;
 			this.fileGrid.AllowUserToDeleteRows = false;
 			this.fileGrid.AllowUserToOrderColumns = true;
@@ -378,9 +378,9 @@ namespace LessMsi.Gui
 			this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.fileGrid.Size = new System.Drawing.Size(446, 368);
 			this.fileGrid.TabIndex = 5;
-			// 
+			//
 			// panel2
-			// 
+			//
 			this.panel2.Controls.Add(this.btnSelectAll);
 			this.panel2.Controls.Add(this.btnUnselectAll);
 			this.panel2.Controls.Add(this.btnExtract);
@@ -389,9 +389,9 @@ namespace LessMsi.Gui
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(446, 37);
 			this.panel2.TabIndex = 4;
-			// 
+			//
 			// btnSelectAll
-			// 
+			//
 			this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnSelectAll.Location = new System.Drawing.Point(0, 9);
 			this.btnSelectAll.Name = "btnSelectAll";
@@ -399,9 +399,9 @@ namespace LessMsi.Gui
 			this.btnSelectAll.TabIndex = 1;
 			this.btnSelectAll.Text = "Select &All";
 			this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
-			// 
+			//
 			// btnUnselectAll
-			// 
+			//
 			this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnUnselectAll.Location = new System.Drawing.Point(106, 9);
 			this.btnUnselectAll.Name = "btnUnselectAll";
@@ -409,9 +409,9 @@ namespace LessMsi.Gui
 			this.btnUnselectAll.TabIndex = 2;
 			this.btnUnselectAll.Text = "&Unselect All";
 			this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
-			// 
+			//
 			// btnExtract
-			// 
+			//
 			this.btnExtract.Anchor =
 				((System.Windows.Forms.AnchorStyles)
 				 ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -423,9 +423,9 @@ namespace LessMsi.Gui
 			this.btnExtract.TabIndex = 3;
 			this.btnExtract.Text = "E&xtract";
 			this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
-			// 
+			//
 			// tabTableView
-			// 
+			//
 			this.tabTableView.Controls.Add(this.panel3);
 			this.tabTableView.Controls.Add(this.msiTableGrid);
 			this.tabTableView.Location = new System.Drawing.Point(4, 22);
@@ -433,9 +433,9 @@ namespace LessMsi.Gui
 			this.tabTableView.Size = new System.Drawing.Size(456, 415);
 			this.tabTableView.TabIndex = 1;
 			this.tabTableView.Text = "Table View";
-			// 
+			//
 			// panel3
-			// 
+			//
 			this.panel3.Controls.Add(this.label2);
 			this.panel3.Controls.Add(this.cboTable);
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -443,18 +443,18 @@ namespace LessMsi.Gui
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(456, 28);
 			this.panel3.TabIndex = 11;
-			// 
+			//
 			// label2
-			// 
+			//
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(4, 7);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(34, 13);
 			this.label2.TabIndex = 9;
 			this.label2.Text = "&Table";
-			// 
+			//
 			// cboTable
-			// 
+			//
 			this.cboTable.Anchor =
 				((System.Windows.Forms.AnchorStyles)
 				 ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -467,9 +467,9 @@ namespace LessMsi.Gui
 			this.cboTable.TabIndex = 8;
 			this.cboTable.Text = "File";
 			this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-			// 
+			//
 			// msiTableGrid
-			// 
+			//
 			this.msiTableGrid.AllowUserToAddRows = false;
 			this.msiTableGrid.AllowUserToDeleteRows = false;
 			dataGridViewCellStyle5.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -486,9 +486,9 @@ namespace LessMsi.Gui
 			this.msiTableGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.msiTableGrid.Size = new System.Drawing.Size(453, 370);
 			this.msiTableGrid.TabIndex = 10;
-			// 
+			//
 			// tabSummary
-			// 
+			//
 			this.tabSummary.Controls.Add(this.msiPropertyGrid);
 			this.tabSummary.Controls.Add(this.grpDescription);
 			this.tabSummary.Location = new System.Drawing.Point(4, 22);
@@ -497,9 +497,9 @@ namespace LessMsi.Gui
 			this.tabSummary.Size = new System.Drawing.Size(456, 415);
 			this.tabSummary.TabIndex = 2;
 			this.tabSummary.Text = "Summary";
-			// 
+			//
 			// msiPropertyGrid
-			// 
+			//
 			this.msiPropertyGrid.AllowUserToAddRows = false;
 			this.msiPropertyGrid.AllowUserToDeleteRows = false;
 			dataGridViewCellStyle6.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -514,9 +514,9 @@ namespace LessMsi.Gui
 			this.msiPropertyGrid.Size = new System.Drawing.Size(446, 299);
 			this.msiPropertyGrid.TabIndex = 3;
 			this.msiPropertyGrid.SelectionChanged += new System.EventHandler(this.msiPropertyGrid_SelectionChanged);
-			// 
+			//
 			// grpDescription
-			// 
+			//
 			this.grpDescription.Controls.Add(this.txtSummaryDescription);
 			this.grpDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.grpDescription.Location = new System.Drawing.Point(5, 304);
@@ -525,9 +525,9 @@ namespace LessMsi.Gui
 			this.grpDescription.TabIndex = 2;
 			this.grpDescription.TabStop = false;
 			this.grpDescription.Text = "Description:";
-			// 
+			//
 			// txtSummaryDescription
-			// 
+			//
 			this.txtSummaryDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.txtSummaryDescription.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.txtSummaryDescription.Location = new System.Drawing.Point(3, 16);
@@ -536,9 +536,9 @@ namespace LessMsi.Gui
 			this.txtSummaryDescription.ReadOnly = true;
 			this.txtSummaryDescription.Size = new System.Drawing.Size(440, 87);
 			this.txtSummaryDescription.TabIndex = 1;
-			// 
+			//
 			// panel1
-			// 
+			//
 			this.panel1.Controls.Add(this.txtMsiFileName);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.btnBrowse);
@@ -547,14 +547,14 @@ namespace LessMsi.Gui
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(464, 31);
 			this.panel1.TabIndex = 0;
-			// 
+			//
 			// openMsiDialog
-			// 
+			//
 			this.openMsiDialog.DefaultExt = "msi";
 			this.openMsiDialog.Filter = "msierablefiles|*.msi|All Files|*.*";
-			// 
+			//
 			// statusBar1
-			// 
+			//
 			this.statusBar1.Location = new System.Drawing.Point(0, 496);
 			this.statusBar1.Name = "statusBar1";
 			this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[]
@@ -565,20 +565,20 @@ namespace LessMsi.Gui
 			this.statusBar1.ShowPanels = true;
 			this.statusBar1.Size = new System.Drawing.Size(464, 16);
 			this.statusBar1.TabIndex = 2;
-			// 
+			//
 			// statusPanelDefault
-			// 
+			//
 			this.statusPanelDefault.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
 			this.statusPanelDefault.Name = "statusPanelDefault";
 			this.statusPanelDefault.Width = 337;
-			// 
+			//
 			// statusPanelFileCount
-			// 
+			//
 			this.statusPanelFileCount.Name = "statusPanelFileCount";
 			this.statusPanelFileCount.Width = 110;
-			// 
+			//
 			// menuStrip1
-			// 
+			//
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
 				                               {
 					                               this.fileToolStripMenuItem,
@@ -590,9 +590,9 @@ namespace LessMsi.Gui
 			this.menuStrip1.Size = new System.Drawing.Size(464, 24);
 			this.menuStrip1.TabIndex = 3;
 			this.menuStrip1.Text = "menuStrip1";
-			// 
+			//
 			// fileToolStripMenuItem
-			// 
+			//
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
 				                                                  {
 					                                                  this.openToolStripMenuItem,
@@ -604,42 +604,42 @@ namespace LessMsi.Gui
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
-			// 
+			//
 			// openToolStripMenuItem
-			// 
+			//
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-			// 
+			//
 			// toolStripSeparator2
-			// 
+			//
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
-			// 
+			//
 			// mruPlaceHolderToolStripMenuItem
-			// 
+			//
 			this.mruPlaceHolderToolStripMenuItem.Enabled = false;
 			this.mruPlaceHolderToolStripMenuItem.Name = "mruPlaceHolderToolStripMenuItem";
 			this.mruPlaceHolderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.mruPlaceHolderToolStripMenuItem.Text = "<Recent Files>";
-			// 
+			//
 			// toolStripSeparator3
-			// 
+			//
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
-			// 
+			//
 			// exitToolStripMenuItem
-			// 
+			//
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
 			this.exitToolStripMenuItem.ShortcutKeys =
 				((System.Windows.Forms.Keys) ((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
 			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
+			//
 			// editToolStripMenuItem
-			// 
+			//
 			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
 				                                                  {
 					                                                  this.copyToolStripMenuItem,
@@ -649,37 +649,37 @@ namespace LessMsi.Gui
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "&Edit";
-			// 
+			//
 			// copyToolStripMenuItem
-			// 
+			//
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
 			this.copyToolStripMenuItem.ShortcutKeys =
 				((System.Windows.Forms.Keys) ((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
 			this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.copyToolStripMenuItem.Text = "&Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-			// 
+			//
 			// toolStripSeparator1
-			// 
+			//
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
-			// 
+			//
 			// preferencesToolStripMenuItem
-			// 
+			//
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
 			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.preferencesToolStripMenuItem.Text = "&Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
-			// 
+			//
 			// aboutToolStripMenuItem
-			// 
+			//
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
 			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-			// 
+			//
 			// MainForm
-			// 
+			//
 			this.AllowDrop = true;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(464, 512);

@@ -79,13 +79,13 @@ namespace LessMsi.Tests
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
             if (fileNamesToExtractOrNull == null)
             {	//extract everything:
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);
             }
             else
             {
                 LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
             }
-			
+
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace LessMsi.Tests
 		/// <param name="commandLineArgs"></param>
 		protected int RunCommandLineInProccess(string commandLineArgs)
 		{
-			//NOTE: Obviously oversimplified splitting of args. 
+			//NOTE: Obviously oversimplified splitting of args.
 			var args = commandLineArgs.Split(' ');
 			for (var i = 0; i < args.Length; i++ )
 			{
@@ -190,7 +190,7 @@ namespace LessMsi.Tests
         protected FileInfo GetActualOutputFile(string msiFileName)
         {
             // strip any subdirectories here since some input msi files have subdirectories.
-            msiFileName = Path.GetFileName(msiFileName); 
+            msiFileName = Path.GetFileName(msiFileName);
             var fi = new FileInfo(Path.Combine(AppPath, msiFileName + ".actual.csv"));
             return fi;
         }
