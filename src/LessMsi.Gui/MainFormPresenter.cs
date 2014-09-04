@@ -405,5 +405,13 @@ namespace LessMsi.Gui
 			}
 			View.ChangeUiEnabled(!isBadFile);
 		}
-	}
+
+        /// <summary>
+        /// Executes searching on gridtable and shows only filtered values
+        /// </summary>
+        /// <param name="p"></param>
+        internal void PerformSearching(string p) {
+            //todo: perform searching
+        }
+    }
 }
