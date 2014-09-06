@@ -15,10 +15,14 @@ namespace LessMsi.Gui.Windows.Forms {
             InitializeComponent();
         }
 
-        private void tbSearchText_Enter(object sender, EventArgs e) {
+        private void tbSearchText_TextChanged(object sender, EventArgs e) {
             if (EnterPressed != null) {
-                EnterPressed(this, new EnterEventArgs() {SearchString = tbSearchText.Text });
+                EnterPressed(this, new EnterEventArgs() { SearchString = tbSearchText.Text });
             }
+        }
+
+        private void tbSearchText_Leave(object sender, EventArgs e) {
+            this.Dispose();
         }
     }
 

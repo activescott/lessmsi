@@ -39,6 +39,7 @@ namespace LessMsi.Gui
 	class MainFormPresenter
 	{
 		private readonly MainForm _view;
+        private SortableBindingList<MsiFileItemView> fileDataSource;
 
 		public MainFormPresenter(MainForm view)
 		{
@@ -112,7 +113,7 @@ namespace LessMsi.Gui
 					MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
 						inItem => new MsiFileItemView(inItem)
 						);
-					var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
+					fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
 					View.fileGrid.DataSource = fileDataSource;
 					View.AutoSizeFileGridColumns();
 					Status(fileDataSource.Count + " files found.");
@@ -411,7 +412,10 @@ namespace LessMsi.Gui
         /// </summary>
         /// <param name="p"></param>
         internal void PerformSearching(string p) {
-            //todo: perform searching
+            var dataSource = this.fileDataSource.Where(x=>x.Component.Contains(p) || x.Directory.Contains(p) || x.Name.Contains(p) || x.Version.Contains(p)).ToList();
+            View.fileGrid.DataSource = dataSource;
+            Status(string.Format("Items count: {0}", dataSource.Count));
+            
         }
     }
 }

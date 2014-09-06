@@ -34,7 +34,8 @@
             this.tbSearchText.Name = "tbSearchText";
             this.tbSearchText.Size = new System.Drawing.Size(317, 20);
             this.tbSearchText.TabIndex = 0;
-            this.tbSearchText.Enter += new System.EventHandler(this.tbSearchText_Enter);
+            this.tbSearchText.TextChanged += new System.EventHandler(this.tbSearchText_TextChanged);
+            this.tbSearchText.Leave += new System.EventHandler(this.tbSearchText_Leave);
             // 
             // SearchPanel
             // 

@@ -907,7 +907,7 @@ namespace LessMsi.Gui
                 searchPanel.Width = fileGrid.Width;
                 fileGrid.Controls.Add(searchPanel);
                 searchPanel.EnterPressed += searchPanel_EnterPressed;
-                
+                searchPanel.Focus();
             }
             else {
                 searchPanel.Dispose();
