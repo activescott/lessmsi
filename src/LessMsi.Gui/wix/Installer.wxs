@@ -1,6 +1,6 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
-  <Product Id="*" Name="LesMSI" Language="1045" Version="1.0.0.0" Codepage="1250" Manufacturer="Adrian Kozlowski"
+  <Product Id="*" Name="LesMSI" Language="1045" Version="1.11" Codepage="1250" Manufacturer="Adrian Kozlowski"
            UpgradeCode="{03DCB7E9-5032-490D-937B-5FD6A3AFC12F}">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
