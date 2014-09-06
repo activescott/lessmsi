@@ -33,17 +33,17 @@
   
   <Fragment>
       <Component Id='ProductComponents' Directory='LESSMSI' Guid='{14908686-EC3D-4BF3-A2A2-88B3B13CB9CF}'>
-        <File Source='..\..\..\bin\Release\lessmsi-gui.exe'></File>
-        <File Source='..\..\..\bin\Release\lessmsi.core.dll'></File>
-        <File Source='..\..\..\bin\Release\AddWindowsExplorerShortcut.exe'></File>
-        <File Source='..\..\..\bin\Release\lessmsi.exe'></File>
-        <File Source='..\..\..\bin\Release\nunit.framework.xml'></File>
-        <File Source='..\..\..\bin\Release\nunit.framework.dll'></File>
-        <File Source='..\..\..\bin\Release\AddWindowsExplorerShortcut.exe.config'></File>
-        <File Source='..\..\..\bin\Release\wixcab.dll'></File>
-        <File Source='..\..\..\bin\Release\wix.dll'></File>
-        <File Source='..\..\..\bin\Release\mspack.dll'></File>
-        <File Source='..\..\..\bin\Release\libmspackn.dll'></File>
+        <File Source='src\bin\Release\lessmsi-gui.exe'></File>
+        <File Source='src\bin\Release\lessmsi.core.dll'></File>
+        <File Source='src\bin\Release\AddWindowsExplorerShortcut.exe'></File>
+        <File Source='src\bin\Release\lessmsi.exe'></File>
+        <File Source='src\bin\Release\nunit.framework.xml'></File>
+        <File Source='src\bin\Release\nunit.framework.dll'></File>
+        <File Source='src\bin\Release\AddWindowsExplorerShortcut.exe.config'></File>
+        <File Source='src\bin\Release\wixcab.dll'></File>
+        <File Source='src\bin\Release\wix.dll'></File>
+        <File Source='src\bin\Release\mspack.dll'></File>
+        <File Source='src\bin\Release\libmspackn.dll'></File>
       </Component>
   </Fragment>
 </Wix>
