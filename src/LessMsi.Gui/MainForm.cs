@@ -90,7 +90,6 @@ namespace LessMsi.Gui
 		}
 
         private ToolStripMenuItem searchFileToolStripMenuItem;
-        private Button btRemoveFilter;
 
 		public FileInfo SelectedMsiFile
 		{
@@ -261,7 +260,6 @@ namespace LessMsi.Gui
             this.tabExtractFiles = new System.Windows.Forms.TabPage();
             this.fileGrid = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btRemoveFilter = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
@@ -384,7 +382,6 @@ namespace LessMsi.Gui
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btRemoveFilter);
             this.panel2.Controls.Add(this.btnSelectAll);
             this.panel2.Controls.Add(this.btnUnselectAll);
             this.panel2.Controls.Add(this.btnExtract);
@@ -393,17 +390,6 @@ namespace LessMsi.Gui
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(446, 37);
             this.panel2.TabIndex = 4;
-            // 
-            // btRemoveFilter
-            // 
-            this.btRemoveFilter.Location = new System.Drawing.Point(212, 9);
-            this.btRemoveFilter.Name = "btRemoveFilter";
-            this.btRemoveFilter.Size = new System.Drawing.Size(91, 27);
-            this.btRemoveFilter.TabIndex = 4;
-            this.btRemoveFilter.Text = "Remove fillter";
-            this.btRemoveFilter.UseVisualStyleBackColor = true;
-            this.btRemoveFilter.Visible = false;
-            this.btRemoveFilter.Click += new System.EventHandler(this.btRemoveFilter_Click);
             // 
             // btnSelectAll
             // 
@@ -920,14 +906,15 @@ namespace LessMsi.Gui
         private void searchFileToolStripMenuItem_Click(object sender, EventArgs e) {
             if (searchPanel == null) {
                 searchPanel = new SearchPanel();
-				searchPanel.StartPosition = FormStartPosition.Manual;
 				var screenPos = GetScreenPosition(this.fileGrid);
 				searchPanel.Left = screenPos.X;
 				searchPanel.Top = screenPos.Y;
                 searchPanel.Width = fileGrid.Width;
-                searchPanel.SearchTermChanged += SearchPanelSearchTermChanged;
-				
-	            searchPanel.ShowDialog(this);
+	            
+                searchPanel.SearchTermChanged += (o, args) => Presenter.BeginSearching(args.SearchString);
+	            searchPanel.SearchCanceled += (o, args) => Presenter.CancelSearching();
+	            searchPanel.Show(this);
+				searchPanel.Height = 26;
             }
             else {
                 searchPanel.Close();
@@ -946,28 +933,6 @@ namespace LessMsi.Gui
 			} 
 			return this.PointToScreen(p);
 		}
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void SearchPanelSearchTermChanged(object sender, EnterEventArgs e) {
-            if (!string.IsNullOrEmpty(e.SearchString)) {
-                btRemoveFilter.Visible = true;
-            }
-            Presenter.PerformSearching(e.SearchString);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btRemoveFilter_Click(object sender, EventArgs e) {
-            btRemoveFilter.Visible = false;
-            Presenter.RemoveFilter();
-        }
 
         /// <summary>
         /// Closes search panel when main window change its size.

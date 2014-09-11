@@ -411,7 +411,7 @@ namespace LessMsi.Gui
         /// Executes searching on gridtable and shows only filtered values
         /// </summary>
         /// <param name="p"></param>
-        internal void PerformSearching(string p) {
+        internal void BeginSearching(string p) {
             var dataSource = this.fileDataSource.Where(x=>x.Component.Contains(p) || x.Directory.Contains(p) || x.Name.Contains(p) || x.Version.Contains(p)).ToList();
             View.fileGrid.DataSource = dataSource;
             Status(string.Format("Items count: {0}", dataSource.Count));
@@ -421,7 +421,7 @@ namespace LessMsi.Gui
         /// <summary>
         /// Removes file gridview filter
         /// </summary>
-        internal void RemoveFilter() {
+        internal void CancelSearching() {
             View.fileGrid.DataSource = this.fileDataSource;
         }
     }
