@@ -1,0 +1,49 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product Id="*" Name="LesMSI" Language="1045" Version="1.11" Codepage="1250" Manufacturer="Adrian Kozlowski"
+           UpgradeCode="{03DCB7E9-5032-490D-937B-5FD6A3AFC12F}">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Property Id="INSTALLPATH"></Property>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="LessMSI" Level="1" ConfigurableDirectory="LESSMSI">
+      <ComponentRef Id="ProductComponents" />            
+    </Feature>
+
+    <Upgrade Id="{03DCB7E9-5032-490D-937B-5FD6A3AFC12F}">
+      <UpgradeVersion Property="VERSION" OnlyDetect="no" Minimum="1.0.0.0" IncludeMinimum="yes"></UpgradeVersion>
+    </Upgrade>
+
+  </Product>
+
+  <Fragment>
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFilesFolder'>
+        <Directory Id='LESSMSI' Name='LessMsi'>          
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+  
+  <Fragment>
+      <Component Id='ProductComponents' Directory='LESSMSI' Guid='{14908686-EC3D-4BF3-A2A2-88B3B13CB9CF}'>
+        <File Source='src\bin\Release\lessmsi-gui.exe'></File>
+        <File Source='src\bin\Release\lessmsi.core.dll'></File>
+        <File Source='src\bin\Release\AddWindowsExplorerShortcut.exe'></File>
+        <File Source='src\bin\Release\lessmsi.exe'></File>
+        <File Source='src\bin\Release\nunit.framework.xml'></File>
+        <File Source='src\bin\Release\nunit.framework.dll'></File>
+        <File Source='src\bin\Release\AddWindowsExplorerShortcut.exe.config'></File>
+        <File Source='src\bin\Release\wixcab.dll'></File>
+        <File Source='src\bin\Release\wix.dll'></File>
+        <File Source='src\bin\Release\mspack.dll'></File>
+        <File Source='src\bin\Release\libmspackn.dll'></File>
+      </Component>
+  </Fragment>
+</Wix>
