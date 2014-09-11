@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -919,23 +920,39 @@ namespace LessMsi.Gui
         private void searchFileToolStripMenuItem_Click(object sender, EventArgs e) {
             if (searchPanel == null) {
                 searchPanel = new SearchPanel();
+				searchPanel.StartPosition = FormStartPosition.Manual;
+				var screenPos = GetScreenPosition(this.fileGrid);
+				searchPanel.Left = screenPos.X;
+				searchPanel.Top = screenPos.Y;
                 searchPanel.Width = fileGrid.Width;
-                fileGrid.Controls.Add(searchPanel);
-                searchPanel.EnterPressed += searchPanel_EnterPressed;
-                searchPanel.Focus();
+                searchPanel.SearchTermChanged += SearchPanelSearchTermChanged;
+				
+	            searchPanel.ShowDialog(this);
             }
             else {
-                searchPanel.Dispose();
+                searchPanel.Close();
                 searchPanel = null;
             }
         }
+
+		private Point GetScreenPosition(Control ctl)
+		{
+			var p = new Point(0,0);
+			while (!(ctl is Form))
+			{
+				p.X += ctl.Left;
+				p.Y += ctl.Top;
+				ctl = ctl.Parent;
+			} 
+			return this.PointToScreen(p);
+		}
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void searchPanel_EnterPressed(object sender, EnterEventArgs e) {
+        void SearchPanelSearchTermChanged(object sender, EnterEventArgs e) {
             if (!string.IsNullOrEmpty(e.SearchString)) {
                 btRemoveFilter.Visible = true;
             }

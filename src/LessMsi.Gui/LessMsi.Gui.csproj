@@ -83,7 +83,7 @@
     </Compile>
     <Compile Include="Windows.Forms\ElevationNativeMethods.cs" />
     <Compile Include="Windows.Forms\SearchPanel.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Windows.Forms\SearchPanel.Designer.cs">
       <DependentUpon>SearchPanel.cs</DependentUpon>
