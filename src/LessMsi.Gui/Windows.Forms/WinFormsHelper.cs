@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -81,5 +82,28 @@ namespace LessMsi.Gui.Windows.Forms
 				Clipboard.SetText(sb.ToString());
             }
         }
+
+		public static IWin32Window GetParentForm(Control control)
+		{
+			while (!(control is Form))
+			{
+				control = control.Parent;
+			}
+			Debug.Assert(control is Form, "expected control to be form!");
+			return (control as Form);
+		}
+
+		public static Rectangle GetScreenRect(Control ctl)
+		{
+			var r = new Rectangle(0, 0, ctl.Width, ctl.Height);
+			while (!(ctl is Form))
+			{
+				r.X += ctl.Left;
+				r.Y += ctl.Top;
+				ctl = ctl.Parent;
+			}
+			Debug.Assert(ctl is Form, "expected control to be form!");
+			return (ctl as Form).RectangleToScreen(r);
+		}
     }
 }
