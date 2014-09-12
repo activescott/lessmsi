@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -87,6 +88,8 @@ namespace LessMsi.Gui
 				col.Width = col.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, true);
 			}
 		}
+
+		private ToolStripMenuItem searchFileToolStripMenuItem;
 
 		public FileInfo SelectedMsiFile
 		{
@@ -225,6 +228,7 @@ namespace LessMsi.Gui
 		/// Required designer variable.
 		/// </summary>
 		private IContainer components = null;
+        private SearchPanel searchPanel;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -246,9 +250,9 @@ namespace LessMsi.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.txtMsiFileName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.btnBrowse = new System.Windows.Forms.Button();
@@ -285,29 +289,28 @@ namespace LessMsi.Gui
 			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.searchFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabs.SuspendLayout();
 			this.tabExtractFiles.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize) (this.fileGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
 			this.panel2.SuspendLayout();
 			this.tabTableView.SuspendLayout();
 			this.panel3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize) (this.msiTableGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
 			this.tabSummary.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize) (this.msiPropertyGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
 			this.grpDescription.SuspendLayout();
 			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize) (this.statusPanelDefault)).BeginInit();
-			((System.ComponentModel.ISupportInitialize) (this.statusPanelFileCount)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// txtMsiFileName
 			// 
-			this.txtMsiFileName.Anchor =
-				((System.Windows.Forms.AnchorStyles)
-				 (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-				   | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMsiFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtMsiFileName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this.txtMsiFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
 			this.txtMsiFileName.Location = new System.Drawing.Point(55, 5);
@@ -327,9 +330,7 @@ namespace LessMsi.Gui
 			// 
 			// btnBrowse
 			// 
-			this.btnBrowse.Anchor =
-				((System.Windows.Forms.AnchorStyles)
-				 ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnBrowse.Location = new System.Drawing.Point(428, 7);
 			this.btnBrowse.Name = "btnBrowse";
@@ -367,8 +368,8 @@ namespace LessMsi.Gui
 			this.fileGrid.AllowUserToAddRows = false;
 			this.fileGrid.AllowUserToDeleteRows = false;
 			this.fileGrid.AllowUserToOrderColumns = true;
-			dataGridViewCellStyle4.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.fileGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.fileGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.fileGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fileGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
@@ -378,6 +379,8 @@ namespace LessMsi.Gui
 			this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.fileGrid.Size = new System.Drawing.Size(446, 368);
 			this.fileGrid.TabIndex = 5;
+			this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
+			this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
 			// 
 			// panel2
 			// 
@@ -412,9 +415,7 @@ namespace LessMsi.Gui
 			// 
 			// btnExtract
 			// 
-			this.btnExtract.Anchor =
-				((System.Windows.Forms.AnchorStyles)
-				 ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExtract.Enabled = false;
 			this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.btnExtract.Location = new System.Drawing.Point(354, 9);
@@ -455,11 +456,9 @@ namespace LessMsi.Gui
 			// 
 			// cboTable
 			// 
-			this.cboTable.Anchor =
-				((System.Windows.Forms.AnchorStyles)
-				 ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-				    | System.Windows.Forms.AnchorStyles.Left)
-				   | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboTable.Enabled = false;
 			this.cboTable.Location = new System.Drawing.Point(50, 5);
 			this.cboTable.Name = "cboTable";
@@ -472,13 +471,11 @@ namespace LessMsi.Gui
 			// 
 			this.msiTableGrid.AllowUserToAddRows = false;
 			this.msiTableGrid.AllowUserToDeleteRows = false;
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.msiTableGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-			this.msiTableGrid.Anchor =
-				((System.Windows.Forms.AnchorStyles)
-				 ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-				    | System.Windows.Forms.AnchorStyles.Left)
-				   | System.Windows.Forms.AnchorStyles.Right)));
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.msiTableGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+			this.msiTableGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.msiTableGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.msiTableGrid.Location = new System.Drawing.Point(0, 35);
 			this.msiTableGrid.Name = "msiTableGrid";
@@ -502,10 +499,9 @@ namespace LessMsi.Gui
 			// 
 			this.msiPropertyGrid.AllowUserToAddRows = false;
 			this.msiPropertyGrid.AllowUserToDeleteRows = false;
-			dataGridViewCellStyle6.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.msiPropertyGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-			this.msiPropertyGrid.ColumnHeadersHeightSizeMode =
-				System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.msiPropertyGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+			this.msiPropertyGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.msiPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.msiPropertyGrid.Location = new System.Drawing.Point(5, 5);
 			this.msiPropertyGrid.Name = "msiPropertyGrid";
@@ -557,11 +553,9 @@ namespace LessMsi.Gui
 			// 
 			this.statusBar1.Location = new System.Drawing.Point(0, 496);
 			this.statusBar1.Name = "statusBar1";
-			this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[]
-				                                {
-					                                this.statusPanelDefault,
-					                                this.statusPanelFileCount
-				                                });
+			this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.statusPanelDefault,
+            this.statusPanelFileCount});
 			this.statusBar1.ShowPanels = true;
 			this.statusBar1.Size = new System.Drawing.Size(464, 16);
 			this.statusBar1.TabIndex = 2;
@@ -579,12 +573,10 @@ namespace LessMsi.Gui
 			// 
 			// menuStrip1
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-				                               {
-					                               this.fileToolStripMenuItem,
-					                               this.editToolStripMenuItem,
-					                               this.aboutToolStripMenuItem
-				                               });
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(464, 24);
@@ -593,14 +585,12 @@ namespace LessMsi.Gui
 			// 
 			// fileToolStripMenuItem
 			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-				                                                  {
-					                                                  this.openToolStripMenuItem,
-					                                                  this.toolStripSeparator2,
-					                                                  this.mruPlaceHolderToolStripMenuItem,
-					                                                  this.toolStripSeparator3,
-					                                                  this.exitToolStripMenuItem
-				                                                  });
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.mruPlaceHolderToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
@@ -632,20 +622,18 @@ namespace LessMsi.Gui
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.ShortcutKeys =
-				((System.Windows.Forms.Keys) ((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+			this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
 			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// editToolStripMenuItem
 			// 
-			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-				                                                  {
-					                                                  this.copyToolStripMenuItem,
-					                                                  this.toolStripSeparator1,
-					                                                  this.preferencesToolStripMenuItem
-				                                                  });
+			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.preferencesToolStripMenuItem,
+            this.searchFileToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "&Edit";
@@ -653,23 +641,31 @@ namespace LessMsi.Gui
 			// copyToolStripMenuItem
 			// 
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-			this.copyToolStripMenuItem.ShortcutKeys =
-				((System.Windows.Forms.Keys) ((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
 			this.copyToolStripMenuItem.Text = "&Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
 			// 
 			// preferencesToolStripMenuItem
 			// 
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
 			this.preferencesToolStripMenuItem.Text = "&Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+			// 
+			// searchFileToolStripMenuItem
+			// 
+			this.searchFileToolStripMenuItem.Name = "searchFileToolStripMenuItem";
+			this.searchFileToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F";
+			this.searchFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+			this.searchFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+			this.searchFileToolStripMenuItem.Text = "Search File";
+			this.searchFileToolStripMenuItem.Click += new System.EventHandler(this.searchFileToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -695,20 +691,20 @@ namespace LessMsi.Gui
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
 			this.tabs.ResumeLayout(false);
 			this.tabExtractFiles.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize) (this.fileGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
 			this.panel2.ResumeLayout(false);
 			this.tabTableView.ResumeLayout(false);
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize) (this.msiTableGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).EndInit();
 			this.tabSummary.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize) (this.msiPropertyGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
 			this.grpDescription.ResumeLayout(false);
 			this.grpDescription.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize) (this.statusPanelDefault)).EndInit();
-			((System.ComponentModel.ISupportInitialize) (this.statusPanelFileCount)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -900,6 +896,53 @@ namespace LessMsi.Gui
 			            where file != null && Path.GetExtension(file).ToLowerInvariant() == ".msi"
 			            select new FileInfo(file);
 			return query;
+		}
+
+        /// <summary>
+        /// Triggers the file grid search action.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void searchFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+	        if (searchPanel == null)
+	        {
+				searchPanel = new SearchPanel();
+	        }
+	        if (IsFileTabSelected)
+	        {
+		        searchPanel.SearchDataGrid(this.fileGrid,
+		                                   (o, args) => Presenter.BeginSearching(args.SearchString),
+		                                   (o, args) => { Presenter.BeginSearching(""); }
+			        );
+	        }
+        }
+
+		protected bool IsFileTabSelected
+		{
+			get
+			{
+				return tabs.SelectedTab == tabExtractFiles;
+			}
+		}
+
+		private void fileGrid_KeyDown(object sender, KeyEventArgs e)
+		{
+			// If they press escape while navigating the grid and the search panel is open in the search panel, cancel the search:
+			if (e.KeyCode == Keys.Escape)
+			{
+				searchPanel.CancelSearch();
+			}
+		}
+
+		private void fileGrid_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (Char.IsLetterOrDigit(e.KeyChar))
+			{
+				// looks like a search term while the grid has focus...
+				searchFileToolStripMenuItem_Click(this, EventArgs.Empty);
+				e.Handled = true;
+			}
 		}
 	}
 }

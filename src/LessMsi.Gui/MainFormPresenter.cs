@@ -39,6 +39,7 @@ namespace LessMsi.Gui
 	class MainFormPresenter
 	{
 		private readonly MainForm _view;
+        private SortableBindingList<MsiFileItemView> fileDataSource;
 
 		public MainFormPresenter(MainForm view)
 		{
@@ -76,7 +77,13 @@ namespace LessMsi.Gui
 			View.AddFileGridColumn("Version", "Version");
 		}
 
-		public MainForm View
+		public IMainFormView View
+		{
+			get { return _view; }
+		}
+
+		[Obsolete("ViewLeakedAbstraction is leaking the raw view implementation. Convert to using View instead.")]
+		public MainForm ViewLeakedAbstraction
 		{
 			get { return _view; }
 		}
@@ -102,18 +109,18 @@ namespace LessMsi.Gui
 			if (msidb == null)
 				return;
 
-			using (new DisposableCursor(View))
+			using (new DisposableCursor(ViewLeakedAbstraction))
 			{
 				try
 				{
-					Status("");
+					Status();
 
 					MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
 					MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
 						inItem => new MsiFileItemView(inItem)
 						);
-					var fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
-					View.fileGrid.DataSource = fileDataSource;
+					fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
+					ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
 					View.AutoSizeFileGridColumns();
 					Status(fileDataSource.Count + " files found.");
 				}
@@ -150,13 +157,13 @@ namespace LessMsi.Gui
 		/// <param name="doSelect">True to select the files, false to unselect them.</param>
 		public void ToggleSelectAllFiles(bool doSelect)
 		{
-			using (WinFormsHelper.BeginUiUpdate(View.fileGrid))
+			using (WinFormsHelper.BeginUiUpdate(ViewLeakedAbstraction.fileGrid))
 			{
 				if (doSelect)
-					View.fileGrid.SelectAll();
+					ViewLeakedAbstraction.fileGrid.SelectAll();
 				else
 				{
-					View.fileGrid.ClearSelection();
+					ViewLeakedAbstraction.fileGrid.ClearSelection();
 				}
 			}
 		}
@@ -164,12 +171,20 @@ namespace LessMsi.Gui
 		public void Error(string msg, Exception exception = null)
 		{
 			Status("ERROR:" + msg);
-			View.statusPanelDefault.ToolTipText = exception != null ? exception.ToString() : "";
+			ViewLeakedAbstraction.statusPanelDefault.ToolTipText = exception != null ? exception.ToString() : "";
+		}
+
+		/// <summary>
+		/// Sets the default "idle" status.
+		/// </summary>
+		public void Status()
+		{
+			this.Status("");
 		}
 
 		public void Status(string text)
 		{
-			View.statusPanelDefault.Text = text;
+			ViewLeakedAbstraction.statusPanelDefault.Text = text;
 		}
 
 		public void LoadTables()
@@ -297,7 +312,7 @@ namespace LessMsi.Gui
 
 			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
-				using (new DisposableCursor(View))
+				using (new DisposableCursor(ViewLeakedAbstraction))
 				{
 					try
 					{
@@ -313,16 +328,16 @@ namespace LessMsi.Gui
 							msiTableNames = tempList.ToArray();
 						}
 						
-						Status("");
+						Status();
 					}
 					catch (Exception e)
 					{
 						Status(e.Message);
 					}
 
-					View.cboTable.Items.Clear();
-					View.cboTable.Items.AddRange(msiTableNames.ToArray());
-					View.cboTable.SelectedIndex = 0;
+					ViewLeakedAbstraction.cboTable.Items.Clear();
+					ViewLeakedAbstraction.cboTable.Items.AddRange(msiTableNames.ToArray());
+					ViewLeakedAbstraction.cboTable.SelectedIndex = 0;
 				}
 			}
 
@@ -353,7 +368,7 @@ namespace LessMsi.Gui
 
 			Status(string.Concat("Processing Table \'", tableName, "\'."));
 
-			using (new DisposableCursor(View))
+			using (new DisposableCursor(ViewLeakedAbstraction))
 			{   // clear the columns no matter what happens (in the event the table doesn't exist we don't want to show anything).
 				View.ClearTableViewGridColumns();
 				try
@@ -369,7 +384,7 @@ namespace LessMsi.Gui
 						}
 						View.SetTableViewGridDataSource(view.Records);
 					}
-					Status("Idle");
+					Status();
 				}
 				catch (Exception eUnexpected)
 				{
@@ -405,5 +420,29 @@ namespace LessMsi.Gui
 			}
 			View.ChangeUiEnabled(!isBadFile);
 		}
+
+	    /// <summary>
+	    /// Executes searching on gridtable and shows only filtered values
+	    /// </summary>
+	    /// <param name="searchTerm">Search term or <see cref="String.Empty"/> to cancel the search.</param>
+	    internal void BeginSearching(string searchTerm)
+	    {
+		    if (this.fileDataSource != null)
+		    {
+			    IList<MsiFileItemView> dataSource;
+			    if (string.IsNullOrEmpty(searchTerm))
+			    {
+				    dataSource = this.fileDataSource;
+				    Status();
+			    }
+			    else
+			    {
+				    dataSource = this.fileDataSource.Where(x => x.Component.Contains(searchTerm) || x.Directory.Contains(searchTerm) || x.Name.Contains(searchTerm) || x.Version.Contains(searchTerm)).ToList();
+					Status(string.Format("{0} files found.", dataSource.Count));
+			    }
+				ViewLeakedAbstraction.fileGrid.DataSource = dataSource;
+		    }
+
+	    }
 	}
 }

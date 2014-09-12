@@ -28,7 +28,9 @@
 		<DeployFiles Include="$(RootDir)\..\bin\Release\AddWindowsExplorerShortcut.exe"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi.core.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi.exe.config"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi-gui.exe"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\..\bin\Release\lessmsi-gui.exe.config"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\mspack.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wix.dll"></DeployFiles>
