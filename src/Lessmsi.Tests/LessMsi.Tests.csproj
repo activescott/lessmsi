@@ -10,10 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LessMsi.Tests</RootNamespace>
     <AssemblyName>LessMsi.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -84,7 +83,7 @@ mkdir "$(TargetDir)TestFiles"
 xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="'$(OS)' == 'Windows_NT'" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.mono.targets" Condition="'$(OS)' == 'mono'"/>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.mono.targets" Condition="'$(OS)' == 'mono'" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
