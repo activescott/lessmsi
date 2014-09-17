@@ -24,33 +24,52 @@
         /// </summary>
         private void InitializeComponent() {
 			this.tbSearchText = new System.Windows.Forms.TextBox();
+			this.cancelButton = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// tbSearchText
 			// 
 			this.tbSearchText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbSearchText.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbSearchText.Location = new System.Drawing.Point(2, 2);
+			this.tbSearchText.Location = new System.Drawing.Point(48, 2);
 			this.tbSearchText.Name = "tbSearchText";
-			this.tbSearchText.Size = new System.Drawing.Size(178, 20);
+			this.tbSearchText.Size = new System.Drawing.Size(222, 20);
 			this.tbSearchText.TabIndex = 0;
 			this.tbSearchText.TextChanged += new System.EventHandler(this.tbSearchText_TextChanged);
 			this.tbSearchText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSearchText_KeyDown);
 			// 
+			// cancelButton
+			// 
+			this.cancelButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.cancelButton.Location = new System.Drawing.Point(270, 2);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(28, 18);
+			this.cancelButton.TabIndex = 1;
+			this.cancelButton.Text = "X";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.label1.Location = new System.Drawing.Point(2, 2);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(46, 18);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Search:";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// SearchPanel
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(182, 24);
-			this.ControlBox = false;
+			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.tbSearchText);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.cancelButton);
 			this.MaximumSize = new System.Drawing.Size(999, 26);
-			this.MinimizeBox = false;
 			this.Name = "SearchPanel";
 			this.Padding = new System.Windows.Forms.Padding(2);
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.ResizeEnd += new System.EventHandler(this.SearchPanel_ResizeEnd);
+			this.Size = new System.Drawing.Size(300, 22);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -59,5 +78,7 @@
         #endregion
 
 		private System.Windows.Forms.TextBox tbSearchText;
+		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.Label label1;
     }
 }

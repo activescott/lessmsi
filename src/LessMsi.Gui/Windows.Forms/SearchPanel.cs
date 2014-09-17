@@ -3,52 +3,23 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LessMsi.Gui.Windows.Forms {
-    public partial class SearchPanel : Form {
-        public event EventHandler<SearchTermChangedEventArgs> SearchTermChanged;
+namespace LessMsi.Gui.Windows.Forms
+{
+	internal partial class SearchPanel : UserControl
+	{
+		public event EventHandler<SearchTermChangedEventArgs> SearchTermChanged;
+
 		/// <summary>
 		/// Raised when the search term box is canceled. Any filtering done based on the search can be cleared at this point.
 		/// </summary>
 		public event EventHandler<EventArgs> SearchCanceled;
+		private Control dataGridToAttachTo;
 
-        public SearchPanel()
+		public SearchPanel()
 		{
-            InitializeComponent();
-			SetPreferredFormSize();
-        }
-
-		private void SearchPanel_ResizeEnd(object sender, EventArgs e)
-		{
-			SetPreferredFormSize();
+			this.Visible = false;
+			InitializeComponent();
 		}
-
-	    private void SetPreferredFormSize()
-	    {
-			this.ClientSize = new Size(this.ClientSize.Width, PreferredHeight);
-			this.PerformLayout();
-	    }
-
-	    private int PreferredHeight
-	    {
-		    get { return this.tbSearchText.Bottom + this.Padding.Bottom; }
-	    }
-
-	    private void tbSearchText_TextChanged(object sender, EventArgs e)
-        {
-            if (SearchTermChanged != null) {
-                SearchTermChanged(this, new SearchTermChangedEventArgs() { SearchString = tbSearchText.Text });
-            }
-        }
-
-	    public void CancelSearch()
-	    {
-		    if (!this.Visible)
-			    return;
-		    this.tbSearchText.Text = "";
-		    this.Hide();
-			if (SearchCanceled != null)
-			    SearchCanceled(this, EventArgs.Empty);
-	    }
 
 		/// <summary>
 		/// Performs the search of the specified data grid.
@@ -58,17 +29,53 @@ namespace LessMsi.Gui.Windows.Forms {
 		/// <param name="searchTermChangedHandler">Handler for search term change.</param>
 		/// <param name="cancelSearchingEventHandler">When the user cancels the search the caller can use this handler to clean something up.</param>
 		public void SearchDataGrid(Control dataGridToAttachTo,
-			EventHandler<SearchTermChangedEventArgs> searchTermChangedHandler,
-			EventHandler<EventArgs> cancelSearchingEventHandler 
+		                           EventHandler<SearchTermChangedEventArgs> searchTermChangedHandler,
+		                           EventHandler<EventArgs> cancelSearchingEventHandler
 			)
 		{
-			this.Width = dataGridToAttachTo.Width;
-			var screenRect = WinFormsHelper.GetScreenRect(dataGridToAttachTo);
-			this.Location = new Point(screenRect.X, screenRect.Bottom - this.Height);
+			Debug.Assert(this.dataGridToAttachTo == null || object.ReferenceEquals(this.dataGridToAttachTo, dataGridToAttachTo), "expected always to be the same data grid? Something odd here.");
+			this.dataGridToAttachTo = dataGridToAttachTo;
+			dataGridToAttachTo.Parent.Controls.Add(this);
+			SetPreferredLocationAndSize();
 			this.SearchTermChanged += searchTermChangedHandler;
 			this.SearchCanceled += cancelSearchingEventHandler;
-			this.Show(WinFormsHelper.GetParentForm(dataGridToAttachTo));
+			this.Parent.Resize += (sender, args) => SetPreferredLocationAndSize();
+			this.cancelButton.Click += (sender, args) => this.CancelSearch();
+			this.BringToFront();
+			this.Visible = true;
 			this.tbSearchText.Focus();
+		}
+
+		private void SetPreferredLocationAndSize()
+		{
+			this.SuspendLayout();
+			this.Width = 300;//this.Width = dataGridToAttachTo.Width;
+			this.ClientSize = new Size(this.ClientSize.Width, PreferredClientHeight);
+			this.ResumeLayout(true);
+			this.Location = new Point(dataGridToAttachTo.Left, dataGridToAttachTo.Height - this.Height);
+		}
+
+		private int PreferredClientHeight
+		{
+			get { return this.tbSearchText.Bottom + this.Padding.Bottom; }
+		}
+
+		private void tbSearchText_TextChanged(object sender, EventArgs e)
+		{
+			if (SearchTermChanged != null)
+			{
+				SearchTermChanged(this, new SearchTermChangedEventArgs() {SearchString = tbSearchText.Text});
+			}
+		}
+
+		public void CancelSearch()
+		{
+			if (!this.Visible)
+				return;
+			this.tbSearchText.Text = "";
+			this.Hide();
+			if (SearchCanceled != null)
+				SearchCanceled(this, EventArgs.Empty);
 		}
 
 		private void tbSearchText_KeyDown(object sender, KeyEventArgs e)
@@ -76,11 +83,14 @@ namespace LessMsi.Gui.Windows.Forms {
 			if (e.KeyCode == Keys.Escape)
 			{
 				CancelSearch();
+				e.Handled = true;
+				e.SuppressKeyPress = true;
 			}
 		}
-    }
+	}
 
-    public class SearchTermChangedEventArgs : EventArgs{
-        public string SearchString { get; set; }
-    }
+	internal class SearchTermChangedEventArgs : EventArgs
+	{
+		public string SearchString { get; set; }
+	}
 }
