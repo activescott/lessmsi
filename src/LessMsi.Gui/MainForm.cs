@@ -687,6 +687,7 @@ namespace LessMsi.Gui
 			this.MinimumSize = new System.Drawing.Size(352, 404);
 			this.Name = "MainForm";
 			this.Text = "Less MSIérables";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
 			this.tabs.ResumeLayout(false);
@@ -943,6 +944,12 @@ namespace LessMsi.Gui
 				searchFileToolStripMenuItem_Click(this, EventArgs.Empty);
 				e.Handled = true;
 			}
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			_mruManager.SavePreferences();
+			Properties.Settings.Default.Save();
 		}
 	}
 }

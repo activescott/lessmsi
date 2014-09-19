@@ -24,6 +24,8 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace LessMsi.Gui
@@ -45,7 +47,44 @@ namespace LessMsi.Gui
 		{
 			if (placeHolderItem == null)
 				throw new ArgumentNullException("placeHolderItem");
-			_placeHolderItem = placeHolderItem;	
+			_placeHolderItem = placeHolderItem;
+			LoadPreferences();
+		}
+
+		private void LoadPreferences()
+		{
+			var recentFiles = Properties.Settings.Default.RecentFiles;
+			if (recentFiles == null)
+				return;
+			var paths = new string[recentFiles.Count];
+			recentFiles.CopyTo(paths,0);
+
+			_items.Clear();
+			_items.AddRange(paths.Select(path => new MruItem(this, path)));
+			for (var index = 0; index < _items.Count; index++)
+			{
+				// insert each one begining right after the placeholder
+				PlaceHolderOwner.Items.Insert(PlaceHolderIndexInOwner + index + 1, _items[index]);
+			}
+			OnItemsChanged();
+		}
+
+		public void SavePreferences()
+		{
+			var paths = new StringCollection();
+			_items.ForEach((item) => paths.Add(item.FilePathName));
+			Properties.Settings.Default.RecentFiles = paths;
+		}
+
+		/// <summary>
+		/// The collection of menu items changed.
+		/// </summary>
+		private void OnItemsChanged()
+		{
+			// enumerate items and make sure that they have the proper number in front of their caption & proper keyboard shortcut
+			FixupMenuItems();
+			//since this might be the first item, make sure the placeholder is now invisible:
+			this._placeHolderItem.Visible = PlaceHolderOwner.Items.Count == 1;
 		}
 
 		private ToolStrip PlaceHolderOwner
@@ -63,17 +102,15 @@ namespace LessMsi.Gui
 			var item = _items.Find((compareItem) => string.Equals(compareItem.FilePathName, filePath, StringComparison.InvariantCultureIgnoreCase));
 			if (item == null) {
 				item = new MruItem(this, filePath);
-				_items.Add(item);
-				//since this might be the first item, make sure the placeholder is now invisible:
-				this._placeHolderItem.Visible = false;
 			}
 			else {
 				//remove it because below we are going to add it to the top again:
 				item.Owner.Items.Remove(item);
+				_items.Remove(item);
 			}
+			_items.Insert(0,item);
 			PlaceHolderOwner.Items.Insert(PlaceHolderIndexInOwner + 1, item);
-			// enumerate items and make sure that they have the proper number in front of their caption & proper keyboard shortcut
-			FixupMenuItems();
+			OnItemsChanged();
 		}
 
 		private void FixupMenuItems()
