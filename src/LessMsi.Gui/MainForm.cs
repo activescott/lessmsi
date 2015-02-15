@@ -750,7 +750,28 @@ namespace LessMsi.Gui
 			{
 				e.Handled = true;
 				var path = System.Text.RegularExpressions.Regex.Replace(txtMsiFileName.Text.Trim(), "^\"(.+)\"$", "$1");
-				var file = new FileInfo(path);
+				FileInfo file = null;
+				try
+				{
+					file = new FileInfo(path);
+				}
+				catch (ArgumentNullException)
+				{
+					Presenter.Error("The file path is empty");
+				}
+				catch (ArgumentException)
+				{
+					Presenter.Error("The file path is badly formed.");
+				}
+				catch (PathTooLongException)
+				{
+					Presenter.Error("The file path is too long.");
+				}
+				catch (NotSupportedException)
+				{
+					Presenter.Error("The file path contains invalid characters.");
+				}
+				if (file == null) return;
 				if (!file.Exists)
 				{
 					Presenter.Error(string.Format("File '{0}' does not exist.", file.FullName));
