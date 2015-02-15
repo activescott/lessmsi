@@ -749,7 +749,8 @@ namespace LessMsi.Gui
 			if (e.KeyValue == 13)
 			{
 				e.Handled = true;
-				var file = new FileInfo(txtMsiFileName.Text);
+				var path = System.Text.RegularExpressions.Regex.Replace(txtMsiFileName.Text.Trim(), "^\"(.+)\"$", "$1");
+				var file = new FileInfo(path);
 				if (!file.Exists)
 				{
 					Presenter.Error(string.Format("File '{0}' does not exist.", file.FullName));
