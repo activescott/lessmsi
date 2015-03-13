@@ -38,6 +38,25 @@ Windows Installer (.msi files) are based on an internal database of tables. Less
 ![lessmsi Table Tab screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-tabletab.png)
 
 
+lessmsi on OS X using WINE
+-----
+
+all of the following approaches give errors on the command line, but seem to work regardless.
+
+#### lessmsi command line using wine
+use lessmsi on the command line using wine: (this example uses the wine.app that comes with winebottler)
+
+    /Applications/Wine.app/Contents/Resources/bin/wine /Users/username/Downloads/lessmsi-v1.2.0/lessmsi.exe v /Users/username/Downloads/msi2xml-2.2.1.957.msi 
+
+#### lessmsi GUI using wine
+
+lessmsi GUI working with WineBottler.  http://winebottler.kronenberg.org/
+
+You can download a zip compressed .app created with winebottler here:  https://dl.dropboxusercontent.com/u/640753/lessmsi.zip
+
+#### You can make it yourself using the following screenshot & winebottler:
+![screen shot 2015-03-13 at 3 02 08 pm](https://cloud.githubusercontent.com/assets/2439367/6645360/4f9a462e-c992-11e4-8e02-a161096e3699.png)
+
 
 Suggestion? Problem? Comment?
 =====
