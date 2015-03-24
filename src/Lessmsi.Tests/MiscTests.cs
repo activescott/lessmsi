@@ -74,5 +74,15 @@ namespace LessMsi.Tests
 		{
 			ExtractAndCompareToMaster("VBRuntime.msi");
 		}
+
+		/// <summary>
+		/// from https://github.com/activescott/lessmsi/issues/49
+		/// 
+		/// </summary>
+		[Test]
+		public void EmptyCabinetFieldInMediaTable()
+		{
+			ExtractAndCompareToMaster("X86 Debuggers And Tools-x86_en-us.msi");
+		}
     }
 }

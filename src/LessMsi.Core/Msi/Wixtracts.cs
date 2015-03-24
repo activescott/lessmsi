@@ -458,8 +458,11 @@ namespace LessMsi.Msi
 			    {
 				    const int MsiInterop_Media_Cabinet = 4;
 				    string cabSourceName = record[MsiInterop_Media_Cabinet];
-				    if (string.IsNullOrEmpty(cabSourceName))
-					    throw new IOException("Couldn't find media CAB file inside the MSI (bad media table?).");
+					if (string.IsNullOrEmpty(cabSourceName))
+					{
+						Debug.Print("Empty Cabinet value in Media table. This happens, but it's rare and it's weird!");//Debug.Fail("Couldn't find media CAB file inside the MSI (bad media table?)."); 
+						continue;
+					}
 				    if (!string.IsNullOrEmpty(cabSourceName))
 				    {
 					    bool extract = false;
