@@ -37,7 +37,7 @@ namespace LessMsi.Gui
 {
 	internal class MainForm : Form, IMainFormView
 	{
-		private MruMenuStripManager _mruManager;
+		private readonly MruMenuStripManager _mruManager;
 
 		public MainForm(string defaultInputFile)
 		{
@@ -48,15 +48,10 @@ namespace LessMsi.Gui
 			Presenter.Initialize();
 
 			_mruManager = new MruMenuStripManager(mruPlaceHolderToolStripMenuItem);
-			_mruManager.MruItemClicked += (mruFilePathName) =>
-				                              {
-					                              this.SelectedMsiFile = new FileInfo(mruFilePathName);
-					                              Presenter.LoadCurrentFile();
-				                              };
+			_mruManager.MruItemClicked += (mruFilePathName) => Presenter.LoadFile(mruFilePathName);
 			if (!string.IsNullOrEmpty(defaultInputFile))
 			{
-				this.SelectedMsiFile = new FileInfo(defaultInputFile);
-				Presenter.LoadCurrentFile();
+				Presenter.LoadFile(defaultInputFile);
 			}
 		}
 
@@ -66,7 +61,7 @@ namespace LessMsi.Gui
 
 		public void NotifyNewFileLoaded()
 		{
-			_mruManager.UsedFile(this.SelectedMsiFile.FullName);
+			_mruManager.UsedFile(this.SelectedMsiFileFullName);
 		}
 
 		public void AddFileGridColumn(string boundPropertyName, string headerText)
@@ -91,17 +86,15 @@ namespace LessMsi.Gui
 
 		private ToolStripMenuItem searchFileToolStripMenuItem;
 
-		public FileInfo SelectedMsiFile
+		/// <summary>
+		/// Sets or returns the fully-qualified name of the selected MSI file in the UI.
+		/// No validation or anytihng is done ont his. It just sets/returns what's displayed in the UI.
+		/// </summary>
+		public string SelectedMsiFileFullName 
 		{
-			get { return _selectedMsiFile; }
-			set
-			{
-				_selectedMsiFile = value;
-				this.txtMsiFileName.Text = _selectedMsiFile.FullName;
-			}
+			get { return txtMsiFileName.Text; }
+			set { txtMsiFileName.Text = value; }
 		}
-
-		private FileInfo _selectedMsiFile;
 
 		public string SelectedTableName
 		{
@@ -724,17 +717,15 @@ namespace LessMsi.Gui
 			if (DialogResult.OK != openMsiDialog.ShowDialog(this))
 			{
 				Presenter.Error(string.Format("File '{0}' does not exist.", openMsiDialog.FileName));
-				if (SelectedMsiFile != null)
-					txtMsiFileName.Text = SelectedMsiFile.FullName;
+				txtMsiFileName.Text = SelectedMsiFileFullName;
 				return;
 			}
-			LoadFile(new FileInfo(openMsiDialog.FileName));
+			LoadFile(openMsiDialog.FileName);
 		}
 
-		private void LoadFile(FileInfo fileToLoad)
+		private void LoadFile(string fileToLoad)
 		{
-			SelectedMsiFile = fileToLoad;
-			Presenter.LoadCurrentFile();
+			Presenter.LoadFile(fileToLoad);
 			//to make sure shortcut keys for menuitems work properly select a grid:
 			if (tabs.SelectedTab == tabExtractFiles)
 				fileGrid.Select();
@@ -749,38 +740,8 @@ namespace LessMsi.Gui
 			if (e.KeyValue == 13)
 			{
 				e.Handled = true;
-				var path = System.Text.RegularExpressions.Regex.Replace(txtMsiFileName.Text.Trim(), "^\"(.+)\"$", "$1");
-				FileInfo file = null;
-				try
-				{
-					file = new FileInfo(path);
-				}
-				catch (ArgumentNullException)
-				{
-					Presenter.Error("The file path is empty");
-				}
-				catch (ArgumentException)
-				{
-					Presenter.Error("The file path is badly formed.");
-				}
-				catch (PathTooLongException)
-				{
-					Presenter.Error("The file path is too long.");
-				}
-				catch (NotSupportedException)
-				{
-					Presenter.Error("The file path contains invalid characters.");
-				}
-				if (file == null) return;
-				if (!file.Exists)
-				{
-					Presenter.Error(string.Format("File '{0}' does not exist.", file.FullName));
-					txtMsiFileName.Text = SelectedMsiFile.FullName;
-					return;
-				}
-				;
-				SelectedMsiFile = file;
-				Presenter.LoadCurrentFile();
+				var fileString = txtMsiFileName.Text;
+				Presenter.LoadFile(fileString);
 			}
 		}
 
@@ -799,7 +760,8 @@ namespace LessMsi.Gui
 				return;
 			}
 
-			FileInfo msiFile = SelectedMsiFile;
+			//TODO: Refactor to Presenter
+			FileInfo msiFile = Presenter.SelectedMsiFile;
 
 			if (msiFile == null)
 				return;
@@ -907,17 +869,17 @@ namespace LessMsi.Gui
 
 		private void MainForm_DragDrop(object sender, DragEventArgs e)
 		{
-			var file = GetDraggedFiles(e).FirstOrDefault();
-			if (file != null && file.Exists)
-				LoadFile(file);
+			var fileName = GetDraggedFiles(e).FirstOrDefault();
+			if (fileName != null && File.Exists(fileName))
+				LoadFile(fileName);
 		}
 
-		private static IEnumerable<FileInfo> GetDraggedFiles(DragEventArgs e)
+		private static IEnumerable<string> GetDraggedFiles(DragEventArgs e)
 		{
 			var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 			var query = from file in files
 			            where file != null && Path.GetExtension(file).ToLowerInvariant() == ".msi"
-			            select new FileInfo(file);
+			            select file;
 			return query;
 		}
 
