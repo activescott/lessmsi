@@ -24,6 +24,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LessMsi.Gui.Model;
 using LessMsi.Gui.Windows.Forms;
@@ -93,7 +94,7 @@ namespace LessMsi.Gui
 		/// </summary>
 		public void ViewFiles()
 		{
-			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
 				ViewFiles(msidb);
 				ToggleSelectAllFiles(true);
@@ -139,7 +140,7 @@ namespace LessMsi.Gui
 			try
 			{
 				MsiPropertyInfo[] props;
-				using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+				using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 				{
 					props = MsiPropertyInfo.GetPropertiesFromDatabase(msidb);
 				}
@@ -310,7 +311,7 @@ namespace LessMsi.Gui
 
 			IEnumerable<string> msiTableNames = allTableNames;
 
-			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
 				using (new DisposableCursor(ViewLeakedAbstraction))
 				{
@@ -349,7 +350,7 @@ namespace LessMsi.Gui
 		/// </summary>
 		public void UpdateMSiTableGrid()
 		{
-			using (var msidb = new Database(View.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
 				string tableName = View.SelectedTableName;
 				UpdateMSiTableGrid(msidb, tableName);
@@ -397,6 +398,56 @@ namespace LessMsi.Gui
 		{
 			var selectedProperty = View.SelectedMsiProperty;
 			View.PropertySummaryDescription = selectedProperty != null ? selectedProperty.Description : "";
+		}
+
+		public FileInfo SelectedMsiFile 
+		{
+			get { return _selectedMsiFile; }
+			set
+			{
+				_selectedMsiFile = value;
+
+				View.SelectedMsiFileFullName = _selectedMsiFile == null ? "" : _selectedMsiFile.FullName;
+			}
+		} private FileInfo _selectedMsiFile;
+
+		/// <summary>
+		/// Loads the specified file.
+		/// </summary>
+		/// <param name="filePath"></param>
+		public void LoadFile(string filePath)
+		{
+			var path = System.Text.RegularExpressions.Regex.Replace(filePath.Trim(), "^\"(.+)\"$", "$1");
+			FileInfo file = null;
+			try
+			{
+				file = new FileInfo(path);
+			}
+			catch (ArgumentNullException)
+			{
+				this.Error("The file path is empty");
+			}
+			catch (ArgumentException)
+			{
+				this.Error("The file path is badly formed.");
+			}
+			catch (PathTooLongException)
+			{
+				this.Error("The file path is too long.");
+			}
+			catch (NotSupportedException)
+			{
+				this.Error("The file path contains invalid characters.");
+			}
+			if (file == null) return;
+			if (!file.Exists)
+			{
+				this.Error(string.Format("File '{0}' does not exist.", file.FullName));
+				ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
+				return;
+			}
+			SelectedMsiFile = file;
+			this.LoadCurrentFile();
 		}
 
 		/// <summary>

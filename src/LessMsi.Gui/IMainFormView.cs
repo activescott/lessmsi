@@ -35,9 +35,9 @@ namespace LessMsi.Gui
     	/// </summary>
     	void NotifyNewFileLoaded();
         /// <summary>
-        /// Returns the currently chosen MSI file in the UI.
+        /// Returns the currently specified MSI file in the UI.
         /// </summary>
-        FileInfo SelectedMsiFile { get; }
+		string SelectedMsiFileFullName { get; set; }
         /// <summary>
         /// The currently selected table headerText in the UI.
         /// </summary>
