@@ -97,8 +97,6 @@ namespace Willeke.Scott.ExplorerShortcutHelper
 				}
 				Console.WriteLine("Shortcut removed.");
 			}
-            Console.WriteLine("Press enter to continue.");
-            Console.ReadLine();
 			return 0;
 		}
 

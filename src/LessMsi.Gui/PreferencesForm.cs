@@ -55,20 +55,21 @@ namespace LessMsi.Gui
 			 * This code below is funky because apparently Win32 requires us to escape double quotes on the command line when passing them through the command line. 
 			 * So we have to actually espcape the escape char here to make sure double quotes are properly escaped
 			 * Explained more at http://bytes.com/topic/net/answers/745324-console-application-command-line-parameter-issue and http://msdn.microsoft.com/en-us/library/system.environment.getcommandlineargs.aspx
-			 */ 
+			 * 
+			 * Also see https://github.com/activescott/lessmsi/wiki/Command-Line for commandline reference for the commands used below.
+			 */
 			const string escapedDoubleQuote = "\\" + "\"";
-			var shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote + " " + escapedDoubleQuote + "%1_extracted" + escapedDoubleQuote;
+			
+			var shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
-			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "&Extract Files", shellCommand);
+			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "Lessmsi &Extract Files", shellCommand);
 
 			/* Fix for https://code.google.com/p/lessmsi/issues/detail?id=6&sort=-id
 			 */
-			shellCommand = escapedDoubleQuote + GetThisExeFile().FullName + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
+			shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
-			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Explore", shellCommand);
-			
+			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Lessmsi Explore", shellCommand);
 		}
-
 		void AddRemoveShortcut(bool isAdding, string commandName, string fileClass, string caption, string shellCommand)
 		{
 			var thisExe = GetThisExeFile();
@@ -76,12 +77,11 @@ namespace LessMsi.Gui
 			if (!File.Exists(shortcutHelperExe))
 			{
 				MessageBox.Show(this,
-				                "File '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
-				                "' should be in the same directory as lessmsi-gui.exe.", "Missing File", MessageBoxButtons.OK,
-				                MessageBoxIcon.Error);
+								"File '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
+								"' should be in the same directory as lessmsi-gui.exe.", "Missing File", MessageBoxButtons.OK,
+								MessageBoxIcon.Error);
 				return;
 			}
-
 			var newProcess = new Process();
 			var info = new ProcessStartInfo("");
 			info.FileName = shortcutHelperExe;
@@ -89,7 +89,6 @@ namespace LessMsi.Gui
 			info.ErrorDialog = true;
 			info.ErrorDialogParentHandle = this.Handle;
 			//AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]
-			
 			var args = new StringBuilder();
 			if (isAdding)
 				args.Append("add");
@@ -99,13 +98,17 @@ namespace LessMsi.Gui
 			args.Append(' ').Append(fileClass);
 			if (isAdding)
 			{
-                args.Append(" \"").Append(caption).Append("\"");
+				args.Append(" \"").Append(caption).Append("\"");
 				args.Append(' ').Append('\"').Append(shellCommand).Append('\"');
 			}
-
 			info.Arguments = args.ToString();
 			newProcess.StartInfo = info;
 			newProcess.Start();
+		}
+
+		static string GetLessMsiExeFile()
+		{
+			return Path.Combine(GetThisExeFile().Directory.FullName, "lessmsi.exe");
 		}
 
 		static FileInfo GetThisExeFile()
