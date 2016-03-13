@@ -18,7 +18,8 @@ lessmsi <command> [options] <msi_name> [<path_to_extract\>] [file_names]
 
 Commands:
   x  Extracts all or specified files from the specified msi_name.	
-  l  Lists the contents of the specified msi table as CSV to stdout.
+  l  Lists the contents of the specified msi table as CSV to stdout. Table is
+     specified with -t switch. Example: lessmsi l -t Component c:\foo.msi
   v  Lists the value of the ProductVersion Property in the msi 
      (typically this is the version of the MSI).
   o  Opens the specified msi_name in the GUI.
