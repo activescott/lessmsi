@@ -166,7 +166,9 @@ namespace LessMsi.Tests
 
 		private static string SerializeDate(DateTime dateTime)
 		{
-			var output = dateTime.ToString("o", CultureInfo.InvariantCulture);
+			// Explicitly strip the timezone information when serialising,
+			// because .CAB files have no zone information either.
+			var output = DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified).ToString("o", CultureInfo.InvariantCulture);
 			return output;
 		}
 
