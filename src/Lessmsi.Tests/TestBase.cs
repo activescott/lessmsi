@@ -28,49 +28,51 @@ namespace LessMsi.Tests
             }
         }
 
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
+        {
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, "");
+        }
+
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir)
+        {
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, outputDir, true);
+        }
+
         /// <summary>
         /// Extracts some or all of the files from the specified MSI and returns a <see cref="FileEntryGraph"/> representing the files that were extracted.
         /// </summary>
         /// <param name="msiFileName">The msi file to extract or null to extract all files.</param>
-        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
+        /// <param name="fileNamesToExtractOrNull">The files to extract from the MSI or null to extract all files.</param>
+        /// <param name="outputDir">A relative directory to extract output to or an empty string to use the default output directory.</param>
+        /// <param name="skipReturningFileEntryGraph">True to return the <see cref="FileEntryGraph"/>. Otherwise null will be returned.</param>
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir, bool returnFileEntryGraph)
         {
-            //  build command line
-            string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
-            outputDir = Path.Combine(outputDir, "_" + msiFileName);
+            string baseOutputDir = Path.Combine(AppPath, "MsiOutputTemp");
+            if (string.IsNullOrEmpty(outputDir))
+                outputDir = Path.Combine(baseOutputDir, "_" + msiFileName);
+            else
+                outputDir = Path.Combine(baseOutputDir, outputDir);
+
             if (Directory.Exists(outputDir))
             {
-                DeleteDirectoryRecursive(new DirectoryInfo(outputDir));
+                PathEx.DeleteAllFilesAndDirectories(outputDir);
                 Directory.Delete(outputDir, true);
             }
             Directory.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
             ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
-
-            //  build actual file entries extracted
-            var actualEntries = FileEntryGraph.GetActualEntries(outputDir, msiFileName);
-            // dump to actual dir (for debugging and updating tests)
-            actualEntries.Save(GetActualOutputFile(msiFileName));
-            return actualEntries;
-        }
-
-        public static void DeleteDirectoryRecursive(DirectoryInfo di)
-        {
-            foreach (var item in di.GetFileSystemInfos())
+            if (returnFileEntryGraph)
             {
-                var file = item as FileInfo;
-                if (file != null)
-                {
-                    //NOTE: This is why this method is necessary. Directory.Delete and File.Delete won't delete files that have ReadOnly attribute set. So we clear it here before deleting
-                    if (file.IsReadOnly)
-                        file.IsReadOnly = false;
-                    file.Delete();
-                }
-                else
-                {
-                    var dir = (DirectoryInfo) item;
-                    DeleteDirectoryRecursive(dir);
-                }
+                //  build actual file entries extracted
+                var actualEntries = FileEntryGraph.GetActualEntries(outputDir, msiFileName);
+                // dump to actual dir (for debugging and updating tests)
+                actualEntries.Save(GetActualOutputFile(msiFileName));
+                return actualEntries;
+            }
+            else
+            {
+                return null;
             }
         }
 

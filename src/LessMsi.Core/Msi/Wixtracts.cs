@@ -30,6 +30,7 @@ using System.IO;
 using System.Threading;
 using LibMSPackN;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
+using LessMsi.IO;
 
 namespace LessMsi.Msi
 {
@@ -312,8 +313,8 @@ namespace LessMsi.Msi
 						        continue;
 					        var entry = fileEntryMap[compressedFile.Filename];
 					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
-					        DirectoryInfo targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-					        string destName = Path.Combine(targetDirectoryForFile.FullName, entry.LongFileName);
+					        string targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
+					        string destName = Path.Combine(targetDirectoryForFile, entry.LongFileName);
 					        if (File.Exists(destName))
 					        {
 						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
@@ -429,15 +430,15 @@ namespace LessMsi.Msi
 		    throw new Exception("Specified cab not found!");
 	    }
 
-	    private static DirectoryInfo GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
+	    private static string GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
         {
             string fullPath = Path.Combine(rootDirectory.FullName, relativePath.GetPath());
             if (!Directory.Exists(fullPath))
             {
-                Directory.CreateDirectory(fullPath);
+                //Directory.CreateDirectory(fullPath);
+                PathEx.CreateDirectory(fullPath);
             }
-            return new DirectoryInfo(fullPath);
-
+            return fullPath;
         }
 		
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
+using LessMsi.IO;
 
 namespace LessMsi.Tests
 {
@@ -139,8 +140,8 @@ WixUIRMOption,UseRM
         {
 			string consoleOutput;
 	        var actualOutDir = new DirectoryInfo(actualEntriesOutputDir);
-			if (actualOutDir.Exists)
-				DeleteDirectoryRecursive(actualOutDir);
+            if (actualOutDir.Exists)
+                PathEx.DeleteAllFilesAndDirectories(actualOutDir.FullName);//DeleteDirectoryRecursive(actualOutDir);
 	        int exitCode;
 
 			if (useInProcessForDebugging)
