@@ -22,6 +22,7 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -139,7 +140,7 @@ namespace LessMsi.IO
         /// Uses Win32 to create the path at the specified location.
         /// The point of this method is to avoid <see cref="System.IO.PathTooLongException"/> of .NET System.IO APIs.
         /// </summary>
-        internal static void CreateDirectory(string path)
+        public static void CreateDirectory(string path)
         {
             // Directory.Create() creates all neecessary directories, so we have to emulate here:
             var dirsToCreate = new List<String>();
@@ -174,7 +175,7 @@ namespace LessMsi.IO
             return (attributes & FileAttributes.Directory) == FileAttributes.Directory;
         }
 
-        internal static bool IsReadOnly(string path)
+        public static bool IsReadOnly(string path)
         {
             FileAttributes attributes = GetFileAttributes(path);
             return (attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
@@ -185,7 +186,7 @@ namespace LessMsi.IO
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private static bool Exists(string path)
+        public static bool Exists(string path)
         {
             bool fileExists;
             var ret = GetFileAttributes(path, out fileExists);
@@ -458,6 +459,29 @@ namespace LessMsi.IO
             {
                 node.DeleteFile();
             }
+        }
+
+        /// <summary>
+        /// Creates or overwrites the file at the specified path.
+        /// </summary>
+        /// <param name="filePath">The path and name of the file to create. Supports long file paths.</param>
+        /// <returns>A <see cref="System.IO.FileStream"/> that provides read/write access to the file specified in path.</returns>
+        public static FileStream CreateFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+                throw new ArgumentNullException(filePath);
+
+            filePath = EnsureLongPathPrefix(filePath);
+
+            NativeMethods.EFileAccess fileAccess = NativeMethods.EFileAccess.GenericWrite | NativeMethods.EFileAccess.GenericRead;
+            NativeMethods.EFileShare fileShareMode = NativeMethods.EFileShare.None;//exclusive
+            NativeMethods.ECreationDisposition creationDisposition = NativeMethods.ECreationDisposition.CreateAlways;
+            SafeFileHandle hFile = NativeMethods.CreateFile(filePath, fileAccess, fileShareMode, IntPtr.Zero, creationDisposition, NativeMethods.EFileAttributes.Normal, IntPtr.Zero);
+            var win32Errror = Marshal.GetLastWin32Error();
+            if (hFile.IsInvalid)
+                throw new IOException(string.Format("Erorr creating file at path '{0}'. Win32 Error='{1}'.", filePath, win32Errror));
+
+            return new FileStream(hFile, FileAccess.ReadWrite);
         }
     }
 }

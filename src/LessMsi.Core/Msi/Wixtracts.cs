@@ -199,12 +199,12 @@ namespace LessMsi.Msi
 
         #endregion
 
-        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir)
+        public static void ExtractFiles(FileInfo msi, string outputDir)
         {
             ExtractFiles(msi, outputDir, null, null);
         }
 
-		public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, string[] fileNamesToExtract)
+		public static void ExtractFiles(FileInfo msi, string outputDir, string[] fileNamesToExtract)
 		{
 			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
 			ExtractFiles(msi, outputDir, msiFiles, null);
@@ -252,11 +252,11 @@ namespace LessMsi.Msi
         /// </summary>
         /// <param name="filesToExtract">The files to extract or null or empty to extract all files.</param>
         /// <param name="progressCallback">Will be called during during the operation with progress information, and upon completion. The argument will be of type <see cref="ExtractionProgress"/>.</param>
-        public static void ExtractFiles(FileInfo msi, DirectoryInfo outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        public static void ExtractFiles(FileInfo msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
         {
             if (msi == null)
                 throw new ArgumentNullException("msi");
-            if (outputDir == null)
+            if (string.IsNullOrEmpty(outputDir))
                 throw new ArgumentNullException("outputDir");
 
             int filesExtractedSoFar = 0;
@@ -279,7 +279,7 @@ namespace LessMsi.Msi
 
 
 		        progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
-		        outputDir.Create();
+		        PathEx.CreateDirectory(outputDir);
 
 
 		        //map short file names to the msi file entry
@@ -359,13 +359,13 @@ namespace LessMsi.Msi
 		/// </summary>
 	    private static void DeleteFileForcefully(string localFilePath)
 	    {
-			// In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
-		    var fileAttributes = File.GetAttributes(localFilePath);
+            // In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
+            var fileAttributes = PathEx.GetFileAttributes(localFilePath);
 		    if ((fileAttributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
 		    {
-			    File.SetAttributes(localFilePath, (fileAttributes & ~FileAttributes.ReadOnly));
+                PathEx.SetFileAttributes(localFilePath, (fileAttributes & ~FileAttributes.ReadOnly));
 		    }
-		    File.Delete(localFilePath);
+		    PathEx.DeleteFile(localFilePath);
 	    }
 
 	    /// <summary>
@@ -430,12 +430,11 @@ namespace LessMsi.Msi
 		    throw new Exception("Specified cab not found!");
 	    }
 
-	    private static string GetTargetDirectory(DirectoryInfo rootDirectory, MsiDirectory relativePath)
+	    private static string GetTargetDirectory(string rootDirectory, MsiDirectory relativePath)
         {
-            string fullPath = Path.Combine(rootDirectory.FullName, relativePath.GetPath());
-            if (!Directory.Exists(fullPath))
+            string fullPath = Path.Combine(rootDirectory, relativePath.GetPath());
+            if (!PathEx.Exists(fullPath))
             {
-                //Directory.CreateDirectory(fullPath);
                 PathEx.CreateDirectory(fullPath);
             }
             return fullPath;
@@ -448,7 +447,7 @@ namespace LessMsi.Msi
 		/// <param name="msidb"></param>
 		/// <param name="outputDir"></param>
 		/// <returns></returns>
-	    private static List<CabInfo> CabsFromMsiToDisk(FileInfo msi, Database msidb, DirectoryInfo outputDir)
+	    private static List<CabInfo> CabsFromMsiToDisk(FileInfo msi, Database msidb, string outputDir)
 	    {
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
@@ -472,7 +471,7 @@ namespace LessMsi.Msi
 						    extract = true;
 						    cabSourceName = cabSourceName.Substring(1);
 					    }
-					    string localCabFile = Path.Combine(outputDir.FullName, cabSourceName);
+					    string localCabFile = PathEx.Combine(outputDir, cabSourceName);
 					    if (extract)
 					    {
 						    // extract cabinet, then explode all of the files to a temp directory
@@ -525,15 +524,8 @@ namespace LessMsi.Msi
                 Record record;
                 if (view.Fetch(out record))
                 {
-                    FileStream cabFilestream = null;
-                    BinaryWriter writer = null;
-                    try
+                    using (var writer = new BinaryWriter(PathEx.CreateFile(filePath)))
                     {
-                        cabFilestream = new FileStream(filePath, FileMode.Create);
-
-                        // Create the writer for data.
-                        writer = new BinaryWriter(cabFilestream);
-                        
 						var buf = new byte[1024*1024];
 						int count;
 						do
@@ -543,18 +535,6 @@ namespace LessMsi.Msi
 							if (count > 0)
 								writer.Write(buf, 0, count);
 						} while (count > 0);
-                    }
-                    finally
-                    {
-                        if (writer != null)
-                        {
-                            writer.Close();
-                        }
-
-                        if (cabFilestream != null)
-                        {
-                            cabFilestream.Close();
-                        }
                     }
                 }
             }

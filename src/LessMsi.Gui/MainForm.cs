@@ -777,7 +777,7 @@ namespace LessMsi.Gui
 			{
 				try
 				{
-					DirectoryInfo outputDir = new DirectoryInfo(folderBrowser.SelectedPath);
+					string outputDir = folderBrowser.SelectedPath;
 					foreach (DataGridViewRow row in fileGrid.SelectedRows)
 					{
 						MsiFileItemView fileToExtract = (MsiFileItemView) row.DataBoundItem;

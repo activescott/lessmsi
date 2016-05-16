@@ -15,7 +15,7 @@ namespace LessMsi.Tests
         public void LongExtractionPath()
         {
             var msiFileName = "python-2.7.3.msi";
-            var outputDir = @"long-directory-name\very\unusually\long\directory\name\with\cream\sugar\and\chocolate\topping";
+            var outputDir = @"long-directory-name\very\unusually\long\directory\name\with\cream\sugar\and\chocolate\topping\long-directory-name\very\unusually\long\directory\name\with\cream\sugar\and\chocolate\toppinglong-directory-name\very\unusually\long\directory\name\with\cream\sugar\and\chocolate\topping";
             /* Since System.IO doesn't support long path names, supporting 
              comparison of output as is done for other tests is a big effort. 
              So we ignore output only for this test.

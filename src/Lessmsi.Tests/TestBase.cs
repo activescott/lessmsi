@@ -53,12 +53,13 @@ namespace LessMsi.Tests
             else
                 outputDir = Path.Combine(baseOutputDir, outputDir);
 
-            if (Directory.Exists(outputDir))
+            if (PathEx.Exists(outputDir))
             {
                 PathEx.DeleteAllFilesAndDirectories(outputDir);
-                Directory.Delete(outputDir, true);
+                PathEx.DeleteFileOrDirectory(outputDir);
             }
-            Directory.CreateDirectory(outputDir);
+            Debug.Assert(!PathEx.Exists(outputDir), "Directory still exists!");
+            PathEx.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
             ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
@@ -81,11 +82,11 @@ namespace LessMsi.Tests
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
             if (fileNamesToExtractOrNull == null)
             {	//extract everything:
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir, null, null);	
             }
             else
             {
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir, fileNamesToExtractOrNull);
             }
 			
         }
