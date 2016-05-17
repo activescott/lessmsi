@@ -45,15 +45,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\PathEx.cs" />
-    <Compile Include="IO\PathEx.FileNode.cs" />
     <Compile Include="Msi\ColumnInfo.cs" />
     <Compile Include="Msi\MsiDirectory.cs" />
     <Compile Include="Msi\MsiFile.cs" />
     <Compile Include="Msi\TableWrapper.cs" />
     <Compile Include="Msi\ViewWrapper.cs" />
     <Compile Include="Msi\Wixtracts.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
@@ -61,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\LessIO\src\LessIO\LessIO.csproj">
+      <Project>{51482e40-c227-4c5a-9b55-42440c041d55}</Project>
+      <Name>LessIO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">

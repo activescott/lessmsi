@@ -30,7 +30,7 @@ using System.IO;
 using System.Threading;
 using LibMSPackN;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
-using LessMsi.IO;
+using LessIO;
 
 namespace LessMsi.Msi
 {
@@ -314,7 +314,7 @@ namespace LessMsi.Msi
 					        var entry = fileEntryMap[compressedFile.Filename];
 					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
 					        string targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-					        string destName = Path.Combine(targetDirectoryForFile, entry.LongFileName);
+					        string destName = PathEx.Combine(targetDirectoryForFile, entry.LongFileName);
 					        if (File.Exists(destName))
 					        {
 						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
@@ -360,12 +360,7 @@ namespace LessMsi.Msi
 	    private static void DeleteFileForcefully(string localFilePath)
 	    {
             // In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
-            var fileAttributes = PathEx.GetFileAttributes(localFilePath);
-		    if ((fileAttributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-		    {
-                PathEx.SetFileAttributes(localFilePath, (fileAttributes & ~FileAttributes.ReadOnly));
-		    }
-		    PathEx.DeleteFile(localFilePath);
+            PathEx.DeleteFileOrDirectory(localFilePath);
 	    }
 
 	    /// <summary>
@@ -432,7 +427,7 @@ namespace LessMsi.Msi
 
 	    private static string GetTargetDirectory(string rootDirectory, MsiDirectory relativePath)
         {
-            string fullPath = Path.Combine(rootDirectory, relativePath.GetPath());
+            string fullPath = PathEx.Combine(rootDirectory, relativePath.GetPath());
             if (!PathEx.Exists(fullPath))
             {
                 PathEx.CreateDirectory(fullPath);
@@ -479,7 +474,7 @@ namespace LessMsi.Msi
 					    }
 					    else
 					    {
-						    string originalCabFile = Path.Combine(msi.DirectoryName, cabSourceName);
+						    string originalCabFile = PathEx.Combine(msi.DirectoryName, cabSourceName);
 						    File.Copy(originalCabFile, localCabFile);
 					    }
 					    /* http://code.google.com/p/lessmsi/issues/detail?id=1

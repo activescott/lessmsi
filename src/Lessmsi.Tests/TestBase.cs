@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using LessMsi.IO;
-using LessMsi.Msi;
 using NUnit.Framework;
+using LessIO;
 
 namespace LessMsi.Tests
 {
@@ -47,15 +45,15 @@ namespace LessMsi.Tests
         /// <param name="skipReturningFileEntryGraph">True to return the <see cref="FileEntryGraph"/>. Otherwise null will be returned.</param>
         protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir, bool returnFileEntryGraph)
         {
-            string baseOutputDir = Path.Combine(AppPath, "MsiOutputTemp");
+            string baseOutputDir = PathEx.Combine(AppPath, "MsiOutputTemp");
             if (string.IsNullOrEmpty(outputDir))
-                outputDir = Path.Combine(baseOutputDir, "_" + msiFileName);
+                outputDir = PathEx.Combine(baseOutputDir, "_" + msiFileName);
             else
-                outputDir = Path.Combine(baseOutputDir, outputDir);
+                outputDir = PathEx.Combine(baseOutputDir, outputDir);
 
             if (PathEx.Exists(outputDir))
             {
-                PathEx.DeleteAllFilesAndDirectories(outputDir);
+                PathEx.DeleteRecursively(outputDir);
                 PathEx.DeleteFileOrDirectory(outputDir);
             }
             Debug.Assert(!PathEx.Exists(outputDir), "Directory still exists!");
@@ -121,7 +119,7 @@ namespace LessMsi.Tests
 	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
 	    {
 		    //  exec & wait
-		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
+		    var startInfo = new ProcessStartInfo(PathEx.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
 		    startInfo.RedirectStandardOutput = true;
 		    startInfo.RedirectStandardError = true;
 		    startInfo.UseShellExecute = false;
@@ -193,8 +191,8 @@ namespace LessMsi.Tests
         protected FileInfo GetActualOutputFile(string msiFileName)
         {
             // strip any subdirectories here since some input msi files have subdirectories.
-            msiFileName = Path.GetFileName(msiFileName); 
-            var fi = new FileInfo(Path.Combine(AppPath, msiFileName + ".actual.csv"));
+            msiFileName = PathEx.GetFileName(msiFileName); 
+            var fi = new FileInfo(PathEx.Combine(AppPath, msiFileName + ".actual.csv"));
             return fi;
         }
 
@@ -203,7 +201,7 @@ namespace LessMsi.Tests
             get
             {
                 var codeBase = new Uri(this.GetType().Assembly.CodeBase);
-                var local = Path.GetDirectoryName(codeBase.LocalPath);
+                var local = PathEx.GetDirectoryName(codeBase.LocalPath);
                 return local;
             }
         }

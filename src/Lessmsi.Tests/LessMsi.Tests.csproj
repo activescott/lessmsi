@@ -57,11 +57,14 @@
     <Compile Include="FileEntry.cs" />
     <Compile Include="FileEntryGraph.cs" />
     <Compile Include="MiscTests.cs" />
-    <Compile Include="PathExTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\LessIO\src\LessIO\LessIO.csproj">
+      <Project>{51482e40-c227-4c5a-9b55-42440c041d55}</Project>
+      <Name>LessIO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LessMsi.Cli\LessMsi.Cli.csproj">
       <Project>{7ed32f80-2b7b-4f90-ade9-22b8f3935c63}</Project>
       <Name>LessMsi.Cli</Name>
