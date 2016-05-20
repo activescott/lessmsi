@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
-using System.IO;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessIO;
 
 namespace LessMsi.Tests
@@ -33,7 +32,7 @@ namespace LessMsi.Tests
 
         protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir)
         {
-            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, outputDir, true);
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, new Path(outputDir), true);
         }
 
         /// <summary>
@@ -43,28 +42,23 @@ namespace LessMsi.Tests
         /// <param name="fileNamesToExtractOrNull">The files to extract from the MSI or null to extract all files.</param>
         /// <param name="outputDir">A relative directory to extract output to or an empty string to use the default output directory.</param>
         /// <param name="skipReturningFileEntryGraph">True to return the <see cref="FileEntryGraph"/>. Otherwise null will be returned.</param>
-        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir, bool returnFileEntryGraph)
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, Path outputDir, bool returnFileEntryGraph)
         {
-            string baseOutputDir = PathEx.Combine(AppPath, "MsiOutputTemp");
-            if (string.IsNullOrEmpty(outputDir))
-                outputDir = PathEx.Combine(baseOutputDir, "_" + msiFileName);
-            else
-                outputDir = PathEx.Combine(baseOutputDir, outputDir);
+            outputDir = GetTestOutputDir(outputDir, msiFileName);
 
-            if (PathEx.Exists(outputDir))
+            if (FileSystem.Exists(outputDir))
             {
-                PathEx.DeleteRecursively(outputDir);
-                PathEx.DeleteFileOrDirectory(outputDir);
+                FileSystem.RemoveDirectory(outputDir, true);
             }
-            Debug.Assert(!PathEx.Exists(outputDir), "Directory still exists!");
-            PathEx.CreateDirectory(outputDir);
+            Debug.Assert(!FileSystem.Exists(outputDir), "Directory still exists!");
+            FileSystem.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
-            ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
+            ExtractInProcess(msiFileName, outputDir.PathString, fileNamesToExtractOrNull);
             if (returnFileEntryGraph)
             {
                 //  build actual file entries extracted
-                var actualEntries = FileEntryGraph.GetActualEntries(outputDir, msiFileName);
+                var actualEntries = FileEntryGraph.GetActualEntries(outputDir.PathString, msiFileName);
                 // dump to actual dir (for debugging and updating tests)
                 actualEntries.Save(GetActualOutputFile(msiFileName));
                 return actualEntries;
@@ -73,6 +67,26 @@ namespace LessMsi.Tests
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Returns a suitable output directory for test data while running the test.
+        /// If <paramref name="outputDir"/> is specified it is used and <paramref name="testNameOrMsiFileName"/> is ignored.
+        /// Alternatively, <paramref name="testNameOrMsiFileName"/> is used to generate a test dir.
+        /// </summary>
+        /// <param name="outputDir">The output dir to use or <see cref="Path.Empty"/>.</param>
+        /// <param name="testNameOrMsiFileName">
+        /// A test name (often the name of a msi file under test) to use to generate a test dir when <paramref name="testNameOrMsiFileName"/> is not specified.
+        /// </param>
+        /// <returns></returns>
+        protected Path GetTestOutputDir(Path outputDir, string testNameOrMsiFileName)
+        {
+            Path baseOutputDir = Path.Combine(AppPath, "MsiOutputTemp");
+            if (outputDir.IsEmpty || !outputDir.IsPathRooted)
+                outputDir = Path.Combine(baseOutputDir, "_" + testNameOrMsiFileName);
+            else
+                outputDir = Path.Combine(baseOutputDir, outputDir);
+            return outputDir;
         }
 
         private void ExtractInProcess(string msiFileName, string outputDir, string[] fileNamesToExtractOrNull)
@@ -119,7 +133,7 @@ namespace LessMsi.Tests
 	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
 	    {
 		    //  exec & wait
-		    var startInfo = new ProcessStartInfo(PathEx.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
+		    var startInfo = new ProcessStartInfo(LessIO.Path.Combine(AppPath, "lessmsi.exe").PathString, commandlineArgs);
 		    startInfo.RedirectStandardOutput = true;
 		    startInfo.RedirectStandardError = true;
 		    startInfo.UseShellExecute = false;
@@ -178,31 +192,31 @@ namespace LessMsi.Tests
             return FileEntryGraph.Load(GetExpectedOutputFile(forMsi), forMsi);
         }
 
-        private FileInfo GetMsiTestFile(string msiFileName)
+        private Path GetMsiTestFile(string msiFileName)
         {
-            return new FileInfo(PathEx.Combine(AppPath, "TestFiles", "MsiInput", msiFileName));
+            return Path.Combine(AppPath, "TestFiles", "MsiInput", msiFileName);
         }
 
-        private FileInfo GetExpectedOutputFile(string msiFileName)
+        private Path GetExpectedOutputFile(string msiFileName)
         {
-            return new FileInfo(PathEx.Combine(AppPath, "TestFiles", "ExpectedOutput", msiFileName + ".expected.csv"));
+            return Path.Combine(AppPath, "TestFiles", "ExpectedOutput", msiFileName + ".expected.csv");
         }
 
-        protected FileInfo GetActualOutputFile(string msiFileName)
+        protected Path GetActualOutputFile(string msiFileName)
         {
             // strip any subdirectories here since some input msi files have subdirectories.
-            msiFileName = PathEx.GetFileName(msiFileName); 
-            var fi = new FileInfo(PathEx.Combine(AppPath, msiFileName + ".actual.csv"));
+            msiFileName = Path.GetFileName(msiFileName); 
+            var fi = Path.Combine(AppPath, msiFileName + ".actual.csv");
             return fi;
         }
 
-        protected string AppPath
+        protected Path AppPath
         {
             get
             {
                 var codeBase = new Uri(this.GetType().Assembly.CodeBase);
-                var local = PathEx.GetDirectoryName(codeBase.LocalPath);
-                return local;
+                var local = new Path(codeBase.LocalPath);
+                return local.Parent;
             }
         }
     }

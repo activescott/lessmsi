@@ -108,7 +108,7 @@ namespace LessMsi.Cli
 			EnsureFileRooted(ref msiFileName);
 			EnsureFileRooted(ref outDirName);
 
-			var msiFile = new FileInfo(msiFileName);			
+            var msiFile = new LessIO.Path(msiFileName);
 
 			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
 

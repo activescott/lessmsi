@@ -56,9 +56,9 @@ namespace LessMsi.Msi
 		/// <summary>
 		/// Creates a list of <see cref="MsiFile"/> objects from the specified database.
 		/// </summary>
-		public static MsiFile[] CreateMsiFilesFromMSI(string msiDatabaseFilePath)
+		public static MsiFile[] CreateMsiFilesFromMSI(LessIO.Path msiDatabaseFilePath)
 		{
-			using (var db = new Database(msiDatabaseFilePath, OpenDatabase.ReadOnly))
+			using (var db = new Database(msiDatabaseFilePath.PathString, OpenDatabase.ReadOnly))
 			{
 				return CreateMsiFilesFromMSI(db);
 			}

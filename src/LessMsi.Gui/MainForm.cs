@@ -760,14 +760,13 @@ namespace LessMsi.Gui
 				return;
 			}
 
-			//TODO: Refactor to Presenter
-			FileInfo msiFile = Presenter.SelectedMsiFile;
-
-			if (msiFile == null)
-				return;
+            //TODO: Refactor to Presenter
+            if (Presenter.SelectedMsiFile == null)
+                return;
+			LessIO.Path msiFile = new LessIO.Path(Presenter.SelectedMsiFile.FullName);
 
 			if (folderBrowser.SelectedPath == null || folderBrowser.SelectedPath.Length <= 0)
-				folderBrowser.SelectedPath = msiFile.DirectoryName;
+				folderBrowser.SelectedPath = msiFile.Parent.PathString;
 
 			if (DialogResult.OK != folderBrowser.ShowDialog(this))
 				return;

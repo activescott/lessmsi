@@ -26,7 +26,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using LibMSPackN;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
@@ -199,20 +198,20 @@ namespace LessMsi.Msi
 
         #endregion
 
-        public static void ExtractFiles(FileInfo msi, string outputDir)
+        public static void ExtractFiles(Path msi, string outputDir)
         {
             ExtractFiles(msi, outputDir, null, null);
         }
 
-		public static void ExtractFiles(FileInfo msi, string outputDir, string[] fileNamesToExtract)
+		public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract)
 		{
 			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
 			ExtractFiles(msi, outputDir, msiFiles, null);
 		}
 
-	    private static MsiFile[] GetMsiFileFromFileNames(FileInfo msi, string[] fileNamesToExtract)
+	    private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
 	    {
-		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi.FullName);
+		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi);
 			Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
 
 		    var fileNamesToExtractAsMsiFiles = new List<MsiFile>();
@@ -252,9 +251,9 @@ namespace LessMsi.Msi
         /// </summary>
         /// <param name="filesToExtract">The files to extract or null or empty to extract all files.</param>
         /// <param name="progressCallback">Will be called during during the operation with progress information, and upon completion. The argument will be of type <see cref="ExtractionProgress"/>.</param>
-        public static void ExtractFiles(FileInfo msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        public static void ExtractFiles(Path msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
         {
-            if (msi == null)
+            if (msi.IsEmpty)
                 throw new ArgumentNullException("msi");
             if (string.IsNullOrEmpty(outputDir))
                 throw new ArgumentNullException("outputDir");
@@ -262,7 +261,7 @@ namespace LessMsi.Msi
             int filesExtractedSoFar = 0;
 
             ExtractionProgress progress = null;
-            Database msidb = new Database(msi.FullName, OpenDatabase.ReadOnly);
+            Database msidb = new Database(msi.PathString, OpenDatabase.ReadOnly);
 	        try
 	        {
 		        if (filesToExtract == null || filesToExtract.Length < 1)
@@ -270,17 +269,15 @@ namespace LessMsi.Msi
 
 		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
 
-		        if (!msi.Exists)
+		        if (!FileSystem.Exists(msi))
 		        {
-			        Trace.WriteLine("File \'" + msi.FullName + "\' not found.");
+			        Trace.WriteLine("File \'" + msi + "\' not found.");
 			        progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
 			        return;
 		        }
 
-
 		        progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
-		        PathEx.CreateDirectory(outputDir);
-
+		        FileSystem.CreateDirectory(new Path(outputDir));
 
 		        //map short file names to the msi file entry
 		        var fileEntryMap = new Dictionary<string, MsiFile>(filesToExtract.Length, StringComparer.InvariantCulture);
@@ -314,24 +311,24 @@ namespace LessMsi.Msi
 					        var entry = fileEntryMap[compressedFile.Filename];
 					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
 					        string targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
-					        string destName = PathEx.Combine(targetDirectoryForFile, entry.LongFileName);
-					        if (File.Exists(destName))
+                            LessIO.Path destName = LessIO.Path.Combine(targetDirectoryForFile, entry.LongFileName);
+					        if (FileSystem.Exists(destName))
 					        {
 						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
 						        //make unique
 						        // ReSharper disable HeuristicUnreachableCode
 						        Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
 						        int duplicateCount = 0;
-						        string uniqueName;
+						        Path uniqueName;
 						        do
 						        {
-							        uniqueName = string.Concat(destName, ".", "duplicate", ++duplicateCount);
-						        } while (File.Exists(uniqueName));
+							        uniqueName = new Path(destName + "." + "duplicate" + ++duplicateCount);
+						        } while (FileSystem.Exists(uniqueName));
 						        destName = uniqueName;
 						        // ReSharper restore HeuristicUnreachableCode
 					        }
 					        Trace.WriteLine(string.Concat("Extracting File \'", compressedFile.Filename, "\' to \'", destName, "\'"));
-					        compressedFile.ExtractTo(destName);
+					        compressedFile.ExtractTo(destName.PathString);
 					        filesExtractedSoFar++;
 				        }
 			        }
@@ -341,7 +338,7 @@ namespace LessMsi.Msi
 			        foreach (var decomp in cabDecompressors)
 			        {
 				        decomp.Close(false);
-				        DeleteFileForcefully(decomp.LocalFilePath);
+				        DeleteFileForcefully(new Path(decomp.LocalFilePath));
 			        }
 		        }
 	        }
@@ -357,10 +354,10 @@ namespace LessMsi.Msi
 		/// <summary>
 		/// Deletes a file even if it is readonly.
 		/// </summary>
-	    private static void DeleteFileForcefully(string localFilePath)
+	    private static void DeleteFileForcefully(Path localFilePath)
 	    {
             // In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
-            PathEx.DeleteFileOrDirectory(localFilePath);
+            FileSystem.RemoveFile(localFilePath, true);
 	    }
 
 	    /// <summary>
@@ -427,12 +424,12 @@ namespace LessMsi.Msi
 
 	    private static string GetTargetDirectory(string rootDirectory, MsiDirectory relativePath)
         {
-            string fullPath = PathEx.Combine(rootDirectory, relativePath.GetPath());
-            if (!PathEx.Exists(fullPath))
+            LessIO.Path fullPath = LessIO.Path.Combine(rootDirectory, relativePath.GetPath());
+            if (!FileSystem.Exists(fullPath))
             {
-                PathEx.CreateDirectory(fullPath);
+                FileSystem.CreateDirectory(fullPath);
             }
-            return fullPath;
+            return fullPath.PathString;
         }
 		
 
@@ -442,7 +439,7 @@ namespace LessMsi.Msi
 		/// <param name="msidb"></param>
 		/// <param name="outputDir"></param>
 		/// <returns></returns>
-	    private static List<CabInfo> CabsFromMsiToDisk(FileInfo msi, Database msidb, string outputDir)
+	    private static List<CabInfo> CabsFromMsiToDisk(Path msi, Database msidb, string outputDir)
 	    {
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
@@ -466,7 +463,7 @@ namespace LessMsi.Msi
 						    extract = true;
 						    cabSourceName = cabSourceName.Substring(1);
 					    }
-					    string localCabFile = PathEx.Combine(outputDir, cabSourceName);
+					    Path localCabFile = Path.Combine(outputDir, cabSourceName);
 					    if (extract)
 					    {
 						    // extract cabinet, then explode all of the files to a temp directory
@@ -474,14 +471,14 @@ namespace LessMsi.Msi
 					    }
 					    else
 					    {
-						    string originalCabFile = PathEx.Combine(msi.DirectoryName, cabSourceName);
-						    File.Copy(originalCabFile, localCabFile);
+						    Path originalCabFile = Path.Combine(msi.Parent, cabSourceName);
+						    FileSystem.Copy(originalCabFile, localCabFile);
 					    }
 					    /* http://code.google.com/p/lessmsi/issues/detail?id=1
 				 		 * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
 						 * Thanks to Christopher Hamburg for explaining this!
 				 		*/
-					    var c = new CabInfo(localCabFile, cabSourceName);
+					    var c = new CabInfo(localCabFile.PathString, cabSourceName);
 					    localCabFiles.Add(c);
 				    }
 			    }
@@ -498,7 +495,7 @@ namespace LessMsi.Msi
 			/// <summary>
 			/// Path of the CAB on local disk after we pop it out of the msi.
 			/// </summary>
-			public string LocalCabFile { get; set; }
+			public string LocalCabFile { get; set; } //TODO: Make LocalCabFile use LessIO.Path
 
 			public CabInfo(string localCabFile, string cabSourceName)
 			{
@@ -512,14 +509,14 @@ namespace LessMsi.Msi
         /// </summary>
         /// <param name="filePath">Specifies the path to the file to contain the stream.</param>
         /// <param name="cabName">Specifies the name of the file in the stream.</param>
-        public static void ExtractCabFromPackage(string filePath, string cabName, Database inputDatabase)
+        public static void ExtractCabFromPackage(Path filePath, string cabName, Database inputDatabase)
         {
             using (View view = inputDatabase.OpenExecuteView(String.Concat("SELECT * FROM `_Streams` WHERE `Name` = '", cabName, "'")))
             {
                 Record record;
                 if (view.Fetch(out record))
                 {
-                    using (var writer = new BinaryWriter(PathEx.CreateFile(filePath)))
+                    using (var writer = new System.IO.BinaryWriter(FileSystem.CreateFile(filePath)))
                     {
 						var buf = new byte[1024*1024];
 						int count;
