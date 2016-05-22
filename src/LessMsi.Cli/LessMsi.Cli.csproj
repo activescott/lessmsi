@@ -36,6 +36,10 @@
     <StartupObject>LessMsi.Cli.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LessIO, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.2.0\lib\net40\LessIO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="wix">
@@ -58,12 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LessIO\src\LessIO\LessIO.csproj">
-      <Project>{51482e40-c227-4c5a-9b55-42440c041d55}</Project>
-      <Name>LessIO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LessMsi.Core\LessMsi.Core.csproj">
       <Project>{1fd916f2-1df6-42f6-9ad4-83565fbf8e5c}</Project>
       <Name>LessMsi.Core</Name>

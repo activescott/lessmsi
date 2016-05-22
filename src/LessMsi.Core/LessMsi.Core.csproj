@@ -35,6 +35,10 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LessIO, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.2.0\lib\net40\LessIO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="libmspackn">
       <HintPath>..\..\lib\libmspackn.dll</HintPath>
     </Reference>
@@ -58,12 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\LessIO\src\LessIO\LessIO.csproj">
-      <Project>{51482e40-c227-4c5a-9b55-42440c041d55}</Project>
-      <Name>LessIO</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">

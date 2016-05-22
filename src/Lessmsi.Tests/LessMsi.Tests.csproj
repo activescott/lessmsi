@@ -37,6 +37,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LessIO, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.2.0\lib\net40\LessIO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
@@ -58,10 +62,6 @@
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LessIO\src\LessIO\LessIO.csproj">
-      <Project>{51482e40-c227-4c5a-9b55-42440c041d55}</Project>
-      <Name>LessIO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LessMsi.Cli\LessMsi.Cli.csproj">
       <Project>{7ed32f80-2b7b-4f90-ade9-22b8f3935c63}</Project>
       <Name>LessMsi.Cli</Name>
@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

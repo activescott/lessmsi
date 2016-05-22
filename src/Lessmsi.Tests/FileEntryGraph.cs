@@ -49,7 +49,7 @@ namespace LessMsi.Tests
         {
             //save it as csv:
             if (file.Exists)
-                file.Delete();
+                LessIO.FileSystem.RemoveFile(file);
             using (var f = file.CreateText())
             {
                 f.WriteLine("Path,Size,CreationTime,LastWriteTime,Attributes");
