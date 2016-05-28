@@ -35,12 +35,12 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LessIO, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LessIO.0.2.0\lib\net40\LessIO.dll</HintPath>
+    <Reference Include="LessIO, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.3.0\lib\net40\LessIO.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="libmspackn, Version=0.7.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\libmspack4n.0.7.0\lib\net40\libmspackn.dll</HintPath>
+    <Reference Include="libmspackn, Version=0.8.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\libmspack4n.0.8.0\lib\net40\libmspackn.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="wix">

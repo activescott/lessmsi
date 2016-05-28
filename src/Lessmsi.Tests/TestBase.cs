@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using LessIO;
 
 namespace LessMsi.Tests
@@ -21,7 +21,7 @@ namespace LessMsi.Tests
             string msg;
             if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
             {
-                Assert.Fail(msg);
+                throw new Exception("FileEntryGraph entries are not the equal");
             }
         }
 
@@ -142,7 +142,7 @@ namespace LessMsi.Tests
 		    if (!exited)
 		    {
 			    p.Kill();
-			    Assert.Fail("Process did not exit for commandlineArgs:" + commandlineArgs);
+                throw new Exception("Process did not exit for commandlineArgs:" + commandlineArgs);
 		    }
 		    consoleOutput = p.StandardOutput.ReadToEnd();
 

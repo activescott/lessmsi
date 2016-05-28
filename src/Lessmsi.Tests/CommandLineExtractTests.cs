@@ -1,59 +1,63 @@
 ﻿using System;
 using System.Diagnostics;
 using LessIO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace LessMsi.Tests
 {
-    [TestClass]
+    // We use Test Collections to prevent files get locked by seperate threads: http://xunit.github.io/docs/running-tests-in-parallel.html
+    [Collection("NUnit - 2.5.2.9222.msi")] // Since almost all of these use nunit we just put the whole class in the nunit collection.
     public class CommandLineExtractTests : TestBase
     {
-        [TestMethod]
+        [Fact]
         public void Extract1Arg()
         {
 			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
 			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
         }
 
-		[TestMethod]
+		[Fact]
 		public void Extract2Args()
 		{
 			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
 			TestExtraction(commandLine, GetTestName(), "Ex2Args", false);
 		}
 
-	    [TestMethod]
+	    [Fact]
 		public void Extract3Args()
 		{
 			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
 			TestExtraction(commandLine, GetTestName(), "Ex3", false);
 		}
 
-		[TestMethod]
+		[Fact]
 	    public void ExtractCompatibility1Arg()
 		{
 			var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
 			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExtractCompatibility2Args()
 		{
 			var commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
 			TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args", false);
 		}
 
-		[TestMethod, ExpectedException(typeof(ExitCodeException))]
+		[Fact]
 		public void BackwardCompatibilityParserNoMsiSpecifiedParser()
 		{
 			var commandLine = "/x";
 			
 			string consoleOutput;
-			var exitCode = RunCommandLine(commandLine, out consoleOutput);
-			Assert.AreEqual(3, exitCode);
-		}
+            Assert.Throws(typeof(ExitCodeException), () =>
+            {
+                var exitCode = RunCommandLine(commandLine, out consoleOutput);
+                Assert.Equal(3, exitCode);
+            });
+        }
 
-	    [TestMethod]
+	    [Fact]
 		public void List()
 		{
 			var expectedOutput = @"Property,Value
@@ -100,16 +104,16 @@ WixUIRMOption,UseRM
 
 		    string consoleOutput;
 			RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
-			Assert.AreEqual(expectedOutput, consoleOutput);
+			Assert.Equal(expectedOutput, consoleOutput);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Version()
 		{
 			var expectedOutput = "2.5.2.9222" + Environment.NewLine;
 			string consoleOutput;
 			RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
-			Assert.AreEqual(expectedOutput, consoleOutput);
+			Assert.Equal(expectedOutput, consoleOutput);
 		}
 
 		#region Helpers
@@ -141,7 +145,7 @@ WixUIRMOption,UseRM
 				exitCode = base.RunCommandLineInProccess(commandLineArguments);
 			else
 				exitCode = base.RunCommandLine(commandLineArguments, out consoleOutput);
-            Assert.AreEqual(0, exitCode, "Exit code indicates error");
+            Assert.Equal(0, exitCode);
 			var actualEntries = FileEntryGraph.GetActualEntries(actualOutDir.FullPathString, "Actual Entries");
 	        var actualEntriesFile = GetActualOutputFile(testName);
 	        actualEntries.Save(actualEntriesFile);

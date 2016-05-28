@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{691765
 		.build\lessmsi.nuspec = .build\lessmsi.nuspec
 		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
-		.build\zipfile.msbuild.targets = .build\zipfile.msbuild.targets
-		.build\zipfile.test.msbuild = .build\zipfile.test.msbuild
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Core", "LessMsi.Core\LessMsi.Core.csproj", "{1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C}"
