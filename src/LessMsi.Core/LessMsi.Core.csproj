@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -25,7 +25,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -39,8 +39,9 @@
       <HintPath>..\packages\LessIO.0.2.0\lib\net40\LessIO.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="libmspackn">
-      <HintPath>..\..\lib\libmspackn.dll</HintPath>
+    <Reference Include="libmspackn, Version=0.7.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\libmspack4n.0.7.0\lib\net40\libmspackn.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="wix">
       <HintPath>..\..\lib\wix.dll</HintPath>
