@@ -1,0 +1,3 @@
+REM: Deos nothing: nuget.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" c:\src\lessmsi\src\packages\repositories.config
+REM: Error, seems to ignore SolutionDirectory: nuget.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" -SolutionDirectory c:\src\lessmsi\src
+nuget.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" c:\src\lessmsi\src\LessMsi.sln

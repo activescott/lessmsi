@@ -94,7 +94,14 @@
 		<RemoveDir Directories="$(TheDeployDir)" />
 	</Target>
 
-	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion">
+  <Target Name="EnsureDependencies" DependsOnTargets="Init">
+    <!-- Only download a new copy of nuget.exe if we don't have a copy available -->
+    <WebDownload Condition="!Exists('nuget.exe')" Filename="nuget.exe" FileUri="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" />
+
+    <Exec Command='nuget.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" c:\src\lessmsi\src\LessMsi.sln'></Exec>
+  </Target>
+
+	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion;EnsureDependencies">
 		<Message Text="Building version: $(TheVersion)" />
 		
 		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
