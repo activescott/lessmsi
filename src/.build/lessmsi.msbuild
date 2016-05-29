@@ -16,6 +16,7 @@
 		<TheDeployDir>$(RootDir)\.deploy</TheDeployDir>
 		<AssemblyCopyright>Copyright Scott Willeke ©  2004-2013</AssemblyCopyright>
 		<TheZipFileName>lessmsi-v$(TheVersion).zip</TheZipFileName>
+    <NugetPath>../.nuget/nuget.exe</NugetPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -49,6 +50,9 @@
 		<ConvertToAbsolutePath Paths="$(TheDeployDir)">
 			<Output TaskParameter="AbsolutePaths" PropertyName="TheDeployDir"/>
 		</ConvertToAbsolutePath>
+    <ConvertToAbsolutePath Paths="$(NugetPath)">
+      <Output TaskParameter="AbsolutePaths" PropertyName="NugetPath"/>
+    </ConvertToAbsolutePath>
 
     <Message Text="Project File Name = $(MSBuildProjectFile)" />
     <Message Text="Project Extension = $(MSBuildProjectExtension)" />
@@ -96,9 +100,9 @@
 
   <Target Name="EnsureDependencies" DependsOnTargets="Init">
     <!-- Only download a new copy of nuget.exe if we don't have a copy available -->
-    <WebDownload Condition="!Exists('nuget.exe')" Filename="nuget.exe" FileUri="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" />
+    <WebDownload Condition="!Exists('$(NugetPath)')" Filename="$(NugetPath)" FileUri="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" />
 
-    <Exec Command='nuget.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" c:\src\lessmsi\src\LessMsi.sln'></Exec>
+    <Exec Command='$(NugetPath) restore -Verbosity Detailed -NonInteractive -OutputDirectory c:\src\lessmsi\src\packages\ -Source "https://api.nuget.org/v3/index.json" c:\src\lessmsi\src\LessMsi.sln'></Exec>
   </Target>
 
 	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion;EnsureDependencies">
