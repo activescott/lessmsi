@@ -2,5 +2,5 @@
 #---------------------------------#
 #      build configuration        #
 #---------------------------------#
-build_script: 
-	- cmd: msbuild .\src\.build\lessmsi.msbuild /p:TheVersion=0.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+build_script:
+  - cmd: msbuild .\src\.build\lessmsi.msbuild /p:TheVersion=0.0. /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
