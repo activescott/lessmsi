@@ -5,4 +5,4 @@ script:
  - xbuild /p:TheVersion=0.0 ./.build/lessmsi.msbuild
 
 mono:
-  - 4.2.3.4
+  - 4.2.3
