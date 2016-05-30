@@ -104,7 +104,10 @@ WixUIRMOption,UseRM
 
 		    string consoleOutput;
 			RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
-			Assert.Equal(expectedOutput, consoleOutput);
+            // strangely I've seen newlines treated differently either by xunit or different versions of windows. So lets compare these as a list of lines: https://ci.appveyor.com/project/activescott/lessmsi/build/1.0.7/tests
+            string[] expectedOutputLines = expectedOutput.Split(new string[]{ "\r\n", "\n" }, StringSplitOptions.None);
+            string[] consoleOutputLines = consoleOutput.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+            Assert.Equal(expectedOutputLines, consoleOutputLines);
 		}
 
 		[Fact]
