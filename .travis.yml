@@ -1,22 +1,8 @@
-# Since Ubuntu uses very old versions of mono for stability (http://mono-project.com/DistroPackages/Ubuntu) and there isn't a trivial way to update them that I know of, I'm switching to objective-c to get a mac box which we can easily install recent versions of mono on.
-# language: c
-# 
-# install:
-#  - sudo apt-get install mono-devel mono-gmcs nunit-console
-# 
-language: objective-c
-
-env:
- global:
-  - EnableNuGetPackageRestore=true 
-  - MONO_VER="3.2.1"
-  - MONO_SUBVER="_1"
-
-before_install:
- - wget "http://download.mono-project.com/archive/${MONO_VER}/macos-10-x86/MonoFramework-MDK-${MONO_VER}${MONO_SUBVER}.macos10.xamarin.x86.pkg"
- - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}${MONO_SUBVER}.macos10.xamarin.x86.pkg" -target /
+language: csharp
 
 script:
  - cd src
  - bash build.sh
 
+mono:
+  - latest
