@@ -1,4 +1,4 @@
-lessmsi [![Build Status](https://secure.travis-ci.org/activescott/lessmsi.png?branch=master)](http://travis-ci.org/activescott/lessmsi) [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
+lessmsi [![Build Status](https://ci.appveyor.com/api/projects/status/github/activescott/lessmsi?branch=master&svg=true)](https://ci.appveyor.com/project/activescott/lessmsi) [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
 ========
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
