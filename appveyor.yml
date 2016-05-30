@@ -1,0 +1,19 @@
+# see http://www.appveyor.com/docs/appveyor-yml
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: x86
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+build:
+  project: src/.build/lessmsi.msbuild      # path to Visual Studio solution or project
+  publish_wap: false               # package Web Application Projects (WAP) for Web Deploy
+  publish_wap_xcopy: false         # package Web Application Projects (WAP) for XCopy deployment
+  publish_azure: false             # package Azure Cloud Service projects and push to artifacts
+  publish_nuget: false             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: false     # generate and publish NuGet symbol packages
+  include_nuget_references: false  # add -IncludeReferencedProjects option while packaging NuGet artifacts
+
+  # MSBuild verbosity level
+  verbosity: normal # quiet|minimal|normal|detailed

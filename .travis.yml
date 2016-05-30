@@ -1,6 +1,0 @@
-language: csharp
-solution: src/LessMsi.sln
-install:
-	- mono ./src/.nuget/NuGet.exe restore -Verbosity Detailed -NonInteractive -OutputDirectory ./src/packages/ -Source "https://api.nuget.org/v3/index.json" ./src/LessMsi.sln
-mono:
-  - 4.2.3
