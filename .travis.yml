@@ -2,7 +2,7 @@ language: csharp
 
 script:
  - cd src
- - bash build.sh
+ - xbuild /p:TheVersion=0.0 ./.build/lessmsi.msbuild
 
 mono:
-  - latest
+  - 4.2.3.4
