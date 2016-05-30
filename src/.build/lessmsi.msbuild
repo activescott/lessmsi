@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Init;Build;Deploy;Zip;UpdateChocolatey">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build;BeforeTest;Deploy;Zip;UpdateChocolatey">
 	<!--
 	References:
 		http://msdn.microsoft.com/en-us/library/vstudio/dd393574.aspx
@@ -17,8 +17,10 @@
 		<AssemblyCopyright>Copyright Scott Willeke ©  2004-2013</AssemblyCopyright>
 		<TheZipFileName>lessmsi-v$(TheVersion).zip</TheZipFileName>
     <NugetPath>../.nuget/nuget.exe</NugetPath>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	</PropertyGroup>
-
+  
+  <!-- Items: https://msdn.microsoft.com/en-us/library/ms171453.aspx -->
 	<ItemGroup>
 		<TheProjects Include="$(RootDir)\LessMsi.Core\LessMsi.Core.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Cli\LessMsi.Cli.csproj"></TheProjects>
@@ -105,7 +107,7 @@
     <Exec Command='$(NugetPath) restore -Verbosity Detailed -NonInteractive -OutputDirectory $(RootDir)\packages\ -Source "https://api.nuget.org/v3/index.json" $(RootDir)\LessMsi.sln'></Exec>
   </Target>
 
-	<Target Name="Build" DependsOnTargets="Validate;SetProjectVersion;EnsureDependencies">
+	<Target Name="Build" DependsOnTargets="Init;Validate;SetProjectVersion;EnsureDependencies">
 		<Message Text="Building version: $(TheVersion)" />
 		
 		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
@@ -124,10 +126,33 @@
             SourceFiles="%(DeployFiles.FullPath)"
             DestinationFolder="$(TheDeployDir)"
         />
-
   </Target>
 
-	<Target Name="Zip" DependsOnTargets="Deploy">
+  <Target Name="BeforeTest" DependsOnTargets="Init;Clean">
+    <!-- Prepares for running tests in $(TheDeployDir) -->
+    <ItemGroup>
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\LessMsi.Tests.dll" />
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.execution.desktop.dll" />
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.abstractions.dll" />
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.core.dll" />
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.assert.dll" />
+    </ItemGroup>
+    <ItemGroup>
+      <TestFiles Include="$(RootDir)\LessMsi.Tests\TestFiles\**\*.*"></TestFiles>
+    </ItemGroup>
+    
+    <Copy
+      SourceFiles="@(TestFiles)"
+      DestinationFiles="@(TestFiles->'$(TheDeployDir)\TestFiles\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+    
+    <Copy
+      SourceFiles="@(TestBinaries)"
+      DestinationFolder="$(TheDeployDir)"
+    />
+  </Target>
+
+  <Target Name="Zip" DependsOnTargets="Deploy">
     <!-- see https://github.com/loresoft/msbuildtasks/blob/master/Source/MSBuild.Community.Tasks/Zip.cs -->
     <Zip
 			Files="@(DeployFiles)"
@@ -138,7 +163,7 @@
 
 	<Target Name="UpdateChocolatey" DependsOnTargets="Deploy">
 		<!-- 
-			For this chocolatey pacaging stuff see:
+			For this chocolatey packaging stuff see:
 			http://www.topbug.net/blog/2012/07/02/a-simple-tutorial-create-and-publish-chocolatey-packages/
 		 -->
 		<PropertyGroup>
