@@ -24,6 +24,7 @@
 //
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("Less MSIérables (lessmsi) Core library")]
 [assembly: AssemblyProduct("Less MSIérables (lessmsi)")]

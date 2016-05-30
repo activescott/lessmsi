@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using LessMsi.IO;
-using LessMsi.Msi;
-using NUnit.Framework;
+using Xunit;
+using LessIO;
 
 namespace LessMsi.Tests
 {
@@ -24,54 +21,72 @@ namespace LessMsi.Tests
             string msg;
             if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
             {
-                Assert.Fail(msg);
+                throw new Exception("FileEntryGraph entries are not the equal");
             }
+        }
+
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
+        {
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, "");
+        }
+
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, string outputDir)
+        {
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, new Path(outputDir), true);
         }
 
         /// <summary>
         /// Extracts some or all of the files from the specified MSI and returns a <see cref="FileEntryGraph"/> representing the files that were extracted.
         /// </summary>
         /// <param name="msiFileName">The msi file to extract or null to extract all files.</param>
-        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull)
+        /// <param name="fileNamesToExtractOrNull">The files to extract from the MSI or null to extract all files.</param>
+        /// <param name="outputDir">A relative directory to extract output to or an empty string to use the default output directory.</param>
+        /// <param name="skipReturningFileEntryGraph">True to return the <see cref="FileEntryGraph"/>. Otherwise null will be returned.</param>
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, Path outputDir, bool returnFileEntryGraph)
         {
-            //  build command line
-            string outputDir = Path.Combine(AppPath, "MsiOutputTemp");
-            outputDir = Path.Combine(outputDir, "_" + msiFileName);
-            if (Directory.Exists(outputDir))
+            outputDir = GetTestOutputDir(outputDir, msiFileName);
+
+            if (FileSystem.Exists(outputDir))
             {
-                DeleteDirectoryRecursive(new DirectoryInfo(outputDir));
-                Directory.Delete(outputDir, true);
+                FileSystem.RemoveDirectory(outputDir, true);
             }
-            Directory.CreateDirectory(outputDir);
+            Debug.Assert(!FileSystem.Exists(outputDir), "Directory still exists!");
+            FileSystem.CreateDirectory(outputDir);
 
             //ExtractViaCommandLine(outputDir, msiFileName);
-            ExtractInProcess(msiFileName, outputDir, fileNamesToExtractOrNull);
-
-            //  build actual file entries extracted
-            var actualEntries = FileEntryGraph.GetActualEntries(outputDir, msiFileName);
-            // dump to actual dir (for debugging and updating tests)
-            actualEntries.Save(GetActualOutputFile(msiFileName));
-            return actualEntries;
+            ExtractInProcess(msiFileName, outputDir.PathString, fileNamesToExtractOrNull);
+            if (returnFileEntryGraph)
+            {
+                //  build actual file entries extracted
+                var actualEntries = FileEntryGraph.GetActualEntries(outputDir.PathString, msiFileName);
+                // dump to actual dir (for debugging and updating tests)
+                actualEntries.Save(GetActualOutputFile(msiFileName));
+                return actualEntries;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public static void DeleteDirectoryRecursive(DirectoryInfo di)
+        /// <summary>
+        /// Returns a suitable output directory for test data while running the test.
+        /// If <paramref name="outputDir"/> is specified it is used and <paramref name="testNameOrMsiFileName"/> is ignored.
+        /// Alternatively, <paramref name="testNameOrMsiFileName"/> is used to generate a test dir.
+        /// </summary>
+        /// <param name="outputDir">The output dir to use or <see cref="Path.Empty"/>.</param>
+        /// <param name="testNameOrMsiFileName">
+        /// A test name (often the name of a msi file under test) to use to generate a test dir when <paramref name="testNameOrMsiFileName"/> is not specified.
+        /// </param>
+        /// <returns></returns>
+        protected Path GetTestOutputDir(Path outputDir, string testNameOrMsiFileName)
         {
-            foreach (var item in di.GetFileSystemInfos())
-            {
-                var file = item as FileInfo;
-                if (file != null)
-                {
-                    //NOTE: This is why this method is necessary. Directory.Delete and File.Delete won't delete files that have ReadOnly attribute set. So we clear it here before deleting
-                    if (file.IsReadOnly)
-                        file.IsReadOnly = false;
-                    file.Delete();
-                }
-                else
-                {
-                    var dir = (DirectoryInfo) item;
-                    DeleteDirectoryRecursive(dir);
-                }
-            }
+            Path baseOutputDir = Path.Combine(AppPath, "MsiOutputTemp");
+            if (outputDir.IsEmpty || !outputDir.IsPathRooted)
+                outputDir = Path.Combine(baseOutputDir, "_" + testNameOrMsiFileName);
+            else
+                outputDir = Path.Combine(baseOutputDir, outputDir);
+            return outputDir;
         }
 
         private void ExtractInProcess(string msiFileName, string outputDir, string[] fileNamesToExtractOrNull)
@@ -79,11 +94,11 @@ namespace LessMsi.Tests
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
             if (fileNamesToExtractOrNull == null)
             {	//extract everything:
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), null, null);	
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir, null, null);	
             }
             else
             {
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), new DirectoryInfo(outputDir), fileNamesToExtractOrNull);
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir, fileNamesToExtractOrNull);
             }
 			
         }
@@ -118,7 +133,7 @@ namespace LessMsi.Tests
 	    protected int RunCommandLine(string commandlineArgs, out string consoleOutput)
 	    {
 		    //  exec & wait
-		    var startInfo = new ProcessStartInfo(Path.Combine(AppPath, "lessmsi.exe"), commandlineArgs);
+		    var startInfo = new ProcessStartInfo(LessIO.Path.Combine(AppPath, "lessmsi.exe").PathString, commandlineArgs);
 		    startInfo.RedirectStandardOutput = true;
 		    startInfo.RedirectStandardError = true;
 		    startInfo.UseShellExecute = false;
@@ -127,7 +142,7 @@ namespace LessMsi.Tests
 		    if (!exited)
 		    {
 			    p.Kill();
-			    Assert.Fail("Process did not exit for commandlineArgs:" + commandlineArgs);
+                throw new Exception("Process did not exit for commandlineArgs:" + commandlineArgs);
 		    }
 		    consoleOutput = p.StandardOutput.ReadToEnd();
 
@@ -177,31 +192,31 @@ namespace LessMsi.Tests
             return FileEntryGraph.Load(GetExpectedOutputFile(forMsi), forMsi);
         }
 
-        private FileInfo GetMsiTestFile(string msiFileName)
+        private Path GetMsiTestFile(string msiFileName)
         {
-            return new FileInfo(PathEx.Combine(AppPath, "TestFiles", "MsiInput", msiFileName));
+            return Path.Combine(AppPath, "TestFiles", "MsiInput", msiFileName);
         }
 
-        private FileInfo GetExpectedOutputFile(string msiFileName)
+        private Path GetExpectedOutputFile(string msiFileName)
         {
-            return new FileInfo(PathEx.Combine(AppPath, "TestFiles", "ExpectedOutput", msiFileName + ".expected.csv"));
+            return Path.Combine(AppPath, "TestFiles", "ExpectedOutput", msiFileName + ".expected.csv");
         }
 
-        protected FileInfo GetActualOutputFile(string msiFileName)
+        protected Path GetActualOutputFile(string msiFileName)
         {
             // strip any subdirectories here since some input msi files have subdirectories.
             msiFileName = Path.GetFileName(msiFileName); 
-            var fi = new FileInfo(Path.Combine(AppPath, msiFileName + ".actual.csv"));
+            var fi = Path.Combine(AppPath, msiFileName + ".actual.csv");
             return fi;
         }
 
-        protected string AppPath
+        protected Path AppPath
         {
             get
             {
                 var codeBase = new Uri(this.GetType().Assembly.CodeBase);
-                var local = Path.GetDirectoryName(codeBase.LocalPath);
-                return local;
+                var local = new Path(codeBase.LocalPath);
+                return local.Parent;
             }
         }
     }

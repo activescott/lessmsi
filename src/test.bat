@@ -1,6 +1,3 @@
 @setlocal
-@set CONFIG=
-@set /P CONFIG= Enter the config to test with (Release or Debug, defaults to Release): 
-@if NOT DEFINED CONFIG set CONFIG=Release
-echo Config: %CONFIG%
-.\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe .\Lessmsi.Tests\bin\%CONFIG%\LessMsi.Tests.dll /labels=All
+
+packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe .\.deploy\LessMsi.Tests.dll

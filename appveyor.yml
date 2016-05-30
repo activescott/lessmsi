@@ -1,0 +1,14 @@
+# see http://www.appveyor.com/docs/appveyor-yml
+#---------------------------------#
+#      build configuration        #
+#---------------------------------#
+build_script:
+ - cmd: msbuild .\src\.build\lessmsi.msbuild /p:TheVersion=0.0.0.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+test:
+ assemblies:
+  - .\src\.deploy\LessMsi.Tests.dll

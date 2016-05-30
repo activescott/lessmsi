@@ -16,25 +16,32 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libmspackn">
-      <HintPath>..\..\lib\libmspackn.dll</HintPath>
+    <Reference Include="LessIO, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.3.0\lib\net40\LessIO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="libmspackn, Version=0.8.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\libmspack4n.0.8.0\lib\net40\libmspackn.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="wix">
       <HintPath>..\..\lib\wix.dll</HintPath>
@@ -43,7 +50,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\PathEx.cs" />
     <Compile Include="Msi\ColumnInfo.cs" />
     <Compile Include="Msi\MsiDirectory.cs" />
     <Compile Include="Msi\MsiFile.cs" />

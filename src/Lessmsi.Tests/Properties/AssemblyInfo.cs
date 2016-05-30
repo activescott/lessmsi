@@ -29,3 +29,4 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("Lessmsi.Tests")]
 [assembly: AssemblyDescription("")]
+[assembly: Xunit.CollectionBehavior(DisableTestParallelization = true)] // Disable other files get locked by seperate threads: http://xunit.github.io/docs/running-tests-in-parallel.html

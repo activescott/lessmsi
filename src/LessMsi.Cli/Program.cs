@@ -108,12 +108,11 @@ namespace LessMsi.Cli
 			EnsureFileRooted(ref msiFileName);
 			EnsureFileRooted(ref outDirName);
 
-			var msiFile = new FileInfo(msiFileName);
-			var outDir = new DirectoryInfo(outDirName);
+            var msiFile = new LessIO.Path(msiFileName);
 
-			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDir + "\'.");
+			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
 
-			Wixtracts.ExtractFiles(msiFile, outDir, filesToExtract.ToArray());
+			Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray());
 		}
 
 	    private static void EnsureFileRooted(ref string sFileName)

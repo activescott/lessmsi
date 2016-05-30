@@ -45,11 +45,11 @@ namespace LessMsi.Tests
         /// Saves this <see cref="FileEntryGraph"/> to the specified file.
         /// </summary>
         /// <param name="file">The file that this graph will be saved to.</param>
-        public void Save(FileInfo file)
+        public void Save(LessIO.Path file)
         {
             //save it as csv:
             if (file.Exists)
-                file.Delete();
+                LessIO.FileSystem.RemoveFile(file);
             using (var f = file.CreateText())
             {
                 f.WriteLine("Path,Size,CreationTime,LastWriteTime,Attributes");
@@ -76,10 +76,10 @@ namespace LessMsi.Tests
         /// <param name="file">The file to load a new <see cref="FileEntryGraph"/> from.</param>
         /// <param name="forFileName">The initial value for the returned objects <see cref="FileEntryGraph.ForFileName"/></param>
         /// <returns>The newly loaded <see cref="FileEntryGraph"/>.</returns>
-        public static FileEntryGraph Load(FileInfo file, string forFileName)
+        public static FileEntryGraph Load(LessIO.Path file, string forFileName)
         {
             var graph = new FileEntryGraph(forFileName);
-            using (var f = file.OpenText())
+            using (var f = System.IO.File.OpenText(file.PathString))
             {
                 f.ReadLine();//headings
                 while (!f.EndOfStream)
@@ -87,23 +87,23 @@ namespace LessMsi.Tests
                     var line = f.ReadLine().Split(',');
                     if (line.Length != 5)
                         throw new IOException("Expected 5 fields!");
-					/* FIX for github issue #23: 
+                    /* FIX for github issue #23: 
 					 * The problem was that old ExpectedOutput files were all prefixed with C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\<msiFileNameWithoutExtension> (something like C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\NUnit-2.5.2.9222\SourceDir\PFiles\NUnit 2.5.2\fit-license.txt)
 					 * We need to remove Since we don't reasonably know what the original msi filename was, we do know it was the subdirectory of C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\. So we should remove C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\ and the next subdirectory from the path. 
 					 * HACK: A better fix would undoubtedly be to cleanup those old file swith code like this and remove this hack from this code forever!
 					 */
-					var path = line[0];
-					const string oldRootPath = @"C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\";
-					if (path.StartsWith(oldRootPath, StringComparison.InvariantCultureIgnoreCase))
-					{	
-						//this is an old file that would trigger github issue #23, so we'll fix it here...
-						// first remove the old root path: 
-						path = path.Substring(oldRootPath.Length);
-						// now romove the msi filename (which we don't know, but we know it is the next subdirectory of the old root):
-						var lengthOfSubDirectoryName = path.IndexOf('\\', 0);
-						path = path.Substring(lengthOfSubDirectoryName);
-					}
-					graph.Add(new FileEntry(path, Int64.Parse(line[1]), DeserializeDate(line[2]), DeserializeDate(line[3]), DeserializeAttributes(line[4])) );
+                    var path = line[0];
+                    const string oldRootPath = @"C:\projects\lessmsi\src\Lessmsi.Tests\bin\Debug\";
+                    if (path.StartsWith(oldRootPath, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        //this is an old file that would trigger github issue #23, so we'll fix it here...
+                        // first remove the old root path: 
+                        path = path.Substring(oldRootPath.Length);
+                        // now romove the msi filename (which we don't know, but we know it is the next subdirectory of the old root):
+                        var lengthOfSubDirectoryName = path.IndexOf('\\', 0);
+                        path = path.Substring(lengthOfSubDirectoryName);
+                    }
+                    graph.Add(new FileEntry(path, Int64.Parse(line[1]), DeserializeDate(line[2]), DeserializeDate(line[3]), DeserializeAttributes(line[4])));
                 }
             }
             return graph;
