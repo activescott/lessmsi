@@ -2,14 +2,14 @@
 try {
 	
 	$theFile = Join-Path $(Split-Path -parent $MyInvocation.MyCommand.Definition) "AddWindowsExplorerShortcut.exe.ignore"
-	Write-Host "Creating " $theFile
+	#Write-Host "Creating " $theFile
 	New-Item $theFile -type file
 
-	Install-ChocolateyZipPackage 'LessMsi' '__URL__' "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+	$zipFile = Join-Path $(Split-Path -parent $MyInvocation.MyCommand.Definition) "__ZIP_FILE__"
 
-	Write-ChocolateySuccess 'lessmsi'
+	$toolsDir = (Split-Path -parent $MyInvocation.MyCommand.Definition)
+	Get-ChocolateyUnzip -FileFullPath "$zipFile" -Destination $toolsDir
 
 } catch {
-	Write-ChocolateyFailure 'lessmsi' $($_.Exception.Message)
-	throw 
+	throw $_.Exception
 }
