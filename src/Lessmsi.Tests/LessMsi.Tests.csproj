@@ -108,10 +108,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.exe" "$(TargetDir)"
-copy /Y "$(SolutionDir)..\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"
-mkdir "$(TargetDir)TestFiles"
-xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"</PostBuildEvent>
+    <PostBuildEvent>mkdir "$(TargetDir)TestFiles"
+xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"
+xcopy /Y "$(SolutionDir)packages\libmspack4n.0.8.0\build\x86\mspack.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="'$(OS)' == 'Windows_NT'" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.mono.targets" Condition="'$(OS)' == 'mono'" />
