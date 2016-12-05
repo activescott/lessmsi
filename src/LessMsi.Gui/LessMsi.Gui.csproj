@@ -38,8 +38,8 @@
     <StartupObject>LessMsi.Gui.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LessIO, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LessIO.0.3.0\lib\net40\LessIO.dll</HintPath>
+    <Reference Include="LessIO, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.5.0\lib\net40\LessIO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
