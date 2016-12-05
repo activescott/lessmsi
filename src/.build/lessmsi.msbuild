@@ -188,7 +188,7 @@
 			ReplacementText="https://github.com/activescott/lessmsi/releases/download/v$(TheVersion)/$(TheZipFileName)"
 		/>
 		<Exec
-			Command="cpack $(PackageDir)\lessmsi.nuspec" 
+			Command="choco pack $(PackageDir)\lessmsi.nuspec" 
 			WorkingDirectory="$(PackageDir)"
 			ContinueOnError="true"
 		>
