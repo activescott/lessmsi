@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace LessMsi.Gui.Windows.Forms
 {
@@ -59,8 +61,12 @@ namespace LessMsi.Gui.Windows.Forms
         public static void CopySelectedDataGridRowsToClipboard(DataGridView grid)
         {
             if (grid != null && grid.SelectedRows.Count > 0)
-			{
+            {
+	            const string SEPERATOR = "\t";
 				var sb = new StringBuilder();
+	            var cols = grid.Columns.Cast<DataGridViewColumn>();
+				var colNames = string.Join(SEPERATOR, cols.Select(c => c.Name).ToArray());
+				sb.AppendLine(colNames);
 				//NOTE: the grid.SelectedRows is in a different order than they are in the grid. So enumerating .Rows is better
 				for (int iRow = 0; iRow < grid.Rows.Count; iRow++)
 				{
@@ -71,7 +77,7 @@ namespace LessMsi.Gui.Windows.Forms
 						foreach (DataGridViewCell cell in row.Cells)
 						{
 							if (i++ > 0)
-								sb.Append(", ");
+								sb.Append(SEPERATOR);
 							sb.Append(cell.Value);
 						}
 
