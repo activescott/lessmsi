@@ -65,7 +65,7 @@ namespace LessMsi.Gui.Windows.Forms
 	            const string SEPERATOR = "\t";
 				var sb = new StringBuilder();
 	            var cols = grid.Columns.Cast<DataGridViewColumn>();
-				var colNames = string.Join(SEPERATOR, cols.Select(c => c.Name).ToArray());
+				var colNames = string.Join(SEPERATOR, cols.Select(c => c.HeaderText).ToArray());
 				sb.AppendLine(colNames);
 				//NOTE: the grid.SelectedRows is in a different order than they are in the grid. So enumerating .Rows is better
 				for (int iRow = 0; iRow < grid.Rows.Count; iRow++)
