@@ -791,6 +791,7 @@ namespace LessMsi.Gui
 				catch (Exception err)
 				{
 					MessageBox.Show(this,
+									"Please report this error at https://github.com/activescott/lessmsi/issues . Include the exact error message and how to get a copy of the msi you're working with.\r\n" +
 					                "The following error occured extracting the MSI: " + err.ToString(), "MSI Error!",
 					                MessageBoxButtons.OK, MessageBoxIcon.Error
 						);

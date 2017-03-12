@@ -259,7 +259,7 @@ namespace LessMsi.Msi
                 throw new ArgumentNullException("outputDir");
 
             int filesExtractedSoFar = 0;
-
+			//Refrence on Embedding files: https://msdn.microsoft.com/en-us/library/aa369279.aspx
             ExtractionProgress progress = null;
             Database msidb = new Database(msi.PathString, OpenDatabase.ReadOnly);
 	        try
@@ -441,6 +441,7 @@ namespace LessMsi.Msi
 		/// <returns></returns>
 	    private static List<CabInfo> CabsFromMsiToDisk(Path msi, Database msidb, string outputDir)
 	    {
+			OleStorage.OleStorageHelper.ReadFile(msi.FullPathString);
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
 		    using (View view = msidb.OpenExecuteView(query))
