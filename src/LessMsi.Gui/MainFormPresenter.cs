@@ -193,7 +193,7 @@ namespace LessMsi.Gui
 			var allTableNames = new string[]
             {
                 #region Hard Coded Table Names
-                //FYI: This list is from http://msdn.microsoft.com/en-us/library/2k3te2cs%28VS.100%29.aspx
+                //FYI: This list is from https://msdn.microsoft.com/en-us/library/windows/desktop/aa368259(v=vs.85).aspx
                 "ActionText",
                 "AdminExecuteSequence ",
                 "AdminUISequence",
