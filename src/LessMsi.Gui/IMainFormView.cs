@@ -23,7 +23,6 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System.Collections.Generic;
-using System.IO;
 using LessMsi.Gui.Model;
 
 namespace LessMsi.Gui
@@ -45,8 +44,8 @@ namespace LessMsi.Gui
         /// <summary>
         /// Adds a column to the file grid.
         /// </summary>
-        /// <param headerText="boundPropertyName">The headerText of the property the grid column is bound to.</param>
-        /// <param headerText="headerText">The header caption for the column.</param>
+        /// <param name="boundPropertyName">The headerText of the property the grid column is bound to.</param>
+		/// <param name="headerText">The header caption for the column.</param>
         void AddFileGridColumn(string boundPropertyName, string headerText);
 		/// <summary>
 		/// Autosizes file grid columns based on content.
@@ -64,10 +63,18 @@ namespace LessMsi.Gui
         /// Sets or returns the description for the selected property in the UI.
         /// </summary>
         string PropertySummaryDescription {get; set;}
-        /// <summary>
+		/// <summary>
+		/// Returns the streamInfo currently selected in the UI.
+		/// </summary>
+	    StreamInfoView SelectedStreamInfo { get; }
+	    /// <summary>
         /// Shows an informational message to the user.
         /// </summary>
         void ShowUserMessageBox(string message);
+		/// <summary>
+		/// Shows an error to the user.
+		/// </summary>
+		void ShowUserError(string formatStr, params object[] args);
         /// <summary>
         /// Adds a column to the MSI table grid.
         /// </summary>
@@ -80,8 +87,12 @@ namespace LessMsi.Gui
         /// Adds a row to the MSI table grid.
         /// </summary>
         void SetTableViewGridDataSource(IEnumerable<object[]> values);
-
         void SetPropertyGridDataSource(MsiPropertyInfo[] props);
         void AddPropertyGridColumn(string boundPropertyName, string headerText);
+		/// <summary>
+		/// Specifies the data source for the names of the streams in the streams selector.
+		/// </summary>
+	    void SetStreamSelectorSource(IEnumerable<StreamInfoView> streamNames);
+	    void SetCabContainedFileListSource(IEnumerable<CabContainedFileView> streamFiles);
     }
 }

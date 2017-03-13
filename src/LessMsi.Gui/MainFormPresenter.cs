@@ -24,11 +24,14 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using LessIO;
 using LessMsi.Gui.Model;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
+using LessMsi.OleStorage;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 
 namespace LessMsi.Gui
@@ -341,8 +344,61 @@ namespace LessMsi.Gui
 					ViewLeakedAbstraction.cboTable.SelectedIndex = 0;
 				}
 			}
+		}
 
-			
+		private void LoadStreams()
+		{
+			using (var stg = new OleStorageFile(new LessIO.Path(SelectedMsiFile.FullName)))
+			{
+				var streamViews = stg.GetStreams().Select(s => StreamInfoView.FromStream(s));
+				View.SetStreamSelectorSource(streamViews);
+			}
+		}
+
+		/// <summary>
+		/// Called by the view to notify of a change in the selection of the SelectedStreamInfo.
+		/// </summary>
+		public void OnSelectedStreamChanged()
+		{
+			if (View.SelectedStreamInfo != null && this.SelectedMsiFile != null)
+			{
+				// 1: find the right stream containing the cab bits:
+				using (var oleFile = new OleStorageFile(new LessIO.Path(this.SelectedMsiFile.FullName)))
+				{
+					var foundStream = oleFile.GetStreams().FirstOrDefault(s => string.Equals(View.SelectedStreamInfo.Name, s.Name, StringComparison.InvariantCulture));
+					if (foundStream == null)
+					{
+						View.ShowUserError("Could not find stream for CAB '{0}'", View.SelectedStreamInfo.Name);
+						return;
+					}
+					// if the file is a cab, we'll list the files in it (if it isn't clear the view):
+					IEnumerable<CabContainedFileView> streamFiles = new CabContainedFileView[]{};
+					if (View.SelectedStreamInfo.IsCabStream)
+					{
+						var tempFileName = System.IO.Path.GetTempFileName();
+						using (var cabBits = foundStream.GetStream(FileMode.Open, FileAccess.Read))
+						using (var writer = new BinaryWriter(File.Create(tempFileName)))
+						{
+							var buffer = new byte[1024*1024];
+							int bytesRead;
+							do
+							{
+								bytesRead = cabBits.Read(buffer, 0, buffer.Length);
+								writer.Write(buffer, 0, bytesRead);
+							} while (bytesRead > 0);
+						}
+						// 2: enumerate files in the cab and set them to the view's
+						
+						using (var cab = new LibMSPackN.MSCabinet(tempFileName))
+						{
+							// ToList to force it to enumerate now.
+							streamFiles = cab.GetFiles().Select(f => new CabContainedFileView(f.Filename)).ToList();
+						}
+						Debug.Assert(streamFiles != null && streamFiles.Any());						
+					}
+					View.SetCabContainedFileListSource(streamFiles);
+				}
+			}
 		}
 
 		/// <summary>
@@ -462,6 +518,7 @@ namespace LessMsi.Gui
 				LoadTables();
 				ViewFiles();
 				UpdateMSiTableGrid();
+				LoadStreams();
 				View.NotifyNewFileLoaded();
 			}
 			catch (Exception eCatchAll)
