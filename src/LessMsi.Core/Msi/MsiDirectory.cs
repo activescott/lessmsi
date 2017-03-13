@@ -22,6 +22,8 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+
+using System;
 using System.Collections;
 using System.IO;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
@@ -196,7 +198,12 @@ namespace LessMsi.Msi
             ArrayList rootDirectoriesList = new ArrayList();
             foreach (MsiDirectory dir in directoriesByDirID.Values)
             {
-                if (dir.DirectoryParent == null || dir.DirectoryParent.Length == 0)
+				// If the value of the Directory_Parent column is null...
+	            var isRoot = string.IsNullOrEmpty(dir.DirectoryParent);
+				//  ...or is equal to the Directory column, the DefaultDir column specifies the name of a root source directory. - https://msdn.microsoft.com/en-us/library/windows/desktop/aa368295(v=vs.85).aspx
+				if (!isRoot && string.Equals(dir.Directory, dir.DirectoryParent, StringComparison.InvariantCulture))
+					isRoot = true;
+				if (isRoot)
                 {
                     rootDirectoriesList.Add(dir);
                     continue;

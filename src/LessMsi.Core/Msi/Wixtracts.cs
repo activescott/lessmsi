@@ -26,10 +26,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Packaging;
+using System.Linq;
 using System.Threading;
+using LessMsi.OleStorage;
 using LibMSPackN;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using LessIO;
+using Path = LessIO.Path;
 
 namespace LessMsi.Msi
 {
@@ -44,9 +49,9 @@ namespace LessMsi.Msi
         {
             private string _currentFileName;
             private ExtractionActivity _activity;
-            private ManualResetEvent _waitSignal;
-            private AsyncCallback _callback;
-            private int _totalFileCount;
+            private readonly ManualResetEvent _waitSignal;
+            private readonly AsyncCallback _callback;
+            private readonly int _totalFileCount;
             private int _filesExtracted;
 
             public ExtractionProgress(AsyncCallback progressCallback, int totalFileCount)
@@ -441,7 +446,6 @@ namespace LessMsi.Msi
 		/// <returns></returns>
 	    private static List<CabInfo> CabsFromMsiToDisk(Path msi, Database msidb, string outputDir)
 	    {
-			OleStorage.OleStorageHelper.ReadFile(msi.FullPathString);
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
 		    using (View view = msidb.OpenExecuteView(query))
@@ -468,7 +472,7 @@ namespace LessMsi.Msi
 					    if (extract)
 					    {
 						    // extract cabinet, then explode all of the files to a temp directory
-						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb);
+						    ExtractCabFromPackage(localCabFile, cabSourceName, msidb, msi);
 					    }
 					    else
 					    {
@@ -505,32 +509,98 @@ namespace LessMsi.Msi
 			}
 		}
 
-        /// <summary>
-        /// Write the Cab to disk.
-        /// </summary>
-        /// <param name="filePath">Specifies the path to the file to contain the stream.</param>
-        /// <param name="cabName">Specifies the name of the file in the stream.</param>
-        public static void ExtractCabFromPackage(Path filePath, string cabName, Database inputDatabase)
+		public static void ExtractCabFromPackage(Path destCabPath, string cabName, Database inputDatabase, LessIO.Path msiPath)
+		{
+			//NOTE: checking inputDatabase.TableExists("_Streams") here is not accurate. It reports that it doesn't exist at times when it is perfectly queryable. So we actually try it and look for a specific exception:
+			//NOTE: we do want to tryStreams. It is more reliable when available and AFAICT it always /should/ be there according to the docs but isn't.
+			const bool tryStreams = true;
+			if (tryStreams)
+			{
+				try
+				{
+					ExtractCabFromPackageTraditionalWay(destCabPath, cabName, inputDatabase);
+					// as long as TraditionalWay didn't throw, we'll leave it at that...
+					return;
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine("ExtractCabFromPackageTraditionalWay Exception: {0}", e);
+					// According to issue #78 (https://github.com/activescott/lessmsi/issues/78), WIX installers sometimes (always?)
+					// don't have _Streams table yet they still install. Since it appears that msi files generally (BUT NOT ALWAYS - see X86 Debuggers And Tools-x86_en-us.msi) will have only one cab file, we'll try to just find it in the sterams and use it instead:
+					Trace.WriteLine("MSI File has no _Streams table. Attempting alternate cab file extraction process...");
+				}
+			}
+
+			using (var stg = new OleStorageFile(msiPath))
+			{
+				// MSIs do exist with >1. If we use the ExtractCabFromPackageTraditionalWay (via _Streams table) then it handles that. If we are using this fallback approach, multiple cabs is a bad sign!
+				Debug.Assert(CountCabs(stg) == 1, string.Format("Expected 1 cab, but found {0}.", CountCabs(stg)));
+				foreach (var strm in stg.GetStreams())
+				{
+					using (var bits = strm.GetStream(FileMode.Open, FileAccess.Read))
+					{
+						if (OleStorageFile.IsCabStream(bits))
+						{
+							Trace.WriteLine(String.Format("Found CAB bits in stream. Assuming it is for cab {0}.", destCabPath));
+							Func<byte[], int> streamReader = destBuffer => bits.Read(destBuffer, 0, destBuffer.Length);
+							CopyStreamToFile(streamReader, destCabPath);
+						}
+					}
+				}
+			}
+		}
+
+		private static int CountCabs(OleStorageFile stg)
+		{
+			return stg.GetStreams().Count(strm => OleStorageFile.IsCabStream((StreamInfo) strm));
+		}
+
+	    /// <summary>
+	    /// Write the Cab to disk.
+	    /// </summary>
+	    /// <param name="destCabPath">Specifies the path to the file to contain the stream.</param>
+	    /// <param name="cabName">Specifies the name of the file in the stream.</param>
+	    /// <param name="inputDatabase">The MSI database to get cabs from.</param>
+	    public static void ExtractCabFromPackageTraditionalWay(Path destCabPath, string cabName, Database inputDatabase)
         {
             using (View view = inputDatabase.OpenExecuteView(String.Concat("SELECT * FROM `_Streams` WHERE `Name` = '", cabName, "'")))
             {
                 Record record;
                 if (view.Fetch(out record))
                 {
-                    using (var writer = new System.IO.BinaryWriter(FileSystem.CreateFile(filePath)))
-                    {
-						var buf = new byte[1024*1024];
-						int count;
-						do
-						{
-							const int MsiInterop_Storages_Data = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
-							count = record.GetStream(MsiInterop_Storages_Data, buf, buf.Length);
-							if (count > 0)
-								writer.Write(buf, 0, count);
-						} while (count > 0);
-                    }
+					Func<byte[], int> streamReader = destBuffer => 
+					{
+						const int msiInteropStoragesData = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
+						var bytesWritten = record.GetStream(msiInteropStoragesData, destBuffer, destBuffer.Length);
+						return bytesWritten;
+					};
+					CopyStreamToFile(streamReader, destCabPath);
                 }
             }
         }
+
+		/// <summary>
+		/// Copies the Stream of bytes from the specified streamReader to the specified destination path.
+		/// </summary>
+		/// <param name="streamReader">
+		/// A callback like this:
+		/// int StreamReader(byte[] destBuffer)
+		/// The function should put bytes into the destBuffer and return the number of bytes written to the buffer.
+		/// </param>
+		/// <param name="destFile">The file to write the sreamReader's bits to.</param>
+		private static void CopyStreamToFile(Func<byte[], int> streamReader, Path destFile)
+		{
+			using (var writer = new BinaryWriter(FileSystem.CreateFile(destFile)))
+			{
+				var buf = new byte[1024 * 1024];
+				int bytesWritten;
+				do
+				{
+					bytesWritten = streamReader(buf);
+					if (bytesWritten > 0)
+						writer.Write(buf, 0, bytesWritten);
+				} while (bytesWritten > 0);
+			}
+		}
     }
 }

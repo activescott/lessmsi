@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -38,6 +39,14 @@ namespace LessMsi.Gui
 	internal class MainForm : Form, IMainFormView
 	{
 		private readonly MruMenuStripManager _mruManager;
+		private TabPage tabStreams;
+		private Panel panel4;
+		private Label lblStream;
+		public ComboBox cboStream;
+		private ListBox lstStreamFiles;
+		private Panel pnlStreamsBottom;
+		private Button btnExtractStreamFiles;
+		private ToolStripMenuItem searchFileToolStripMenuItem;
 
 		public MainForm(string defaultInputFile)
 		{
@@ -84,8 +93,6 @@ namespace LessMsi.Gui
 			}
 		}
 
-		private ToolStripMenuItem searchFileToolStripMenuItem;
-
 		/// <summary>
 		/// Sets or returns the fully-qualified name of the selected MSI file in the UI.
 		/// No validation or anytihng is done ont his. It just sets/returns what's displayed in the UI.
@@ -105,6 +112,7 @@ namespace LessMsi.Gui
 		{
 			btnExtract.Enabled = doEnable;
 			cboTable.Enabled = doEnable;
+			cboStream.Enabled = doEnable;
 		}
 
 		public MsiPropertyInfo SelectedMsiProperty
@@ -124,9 +132,31 @@ namespace LessMsi.Gui
 			set { txtSummaryDescription.Text = value; }
 		}
 
+		public StreamInfoView SelectedStreamInfo 
+		{
+			get { return this.cboStream.SelectedValue as StreamInfoView; }
+		}
+
+		public void SetStreamSelectorSource(IEnumerable<StreamInfoView> streamNames)
+		{
+			cboStream.DisplayMember = "Label";
+			cboStream.DataSource = streamNames.ToList().AsReadOnly();
+		}
+
+		public void SetCabContainedFileListSource(IEnumerable<CabContainedFileView> streamFiles)
+		{
+			lstStreamFiles.DisplayMember = "Name";
+			lstStreamFiles.DataSource = streamFiles;
+		}
+
 		public void ShowUserMessageBox(string message)
 		{
 			MessageBox.Show(this, message, "LessMSI", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		public void ShowUserError(string formatStr, params object[] args)
+		{
+			ShowUserMessageBox(string.Format(CultureInfo.CurrentUICulture, formatStr, args));
 		}
 
 		#region MSI Table Grid Stuff
@@ -265,6 +295,13 @@ namespace LessMsi.Gui
 			this.msiPropertyGrid = new System.Windows.Forms.DataGridView();
 			this.grpDescription = new System.Windows.Forms.GroupBox();
 			this.txtSummaryDescription = new System.Windows.Forms.TextBox();
+			this.tabStreams = new System.Windows.Forms.TabPage();
+			this.lstStreamFiles = new System.Windows.Forms.ListBox();
+			this.pnlStreamsBottom = new System.Windows.Forms.Panel();
+			this.btnExtractStreamFiles = new System.Windows.Forms.Button();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.lblStream = new System.Windows.Forms.Label();
+			this.cboStream = new System.Windows.Forms.ComboBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.openMsiDialog = new System.Windows.Forms.OpenFileDialog();
@@ -294,6 +331,9 @@ namespace LessMsi.Gui
 			this.tabSummary.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
 			this.grpDescription.SuspendLayout();
+			this.tabStreams.SuspendLayout();
+			this.pnlStreamsBottom.SuspendLayout();
+			this.panel4.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
@@ -337,6 +377,7 @@ namespace LessMsi.Gui
 			this.tabs.Controls.Add(this.tabExtractFiles);
 			this.tabs.Controls.Add(this.tabTableView);
 			this.tabs.Controls.Add(this.tabSummary);
+			this.tabs.Controls.Add(this.tabStreams);
 			this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabs.Location = new System.Drawing.Point(0, 55);
 			this.tabs.Name = "tabs";
@@ -457,7 +498,7 @@ namespace LessMsi.Gui
 			this.cboTable.Name = "cboTable";
 			this.cboTable.Size = new System.Drawing.Size(323, 21);
 			this.cboTable.TabIndex = 8;
-			this.cboTable.Text = "File";
+			this.cboTable.Text = "table";
 			this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
 			// msiTableGrid
@@ -525,6 +566,81 @@ namespace LessMsi.Gui
 			this.txtSummaryDescription.ReadOnly = true;
 			this.txtSummaryDescription.Size = new System.Drawing.Size(440, 87);
 			this.txtSummaryDescription.TabIndex = 1;
+			// 
+			// tabStreams
+			// 
+			this.tabStreams.Controls.Add(this.lstStreamFiles);
+			this.tabStreams.Controls.Add(this.pnlStreamsBottom);
+			this.tabStreams.Controls.Add(this.panel4);
+			this.tabStreams.Location = new System.Drawing.Point(4, 22);
+			this.tabStreams.Name = "tabStreams";
+			this.tabStreams.Size = new System.Drawing.Size(456, 415);
+			this.tabStreams.TabIndex = 3;
+			this.tabStreams.Text = "Streams";
+			this.tabStreams.UseVisualStyleBackColor = true;
+			// 
+			// lstStreamFiles
+			// 
+			this.lstStreamFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lstStreamFiles.FormattingEnabled = true;
+			this.lstStreamFiles.Location = new System.Drawing.Point(0, 28);
+			this.lstStreamFiles.Name = "lstStreamFiles";
+			this.lstStreamFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.lstStreamFiles.Size = new System.Drawing.Size(456, 351);
+			this.lstStreamFiles.TabIndex = 2;
+			// 
+			// pnlStreamsBottom
+			// 
+			this.pnlStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
+			this.pnlStreamsBottom.Controls.Add(this.btnExtractStreamFiles);
+			this.pnlStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.pnlStreamsBottom.Location = new System.Drawing.Point(0, 379);
+			this.pnlStreamsBottom.Name = "pnlStreamsBottom";
+			this.pnlStreamsBottom.Size = new System.Drawing.Size(456, 36);
+			this.pnlStreamsBottom.TabIndex = 1;
+			// 
+			// btnExtractStreamFiles
+			// 
+			this.btnExtractStreamFiles.Enabled = false;
+			this.btnExtractStreamFiles.Location = new System.Drawing.Point(319, 6);
+			this.btnExtractStreamFiles.Name = "btnExtractStreamFiles";
+			this.btnExtractStreamFiles.Size = new System.Drawing.Size(129, 23);
+			this.btnExtractStreamFiles.TabIndex = 0;
+			this.btnExtractStreamFiles.Text = "Extract Stream Files...";
+			this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
+			// 
+			// panel4
+			// 
+			this.panel4.BackColor = System.Drawing.SystemColors.Control;
+			this.panel4.Controls.Add(this.lblStream);
+			this.panel4.Controls.Add(this.cboStream);
+			this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel4.Location = new System.Drawing.Point(0, 0);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(456, 28);
+			this.panel4.TabIndex = 0;
+			// 
+			// lblStream
+			// 
+			this.lblStream.AutoSize = true;
+			this.lblStream.Location = new System.Drawing.Point(4, 7);
+			this.lblStream.Name = "lblStream";
+			this.lblStream.Size = new System.Drawing.Size(40, 13);
+			this.lblStream.TabIndex = 11;
+			this.lblStream.Text = "Stream";
+			// 
+			// cboStream
+			// 
+			this.cboStream.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboStream.Enabled = false;
+			this.cboStream.Location = new System.Drawing.Point(50, 5);
+			this.cboStream.Name = "cboStream";
+			this.cboStream.Size = new System.Drawing.Size(323, 21);
+			this.cboStream.TabIndex = 10;
+			this.cboStream.Text = "streamInfo";
+			this.cboStream.SelectedValueChanged += new System.EventHandler(this.cboStream_SelectedValueChanged);
 			// 
 			// panel1
 			// 
@@ -695,6 +811,10 @@ namespace LessMsi.Gui
 			((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
 			this.grpDescription.ResumeLayout(false);
 			this.grpDescription.PerformLayout();
+			this.tabStreams.ResumeLayout(false);
+			this.pnlStreamsBottom.ResumeLayout(false);
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
@@ -710,7 +830,6 @@ namespace LessMsi.Gui
 
 		#endregion
 
-		#region UI Event Handlers
 
 		private void OpenFileCommand()
 		{
@@ -744,6 +863,8 @@ namespace LessMsi.Gui
 				Presenter.LoadFile(fileString);
 			}
 		}
+
+		#region UI Event Handlers
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -799,17 +920,6 @@ namespace LessMsi.Gui
 			}
 			btnExtract.Enabled = true;
 		}
-
-		private ExtractionProgressDialog BeginShowingProgressDialog()
-		{
-			var progressDialog = new ExtractionProgressDialog(this);
-			progressDialog.Show();
-			progressDialog.Update();
-			return progressDialog;
-		}
-
-		#endregion
-
 
 		private void btnSelectAll_Click(object sender, EventArgs e)
 		{
@@ -903,14 +1013,6 @@ namespace LessMsi.Gui
 	        }
         }
 
-		protected bool IsFileTabSelected
-		{
-			get
-			{
-				return tabs.SelectedTab == tabExtractFiles;
-			}
-		}
-
 		private void fileGrid_KeyDown(object sender, KeyEventArgs e)
 		{
 			// If they press escape while navigating the grid and the search panel is open in the search panel, cancel the search:
@@ -935,5 +1037,29 @@ namespace LessMsi.Gui
 			_mruManager.SavePreferences();
 			Properties.Settings.Default.Save();
 		}
+
+		private void cboStream_SelectedValueChanged(object sender, EventArgs e)
+		{
+			this.Presenter.OnSelectedStreamChanged();
+		}
+
+		#endregion
+
+		private ExtractionProgressDialog BeginShowingProgressDialog()
+		{
+			var progressDialog = new ExtractionProgressDialog(this);
+			progressDialog.Show();
+			progressDialog.Update();
+			return progressDialog;
+		}
+
+		protected bool IsFileTabSelected
+		{
+			get
+			{
+				return tabs.SelectedTab == tabExtractFiles;
+			}
+		}
+
 	}
 }

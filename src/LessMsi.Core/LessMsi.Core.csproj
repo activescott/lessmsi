@@ -61,7 +61,7 @@
     <Compile Include="Msi\ViewWrapper.cs" />
     <Compile Include="Msi\Wixtracts.cs" />
     <Compile Include="OleStorage\NativeMethods.cs" />
-    <Compile Include="OleStorage\OleStorageHelper.cs" />
+    <Compile Include="OleStorage\OleStorageFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

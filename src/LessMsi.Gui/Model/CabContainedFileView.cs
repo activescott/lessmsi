@@ -22,14 +22,22 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System.Runtime.InteropServices;
+using System;
 
-namespace LessMsi.OleStorage
+namespace LessMsi.Gui.Model
 {
-	internal static class NativeMethods
+	/// <summary>
+	/// Represents a file contained isnide of a Stream (<see cref="StreamInfoView"/>) when the stream is a Cab.
+	/// </summary>
+	internal sealed class CabContainedFileView
 	{
-		[DllImport("ole32.dll")]
-		internal static extern int StgIsStorageFile([MarshalAs(UnmanagedType.LPWStr)]string pwcsName);
+		public CabContainedFileView(string name)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+			this.Name = name;
+		}
 
+		public string Name { get; private set; }
 	}
 }

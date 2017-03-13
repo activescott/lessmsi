@@ -22,14 +22,36 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System.Runtime.InteropServices;
-
-namespace LessMsi.OleStorage
+namespace LessMsi.Gui.Model
 {
-	internal static class NativeMethods
+	/// <summary>
+	/// Used to model a OLE structured storage stream in the UI.
+	/// </summary>
+	internal sealed class StreamInfoView
 	{
-		[DllImport("ole32.dll")]
-		internal static extern int StgIsStorageFile([MarshalAs(UnmanagedType.LPWStr)]string pwcsName);
+		private readonly string _name;
 
+		public static StreamInfoView FromStream(System.IO.Packaging.StreamInfo si)
+		{
+			return new StreamInfoView(si.Name, OleStorage.OleStorageFile.IsCabStream(si));
+		}
+
+		private StreamInfoView(string name, bool isCabStream)
+		{
+			_name = name;
+			IsCabStream = isCabStream;
+		}
+
+		public string Name
+		{
+			get { return _name; }
+		}
+
+		public bool IsCabStream { get; private set; }
+
+		public string Label
+		{
+			get { return this.IsCabStream ? this.Name + " (CAB)" : this.Name; }
+		}
 	}
 }

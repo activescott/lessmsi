@@ -90,5 +90,14 @@ namespace LessMsi.Tests
 		{
 			ExtractAndCompareToMaster("X86 Debuggers And Tools-x86_en-us.msi");
 		}
+
+		/// <summary>
+		/// From https://github.com/activescott/lessmsi/issues/78
+		/// </summary>
+		[Fact]
+		public void MissingStreamsTable()
+		{
+			ExtractAndCompareToMaster("putty-0.68-installer.msi");
+		}
     }
 }
