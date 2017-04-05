@@ -67,17 +67,35 @@ namespace LessMsi.Msi
 
             var colList = new List<ColumnInfo>();
 
-            Record namesRecord; Record typesRecord;
-            _underlyingView.GetColumnInfo(MSICOLINFONAMES, out namesRecord);
-            _underlyingView.GetColumnInfo(MSICOLINFOTYPES, out typesRecord);
+            Record namesRecord = null;
+            Record typesRecord = null;
 
-            int fieldCount = namesRecord.GetFieldCount();
-            Debug.Assert(typesRecord.GetFieldCount() == fieldCount);
-
-            for (int colIndex = 1; colIndex <= fieldCount; colIndex++)
+            try
             {
-                colList.Add(new ColumnInfo(namesRecord.GetString(colIndex), typesRecord.GetString(colIndex)));
+                _underlyingView.GetColumnInfo(MSICOLINFONAMES, out namesRecord);
+                _underlyingView.GetColumnInfo(MSICOLINFOTYPES, out typesRecord);
+
+                int fieldCount = namesRecord.GetFieldCount();
+                Debug.Assert(typesRecord.GetFieldCount() == fieldCount);
+
+                for (int colIndex = 1; colIndex <= fieldCount; colIndex++)
+                {
+                    colList.Add(new ColumnInfo(namesRecord.GetString(colIndex), typesRecord.GetString(colIndex)));
+                }
             }
+            finally
+            {
+                if (namesRecord != null)
+                {
+                    namesRecord.Close();
+                }
+
+                if (typesRecord != null)
+                {
+                    typesRecord.Close();
+                }
+            }
+
             _columns = colList.ToArray();
         }
 
@@ -90,44 +108,54 @@ namespace LessMsi.Msi
                 if (_records == null)
                 {
                     _records = new List<object[]>();
-                    Record sourceRecord;
+                    Record sourceRecord = null;
 
-                    while (_underlyingView.Fetch(out sourceRecord))
+                    try
                     {
-                        var values = new object[_columns.Length];
-
-                        for (int i = 0; i < _columns.Length; i++)
+                        while (_underlyingView.Fetch(out sourceRecord))
                         {
-                            if (_columns[i].IsString)
-                                values[i] = sourceRecord.GetString(i + 1);
-                            else if (_columns[i].IsInteger)
-                                values[i] = sourceRecord.GetInteger(i + 1);
-                            else if (_columns[i].IsStream)
+                            var values = new object[_columns.Length];
+
+                            for (int i = 0; i < _columns.Length; i++)
                             {
-                                var tempBuffer = new byte[_columns[i].Size + 1];
-                                var allData = new byte[_columns[i].Size + 1];
-                                int totalBytesRead = 0;
-                                int bytesReadThisCall;
-                                do
-                                {   
-                                    // It seems to read the Binary table with _columns[i].Size ==0 tempBuffer must be at least 1 in length or an ExecutionEngineException occurs.
-                                    bytesReadThisCall = sourceRecord.GetStream(i + 1, tempBuffer, tempBuffer.Length);
-                                    Buffer.BlockCopy(tempBuffer, 0, allData, totalBytesRead, bytesReadThisCall);
-                                    totalBytesRead += bytesReadThisCall;
-                                    Debug.Assert(bytesReadThisCall > 0);
-                                } while (bytesReadThisCall > 0 && (totalBytesRead < _columns[i].Size));
-                                values[i] = allData;
+                                if (_columns[i].IsString)
+                                    values[i] = sourceRecord.GetString(i + 1);
+                                else if (_columns[i].IsInteger)
+                                    values[i] = sourceRecord.GetInteger(i + 1);
+                                else if (_columns[i].IsStream)
+                                {
+                                    var tempBuffer = new byte[_columns[i].Size + 1];
+                                    var allData = new byte[_columns[i].Size + 1];
+                                    int totalBytesRead = 0;
+                                    int bytesReadThisCall;
+                                    do
+                                    {
+                                        // It seems to read the Binary table with _columns[i].Size ==0 tempBuffer must be at least 1 in length or an ExecutionEngineException occurs.
+                                        bytesReadThisCall = sourceRecord.GetStream(i + 1, tempBuffer, tempBuffer.Length);
+                                        Buffer.BlockCopy(tempBuffer, 0, allData, totalBytesRead, bytesReadThisCall);
+                                        totalBytesRead += bytesReadThisCall;
+                                        Debug.Assert(bytesReadThisCall > 0);
+                                    } while (bytesReadThisCall > 0 && (totalBytesRead < _columns[i].Size));
+                                    values[i] = allData;
+                                }
+                                else if (_columns[i].IsObject )
+                                {
+                                    //we deliberately skip this case. Found this case in reading the _Tables table of some recent .msi files.
+                                }
+                                else
+                                {
+                                    Debug.Fail("Unknown column type");
+                                }
                             }
-                            else if (_columns[i].IsObject )
-                            {
-                                //we deliberately skip this case. Found this case in reading the _Tables table of some recent .msi files.
-                            }
-                            else
-                            {
-                                Debug.Fail("Unknown column type");
-                            }
+                            _records.Add(values);
                         }
-                        _records.Add(values);
+                    }
+                    finally
+                    {
+                        if (sourceRecord != null)
+                        {
+                            sourceRecord.Close();
+                        }
                     }
                 }
                 return _records;
