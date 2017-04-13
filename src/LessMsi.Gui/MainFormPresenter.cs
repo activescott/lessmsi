@@ -499,7 +499,8 @@ namespace LessMsi.Gui
 			if (!file.Exists)
 			{
 				this.Error(string.Format("File '{0}' does not exist.", file.FullName));
-				ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
+				if (SelectedMsiFile != null)
+					ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
 				return;
 			}
 			SelectedMsiFile = file;

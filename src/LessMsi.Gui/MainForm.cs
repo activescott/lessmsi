@@ -860,6 +860,20 @@ namespace LessMsi.Gui
 			{
 				e.Handled = true;
 				var fileString = txtMsiFileName.Text;
+
+				// If directory, open a file open dialog to that directory instead of attempting to open the file --https://github.com/activescott/lessmsi/issues/82
+				var p = new LessIO.Path(fileString);
+				//TODO: Would be nice to have p.IsDirectory!
+				if ((LessIO.FileSystem.GetAttributes(p) & LessIO.FileAttributes.Directory) == LessIO.FileAttributes.Directory)
+				{
+					if (p.Exists)
+					{
+						openMsiDialog.InitialDirectory = p.FullPathString;
+						OpenFileCommand();
+					}
+					return;
+				}
+
 				Presenter.LoadFile(fileString);
 			}
 		}
