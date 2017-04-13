@@ -450,53 +450,46 @@ namespace LessMsi.Msi
 		    var localCabFiles = new List<CabInfo>();
 		    using (View view = msidb.OpenExecuteView(query))
 		    {
-			    Record record = null;
-
-                try
+			    Record record;
+                while (view.Fetch(out record))
                 {
-                    while (view.Fetch(out record))
-                    {
-                        const int MsiInterop_Media_Cabinet = 4;
-                        string cabSourceName = record[MsiInterop_Media_Cabinet];
-                        if (string.IsNullOrEmpty(cabSourceName))
-                        {
-                            Debug.Print("Empty Cabinet value in Media table. This happens, but it's rare and it's weird!");//Debug.Fail("Couldn't find media CAB file inside the MSI (bad media table?)."); 
-                            continue;
-                        }
-                        if (!string.IsNullOrEmpty(cabSourceName))
-                        {
-                            bool extract = false;
-                            if (cabSourceName.StartsWith("#"))
-                            {
-                                extract = true;
-                                cabSourceName = cabSourceName.Substring(1);
-                            }
-                            Path localCabFile = Path.Combine(outputDir, cabSourceName);
-                            if (extract)
-                            {
-                                // extract cabinet, then explode all of the files to a temp directory
-                                ExtractCabFromPackage(localCabFile, cabSourceName, msidb, msi);
-                            }
-                            else
-                            {
-                                Path originalCabFile = Path.Combine(msi.Parent, cabSourceName);
-                                FileSystem.Copy(originalCabFile, localCabFile);
-                            }
-                            /* http://code.google.com/p/lessmsi/issues/detail?id=1
-                             * apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
-                             * Thanks to Christopher Hamburg for explaining this!
-                            */
-                            var c = new CabInfo(localCabFile.PathString, cabSourceName);
-                            localCabFiles.Add(c);
-                        }
-                    }
-                }
-                finally
-                {
-                    if (record != null)
-                    {
-                        record.Close();
-                    }
+					using (record)
+					{
+						const int MsiInterop_Media_Cabinet = 4;
+						string cabSourceName = record[MsiInterop_Media_Cabinet];
+						if (string.IsNullOrEmpty(cabSourceName))
+						{
+							Debug.Print("Empty Cabinet value in Media table. This happens, but it's rare and it's weird!");
+								//Debug.Fail("Couldn't find media CAB file inside the MSI (bad media table?)."); 
+							continue;
+						}
+						if (!string.IsNullOrEmpty(cabSourceName))
+						{
+							bool extract = false;
+							if (cabSourceName.StartsWith("#"))
+							{
+								extract = true;
+								cabSourceName = cabSourceName.Substring(1);
+							}
+							Path localCabFile = Path.Combine(outputDir, cabSourceName);
+							if (extract)
+							{
+								// extract cabinet, then explode all of the files to a temp directory
+								ExtractCabFromPackage(localCabFile, cabSourceName, msidb, msi);
+							}
+							else
+							{
+								Path originalCabFile = Path.Combine(msi.Parent, cabSourceName);
+								FileSystem.Copy(originalCabFile, localCabFile);
+							}
+							/* http://code.google.com/p/lessmsi/issues/detail?id=1
+								* apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
+								* Thanks to Christopher Hamburg for explaining this!
+							*/
+							var c = new CabInfo(localCabFile.PathString, cabSourceName);
+							localCabFiles.Add(c);
+						}
+					}
                 }
 		    }
 			return localCabFiles;
@@ -576,26 +569,19 @@ namespace LessMsi.Msi
         {
             using (View view = inputDatabase.OpenExecuteView(String.Concat("SELECT * FROM `_Streams` WHERE `Name` = '", cabName, "'")))
             {
-                Record record = null;
-                try
+                Record record;
+                if (view.Fetch(out record))
                 {
-                    if (view.Fetch(out record))
-                    {
-                        Func<byte[], int> streamReader = destBuffer =>
-                        {
-                            const int msiInteropStoragesData = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
-                        var bytesWritten = record.GetStream(msiInteropStoragesData, destBuffer, destBuffer.Length);
-                            return bytesWritten;
-                        };
-                        CopyStreamToFile(streamReader, destCabPath);
-                    }
-                }
-                finally
-                {
-                    if (record != null)
-                    {
-                        record.Close();
-                    }
+					using (record)
+					{
+						Func<byte[], int> streamReader = destBuffer =>
+						{
+							const int msiInteropStoragesData = 2; //From wiX:Index to column name Data into Record for row in Msi Table Storages
+							var bytesWritten = record.GetStream(msiInteropStoragesData, destBuffer, destBuffer.Length);
+							return bytesWritten;
+						};
+						CopyStreamToFile(streamReader, destCabPath);
+					}
                 }
             }
         }
