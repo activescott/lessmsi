@@ -24,7 +24,8 @@ namespace LessMsi.Cli
 				var p = new Process();
 				p.StartInfo.FileName = guiExe;
 
-				if (args.Count > 0)
+				//should we wait for exit?
+                if (args.Count > 0)
 				{
 					// We add double quotes to support paths with spaces, for ex: "E:\Downloads and Sofware\potato.msi".
 					p.StartInfo.Arguments = string.Format("\"{0}\"", args[1]);
