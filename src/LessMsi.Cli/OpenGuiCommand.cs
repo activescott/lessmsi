@@ -21,11 +21,17 @@ namespace LessMsi.Cli
 			var guiExe = Path.Combine(AppPath, "lessmsi-gui.exe");
 			if (File.Exists(guiExe))
 			{
-				//should we wait for exit?
-				if (args.Count > 0)
-					Process.Start(guiExe, args[1]);
-				else
-					Process.Start(guiExe);
+			    var p = new Process();
+			    p.StartInfo.FileName = guiExe;
+
+			    if (args.Count > 0)
+			    {
+                    // We add double quotes to support paths with spaces, for ex: "E:\Downloads and Sofware\potato.msi".
+                    p.StartInfo.Arguments = string.Format("\"{0}\"", args[1]);
+			        p.Start();
+			    }
+			    else
+			        p.Start();
 			}
 		}
 
