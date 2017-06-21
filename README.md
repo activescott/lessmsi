@@ -1,14 +1,5 @@
-lessmsi [![Build Status][build-badge]][build-url] [![tip for next commit][tip-badge]][tip-url] [![chocolatey][chocolatey-badge]][chocolatey-url]
+lessmsi [![Build Status](https://ci.appveyor.com/api/projects/status/github/activescott/lessmsi?branch=master&svg=true)](https://ci.appveyor.com/project/activescott/lessmsi) [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316) [![chocolatey](https://img.shields.io/chocolatey/v/lessmsi.svg?maxAge=2592000)](https://chocolatey.org/packages/lessmsi)
 ========
-
-[build-badge]: https://ci.appveyor.com/api/projects/status/github/activescott/lessmsi?branch=master&svg=true
-[build-url]: https://ci.appveyor.com/project/activescott/lessmsi
-
-[tip-badge]: http://tip4commit.com/projects/316.svg
-[tip-url]: http://tip4commit.com/projects/316
-
-[chocolatey-badge]: https://img.shields.io/chocolatey/v/lessmsi.svg?maxAge=2592000
-[chocolatey-url]: https://chocolatey.org/packages/lessmsi
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
 
@@ -22,7 +13,7 @@ For more command line usage see [CommandLine](https://github.com/activescott/les
 
 Installation
 ========
-Install [via Chocolatey][chocolatey-url] (or [download a zip](https://github.com/activescott/lessmsi/releases/latest)).
+Install [via Chocolatey](https://chocolatey.org/packages/lessmsi) (or [download a zip](https://github.com/activescott/lessmsi/releases/latest)).
 
 Features
 ==========
