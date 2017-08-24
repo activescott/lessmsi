@@ -47,7 +47,7 @@ Windows Installer (.msi files) are based on an internal database of tables. Less
 lessmsi on OS X using WINE
 -----
 
-all of the following approaches give errors on the command line, but seem to work regardless.
+All of the following approaches give errors on the command line, but seem to work regardless.
 
 #### lessmsi command line using wine
 use lessmsi on the command line using wine: (this example uses the wine.app that comes with winebottler)
@@ -79,4 +79,4 @@ We're now tipping committers with bitcoin: [![tip for next commit](http://tip4co
 ![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)
 
 
-*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com . It was also called Less Msiérables as well as lessmsi.*
+*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com. It was also called Less Msiérables as well as lessmsi.*
