@@ -94,7 +94,7 @@ namespace LessMsi.Tests
             //LessMsi.Program.DoExtraction(GetMsiTestFile(msiFileName).FullName, outputDir);
             if (fileNamesToExtractOrNull == null)
             {	//extract everything:
-                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir, null, null);	
+                LessMsi.Msi.Wixtracts.ExtractFiles(GetMsiTestFile(msiFileName), outputDir);	
             }
             else
             {
