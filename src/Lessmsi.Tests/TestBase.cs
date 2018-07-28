@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Text;
+using System.Threading;
 using Xunit;
 using LessIO;
 
@@ -138,13 +140,29 @@ namespace LessMsi.Tests
 		    startInfo.RedirectStandardError = true;
 		    startInfo.UseShellExecute = false;
 		    var p = Process.Start(startInfo);
-		    bool exited = p.WaitForExit(1000*30);
+
+			// Internal stdout buffer overflows easily if the output is too long (e.g. with a progress indicator enabled), so an async approach is needed here.
+			// See https://stackoverflow.com/questions/139593/processstartinfo-hanging-on-waitforexit-why
+			var outputStringBuilder = new StringBuilder();
+			var outputWaitHandle = new AutoResetEvent(false);
+			p.OutputDataReceived += (sender, e) => {
+				if (e.Data == null) {
+					outputWaitHandle.Set();
+				}
+				else {
+					outputStringBuilder.AppendLine(e.Data);
+				}
+			};
+
+		    p.BeginOutputReadLine();
+			bool exited = p.WaitForExit(1000*60) && outputWaitHandle.WaitOne(1000 * 60);
+		    consoleOutput = outputStringBuilder.ToString();
+
 		    if (!exited)
 		    {
 			    p.Kill();
-                throw new Exception("Process did not exit for commandlineArgs:" + commandlineArgs);
+				throw new Exception("Process did not exit for commandlineArgs:" + commandlineArgs + "\n" + consoleOutput + "\n\n" + p.StandardError.ReadToEnd());
 		    }
-		    consoleOutput = p.StandardOutput.ReadToEnd();
 
 		    if (p.ExitCode == 0)
 			    Debug.WriteLine(consoleOutput);
