@@ -51,12 +51,12 @@ namespace LessMsi.Cli
 		{
 			try
 			{
-				/** 
-				 * See https://code.google.com/p/lessmsi/wiki/CommandLine for some use cases and docs on commandline parsing.
+                /** 
+				 * See https://github.com/activescott/lessmsi/wiki/Command-Line for some use cases and docs on commandline parsing.
 				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
 				 */
 
-				var subcommands = new Dictionary<string, LessMsiCommand> {
+                var subcommands = new Dictionary<string, LessMsiCommand> {
 					{"o", new OpenGuiCommand()},
 					{"x", new ExtractCommand()},
 					{"/x", new ExtractCommand()},
@@ -112,10 +112,19 @@ namespace LessMsi.Cli
 
 			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
 
-			Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray());
+			Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
 		}
 
-	    private static void EnsureFileRooted(ref string sFileName)
+        private static void PrintProgress(IAsyncResult result)
+        {
+            var progress = result as Wixtracts.ExtractionProgress;
+            if (progress == null || string.IsNullOrEmpty(progress.CurrentFileName))
+                return;
+
+            Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
+        }
+
+        private static void EnsureFileRooted(ref string sFileName)
 		{
 			if (!Path.IsPathRooted(sFileName))
 				sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);

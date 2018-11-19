@@ -205,7 +205,7 @@ namespace LessMsi.Msi
 
         public static void ExtractFiles(Path msi, string outputDir)
         {
-            ExtractFiles(msi, outputDir, null, null);
+            ExtractFiles(msi, outputDir, new string[0], null);
         }
 
 		public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract)
@@ -214,7 +214,13 @@ namespace LessMsi.Msi
 			ExtractFiles(msi, outputDir, msiFiles, null);
 		}
 
-	    private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
+        public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract, AsyncCallback progressCallback)
+        {
+            var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
+            ExtractFiles(msi, outputDir, msiFiles, progressCallback);
+        }
+
+        private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
 	    {
 		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi);
 			Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
