@@ -1,10 +1,11 @@
 lessmsi 
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/activescott/lessmsi?branch=master&svg=true)](https://ci.appveyor.com/project/activescott/lessmsi) 
+![Chocolatey Downloads](https://img.shields.io/chocolatey/dt/lessmsi.svg?style=popout) 
 [![chocolatey](https://img.shields.io/chocolatey/v/lessmsi.svg?maxAge=2592000)](https://chocolatey.org/packages/lessmsi)
-[![GitHub issues](https://img.shields.io/github/issues/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/issues)
 [![GitHub forks](https://img.shields.io/github/forks/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/network)
 [![GitHub stars](https://img.shields.io/github/stars/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/stargazers)
 [![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316) 
+[![GitHub issues](https://img.shields.io/github/issues/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/issues)
 ========
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
