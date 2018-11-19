@@ -28,6 +28,7 @@ using System.Collections;
 using System.IO;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
 using System.Diagnostics;
+using System.Linq;
 
 namespace LessMsi.Msi
 {
@@ -41,9 +42,9 @@ namespace LessMsi.Msi
         private string _sourceName;
         private string _shortName = "";
         //the "DefaultDir value from the MSI table.
-        private string _defaultDir="";
+        private string _defaultDir = "";
         /// The "Directory" entry from the MSI
-        private string _directory="";
+        private string _directory = "";
         /// The "Directory_Parent" entry
         private string _directoryParent;
         /// Stores the child directories
@@ -61,7 +62,7 @@ namespace LessMsi.Msi
         {
             get { return _targetName; }
         }
-        
+
         /// <summary>
         /// The name of this directory in the source computer (when the MSI was built).
         /// </summary>
@@ -124,7 +125,7 @@ namespace LessMsi.Msi
                 path = parent.GetPath();
                 parent = null;
             }
-            
+
             while (parent != null)
             {
                 //Sometimes parent is a '.' In this case, the files should be directly put into the parent of the parent. See http://msdn.microsoft.com/en-us/library/aa368295%28VS.85%29.aspx
@@ -161,7 +162,7 @@ namespace LessMsi.Msi
                         directory._targetName = split[1];
                     else
                         directory._targetName = split[0];
-                    
+
                     //Semi colons can delmit the "target" and "sorce" names of the directory in DefaultDir, so we're going to use the Target here (in looking at MSI files, I found Target seems most meaningful.
                     #region MSDN Docs on this Table
                     /*  From: http://msdn.microsoft.com/en-us/library/aa368295%28VS.85%29.aspx
@@ -189,35 +190,54 @@ namespace LessMsi.Msi
                         directory._sourceName = directory._targetName;
                     }
                 }
-                
+
                 directory._directory = row.GetString("Directory");
                 directory._directoryParent = row.GetString("Directory_Parent");
                 directoriesByDirID.Add(directory.Directory, directory);
             }
+
+            // Adding directory to the table if it is specified as parent, but missing in the directories database.
+            // This is workaround in case directories database is modify in runtime.
+            var parentsList = directoriesByDirID.Values.OfType<MsiDirectory>().Select(v => v.DirectoryParent).Distinct().ToList();
+            foreach (var parent in parentsList)
+            {
+                if (!string.IsNullOrEmpty(parent) && !directoriesByDirID.ContainsKey(parent))
+                {
+                    MsiDirectory directory = new MsiDirectory()
+                    {
+                        _directoryParent = "",
+                        _directory = parent,
+                        _targetName = parent
+                    };
+                    directoriesByDirID.Add(directory.Directory, directory);
+                }
+            }
+
             //Now we have all directories in the table, create a structure for them based on their parents.
             ArrayList rootDirectoriesList = new ArrayList();
             foreach (MsiDirectory dir in directoriesByDirID.Values)
             {
-				// If the value of the Directory_Parent column is null...
-	            var isRoot = string.IsNullOrEmpty(dir.DirectoryParent);
-				//  ...or is equal to the Directory column, the DefaultDir column specifies the name of a root source directory. - https://msdn.microsoft.com/en-us/library/windows/desktop/aa368295(v=vs.85).aspx
-				if (!isRoot && string.Equals(dir.Directory, dir.DirectoryParent, StringComparison.InvariantCulture))
-					isRoot = true;
-				if (isRoot)
+                // If the value of the Directory_Parent column is null...
+                var isRoot = string.IsNullOrEmpty(dir.DirectoryParent);
+                //  ...or is equal to the Directory column, the DefaultDir column specifies the name of a root source directory. - https://msdn.microsoft.com/en-us/library/windows/desktop/aa368295(v=vs.85).aspx
+                if (!isRoot && string.Equals(dir.Directory, dir.DirectoryParent, StringComparison.InvariantCulture))
+                    isRoot = true;
+                if (isRoot)
                 {
                     rootDirectoriesList.Add(dir);
                     continue;
                 }
 
                 MsiDirectory parent = directoriesByDirID[dir.DirectoryParent] as MsiDirectory;
+
                 dir._parent = parent;
                 parent._children.Add(dir);
             }
             // return the values:
             rootDirectories = (MsiDirectory[])rootDirectoriesList.ToArray(typeof(MsiDirectory));
-			
+
             MsiDirectory[] allDirectoriesLocal = new MsiDirectory[directoriesByDirID.Values.Count];
-            directoriesByDirID.Values.CopyTo(allDirectoriesLocal,0);
+            directoriesByDirID.Values.CopyTo(allDirectoriesLocal, 0);
             allDirectories = allDirectoriesLocal;
         }
     }

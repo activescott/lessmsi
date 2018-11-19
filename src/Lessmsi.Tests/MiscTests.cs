@@ -99,5 +99,14 @@ namespace LessMsi.Tests
 		{
 			ExtractAndCompareToMaster("putty-0.68-installer.msi");
 		}
+
+        /// <summary>
+        /// From https://github.com/activescott/lessmsi/pull/88
+        /// </summary>
+        [Fact]
+        public void MissingParentDirectoryEntry()
+        {
+            ExtractAndCompareToMaster("IviNetSharedComponents32_Fx20_1.3.0.msi");
+        }
     }
 }
