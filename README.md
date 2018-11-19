@@ -4,7 +4,7 @@ lessmsi
 [![GitHub issues](https://img.shields.io/github/issues/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/issues)
 [![GitHub forks](https://img.shields.io/github/forks/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/network)
 [![GitHub stars](https://img.shields.io/github/stars/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/stargazers)
-[![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316) 
+[![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316) 
 ========
 
 This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. 
@@ -82,7 +82,7 @@ You Earn Bitcoin Tips for Contributing!
 -----
 We're now tipping committers with bitcoin: [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
 
-You can also donate to make this project more attractive for new developers, your donation will be accumulated with the funds of other donators to give as tips for new commits. (BTC Address **1KpJJb1x1xjPtqUp4haqxJHEWbahKiqdYz**)
+You can **donate** to make this project more attractive for new developers, your donation will be accumulated with the funds of other donators to give as tips for new commits. For more information about how to donate visit https://tip4commit.com/github/activescott/lessmsi
 
 
 ![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)
