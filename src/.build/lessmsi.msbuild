@@ -6,21 +6,21 @@
 		http://msdn.microsoft.com/en-us/library/vstudio/ms164313.aspx
 	-->
 	
-  <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)</MSBuildCommunityTasksPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+	<PropertyGroup>
+		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)</MSBuildCommunityTasksPath>
+	</PropertyGroup>
+	<Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
 
-  <PropertyGroup>
+	<PropertyGroup>
 		<RootDir>..\</RootDir>
 		<TheDeployDir>$(RootDir)\.deploy</TheDeployDir>
 		<AssemblyCopyright>Copyright Scott Willeke ©  2004-2013</AssemblyCopyright>
 		<TheZipFileName>lessmsi-v$(TheVersion).zip</TheZipFileName>
-    <NugetPath>../.nuget/nuget.exe</NugetPath>
-    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+		<NugetPath>../.nuget/nuget.exe</NugetPath>
+		<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
 	</PropertyGroup>
-  
-  <!-- Items: https://msdn.microsoft.com/en-us/library/ms171453.aspx -->
+
+	<!-- Items: https://msdn.microsoft.com/en-us/library/ms171453.aspx -->
 	<ItemGroup>
 		<TheProjects Include="$(RootDir)\LessMsi.Core\LessMsi.Core.csproj"></TheProjects>
 		<TheProjects Include="$(RootDir)\LessMsi.Cli\LessMsi.Cli.csproj"></TheProjects>
@@ -38,7 +38,7 @@
 		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\lessmsi-gui.exe.config"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.8.0\lib\net40\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.8.0\build\x86\mspack.dll"></DeployFiles>
-    <DeployFiles Include="$(RootDir)\packages\LessIO.0.5.0\lib\net40\LessIO.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\packages\LessIO.0.5.0\lib\net40\LessIO.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wix.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wixcab.dll"></DeployFiles>
 	</ItemGroup>
@@ -52,19 +52,19 @@
 		<ConvertToAbsolutePath Paths="$(TheDeployDir)">
 			<Output TaskParameter="AbsolutePaths" PropertyName="TheDeployDir"/>
 		</ConvertToAbsolutePath>
-    <ConvertToAbsolutePath Paths="$(NugetPath)">
-      <Output TaskParameter="AbsolutePaths" PropertyName="NugetPath"/>
-    </ConvertToAbsolutePath>
+		<ConvertToAbsolutePath Paths="$(NugetPath)">
+			<Output TaskParameter="AbsolutePaths" PropertyName="NugetPath"/>
+		</ConvertToAbsolutePath>
 
-    <Message Text="Project File Name = $(MSBuildProjectFile)" />
-    <Message Text="Project Extension = $(MSBuildProjectExtension)" />
-    <Message Text="MSBuildProjectDirectory = $(MSBuildProjectDirectory)" />
-    <Message Text="SolutionDir = $(SolutionDir)" />
+		<Message Text="Project File Name = $(MSBuildProjectFile)" />
+		<Message Text="Project Extension = $(MSBuildProjectExtension)" />
+		<Message Text="MSBuildProjectDirectory = $(MSBuildProjectDirectory)" />
+		<Message Text="SolutionDir = $(SolutionDir)" />
 
-    <Message Text="RootDir=$(RootDir)" />
-    <Message Text="TheDeployDir=$(TheDeployDir)" />
+		<Message Text="RootDir=$(RootDir)" />
+		<Message Text="TheDeployDir=$(TheDeployDir)" />
 
-  </Target>
+	</Target>
 
 	<Target Name="Validate">
 		<ItemGroup>
@@ -152,11 +152,11 @@
     />
   </Target>
 
-  <Target Name="Zip" DependsOnTargets="Deploy">
-    <!-- see https://github.com/loresoft/msbuildtasks/blob/master/Source/MSBuild.Community.Tasks/Zip.cs -->
-    <Zip
+	<Target Name="Zip" DependsOnTargets="Deploy">
+		<!-- see https://github.com/loresoft/msbuildtasks/blob/master/Source/MSBuild.Community.Tasks/Zip.cs -->
+		<Zip
 			Files="@(DeployFiles)"
-      Flatten="True"
+			Flatten="True"
 			ZipFileName="$(TheDeployDir)\$(TheZipFileName)"
 		/>
 	</Target>
@@ -174,7 +174,7 @@
 			SourceFiles="lessmsi.nuspec"
 			DestinationFolder="$(PackageDir)"
 		/>
-    <Copy
+		<Copy
 			SourceFiles="$(TheDeployDir)\$(TheZipFileName)"
 			DestinationFolder="$(PackageDir)\tools"
 		/>
@@ -182,12 +182,20 @@
 			SourceFiles="chocolateyInstall.ps1"
 			DestinationFolder="$(PackageDir)\tools"
 		/>
+		<Copy
+			SourceFiles="$(RootDir)\LICENSE"
+			DestinationFolder="$(PackageDir)\tools"
+		/>
+		<Copy
+			SourceFiles="$(RootDir)\.build\VERIFICATION.txt"
+			DestinationFolder="$(PackageDir)\tools"
+		/>
 		<XmlPoke
 			XmlInputPath="$(PackageDir)\lessmsi.nuspec"
 			Query="//package/metadata/version"
 			Value="$(TheVersion)"
 		/>
-    <FileUpdate Files="$(PackageDir)\tools\chocolateyInstall.ps1"
+		<FileUpdate Files="$(PackageDir)\tools\chocolateyInstall.ps1"
 			Regex="__ZIP_FILE__"
 			ReplacementText="$(TheZipFileName)"
 		/>

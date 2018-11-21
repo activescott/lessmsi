@@ -1,0 +1,2 @@
+﻿VERIFICATION
+This package is published by the author and this file is here only because chocolatey requires it as described at https://github.com/chocolatey/package-validator/wiki/VerificationFileMissing

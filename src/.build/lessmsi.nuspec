@@ -9,11 +9,15 @@
 	<summary>LessMSI - Easily extract the contents of an MSI</summary>
 	<description>LessMSI is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file. For Windows.
 Usage on the command line: lessmsi x msiFileName [outDir]
-</description>
+	</description>
 	<tags>msi extract extraction install</tags>
 	<projectUrl>https://lessmsi.activescott.com</projectUrl>
 	<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
 	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<projectSourceUrl>https://github.com/activescott/lessmsi</projectSourceUrl>
+	<docsUrl>https://github.com/activescott/lessmsi/wiki</docsUrl>
+	<releaseNotes>https://github.com/activescott/lessmsi/releases</releaseNotes>
+	<bugTrackerUrl>https://github.com/activescott/lessmsi/issues</bugTrackerUrl>
 	<!--<iconUrl>32x32.png</iconUrl>-->
   </metadata>
 </package>
