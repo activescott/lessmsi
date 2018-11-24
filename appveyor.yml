@@ -30,3 +30,14 @@ deploy:
       branch: master                  # only deploy on master
       appveyor_repo_tag: true         # only deploy when there is a tag pushed
       appveyor_repo_tag_name: publish # only deploy when tag == "publish"
+
+  - provider: NuGet # See https://www.appveyor.com/docs/deployment/nuget/
+    # For Chocolatey setup for NuGet see https://blog.gripdev.xyz/2015/04/08/appveyor-github-and-chocolatey-automatically-build-your-project-and-publish-updates-it-to-chocolatey/
+    server: https://push.chocolatey.org/
+    api_key:
+      secure: /Ie5xuB5GTDwElbSN0V+mCyYtYNhfQJRjdoWFUsNsVJW9bq32LNzSlI1cn4OUxIu
+    artifact: /.*\.nupkg/
+    on:
+      branch: master                  # only deploy on master
+      appveyor_repo_tag: true         # only deploy when there is a tag pushed
+      appveyor_repo_tag_name: publish # only deploy when tag == "publish"
