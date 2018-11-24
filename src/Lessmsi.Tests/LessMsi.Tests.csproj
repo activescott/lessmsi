@@ -42,8 +42,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LessIO, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LessIO.0.5.0\lib\net40\LessIO.dll</HintPath>
+    <Reference Include="LessIO, Version=0.6.16.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessIO.0.6.16\lib\net40\LessIO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="libmspackn, Version=0.8.0.0, Culture=neutral, processorArchitecture=x86">

@@ -38,7 +38,7 @@
 		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\lessmsi-gui.exe.config"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.8.0\lib\net40\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.8.0\build\x86\mspack.dll"></DeployFiles>
-		<DeployFiles Include="$(RootDir)\packages\LessIO.0.5.0\lib\net40\LessIO.dll"></DeployFiles>
+		<DeployFiles Include="$(RootDir)\packages\LessIO.0.6.16\lib\net40\LessIO.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wix.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\..\lib\wixcab.dll"></DeployFiles>
 	</ItemGroup>
@@ -132,10 +132,7 @@
     <!-- Prepares for running tests in $(TheDeployDir) -->
     <ItemGroup>
       <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\LessMsi.Tests.dll" />
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.execution.desktop.dll" />
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.abstractions.dll" />
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.core.dll" />
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.assert.dll" />
+      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.*.dll" />
     </ItemGroup>
     <ItemGroup>
       <TestFiles Include="$(RootDir)\LessMsi.Tests\TestFiles\**\*.*"></TestFiles>
