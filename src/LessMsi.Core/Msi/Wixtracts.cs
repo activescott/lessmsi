@@ -389,9 +389,21 @@ namespace LessMsi.Msi
 			for (int i=0; i < cabInfos.Count; i++)
 			{
 				CabInfo cab = cabInfos[i];
-				var msCab = new MSCabinet(cab.LocalCabFile);//NOTE: Deliberately not disposing. Caller must cleanup.
-				
-				if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
+                MSCabinet msCab = null;
+                try
+                {
+                    msCab = new MSCabinet(cab.LocalCabFile); // NOTE: Deliberately not disposing. Caller must cleanup.
+                }
+                catch (Exception)
+                {
+                    // As seen in https://github.com/activescott/lessmsi/issues/104, sometimes bogus cabs are inside of a msi but they're not needed to extract any files from. So we should attempt to ignore this failure here:
+                    Debug.Fail(
+                        string.Format("Cab name \"{0}\" could not be read by cab reader. Will attempt to ignore...", cab.CabSourceName)
+                    );
+                    continue;
+                }
+
+                if ((msCab.Flags & MSCabinetFlags.MSCAB_HDR_NEXTCAB) != 0)
 				{
 					Debug.Assert(!string.IsNullOrEmpty(msCab.NextName), "Header indcates next cab but new cab not found.");
 					// load the cab found in NextName:
