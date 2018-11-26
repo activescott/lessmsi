@@ -46,8 +46,8 @@
       <HintPath>..\packages\LessIO.0.6.16\lib\net40\LessIO.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="libmspackn, Version=0.8.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\libmspack4n.0.8.0\lib\net40\libmspackn.dll</HintPath>
+    <Reference Include="libmspackn, Version=0.9.10.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\libmspack4n.0.9.10\lib\net40\libmspackn.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -110,7 +110,7 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)TestFiles"
 xcopy /Y /S "$(ProjectDir)TestFiles" "$(TargetDir)TestFiles"
-xcopy /Y "$(SolutionDir)packages\libmspack4n.0.8.0\build\x86\mspack.dll" "$(TargetDir)"</PostBuildEvent>
+xcopy /Y "$(SolutionDir)packages\libmspack4n.0.9.10\build\x86\mspack.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="'$(OS)' == 'Windows_NT'" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.mono.targets" Condition="'$(OS)' == 'mono'" />
