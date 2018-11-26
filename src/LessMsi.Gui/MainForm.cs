@@ -920,9 +920,14 @@ namespace LessMsi.Gui
 
 
 					var filesToExtract = selectedFiles.ToArray();
-					Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract,
-					                       new AsyncCallback(progressDialog.UpdateProgress));
-				}
+					Wixtracts.ExtractFiles(msiFile, 
+                        outputDir, 
+                        filesToExtract,
+					    new AsyncCallback(progressDialog.UpdateProgress),
+                        progressDialog.ExtractionErrorHandler
+                    );
+                    progressDialog.ShowAnyFinalMessages();
+                }
 				catch (Exception err)
 				{
 					MessageBox.Show(this,

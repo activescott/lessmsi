@@ -40,8 +40,7 @@ namespace LessMsi.Msi
 {
     public class Wixtracts
     {
-        #region class ExtractionProgress
-
+        #region class ExtractionProgress Stuff
         /// <summary>
         /// Provides progress information during an extraction operatation.
         /// </summary>
@@ -50,15 +49,22 @@ namespace LessMsi.Msi
             private string _currentFileName;
             private ExtractionActivity _activity;
             private readonly ManualResetEvent _waitSignal;
-            private readonly AsyncCallback _callback;
+            private readonly AsyncCallback _progressCallback;
+            private readonly ExtractionErrorHandler _errorCallback;
             private readonly int _totalFileCount;
             private int _filesExtracted;
 
             public ExtractionProgress(AsyncCallback progressCallback, int totalFileCount)
+                : this(progressCallback, totalFileCount, null)
+            {
+            }
+
+            public ExtractionProgress(AsyncCallback progressCallback, int totalFileCount, ExtractionErrorHandler errorCallback)
             {
                 _activity = ExtractionActivity.Initializing;
                 _currentFileName = "";
-                _callback = progressCallback;
+                _progressCallback = progressCallback;
+                _errorCallback = errorCallback;
                 _waitSignal = new ManualResetEvent(false);
                 _totalFileCount = totalFileCount;
                 _filesExtracted = 0;
@@ -75,9 +81,21 @@ namespace LessMsi.Msi
                     if (this.IsCompleted)
                         _waitSignal.Set();
 
-                    if (_callback != null)
-                        _callback(this);
+                    if (_progressCallback != null)
+                        _progressCallback(this);
                 }
+            }
+
+            /// <summary>
+            /// Called internally to report errors to the calling application.
+            /// </summary>
+            /// <seealso cref="ExtractionErrorHandler"/>
+            internal ExtractionErrorResponse ReportError(string error, string fileName, string cabinetName)
+            {
+                if (_errorCallback != null)
+                    return _errorCallback(this, error, fileName, cabinetName);
+                else
+                    return ExtractionErrorResponse.Abort;
             }
 
             /// <summary>
@@ -186,8 +204,6 @@ namespace LessMsi.Msi
             #endregion
         }
 
-        #endregion
-
         #region enum ExtractionActivity
 
         /// <summary>
@@ -201,6 +217,33 @@ namespace LessMsi.Msi
             Complete
         }
 
+        #endregion
+
+        #region ExtractionErrorResponse
+        /// <summary>
+        /// Allows 
+        /// </summary>
+        public enum ExtractionErrorResponse
+        {
+            /// <summary>
+            /// Indicates extraction should attempt to continue.
+            /// </summary>
+            Continue,
+            /// <summary>
+            /// Indicates extraction should be aborted.
+            /// </summary>
+            Abort
+        }
+        #endregion
+
+        /// <summary>
+        /// Defines the signature for a method to be notified of errors.
+        /// </summary>
+        /// <param name="error">The error message.</param>
+        /// <param name="fileName">The name of the file that an error occurred while extracting.</param>
+        /// <param name="cabinetName">The name of the cabinet containing the file that the extraction error occurred with.</param>
+        /// <returns>Indicates how to handle the error.</returns>
+        public delegate ExtractionErrorResponse ExtractionErrorHandler(ExtractionProgress progressState, string error, string fileName, string cabinetName);
         #endregion
 
         public static void ExtractFiles(Path msi, string outputDir)
@@ -220,49 +263,19 @@ namespace LessMsi.Msi
             ExtractFiles(msi, outputDir, msiFiles, progressCallback);
         }
 
-        private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
-	    {
-		    var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi);
-			Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
+        public static void ExtractFiles(Path msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        {
+            ExtractFiles(msi, outputDir, filesToExtract, progressCallback, null);
+        }
 
-		    var fileNamesToExtractAsMsiFiles = new List<MsiFile>();
-		    foreach (var fileName in fileNamesToExtract)
-		    {
-			    var found = Array.BinarySearch(msiFiles, fileName, FileNameComparer.Default);
-			    if (found >= 0)
-					fileNamesToExtractAsMsiFiles.Add(msiFiles[found]);
-				else
-				    Console.WriteLine("File {0} was not found in the msi.", fileName);
-		    }
-		    return fileNamesToExtractAsMsiFiles.ToArray();
-	    }
-
-	    private sealed class FileNameComparer : IComparer
-	    {
-		    static readonly FileNameComparer _default = new FileNameComparer();
-			
-			public static FileNameComparer Default
-		    {
-				get { return _default; }
-		    }
-
-		    int IComparer.Compare(object x, object y)
-		    {
-				//expect two MsiFile or one MsiFile and one string:
-			    var getName = new Func<object, string>((object fileOrName) => fileOrName is MsiFile ? ((MsiFile) fileOrName).LongFileName : (string)fileOrName);
-			    var xName = getName(x);
-			    var yName = getName(y);
-				return string.Compare(xName, yName, StringComparison.InvariantCulture);
-		    }
-	    }
-
-	    /// <summary>
+        /// <summary>
         /// Extracts the compressed files from the specified MSI file to the specified output directory.
         /// If specified, the list of <paramref name="filesToExtract"/> objects are the only files extracted.
         /// </summary>
         /// <param name="filesToExtract">The files to extract or null or empty to extract all files.</param>
         /// <param name="progressCallback">Will be called during during the operation with progress information, and upon completion. The argument will be of type <see cref="ExtractionProgress"/>.</param>
-        public static void ExtractFiles(Path msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        /// <param name="errorCallback">Will be called during the operation with any error information.</param>
+        public static void ExtractFiles(Path msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback, ExtractionErrorHandler errorCallback)
         {
             if (msi.IsEmpty)
                 throw new ArgumentNullException("msi");
@@ -278,7 +291,7 @@ namespace LessMsi.Msi
 		        if (filesToExtract == null || filesToExtract.Length < 1)
 			        filesToExtract = MsiFile.CreateMsiFilesFromMSI(msidb);
 
-		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
+		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length, errorCallback);
 
 		        if (!FileSystem.Exists(msi))
 		        {
@@ -339,7 +352,17 @@ namespace LessMsi.Msi
 						        // ReSharper restore HeuristicUnreachableCode
 					        }
 					        Trace.WriteLine(string.Concat("Extracting File \'", compressedFile.Filename, "\' to \'", destName, "\'"));
-					        compressedFile.ExtractTo(destName.PathString);
+                            try
+                            {
+                                compressedFile.ExtractTo(destName.PathString);
+                            }
+					        catch (Exception e)
+                            {
+                                var errorMessage = string.Format("Error extracting file \"{0}\" from cab \"{1}\". Error detail: {2}", entry.LongFileName, decompressor.LocalFilePath, e.Message);
+                                var result = progress.ReportError(errorMessage, entry.LongFileName, decompressor.LocalFilePath);
+                                if (result == ExtractionErrorResponse.Abort)
+                                    throw new Exception(errorMessage);
+                            }
 					        filesExtractedSoFar++;
 				        }
 			        }
@@ -362,10 +385,47 @@ namespace LessMsi.Msi
 	        }
         }
 
-		/// <summary>
-		/// Deletes a file even if it is readonly.
-		/// </summary>
-	    private static void DeleteFileForcefully(Path localFilePath)
+        private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
+        {
+            var msiFiles = MsiFile.CreateMsiFilesFromMSI(msi);
+            Array.Sort(msiFiles, (f1, f2) => string.Compare(f1.LongFileName, f2.LongFileName, StringComparison.InvariantCulture));
+
+            var fileNamesToExtractAsMsiFiles = new List<MsiFile>();
+            foreach (var fileName in fileNamesToExtract)
+            {
+                var found = Array.BinarySearch(msiFiles, fileName, FileNameComparer.Default);
+                if (found >= 0)
+                    fileNamesToExtractAsMsiFiles.Add(msiFiles[found]);
+                else
+                    Console.WriteLine("File {0} was not found in the msi.", fileName);
+            }
+            return fileNamesToExtractAsMsiFiles.ToArray();
+        }
+
+        private sealed class FileNameComparer : IComparer
+        {
+            static readonly FileNameComparer _default = new FileNameComparer();
+
+            public static FileNameComparer Default
+            {
+                get { return _default; }
+            }
+
+            int IComparer.Compare(object x, object y)
+            {
+                //expect two MsiFile or one MsiFile and one string:
+                var getName = new Func<object, string>((object fileOrName) => fileOrName is MsiFile ? ((MsiFile)fileOrName).LongFileName : (string)fileOrName);
+                var xName = getName(x);
+                var yName = getName(y);
+                return string.Compare(xName, yName, StringComparison.InvariantCulture);
+            }
+        }
+        
+        
+        /// <summary>
+         /// Deletes a file even if it is readonly.
+         /// </summary>
+        private static void DeleteFileForcefully(Path localFilePath)
 	    {
             // In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
             FileSystem.RemoveFile(localFilePath, true);

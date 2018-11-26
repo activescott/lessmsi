@@ -26,6 +26,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using LessMsi.Msi;
+using System.Collections.Generic;
 
 namespace LessMsi.Gui
 {
@@ -33,6 +34,8 @@ namespace LessMsi.Gui
     {
         private ProgressBar _progressBar;
         private Label _label;
+        private readonly List<string> _errorFiles = new List<string>();
+        private bool _continuePromptingErrors = true;
 
         public ExtractionProgressDialog(Form owner)
         {
@@ -93,6 +96,40 @@ namespace LessMsi.Gui
             _label.Text = String.Format("Extracting ({0})...", details);
             this.Invalidate(true);
             this.Update();
+        }
+
+        internal void ShowAnyFinalMessages()
+        {
+            if (this._errorFiles.Count > 0)
+            {
+                const int MAX_FILES = 10;
+                var displayList = this._errorFiles.GetRange(0, Math.Min(MAX_FILES, this._errorFiles.Count));
+                var displayString = string.Join(", ", displayList);
+                var displayDelta = _errorFiles.Count - displayList.Count;
+                string postfix = displayDelta > 0 ? string.Format("...and {0} more", displayDelta) : "";
+                MessageBox.Show(this,
+                    string.Format("The following files failed to extract: {0}{1}.", displayString, postfix)
+                );
+            }
+        }
+
+        internal Wixtracts.ExtractionErrorResponse ExtractionErrorHandler(Wixtracts.ExtractionProgress progressState, string error, string fileName, string cabinetName)
+        {
+            this._errorFiles.Add(fileName);
+            if (this._continuePromptingErrors)
+            {
+                var result = MessageBox.Show(this,
+                    string.Format("The following error occurred extracting a file:\r\n{0}\r\n Choose 'Abort' to abort extraction. Choose 'Retry' to attempt to continue extracting files, but continue reporting future errors. Choose 'Ignore' to ignore all future errors and continue extraction.", fileName),
+                    "Extraction Error",
+                    MessageBoxButtons.AbortRetryIgnore
+                );
+                this._continuePromptingErrors = (result != DialogResult.Ignore);
+                return result == DialogResult.Abort ? Wixtracts.ExtractionErrorResponse.Abort : Wixtracts.ExtractionErrorResponse.Continue;
+            }
+            else
+            {
+                return Wixtracts.ExtractionErrorResponse.Continue;
+            } 
         }
     }
 }
