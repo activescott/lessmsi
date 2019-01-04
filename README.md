@@ -86,7 +86,5 @@ We're now tipping committers with bitcoin: [![tip for next commit](http://tip4co
 You can **donate** to make this project more attractive for new developers, your donation will be accumulated with the funds of other donators to give as tips for new commits. For more information about how to donate visit https://tip4commit.com/github/activescott/lessmsi
 
 
-![Windows Developer Power Tools](http://www.windevpowertools.com/images/wdpt1.gif)
-
-
-*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com . It was also called Less Msiérables as well as lessmsi.*
+*Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com. 
+It was also called Less Msiérables as well as lessmsi.*
