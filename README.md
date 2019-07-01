@@ -60,6 +60,14 @@ You can **donate** in two ways:
 * [Donate at Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) (Bitcoin only) to fund a general fund. Each new commit to this repository receives a percentage of the available balance.
 * [Donate at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) to deposit your donation as a "bounty" against a specific issue or feature request. When a contributor resolves the issue they will earn the deposit for that issue.
 
+# Deploying & Publishing New Versions #
+New versions are published to GitHub Releases and Chocolatey via the CI tool at AppVeyor. To publish a new version take the following steps:
+1. Merge changes into the master branch
+2. Tag the commit (in master) with the git command `git tag publish`
+3. Push the tag to github with `git push --tags`
+
+Then the CI script in the repo at [/appveyor.yml](https://github.com/activescott/lessmsi/blob/master/appveyor.yml) should build, test the code and if the build & tests succeed deploy it first to github and then to Chocolatey.
+
 
 *Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com. 
 It was also called Less Msiérables as well as lessmsi.*
