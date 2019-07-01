@@ -12,7 +12,7 @@ This is a utility with a graphical user interface and a command line interface t
 # Usage #
 To extract from the command line:
 
-     lessmsi x <msiFileName> [<outouptDir>]
+     lessmsi x <msiFileName> [<outputDir>]
 
 For more command line usage see [CommandLine](https://github.com/activescott/lessmsi/wiki/Command-Line).
 
@@ -50,9 +50,15 @@ Pull requests are welcome! Just make sure the Travis-CI build (compile only) pas
 ## You Earn Bitcoin Tips for Contributing! ##
 We're now tipping committers with bitcoin: [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
 
+## You Earn a Bounty for Resolving Issues! ##
+We're now [registered at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) so contributors can earn the bounty on specific issues that users have deposited funds against.
+
 
 # Donate to Support Open Source Contributors of lessmsi #
-You can **donate** to make this project more attractive for new developers, your donation will be accumulated with the funds of other donators to give as tips for new commits. For more information about how to donate visit https://tip4commit.com/github/activescott/lessmsi
+
+You can **donate** in two ways: 
+* [Donate at Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) (Bitcoin only) to fund a general fund. Each new commit to this repository receives a percentage of the available balance.
+* [Donate at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) to deposit your donation as a "bounty" against a specific issue or feature request. When a contributor resolves the issue they will earn the deposit for that issue.
 
 
 *Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com. 
