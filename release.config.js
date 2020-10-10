@@ -1,5 +1,11 @@
 module.expoorts = {
-  branches: ["master"],
+  branches: [
+    "master",
+    {
+      name: "chore/build-semantic-release-deploy",
+      prerelease: true
+    },
+  ],
   plugins: [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
