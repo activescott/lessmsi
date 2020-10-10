@@ -18,7 +18,6 @@ build_script:
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
-
 test:
  assemblies:
   - .\src\.deploy\LessMsi.Tests.dll
@@ -36,4 +35,3 @@ deploy_script:
   - cmd: npm i semantic-release@17 @semantic-release/exec@5
   # run semantic-release with config:
   - cmd: node_modules\.bin\semantic-release --dry-run --debug
-
