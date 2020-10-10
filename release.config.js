@@ -3,7 +3,7 @@ module.exports = {
     "master",
     {
       name: "chore/build-semantic-release-deploy",
-      prerelease: true
+      prerelease: "alpha"
     },
   ],
   plugins: [
