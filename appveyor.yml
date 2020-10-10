@@ -34,5 +34,5 @@ deploy_script:
   # install semantic-release and reequirement plugins:
   - cmd: npm i semantic-release@17 @semantic-release/exec@5
   # run semantic-release with config:
-  - cmd: node_modules\.bin\semantic-release --dry-run
+  - cmd: node_modules\.bin\semantic-release --dry-run --debug
 
