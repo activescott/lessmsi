@@ -1,4 +1,4 @@
-module.expoorts = {
+module.exports = {
   branches: [
     "master",
     {
