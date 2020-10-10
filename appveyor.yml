@@ -5,9 +5,9 @@ image: Visual Studio 2015
 environment:
   # from https://github.com/settings/tokens encrypted at https://ci.appveyor.com/tools/encrypt
   GH_TOKEN:
-    - secure: K10jiRl71WzhwEL/OJsAFS+ooQB0dAVBe0NXwnuV3h6mDvZlIM6GFt2WgcnLU8kT
+    secure: K10jiRl71WzhwEL/OJsAFS+ooQB0dAVBe0NXwnuV3h6mDvZlIM6GFt2WgcnLU8kT
   CHOCO_KEY:
-    - secure: TESTING-ONLY
+    secure: TESTING-ONLY
    
 #---------------------------------#
 #      build configuration        #
