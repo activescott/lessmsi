@@ -27,6 +27,8 @@ artifacts:
 - path: 'src\.deploy\chocolateypackage\*.nupkg'
 - path: 'src\.deploy\*.zip'
 
+# NOTE: Deployments, before_deploy and after_deploy scripts are disabled by default on Pull Requests. 
+#       https://www.appveyor.com/docs/deployment/#pull-requests
 deploy_script:
   # install (select) node 10 per semantic-release requirements: https://www.appveyor.com/docs/lang/nodejs-iojs/#selecting-nodejs-or-iojs-version
   - ps: Install-Product node 10

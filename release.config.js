@@ -10,9 +10,9 @@ module.exports = {
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/exec", {
-      "verifyConditionsCmd": "./src/.build/semantic-release-verify.bat",
-      "prepareCmd": "./src/.build/semantic-release-prepare.bat ${nextRelease.version}",
-      "publishCmd": "./src/.build/semantic-release-publish.bat",
+      "verifyConditionsCmd": "./src/.build/semantic-release-verify.cmd",
+      "prepareCmd": "./src/.build/semantic-release-prepare.cmd ${nextRelease.version}",
+      "publishCmd": "./src/.build/semantic-release-publish.cmd",
     }],
     // github config docs: https://github.com/semantic-release/github
     ["@semantic-release/github", {
