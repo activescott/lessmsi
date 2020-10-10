@@ -1,6 +1,14 @@
 # see http://www.appveyor.com/docs/appveyor-yml
 # environment info: https://www.appveyor.com/docs/windows-images-software/#visual-studio-2015
 image: Visual Studio 2015
+
+environment:
+  # from https://github.com/settings/tokens encrypted at https://ci.appveyor.com/tools/encrypt
+  - GH_TOKEN:
+    - secure: K10jiRl71WzhwEL/OJsAFS+ooQB0dAVBe0NXwnuV3h6mDvZlIM6GFt2WgcnLU8kT
+  - CHOCO_KEY:
+    - secure: TESTING-ONLY
+   
 #---------------------------------#
 #      build configuration        #
 #---------------------------------#
@@ -19,27 +27,12 @@ artifacts:
 - path: 'src\.deploy\chocolateypackage\*.nupkg'
 - path: 'src\.deploy\*.zip'
 
-deploy:
-  - provider: GitHub # See https://www.appveyor.com/docs/deployment/github/
-    release: v$(APPVEYOR_BUILD_VERSION)
-    description: 'Appveyor deployed v$(APPVEYOR_BUILD_VERSION)'
-    auth_token:
-      secure: oWfqfhnk8xvX/xrkBmz3jue7DCFM9VzP9MHzvX7T3qBzEIrAuDaue6bKTsVekpNs # encrypted token from https://github.com/settings/tokens
-    artifact: /(.*\.nupkg)|(.*\.zip)/ # upload NuGet & zip files to release assets
-    draft: false
-    prerelease: false
-    on:
-      branch: master                  # only deploy on master
-      appveyor_repo_tag: true         # only deploy when there is a tag pushed
-      appveyor_repo_tag_name: publish # only deploy when tag == "publish"
 
-  - provider: NuGet # See https://www.appveyor.com/docs/deployment/nuget/
-    # For Chocolatey setup for NuGet see https://blog.gripdev.xyz/2015/04/08/appveyor-github-and-chocolatey-automatically-build-your-project-and-publish-updates-it-to-chocolatey/
-    server: https://push.chocolatey.org/
-    api_key:
-      secure: /Ie5xuB5GTDwElbSN0V+mCyYtYNhfQJRjdoWFUsNsVJW9bq32LNzSlI1cn4OUxIu
-    artifact: /.*\.nupkg/
-    on:
-      branch: master                  # only deploy on master
-      appveyor_repo_tag: true         # only deploy when there is a tag pushed
-      appveyor_repo_tag_name: publish # only deploy when tag == "publish"
+deploy_script:
+  # install (select) node 10 per semantic-release requirements: https://www.appveyor.com/docs/lang/nodejs-iojs/#selecting-nodejs-or-iojs-version
+  - ps: Install-Product node 10
+  # install semantic-release and reequirement plugins:
+  - cmd: npm i semantic-release@17 @semantic-release/exec@5
+  # run semantic-release with config:
+  - cmd: node_modules\.bin\semantic-release --dry-run
+
