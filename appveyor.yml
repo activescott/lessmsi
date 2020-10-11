@@ -7,7 +7,7 @@ environment:
   GH_TOKEN:
     secure: K10jiRl71WzhwEL/OJsAFS+ooQB0dAVBe0NXwnuV3h6mDvZlIM6GFt2WgcnLU8kT
   CHOCO_KEY:
-    secure: ClAmOnO449rIq8Tck4INSg==
+    secure: /Ie5xuB5GTDwElbSN0V+mCyYtYNhfQJRjdoWFUsNsVJW9bq32LNzSlI1cn4OUxIu
    
 #---------------------------------#
 #      build configuration        #
@@ -36,4 +36,3 @@ deploy_script:
   # run semantic-release with config:
   - cmd: node_modules\.bin\semantic-release
 
-  
