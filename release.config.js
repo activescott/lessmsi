@@ -6,18 +6,19 @@ module.exports = {
     "@semantic-release/commit-analyzer",
     ["@semantic-release/release-notes-generator", {
       writerOpts: {
-        footerPartial: `{{#if noteGroups}}
-        {{#each noteGroups}}
-        
-        ### {{title}}
-        
-        {{#each notes}}
-        * {{text}}
-        {{/each}}
-        {{/each}}
-        {{/if}}
+        footerPartial: `
+{{#if noteGroups}}
+{{#each noteGroups}}
 
-        You can install or upgrade by extracting all files from the zip attached to this release into a single directory or via [Chocolatey](https://chocolatey.org/packages/lessmsi).
+### {{title}}
+
+{{#each notes}}
+* {{text}}
+{{/each}}
+{{/each}}
+{{/if}}
+
+You can install or upgrade by extracting all files from the zip attached to this release into a single directory or via [Chocolatey](https://chocolatey.org/packages/lessmsi).
         `
       }
     }],
