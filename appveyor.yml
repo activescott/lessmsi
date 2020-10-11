@@ -35,3 +35,5 @@ deploy_script:
   - cmd: npm i semantic-release@17 @semantic-release/exec@5
   # run semantic-release with config:
   - cmd: node_modules\.bin\semantic-release
+
+  
