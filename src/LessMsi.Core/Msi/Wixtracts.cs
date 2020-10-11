@@ -289,8 +289,9 @@ namespace LessMsi.Msi
 
 		        progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
                 var outputDirPath = new Path(outputDir);
-                if (!FileSystem.Exists(outputDirPath))
+                if (!FileSystem.Exists(outputDirPath)) {
 		            FileSystem.CreateDirectory(outputDirPath);
+				}
 
 		        //map short file names to the msi file entry
 		        var fileEntryMap = new Dictionary<string, MsiFile>(filesToExtract.Length, StringComparer.InvariantCulture);
