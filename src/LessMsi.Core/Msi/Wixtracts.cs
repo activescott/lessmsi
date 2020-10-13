@@ -487,7 +487,8 @@ namespace LessMsi.Msi
 						if (!string.IsNullOrEmpty(cabSourceName))
 						{
 							bool extract = false;
-							if (cabSourceName.StartsWith("#"))
+                            // NOTE: If the cabinet name is preceded by the number sign, the cabinet is stored as a data stream inside the package. https://docs.microsoft.com/en-us/windows/win32/msi/cabinet
+                            if (cabSourceName.StartsWith("#"))
 							{
 								extract = true;
 								cabSourceName = cabSourceName.Substring(1);
@@ -501,6 +502,10 @@ namespace LessMsi.Msi
 							else
 							{
 								Path originalCabFile = Path.Combine(msi.Parent, cabSourceName);
+                                if (!originalCabFile.Exists)
+                                {
+                                    throw ExternalCabNotFoundException.CreateFromCabPath(cabSourceName, msi.Parent.FullPathString);
+                                }
 								FileSystem.Copy(originalCabFile, localCabFile);
 							}
 							/* http://code.google.com/p/lessmsi/issues/detail?id=1
