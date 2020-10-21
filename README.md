@@ -55,19 +55,19 @@ We're now [registered at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) 
 
 
 # Donate to Support Open Source Contributors of lessmsi #
-
 You can **donate** in two ways: 
 * [Donate at Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) (Bitcoin only) to fund a general fund. Each new commit to this repository receives a percentage of the available balance.
 * [Donate at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) to deposit your donation as a "bounty" against a specific issue or feature request. When a contributor resolves the issue they will earn the deposit for that issue.
 
+
 # Deploying & Publishing New Versions #
-New versions are published to GitHub Releases and Chocolatey via the CI tool at AppVeyor. To publish a new version take the following steps:
-1. Merge changes into the master branch
-2. Tag the commit (in master) with the git command `git tag publish`
-3. Push the tag to github with `git push --tags`
+New versions are published to GitHub Releases and Chocolatey via [semantic-release](https://github.com/semantic-release/semantic-release) to consistently release [semver](https://semver.org/)-compatible versions. Only the master branch is deployed.
 
-Then the CI script in the repo at [/appveyor.yml](https://github.com/activescott/lessmsi/blob/master/appveyor.yml) should build, test the code and if the build & tests succeed deploy it first to github and then to Chocolatey.
+To trigger a release just commit (or merge) to the master branch. All commits in master should use the Conventional Commits following [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
 
+Then the CI script in the repo at [/appveyor.yml](https://github.com/activescott/lessmsi/blob/master/appveyor.yml) should build, test the code and if the build & tests succeed deploy it first to github and then to Chocolatey. Release configuration via semantic-release is in [/release.config.js](https://github.com/activescott/lessmsi/blob/master/release.config.js) and the `semantic-release-*.cmd` files in the [/src/.build](https://github.com/activescott/lessmsi/tree/master/src/.build) folder.
+
+------
 
 *Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com. 
 It was also called Less Msiérables as well as lessmsi.*
