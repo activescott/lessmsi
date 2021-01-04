@@ -184,6 +184,7 @@ namespace LessMsi.Gui
 			{
 				msiTableGrid.Rows.Add(row);
 			}
+			msiTableGrid.AutoResizeColumnsSafe();
 		}
 
 		#region Property Grid Stuff
@@ -191,6 +192,7 @@ namespace LessMsi.Gui
 		public void SetPropertyGridDataSource(MsiPropertyInfo[] props)
 		{
 			msiPropertyGrid.DataSource = props;
+			msiPropertyGrid.AutoResizeColumnsSafe();
 		}
 
 		public void AddPropertyGridColumn(string boundPropertyName, string headerText)
