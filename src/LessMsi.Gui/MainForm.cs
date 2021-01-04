@@ -495,12 +495,12 @@ namespace LessMsi.Gui
             this.cboTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTable.Enabled = false;
             this.cboTable.Location = new System.Drawing.Point(50, 5);
             this.cboTable.Name = "cboTable";
             this.cboTable.Size = new System.Drawing.Size(323, 23);
             this.cboTable.TabIndex = 8;
-            this.cboTable.Text = "table";
             this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // msiTableGrid
