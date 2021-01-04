@@ -1067,6 +1067,11 @@ namespace LessMsi.Gui
 			return progressDialog;
 		}
 
+		public IDisposable StartWaitCursor()
+		{
+			return new DisposableCursor(this);
+		}
+
 		protected bool IsFileTabSelected
 		{
 			get

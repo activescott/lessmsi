@@ -22,6 +22,7 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using System;
 using System.Collections.Generic;
 using LessMsi.Gui.Model;
 
@@ -94,5 +95,11 @@ namespace LessMsi.Gui
 		/// </summary>
 	    void SetStreamSelectorSource(IEnumerable<StreamInfoView> streamNames);
 	    void SetCabContainedFileListSource(IEnumerable<CabContainedFileView> streamFiles);
+
+		/// <summary>
+		/// Start a wait cursor to indicate.
+		/// </summary>
+		/// <returns>An object that should be disposed when the operation is done.</returns>
+		IDisposable StartWaitCursor();
     }
 }
