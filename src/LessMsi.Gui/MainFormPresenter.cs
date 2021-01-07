@@ -113,7 +113,7 @@ namespace LessMsi.Gui
 			if (msidb == null)
 				return;
 
-			using (new DisposableCursor(ViewLeakedAbstraction))
+			using (View.StartWaitCursor())
 			{
 				try
 				{
@@ -316,7 +316,7 @@ namespace LessMsi.Gui
 
 			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
 			{
-				using (new DisposableCursor(ViewLeakedAbstraction))
+				using (View.StartWaitCursor())
 				{
 					try
 					{
@@ -425,7 +425,7 @@ namespace LessMsi.Gui
 
 			Status(string.Concat("Processing Table \'", tableName, "\'."));
 
-			using (new DisposableCursor(ViewLeakedAbstraction))
+			using (View.StartWaitCursor())
 			{   // clear the columns no matter what happens (in the event the table doesn't exist we don't want to show anything).
 				View.ClearTableViewGridColumns();
 				try
