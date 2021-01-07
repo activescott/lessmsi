@@ -24,6 +24,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -433,13 +434,23 @@ namespace LessMsi.Gui
 					// NOTE: Deliberately not calling msidb.TableExists here as some System tables could not be read due to using it.
 					string query = string.Concat("SELECT * FROM `", tableName, "`");
 
+					string sequenceName = string.Empty;
 					using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
 					{
 						foreach (ColumnInfo col in view.Columns)
 						{
-							View.AddTableViewGridColumn(string.Concat(col.Name, " (", col.TypeID, ")"));
+							string displayName = string.Concat(col.Name, " (", col.TypeID, ")");
+							View.AddTableViewGridColumn(displayName);
+							if (col.Name == "Sequence")
+							{
+								sequenceName = displayName;
+							}
 						}
 						View.SetTableViewGridDataSource(view.Records);
+					}
+					if (!string.IsNullOrEmpty(sequenceName))
+					{
+						View.TableViewSortBy(sequenceName, ListSortDirection.Ascending);
 					}
 					Status();
 				}

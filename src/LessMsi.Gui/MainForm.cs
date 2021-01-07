@@ -165,6 +165,7 @@ namespace LessMsi.Gui
 		{
 			DataGridViewColumn col = new DataGridViewTextBoxColumn
 				                         {
+											 Name = headerText,
 					                         HeaderText = headerText,
 					                         Resizable = DataGridViewTriState.True,
 					                         SortMode = DataGridViewColumnSortMode.Automatic
@@ -185,6 +186,16 @@ namespace LessMsi.Gui
 				msiTableGrid.Rows.Add(row);
 			}
 			msiTableGrid.AutoResizeColumnsSafe();
+		}
+
+		public void TableViewSortBy(string columnName, ListSortDirection direction)
+		{
+			msiTableGrid.Sort(msiTableGrid.Columns[columnName], direction);
+			if (msiTableGrid.Rows.Count > 0)
+			{
+				// Prevent the view from scrolling down
+				msiTableGrid.CurrentCell = msiTableGrid.Rows[0].Cells[0];
+			}
 		}
 
 		#region Property Grid Stuff
