@@ -22,6 +22,7 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using LessMsi.Gui.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -66,7 +67,7 @@ namespace LessMsi.Gui
 
         private void LoadPreferences()
         {
-            var recentFiles = Properties.Settings.Default.RecentFiles;
+            var recentFiles = ApplicationSettings.Default.RecentFiles;
             if (recentFiles == null)
                 return;
             var paths = new string[recentFiles.Count];
@@ -85,9 +86,9 @@ namespace LessMsi.Gui
         public void SavePreferences()
         {
             PruneItems();
-            var paths = new StringCollection();
-            _items.ForEach((item) => paths.Add(item.FilePathName));
-            Properties.Settings.Default.RecentFiles = paths;
+			ApplicationSettings.Default.RecentFiles.Clear();
+            _items.ForEach((item) => ApplicationSettings.Default.RecentFiles.Add(item.FilePathName));
+			ApplicationSettings.Default.Save();
         }
 
         /// <summary>

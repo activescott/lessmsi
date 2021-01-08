@@ -73,6 +73,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainFormPresenter.cs" />
+    <Compile Include="Model\ApplicationSettings.cs" />
     <Compile Include="Model\MsiFileItemView.cs" />
     <Compile Include="Model\MsiPropertyInfo.cs" />
     <Compile Include="Model\CabContainedFileView.cs" />
