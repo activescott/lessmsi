@@ -27,3 +27,4 @@ _Resharper*/
 src/TestResult.xml
 src/.build/nuget.exe
 src/msbuild.log
+src/.vs

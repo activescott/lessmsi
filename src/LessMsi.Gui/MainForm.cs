@@ -165,6 +165,7 @@ namespace LessMsi.Gui
 		{
 			DataGridViewColumn col = new DataGridViewTextBoxColumn
 				                         {
+											 Name = headerText,
 					                         HeaderText = headerText,
 					                         Resizable = DataGridViewTriState.True,
 					                         SortMode = DataGridViewColumnSortMode.Automatic
@@ -184,6 +185,17 @@ namespace LessMsi.Gui
 			{
 				msiTableGrid.Rows.Add(row);
 			}
+			msiTableGrid.AutoResizeColumnsSafe();
+		}
+
+		public void TableViewSortBy(string columnName, ListSortDirection direction)
+		{
+			msiTableGrid.Sort(msiTableGrid.Columns[columnName], direction);
+			if (msiTableGrid.Rows.Count > 0)
+			{
+				// Prevent the view from scrolling down
+				msiTableGrid.CurrentCell = msiTableGrid.Rows[0].Cells[0];
+			}
 		}
 
 		#region Property Grid Stuff
@@ -191,6 +203,7 @@ namespace LessMsi.Gui
 		public void SetPropertyGridDataSource(MsiPropertyInfo[] props)
 		{
 			msiPropertyGrid.DataSource = props;
+			msiPropertyGrid.AutoResizeColumnsSafe();
 		}
 
 		public void AddPropertyGridColumn(string boundPropertyName, string headerText)
@@ -493,12 +506,12 @@ namespace LessMsi.Gui
             this.cboTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTable.Enabled = false;
             this.cboTable.Location = new System.Drawing.Point(50, 5);
             this.cboTable.Name = "cboTable";
             this.cboTable.Size = new System.Drawing.Size(323, 23);
             this.cboTable.TabIndex = 8;
-            this.cboTable.Text = "table";
             this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // msiTableGrid

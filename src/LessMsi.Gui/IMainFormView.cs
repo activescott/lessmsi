@@ -24,6 +24,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using LessMsi.Gui.Model;
 
 namespace LessMsi.Gui
@@ -88,7 +89,13 @@ namespace LessMsi.Gui
         /// Adds a row to the MSI table grid.
         /// </summary>
         void SetTableViewGridDataSource(IEnumerable<object[]> values);
-        void SetPropertyGridDataSource(MsiPropertyInfo[] props);
+
+		/// <summary>
+		/// Sort the MSI Table grid by the specified column
+		/// </summary>
+		void TableViewSortBy(string columnName, ListSortDirection direction);
+
+		void SetPropertyGridDataSource(MsiPropertyInfo[] props);
         void AddPropertyGridColumn(string boundPropertyName, string headerText);
 		/// <summary>
 		/// Specifies the data source for the names of the streams in the streams selector.
