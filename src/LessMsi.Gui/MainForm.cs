@@ -426,8 +426,7 @@ namespace LessMsi.Gui
             this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.fileGrid.Size = new System.Drawing.Size(446, 366);
             this.fileGrid.TabIndex = 5;
-            this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
-            this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
+            this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchableGrid_KeyPress);
             // 
             // panel2
             // 
@@ -530,6 +529,7 @@ namespace LessMsi.Gui
             this.msiTableGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.msiTableGrid.Size = new System.Drawing.Size(453, 370);
             this.msiTableGrid.TabIndex = 10;
+            this.msiTableGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchableGrid_KeyPress);
             // 
             // tabSummary
             // 
@@ -787,7 +787,7 @@ namespace LessMsi.Gui
             this.searchFileToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F";
             this.searchFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.searchFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.searchFileToolStripMenuItem.Text = "Search File";
+            this.searchFileToolStripMenuItem.Text = "Search";
             this.searchFileToolStripMenuItem.Click += new System.EventHandler(this.searchFileToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
@@ -807,6 +807,7 @@ namespace LessMsi.Gui
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(352, 404);
             this.Name = "MainForm";
@@ -814,6 +815,7 @@ namespace LessMsi.Gui
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.tabs.ResumeLayout(false);
             this.tabExtractFiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
@@ -1034,22 +1036,20 @@ namespace LessMsi.Gui
 	        if (IsFileTabSelected)
 	        {
 		        searchPanel.SearchDataGrid(this.fileGrid,
-		                                   (o, args) => Presenter.BeginSearching(args.SearchString),
-		                                   (o, args) => { Presenter.BeginSearching(""); }
+										   Presenter.ExecuteFileSearch,
+										   () => { Presenter.ExecuteFileSearch(this.fileGrid, string.Empty); }
 			        );
 	        }
-        }
-
-		private void fileGrid_KeyDown(object sender, KeyEventArgs e)
-		{
-			// If they press escape while navigating the grid and the search panel is open in the search panel, cancel the search:
-			if (e.KeyCode == Keys.Escape)
+			else if (IsTableTabSelected)
 			{
-				searchPanel.CancelSearch();
+				searchPanel.SearchDataGrid(this.msiTableGrid,
+										   Presenter.ExecuteTableSearch,
+										   () => { Presenter.ExecuteTableSearch(this.msiTableGrid, string.Empty); }
+					);
 			}
 		}
 
-		private void fileGrid_KeyPress(object sender, KeyPressEventArgs e)
+		private void SearchableGrid_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (Char.IsLetterOrDigit(e.KeyChar))
 			{
@@ -1093,5 +1093,21 @@ namespace LessMsi.Gui
 			}
 		}
 
+		protected bool IsTableTabSelected
+		{
+			get
+			{
+				return tabs.SelectedTab == tabTableView;
+			}
+		}
+
+		private void MainForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			// If they press escape while navigating the grid and the search panel is open in the search panel, cancel the search:
+			if (e.KeyCode == Keys.Escape)
+			{
+				searchPanel?.CancelSearch();
+			}
+		}
 	}
 }

@@ -65,6 +65,8 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ObjectArrayExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>

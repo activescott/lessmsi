@@ -28,7 +28,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using LessIO;
+using LessMsi.Gui.Extensions;
 using LessMsi.Gui.Model;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
@@ -45,6 +47,7 @@ namespace LessMsi.Gui
 	{
 		private readonly MainForm _view;
         private SortableBindingList<MsiFileItemView> fileDataSource;
+		private IList<object[]> tableViewDataSource;
 
 		public MainFormPresenter(MainForm view)
 		{
@@ -446,7 +449,8 @@ namespace LessMsi.Gui
 								sequenceName = displayName;
 							}
 						}
-						View.SetTableViewGridDataSource(view.Records);
+						tableViewDataSource = view.Records;
+						View.SetTableViewGridDataSource(tableViewDataSource);
 					}
 					if (!string.IsNullOrEmpty(sequenceName))
 					{
@@ -545,7 +549,7 @@ namespace LessMsi.Gui
 	    /// Executes searching on gridtable and shows only filtered values
 	    /// </summary>
 	    /// <param name="searchTerm">Search term or <see cref="String.Empty"/> to cancel the search.</param>
-	    internal void BeginSearching(string searchTerm)
+	    internal void ExecuteFileSearch(DataGridView fileGrid, string searchTerm)
 	    {
 		    if (this.fileDataSource != null)
 		    {
@@ -557,12 +561,37 @@ namespace LessMsi.Gui
 			    }
 			    else
 			    {
-				    dataSource = this.fileDataSource.Where(x => x.Component.Contains(searchTerm) || x.Directory.Contains(searchTerm) || x.Name.Contains(searchTerm) || x.Version.Contains(searchTerm)).ToList();
+				    dataSource = this.fileDataSource.Where(
+						x => x.Component.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+						x.Directory.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+						x.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+						x.Version.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+						).ToList();
 					Status(string.Format("{0} files found.", dataSource.Count));
 			    }
-				ViewLeakedAbstraction.fileGrid.DataSource = dataSource;
+				fileGrid.DataSource = dataSource;
 		    }
-
 	    }
+
+		internal void ExecuteTableSearch(DataGridView _, string searchTerm)
+		{
+			if (this.tableViewDataSource != null)
+			{
+				IList<object[]> dataSource;
+				if (string.IsNullOrEmpty(searchTerm))
+				{
+					dataSource = this.tableViewDataSource;
+					Status();
+				}
+				else
+				{
+					dataSource = this.tableViewDataSource.Where(
+						x => x.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+						).ToList();
+					Status(string.Format("{0} rows found.", dataSource.Count));
+				}
+				View.SetTableViewGridDataSource(dataSource);
+			}
+		}
 	}
 }
