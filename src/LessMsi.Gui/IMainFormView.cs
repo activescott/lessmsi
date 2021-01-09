@@ -108,5 +108,10 @@ namespace LessMsi.Gui
 		/// </summary>
 		/// <returns>An object that should be disposed when the operation is done.</returns>
 		IDisposable StartWaitCursor();
-    }
+
+		/// <summary>
+		/// Displays a status text in the bar at the bottom of the form.
+		/// </summary>
+		void StatusText(string text, string toolTip);
+	}
 }

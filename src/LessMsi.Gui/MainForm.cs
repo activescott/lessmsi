@@ -1085,6 +1085,12 @@ namespace LessMsi.Gui
 			return new DisposableCursor(this);
 		}
 
+		public void StatusText(string text, string toolTip)
+		{
+			statusPanelDefault.Text = text;
+			statusPanelDefault.ToolTipText = toolTip;
+		}
+
 		protected bool IsFileTabSelected
 		{
 			get
