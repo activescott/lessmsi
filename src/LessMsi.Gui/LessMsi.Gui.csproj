@@ -65,6 +65,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\SummaryInformationExtensions.cs" />
     <Compile Include="ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +75,7 @@
     </Compile>
     <Compile Include="MainFormPresenter.cs" />
     <Compile Include="Model\MsiFileItemView.cs" />
+    <Compile Include="Extensions\MsiNativeMethods.cs" />
     <Compile Include="Model\MsiPropertyInfo.cs" />
     <Compile Include="Model\CabContainedFileView.cs" />
     <Compile Include="Model\StreamInfoView.cs" />
