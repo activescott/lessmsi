@@ -175,8 +175,8 @@ namespace LessMsi.Gui
 
 		public void Error(string msg, Exception exception = null)
 		{
-			Status("ERROR:" + msg);
-			ViewLeakedAbstraction.statusPanelDefault.ToolTipText = exception != null ? exception.ToString() : "";
+			string toolTip = exception != null ? exception.ToString() : "";
+			View.StatusText("ERROR:" + msg, toolTip);
 		}
 
 		/// <summary>
@@ -184,12 +184,12 @@ namespace LessMsi.Gui
 		/// </summary>
 		public void Status()
 		{
-			this.Status("");
+			this.Status(string.Empty);
 		}
 
 		public void Status(string text)
 		{
-			ViewLeakedAbstraction.statusPanelDefault.Text = text;
+			View.StatusText(text, string.Empty);
 		}
 
 		public void LoadTables()
