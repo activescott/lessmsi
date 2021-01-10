@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace LessMsi.Gui.Windows.Forms
+namespace LessMsi.Gui.Extensions
 {
-	public static class DataGridViewExtensionMethods
+	public static class DataGridViewExtensions
 	{
 		/// <summary>
 		/// Adjusts the width of all columns to fit the contents of all cells.
