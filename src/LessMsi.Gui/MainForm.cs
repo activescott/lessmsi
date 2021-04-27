@@ -47,7 +47,8 @@ namespace LessMsi.Gui
 		private ListBox lstStreamFiles;
 		private Panel pnlStreamsBottom;
 		private Button btnExtractStreamFiles;
-		private ToolStripMenuItem searchFileToolStripMenuItem;
+        private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
+        private ToolStripMenuItem searchFileToolStripMenuItem;
 
 		public MainForm(string defaultInputFile)
 		{
@@ -233,7 +234,6 @@ namespace LessMsi.Gui
 		private Label label2;
 		private Panel panel1;
 		private Button btnExtract;
-		private FolderBrowserDialog folderBrowser;
 		private OpenFileDialog openMsiDialog;
 		private StatusBar statusBar1;
 		internal StatusBarPanel statusPanelDefault;
@@ -317,7 +317,6 @@ namespace LessMsi.Gui
             this.lblStream = new System.Windows.Forms.Label();
             this.cboStream = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.openMsiDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusBar1 = new System.Windows.Forms.StatusBar();
             this.statusPanelDefault = new System.Windows.Forms.StatusBarPanel();
@@ -335,6 +334,7 @@ namespace LessMsi.Gui
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderBrowser = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
@@ -393,10 +393,10 @@ namespace LessMsi.Gui
             this.tabs.Controls.Add(this.tabSummary);
             this.tabs.Controls.Add(this.tabStreams);
             this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabs.Location = new System.Drawing.Point(0, 55);
+            this.tabs.Location = new System.Drawing.Point(0, 56);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(464, 441);
+            this.tabs.Size = new System.Drawing.Size(464, 440);
             this.tabs.TabIndex = 0;
             this.tabs.TabStop = false;
             // 
@@ -407,7 +407,7 @@ namespace LessMsi.Gui
             this.tabExtractFiles.Location = new System.Drawing.Point(4, 24);
             this.tabExtractFiles.Name = "tabExtractFiles";
             this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
-            this.tabExtractFiles.Size = new System.Drawing.Size(456, 413);
+            this.tabExtractFiles.Size = new System.Drawing.Size(456, 412);
             this.tabExtractFiles.TabIndex = 0;
             this.tabExtractFiles.Text = "Extract Files";
             // 
@@ -425,7 +425,7 @@ namespace LessMsi.Gui
             this.fileGrid.Name = "fileGrid";
             this.fileGrid.ReadOnly = true;
             this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.fileGrid.Size = new System.Drawing.Size(446, 366);
+            this.fileGrid.Size = new System.Drawing.Size(446, 365);
             this.fileGrid.TabIndex = 5;
             this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
             this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
@@ -436,7 +436,7 @@ namespace LessMsi.Gui
             this.panel2.Controls.Add(this.btnUnselectAll);
             this.panel2.Controls.Add(this.btnExtract);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(5, 371);
+            this.panel2.Location = new System.Drawing.Point(5, 370);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(446, 37);
             this.panel2.TabIndex = 4;
@@ -663,7 +663,7 @@ namespace LessMsi.Gui
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnBrowse);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(464, 31);
             this.panel1.TabIndex = 0;
@@ -703,7 +703,7 @@ namespace LessMsi.Gui
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(464, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(464, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -716,38 +716,38 @@ namespace LessMsi.Gui
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
             // 
             // mruPlaceHolderToolStripMenuItem
             // 
             this.mruPlaceHolderToolStripMenuItem.Enabled = false;
             this.mruPlaceHolderToolStripMenuItem.Name = "mruPlaceHolderToolStripMenuItem";
-            this.mruPlaceHolderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mruPlaceHolderToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.mruPlaceHolderToolStripMenuItem.Text = "<Recent Files>";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(159, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -759,26 +759,26 @@ namespace LessMsi.Gui
             this.preferencesToolStripMenuItem,
             this.searchFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.preferencesToolStripMenuItem.Text = "&Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -787,14 +787,14 @@ namespace LessMsi.Gui
             this.searchFileToolStripMenuItem.Name = "searchFileToolStripMenuItem";
             this.searchFileToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F";
             this.searchFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.searchFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.searchFileToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.searchFileToolStripMenuItem.Text = "Search File";
             this.searchFileToolStripMenuItem.Click += new System.EventHandler(this.searchFileToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(55, 21);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
