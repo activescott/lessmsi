@@ -12,7 +12,7 @@ namespace LessMsi.Msi
     {
         public static ExternalCabNotFoundException CreateFromCabPath(string cabFileName, string expectedLocation)
         {
-            var msg = string.Format("This msi file references a CAB file that is not embedded inside of the msi file itself. The msi file is named {0} and was expected to be in the following folder: {1}", cabFileName, expectedLocation);
+            var msg = string.Format("This msi file references a CAB file that is not embedded inside of the msi file itself. The CAB file is named {0} and was expected to be in the following folder: {1}", cabFileName, expectedLocation);
             return new ExternalCabNotFoundException(msg);
         }
 
