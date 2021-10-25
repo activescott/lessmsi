@@ -174,22 +174,23 @@ namespace LessMsi.Tests
 
 	    public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage)
         {
+            errorMessage = "";
+            bool suceeded = true;
             if (a.Entries.Count != b.Entries.Count)
             {
                 errorMessage = string.Format("Entries for '{0}' and '{1}' have a different number of file entries ({2}, {3} respectively).", a.ForFileName, b.ForFileName, a.Entries.Count, b.Entries.Count);
-                return false;
+                suceeded = false;
             }
 
             for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
             {
                 if (!a.Entries[i].Equals(b.Entries[i]))
                 {
-                    errorMessage = string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
-                    return false;
+                    errorMessage += string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
+                    suceeded = false;
                 }
             }
-            errorMessage = "";
-            return true;
+            return suceeded;
         }
     }
 }

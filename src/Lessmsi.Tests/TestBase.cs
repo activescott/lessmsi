@@ -23,7 +23,7 @@ namespace LessMsi.Tests
             string msg;
             if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
             {
-                throw new Exception("FileEntryGraph entries are not the equal");
+                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", msg));
             }
         }
 
