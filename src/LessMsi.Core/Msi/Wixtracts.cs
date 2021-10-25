@@ -328,7 +328,7 @@ namespace LessMsi.Msi
                             LessIO.Path destName = LessIO.Path.Combine(targetDirectoryForFile, entry.LongFileName);
 					        if (FileSystem.Exists(destName))
 					        {
-						        Debug.Fail("output file already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.");
+						        Debug.Fail(string.Format("output file '{0}' already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.", destName));
 						        //make unique
 						        // ReSharper disable HeuristicUnreachableCode
 						        Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
@@ -352,9 +352,16 @@ namespace LessMsi.Msi
 			        foreach (var decomp in cabDecompressors)
 			        {
 				        decomp.Close(false);
-				        DeleteFileForcefully(new Path(decomp.LocalFilePath));
 			        }
-		        }
+                    // also delete any cabs we copied:
+                    foreach (var cabInf in cabInfos)
+                    {
+                        if (cabInf.DoesNeedDeleted)
+                        {
+                            DeleteFileForcefully(new Path(cabInf.LocalCabFile));
+                        }
+                    }
+                }
 	        }
 	        finally
 	        {
@@ -487,6 +494,7 @@ namespace LessMsi.Msi
 						if (!string.IsNullOrEmpty(cabSourceName))
 						{
 							bool extract = false;
+                            bool doDeleteLater = true;
                             // NOTE: If the cabinet name is preceded by the number sign, the cabinet is stored as a data stream inside the package. https://docs.microsoft.com/en-us/windows/win32/msi/cabinet
                             if (cabSourceName.StartsWith("#"))
 							{
@@ -506,13 +514,18 @@ namespace LessMsi.Msi
                                 {
                                     throw ExternalCabNotFoundException.CreateFromCabPath(cabSourceName, msi.Parent.FullPathString);
                                 }
-								FileSystem.Copy(originalCabFile, localCabFile);
+                                // In cases like https://github.com/activescott/lessmsi/issues/169 the cab file was originally an embedded cab but the user extracted the cab into the same directory as the MSI manually, so it may already be there
+                                if (!originalCabFile.Equals(localCabFile)) {
+                                    FileSystem.Copy(originalCabFile, localCabFile);
+                                } else {
+                                    doDeleteLater = false;
+                                }
 							}
 							/* http://code.google.com/p/lessmsi/issues/detail?id=1
 								* apparently in some cases a file spans multiple CABs (VBRuntime.msi) so due to that we have get all CAB files out of the MSI and then begin extraction. Then after we extract everything out of all CAbs we need to release the CAB extractors and delete temp files.
 								* Thanks to Christopher Hamburg for explaining this!
 							*/
-							var c = new CabInfo(localCabFile.PathString, cabSourceName);
+							var c = new CabInfo(localCabFile.PathString, cabSourceName, doDeleteLater);
 							localCabFiles.Add(c);
 						}
 					}
@@ -527,15 +540,20 @@ namespace LessMsi.Msi
 			/// Name of the cab in the MSI.
 			/// </summary>
 			public string CabSourceName { get; set; }
-			/// <summary>
-			/// Path of the CAB on local disk after we pop it out of the msi.
+            /// <summary>
+			/// True if the cab needs deleted later.
 			/// </summary>
-			public string LocalCabFile { get; set; } //TODO: Make LocalCabFile use LessIO.Path
+			public bool DoesNeedDeleted { get; }
+            /// <summary>
+            /// Path of the CAB on local disk after we pop it out of the msi.
+            /// </summary>
+            public string LocalCabFile { get; set; } //TODO: Make LocalCabFile use LessIO.Path
 
-			public CabInfo(string localCabFile, string cabSourceName)
+			public CabInfo(string localCabFile, string cabSourceName, bool doesNeedDeleted)
 			{
 				LocalCabFile = localCabFile;
 				CabSourceName = cabSourceName;
+                DoesNeedDeleted = doesNeedDeleted;
 			}
 		}
 
