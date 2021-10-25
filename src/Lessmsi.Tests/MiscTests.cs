@@ -80,8 +80,6 @@ namespace LessMsi.Tests
 			FileSystem.Copy(GetMsiTestFile(cabFileName), Path.Combine(outputDir, cabFileName));
 
             // run test normally:
-			var cleanOutputDirectoryBeforeExtracting = false;
-            //var actualFileEntries = ExtractFilesFromMsi(msiFileName, null, outputDir, true, cleanOutputDirectoryBeforeExtracting);
             LessMsi.Msi.Wixtracts.ExtractFiles(msiFileOutputDir, outputDir.PathString);
             //  build actual file entries extracted
             var actualFileEntries = FileEntryGraph.GetActualEntries(outputDir.PathString, msiFileName);
