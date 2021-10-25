@@ -37,6 +37,11 @@ namespace LessMsi.Tests
             return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, new Path(outputDir), true);
         }
 
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, Path outputDir, bool returnFileEntryGraph)
+        {
+            return ExtractFilesFromMsi(msiFileName, fileNamesToExtractOrNull, outputDir, true, true);
+        }
+
         /// <summary>
         /// Extracts some or all of the files from the specified MSI and returns a <see cref="FileEntryGraph"/> representing the files that were extracted.
         /// </summary>
@@ -44,11 +49,12 @@ namespace LessMsi.Tests
         /// <param name="fileNamesToExtractOrNull">The files to extract from the MSI or null to extract all files.</param>
         /// <param name="outputDir">A relative directory to extract output to or an empty string to use the default output directory.</param>
         /// <param name="skipReturningFileEntryGraph">True to return the <see cref="FileEntryGraph"/>. Otherwise null will be returned.</param>
-        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, Path outputDir, bool returnFileEntryGraph)
+        /// <param name="cleanOutputDirectoryBeforeExtracting">True to delete the output directory before extracting.</param>
+        protected FileEntryGraph ExtractFilesFromMsi(string msiFileName, string[] fileNamesToExtractOrNull, Path outputDir, bool returnFileEntryGraph, bool cleanOutputDirectoryBeforeExtracting)
         {
             outputDir = GetTestOutputDir(outputDir, msiFileName);
 
-            if (FileSystem.Exists(outputDir))
+            if (cleanOutputDirectoryBeforeExtracting && FileSystem.Exists(outputDir))
             {
                 FileSystem.RemoveDirectory(outputDir, true);
             }
@@ -210,7 +216,7 @@ namespace LessMsi.Tests
             return FileEntryGraph.Load(GetExpectedOutputFile(forMsi), forMsi);
         }
 
-        private Path GetMsiTestFile(string msiFileName)
+        protected Path GetMsiTestFile(string msiFileName)
         {
             return Path.Combine(AppPath, "TestFiles", "MsiInput", msiFileName);
         }
