@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using LessIO;
 
 namespace LessMsi.Tests
 {
@@ -57,6 +58,37 @@ namespace LessMsi.Tests
 		public void ExtractFromExternalCab()
 		{
 			ExtractAndCompareToMaster("msi_with_external_cab.msi");
+		}
+
+		/// <summary>
+		/// This test is for github issue 169: https://github.com/activescott/lessmsi/issues/169
+		/// </summary>
+		[Fact]
+		public void ExtractFromExternalCabWithSourceDirAndOutputDirSame()
+		{
+			var msiFileName = "vcredist.msi";
+            var cabFileName = "vcredis1.cab";
+            // put the msi and cab into the output directory (as this is all about having the source dir and output dir be the same):
+            var outputDir = GetTestOutputDir(Path.Empty, msiFileName);
+            if (FileSystem.Exists(outputDir))
+            {
+                FileSystem.RemoveDirectory(outputDir, true);
+            }
+            FileSystem.CreateDirectory(outputDir);
+            var msiFileOutputDir = Path.Combine(outputDir, msiFileName);
+            FileSystem.Copy(GetMsiTestFile(msiFileName), msiFileOutputDir);
+			FileSystem.Copy(GetMsiTestFile(cabFileName), Path.Combine(outputDir, cabFileName));
+
+            // run test normally:
+            LessMsi.Msi.Wixtracts.ExtractFiles(msiFileOutputDir, outputDir.PathString);
+            //  build actual file entries extracted
+            var actualFileEntries = FileEntryGraph.GetActualEntries(outputDir.PathString, msiFileName);
+            // this test has the original msi and cab as the first two entries and their times change. so we drop them here:
+            actualFileEntries.Entries.RemoveRange(0, 2);
+            // dump to actual dir (for debugging and updating tests)
+            actualFileEntries.Save(GetActualOutputFile(msiFileName));
+            var expectedEntries = GetExpectedEntriesForMsi(msiFileName);
+			AssertAreEqual(expectedEntries, actualFileEntries);
 		}
 
 		/// <summary>
