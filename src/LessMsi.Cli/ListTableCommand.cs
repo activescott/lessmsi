@@ -31,7 +31,7 @@ namespace LessMsi.Cli
 			
 			var csv = new StringBuilder();
 			Debug.Print("Opening msi file '{0}'.", extra[0]);
-			using (var msidb = new Database(extra[0], OpenDatabase.ReadOnly))
+			using (var msidb = MsiDatabase.Create(new LessIO.Path(extra[0])))
 			{
 				Debug.Print("Opening table '{0}'.", tableName);
 				var query = string.Format(CultureInfo.InvariantCulture, "SELECT * FROM `{0}`", tableName);

@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Msi\ColumnInfo.cs" />
     <Compile Include="Msi\ExternalCabNotFoundException.cs" />
+    <Compile Include="Msi\MsiDatabase.cs" />
     <Compile Include="Msi\MsiDirectory.cs" />
     <Compile Include="Msi\MsiFile.cs" />
     <Compile Include="Msi\TableWrapper.cs" />

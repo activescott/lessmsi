@@ -98,7 +98,7 @@ namespace LessMsi.Gui
 		/// </summary>
 		public void ViewFiles()
 		{
-			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = MsiDatabase.Create(new LessIO.Path(this.SelectedMsiFile.FullName)))
 			{
 				ViewFiles(msidb);
 				ToggleSelectAllFiles(true);
@@ -120,14 +120,23 @@ namespace LessMsi.Gui
 				{
 					Status();
 
-					MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
-					MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
-						inItem => new MsiFileItemView(inItem)
-						);
-					fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
-					ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
-					View.AutoSizeFileGridColumns();
-					Status(fileDataSource.Count + " files found.");
+					ViewLeakedAbstraction.fileGrid.DataSource = null;
+
+					if (msidb.TableExists("File"))
+					{
+						MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
+						MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
+							inItem => new MsiFileItemView(inItem)
+							);
+						fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
+						ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
+						View.AutoSizeFileGridColumns();
+						Status(fileDataSource.Count + " files found.");
+					}
+					else
+					{
+						Status("No files present.");
+					}
 				}
 				catch (Exception eUnexpected)
 				{
@@ -144,7 +153,7 @@ namespace LessMsi.Gui
 			try
 			{
 				MsiPropertyInfo[] props;
-				using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+				using (var msidb = MsiDatabase.Create(new LessIO.Path(this.SelectedMsiFile.FullName)))
 				{
 					props = MsiPropertyInfo.GetPropertiesFromDatabase(msidb);
 				}
@@ -315,7 +324,7 @@ namespace LessMsi.Gui
 
 			IEnumerable<string> msiTableNames = allTableNames;
 
-			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = MsiDatabase.Create(new LessIO.Path(this.SelectedMsiFile.FullName)))
 			{
 				using (View.StartWaitCursor())
 				{
@@ -407,7 +416,7 @@ namespace LessMsi.Gui
 		/// </summary>
 		public void UpdateMSiTableGrid()
 		{
-			using (var msidb = new Database(this.SelectedMsiFile.FullName, OpenDatabase.ReadOnly))
+			using (var msidb = MsiDatabase.Create(new LessIO.Path(this.SelectedMsiFile.FullName)))
 			{
 				string tableName = View.SelectedTableName;
 				UpdateMSiTableGrid(msidb, tableName);
