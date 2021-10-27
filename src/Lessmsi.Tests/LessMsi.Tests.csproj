@@ -53,6 +53,7 @@
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.XML" />
+    <Reference Include="WindowsBase" />
     <Reference Include="wix, Version=2.0.2110.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\wix.dll</HintPath>
@@ -83,6 +84,7 @@
     <Compile Include="FileEntryGraph.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="MiscTestsNUnit.cs" />
+    <Compile Include="MspTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
