@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using Xunit;
 using LessIO;
+using System.Linq;
 
 namespace LessMsi.Tests
 {
@@ -243,5 +244,44 @@ namespace LessMsi.Tests
                 return local.Parent;
             }
         }
-    }
+
+		[DebuggerHidden]
+		protected void ExpectTables(string sourceFileName, string[] expectedTableNames)
+		{
+			using (var msidb = Msi.MsiDatabase.Create(GetMsiTestFile(sourceFileName)))
+			{
+				Assert.NotNull(msidb);
+				var query = "SELECT * FROM `_Tables`";
+				using (var msiTable = new Msi.ViewWrapper(msidb.OpenExecuteView(query)))
+				{
+					Assert.NotNull(msiTable);
+
+					var tableNames = from record in msiTable.Records
+									 select record[0] as string;
+					// Since we don't care about the order, we sort the lists
+					Assert.Equal(expectedTableNames.OrderBy(s => s), tableNames.OrderBy(s => s));
+				}
+			}
+		}
+
+		[DebuggerHidden]
+		protected void ExpectStreamCabFiles(string sourceFileName, bool hasCab)
+		{
+			using (var stg = new OleStorage.OleStorageFile(GetMsiTestFile(sourceFileName)))
+			{
+				var strm = stg.GetStreams().Where(elem => OleStorage.OleStorageFile.IsCabStream(elem));
+				if (strm != null)
+				{
+					// Rest of the CAB parsing logic is in the UI, can't extract filenames without duplicating code that we want to test..
+					Assert.True(hasCab);
+				}
+				else
+				{
+					// Not expecting to find a cab here
+					Assert.False(hasCab);
+				}
+			}
+		}
+
+	}
 }

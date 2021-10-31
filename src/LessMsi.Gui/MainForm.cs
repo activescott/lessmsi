@@ -48,6 +48,8 @@ namespace LessMsi.Gui
 		private Panel pnlStreamsBottom;
 		private Button btnExtractStreamFiles;
 		private ToolStripMenuItem searchFileToolStripMenuItem;
+		readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
+
 
 		public MainForm(string defaultInputFile)
 		{
@@ -671,7 +673,7 @@ namespace LessMsi.Gui
             // openMsiDialog
             // 
             this.openMsiDialog.DefaultExt = "msi";
-            this.openMsiDialog.Filter = "msierablefiles|*.msi|All Files|*.*";
+            this.openMsiDialog.Filter = "msierablefiles|*.msi;*.msp|All Files|*.*";
             // 
             // statusBar1
             // 
@@ -1016,7 +1018,7 @@ namespace LessMsi.Gui
 		{
 			var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 			var query = from file in files
-			            where file != null && Path.GetExtension(file).ToLowerInvariant() == ".msi"
+			            where file != null && AllowedDragDropExtensions.Contains(Path.GetExtension(file).ToLowerInvariant())
 			            select file;
 			return query;
 		}

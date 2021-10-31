@@ -48,7 +48,7 @@ namespace LessMsi.Msi
         {
             if (!msidb.TableExists(tableName))
             {
-                Trace.WriteLine(string.Format("Table name does {0} not exist Found.", tableName));
+                Trace.WriteLine(string.Format("Table name '{0}' does not exist.", tableName));
                 return new TableRow[0];
             }
 
