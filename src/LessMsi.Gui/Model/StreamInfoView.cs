@@ -30,6 +30,7 @@ namespace LessMsi.Gui.Model
 	internal sealed class StreamInfoView
 	{
 		private readonly string _name;
+		private readonly string _displayName;
 
 		public static StreamInfoView FromStream(System.IO.Packaging.StreamInfo si)
 		{
@@ -39,6 +40,7 @@ namespace LessMsi.Gui.Model
 		private StreamInfoView(string name, bool isCabStream)
 		{
 			_name = name;
+			_displayName = OleStorage.OleStorageFile.DecodeName(name);
 			IsCabStream = isCabStream;
 		}
 
@@ -47,11 +49,16 @@ namespace LessMsi.Gui.Model
 			get { return _name; }
 		}
 
+		public string DisplayName
+		{
+			get { return _displayName; }
+		}
+
 		public bool IsCabStream { get; private set; }
 
 		public string Label
 		{
-			get { return this.IsCabStream ? this.Name + " (CAB)" : this.Name; }
+			get { return this.IsCabStream ? this.DisplayName + " (CAB)" : this.DisplayName; }
 		}
 	}
 }

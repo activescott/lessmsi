@@ -227,5 +227,58 @@ namespace LessMsi.OleStorage
 			bits.Seek(0, SeekOrigin.Begin);
 			return cabHeaderBits.SequenceEqual(buffer);
 		}
+
+
+		static char MimeToChar(int val)
+		{
+			if (val < 0)
+			{
+				return (char)('0' + val);
+			}
+			else if (val < (10 + 26))
+			{
+				return (char)('A' + val - 10);
+			}
+			else if (val < (10 + 26 + 26))
+			{
+				return (char)('a' + val - 10 - 26);
+			}
+			else if (val == (10 + 26 + 26))
+			{
+				return '.';
+			}
+			return '_';
+		}
+
+		// Based on ReactOS's / Wine's decode_streamname from msi/table.c
+		public static string DecodeName(string name)
+		{
+			var sb = new StringBuilder(name.Length * 2);
+			for (int n = 0; n < name.Length; ++n)
+			{
+				char ch = name[n];
+				if (ch >= 0x3800 && ch < 0x4800)
+				{
+					int c = ch - 0x3800;
+					sb.Append(MimeToChar(c & 0x3f));
+					sb.Append(MimeToChar((c >> 6) & 0x3f));
+				}
+				else if (ch >= 0x4800 && ch < 0x4840)
+				{
+					sb.Append(MimeToChar(ch - 0x4800));
+				}
+				else if (n == 0 && (ch == 0x4840 || ch == 0x5))
+				{
+					// The code from msi/table.c suggests that a table is always prefixed with 0x4840,
+					// but since we just want to display the name, skip it.
+					// The ENQ char (0x5) is the first char from some other tables, might as well skip that..
+				}
+				else
+				{
+					sb.Append(ch);
+				}
+			}
+			return sb.ToString();
+		}
 	}
 }
