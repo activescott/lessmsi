@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -50,8 +51,15 @@ namespace LessMsi.Gui
 		private ToolStripMenuItem searchFileToolStripMenuItem;
 		readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
 
+        #region Form size and location members
+        private const string c_WindowWidthAttribute = "WindowWidth";
+        private const string c_WindowHeightAttribute = "WindowHeight";
 
-		public MainForm(string defaultInputFile)
+        private const string c_XPositionAttribute = "X_Position";
+        private const string c_YPositionAttribute = "Y_Position";
+        #endregion
+
+        public MainForm(string defaultInputFile)
 		{
 			InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
@@ -815,6 +823,8 @@ namespace LessMsi.Gui
             this.Name = "MainForm";
             this.Text = "Less MSIérables";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.tabs.ResumeLayout(false);
@@ -1073,9 +1083,52 @@ namespace LessMsi.Gui
 			this.Presenter.OnSelectedStreamChanged();
 		}
 
-		#endregion
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            int windowWidth = getIntValueFromConfiguration(c_WindowWidthAttribute, MinimumSize.Width);
+            int windowHeight = getIntValueFromConfiguration(c_WindowHeightAttribute, MinimumSize.Height);
 
-		private ExtractionProgressDialog BeginShowingProgressDialog()
+            int xPosition = getIntValueFromConfiguration(c_XPositionAttribute, 0);
+            int yPosition = getIntValueFromConfiguration(c_YPositionAttribute, 0);
+
+            Size = new Size(windowWidth, windowHeight);
+            Location = new Point(xPosition, yPosition);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            updateConfiguration(c_WindowWidthAttribute, Size.Width.ToString());
+            updateConfiguration(c_WindowHeightAttribute, Size.Height.ToString());
+
+            updateConfiguration(c_XPositionAttribute, Location.X.ToString());
+            updateConfiguration(c_YPositionAttribute, Location.Y.ToString());
+        }
+        #endregion
+
+        #region Form size and location methods
+        private int getIntValueFromConfiguration(string i_SettingName, int i_MinValue)
+        {
+            int intValue = 0;
+            string rawValue = ConfigurationManager.AppSettings.Get(i_SettingName);
+
+            int.TryParse(rawValue, out intValue);
+            intValue = Math.Max(intValue, i_MinValue);
+
+            return intValue;
+        }
+
+        private void updateConfiguration(string i_SettingName, string i_SettingValue)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
+
+            config.AppSettings.Settings.Remove(i_SettingName);
+            config.AppSettings.Settings.Add(i_SettingName, i_SettingValue);
+
+            config.Save(ConfigurationSaveMode.Minimal);
+        }
+        #endregion
+
+        private ExtractionProgressDialog BeginShowingProgressDialog()
 		{
 			var progressDialog = new ExtractionProgressDialog(this);
 			progressDialog.Show();
@@ -1101,6 +1154,5 @@ namespace LessMsi.Gui
 				return tabs.SelectedTab == tabExtractFiles;
 			}
 		}
-
-	}
+    }
 }
