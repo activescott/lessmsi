@@ -33,6 +33,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LessMsi.Gui.Extensions;
 using LessMsi.Gui.Model;
+using LessMsi.Gui.Properties;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
 
@@ -73,6 +74,8 @@ namespace LessMsi.Gui
 			{
 				Presenter.LoadFile(defaultInputFile);
 			}
+
+            Icon = Resources.LessmsiIcon;
 		}
 
 		private MainFormPresenter Presenter { get; set; }
