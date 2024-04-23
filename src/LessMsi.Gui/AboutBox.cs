@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LessMsi.Gui.Properties;
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
@@ -14,7 +15,9 @@ namespace LessMsi.Gui
 			this.labelProductName.Text = AssemblyProduct;
 			this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
 			this.labelCopyright.Text = AssemblyCopyright;
-		}
+
+            Icon = Resources.LessmsiIcon;
+        }
 
 		#region Assembly Attribute Accessors
 
