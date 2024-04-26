@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerShortcutHelper", "ExplorerShortcutHelper\ExplorerShortcutHelper.csproj", "{13F99803-59EF-4DEA-BE1C-68561A427B08}"
 EndProject
@@ -12,11 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Tests", "Lessmsi.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79970F6C-B1A1-4094-8D3E-FC97A39D15C3}"
 	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
 		build.bat = build.bat
 		build.sh = build.sh
 		clean.bat = clean.bat
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		LICENSE = LICENSE
+		..\README.md = ..\README.md
 		test.bat = test.bat
 	EndProjectSection
 EndProject
@@ -25,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{691765
 		.build\chocolateyInstall.ps1 = .build\chocolateyInstall.ps1
 		.build\lessmsi.msbuild = .build\lessmsi.msbuild
 		.build\lessmsi.nuspec = .build\lessmsi.nuspec
-		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
-		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 		.build\nuget-restore.bat = .build\nuget-restore.bat
 	EndProjectSection
 EndProject
@@ -35,9 +35,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Gui", "LessMsi.Gui\LessMsi.Gui.csproj", "{3D9AB5F1-2773-4403-8E50-771721572508}"
 	ProjectSection(ProjectDependencies) = postProject
 		{13F99803-59EF-4DEA-BE1C-68561A427B08} = {13F99803-59EF-4DEA-BE1C-68561A427B08}
+		{1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C} = {1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessMsi.Cli", "LessMsi.Cli\LessMsi.Cli.csproj", "{7ED32F80-2B7B-4F90-ADE9-22B8F3935C63}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C} = {1FD916F2-1DF6-42F6-9AD4-83565FBF8E5C}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3398DA89-7F43-4564-B2ED-FE35E1555D9C}"
 	ProjectSection(SolutionItems) = preProject
@@ -76,5 +80,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F4F0736-7C32-4F2F-AC07-2EB5A808FCED}
 	EndGlobalSection
 EndGlobal
