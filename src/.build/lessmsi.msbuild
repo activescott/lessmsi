@@ -6,15 +6,12 @@
 		http://msdn.microsoft.com/en-us/library/vstudio/ms164313.aspx
 	-->
 	
-	<PropertyGroup>
-		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)</MSBuildCommunityTasksPath>
-	</PropertyGroup>
-	<Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
-
+	<!-- Some misc properties -->
 	<PropertyGroup>
 		<RootDir>..\</RootDir>
 		<TheDeployDir>$(RootDir)\.deploy</TheDeployDir>
-		<AssemblyCopyright>Copyright Scott Willeke ©  2004-2013</AssemblyCopyright>
+		<TheTempDir>$(RootDir)\.temp</TheTempDir>
+		<AssemblyCopyright>Copyright Scott Willeke © 2004-$([System.DateTime]::Now.Year)</AssemblyCopyright>
 		<TheZipFileName>lessmsi-v$(TheVersion).zip</TheZipFileName>
 		<NugetPath>../.nuget/nuget.exe</NugetPath>
 		<Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
@@ -80,32 +77,37 @@
 	</Target>
 
 	<Target Name="SetProjectVersion">
-		
+		<!-- This all from https://artemigos.github.io/coding/2017/07/10/assembly-versioning-with-msbuild.html - Thanks! -->
 		<ItemGroup>
-			<AssemblyInfoFiles Include="$(RootDir)\CommonAssemblyInfo.cs" />
+			<Attr Include="AssemblyVersion">
+				<_Parameter1>$(TheVersion)</_Parameter1>
+			</Attr>
+			<Attr Include="AssemblyFileVersion">
+				<_Parameter1>$(TheVersion)</_Parameter1>
+			</Attr>
+			<Attr Include="AssemblyCopyright">
+				<_Parameter1>$(AssemblyCopyright)</_Parameter1>
+			</Attr>
 		</ItemGroup>
-
-		<AssemblyInfo 
-			OutputFile="@(AssemblyInfoFiles)" 
-			CodeLanguage="C#"
-			AssemblyCopyright="$(AssemblyCopyright)" 
-			AssemblyVersion="$(TheVersion)"
-			AssemblyFileVersion="$(TheVersion)"
-		>
-    	</AssemblyInfo>
+		<WriteCodeFragment 
+			AssemblyAttributes="@(Attr)" 
+			Language="C#" 
+			OutputFile="$(RootDir)\CommonAssemblyInfo.cs" 
+		/>
 
 	</Target>
 
 	<Target Name="Clean">
 		<RemoveDir Directories="$(TheDeployDir)" />
+		<RemoveDir Directories="$(TheTempDir)" />
 	</Target>
 
-  <Target Name="EnsureDependencies" DependsOnTargets="Init">
-    <!-- Only download a new copy of nuget.exe if we don't have a copy available -->
-    <WebDownload Condition="!Exists('$(NugetPath)')" Filename="$(NugetPath)" FileUri="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" />
+	<Target Name="EnsureDependencies" DependsOnTargets="Init">
+		<!-- Only download a new copy of nuget.exe if we don't have a copy available -->
+		<WebDownload Condition="!Exists('$(NugetPath)')" Filename="$(NugetPath)" FileUri="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" />
 
-    <Exec Command='$(NugetPath) restore -Verbosity Detailed -NonInteractive -OutputDirectory $(RootDir)\packages\ -Source "https://api.nuget.org/v3/index.json" $(RootDir)\LessMsi.sln'></Exec>
-  </Target>
+		<Exec Command='$(NugetPath) restore -Verbosity Detailed -NonInteractive -OutputDirectory $(RootDir)\packages\ -Source "https://api.nuget.org/v3/index.json" $(RootDir)\LessMsi.sln'></Exec>
+	</Target>
 
 	<Target Name="Build" DependsOnTargets="Init;Validate;SetProjectVersion;EnsureDependencies">
 		<Message Text="Building version: $(TheVersion)" />
@@ -150,11 +152,16 @@
   </Target>
 
 	<Target Name="Zip" DependsOnTargets="Deploy">
-		<!-- see https://github.com/loresoft/msbuildtasks/blob/master/Source/MSBuild.Community.Tasks/Zip.cs -->
-		<Zip
-			Files="@(DeployFiles)"
-			Flatten="True"
-			ZipFileName="$(TheDeployDir)\$(TheZipFileName)"
+		<!-- ZipDirectory built-in task: https://learn.microsoft.com/en-us/visualstudio/msbuild/zipdirectory-task?view=vs-2022 -->
+		<MakeDir Directories="$(TheTempDir)" />
+		<ZipDirectory
+			SourceDirectory="$(TheDeployDir)"
+			DestinationFile="$(TheTempDir)\$(TheZipFileName)"
+		/>
+		<!-- Now copy the temp zip file into the deploy directory -->
+		<Copy
+		  SourceFiles="$(TheTempDir)\$(TheZipFileName)"
+		  DestinationFolder="$(TheDeployDir)"
 		/>
 	</Target>
 
@@ -192,10 +199,12 @@
 			Query="//package/metadata/version"
 			Value="$(TheVersion)"
 		/>
-		<FileUpdate Files="$(PackageDir)\tools\chocolateyInstall.ps1"
-			Regex="__ZIP_FILE__"
-			ReplacementText="$(TheZipFileName)"
+		<WriteLinesToFile
+			File="$(PackageDir)\tools\chocolateyInstall.ps1"
+			Lines="$([System.IO.File]::ReadAllText($(PackageDir)\tools\chocolateyInstall.ps1).Replace('__ZIP_FILE__','$(TheZipFileName)'))"
+			Overwrite="true"
 		/>
+		
 		<Exec
 			Command="choco pack $(PackageDir)\lessmsi.nuspec" 
 			WorkingDirectory="$(PackageDir)"

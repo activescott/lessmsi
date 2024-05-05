@@ -4,6 +4,7 @@
 *.suo
 *.user
 *.csproj.user
+*.dtbcache.json
 *.userprefs
 *.wixpdb
 *.wixobj
@@ -27,4 +28,5 @@ _Resharper*/
 src/TestResult.xml
 src/.build/nuget.exe
 src/msbuild.log
-src/.vs
+src/.vs/
+src/.temp/

@@ -1,6 +1,6 @@
 # see http://www.appveyor.com/docs/appveyor-yml
 # environment info: https://www.appveyor.com/docs/windows-images-software/#visual-studio-2015
-image: Visual Studio 2015
+image: Visual Studio 2022
 
 environment:
   # from https://github.com/settings/tokens encrypted at https://ci.appveyor.com/tools/encrypt
