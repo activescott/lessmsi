@@ -57,7 +57,7 @@ You can **donate** in two ways:
 - [Donate at Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) (Bitcoin only) to fund a general fund. Each new commit to this repository receives a percentage of the available balance.
 - [Donate at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) to deposit your donation as a "bounty" against a specific issue or feature request. When a contributor resolves the issue they will earn the deposit for that issue.
 
-# Contributions
+# Contributing
 
 Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.
 
@@ -73,7 +73,7 @@ We're now [registered at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) 
 
 To set up a _free_ Windows development environment that works with Lessmsi:
 
-1. Install [VMWare Fusion Player](https://www.vmware.com/products/fusion.html) (using free "Player" version, only needed if developing on MacOS)
+1. Install [VMWare Fusion Player](https://www.vmware.com/products/fusion.html) (using free "Player" version, only needed if developing on MacOS - [homebrew also has a vmware-fusion formula](https://formulae.brew.sh/cask/vmware-fusion))
 2. Download a Virtual Machine for Windows development that Microsoft provides at https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/. These VMs include virtual machine with the latest versions of Windows, the developer tools, SDKs, and samples ready to go.
 3. Install chocolatey as described at https://chocolatey.org/install
 4. Install some things using the "Command Prompt" (`cmd` rather than "Power Shell"/`ps`) and `winget` here):
@@ -116,8 +116,10 @@ $ .\build.bat
 
 ## Supported Windows Versions
 
-The latest versions of Lessmsi should support at least the oldest version of Windows that Microsoft still supports according to https://learn.microsoft.com/en-us/windows/release-health/supported-versions-windows-client
-That means we need to also target a .NET Framework version that also supports the oldest version Windows that Microsoft still supports which can be found at https://en.wikipedia.org/wiki/.NET_Framework_version_history
+The latest versions of Lessmsi should support the oldest version of Windows that Microsoft still officially supports according to https://learn.microsoft.com/en-us/windows/release-health/supported-versions-windows-client
+That means we need to also target a .NET Framework version that is included in the oldest version Windows that Microsoft still supports which can be found at https://en.wikipedia.org/wiki/.NET_Framework_version_history
+
+For example as of 2024, Windows 10 is the oldest version of Windows still supported and according to the Wikipedia article, .NET Framework 4.8 is included in Windows 10 (some reasonably current update to Windows 10), so targeting .NET Framework 4.8 is ideal since any reasonably up-to-date version of Windows 10 will have .NET Framework 4.8. Going further, as of April 2024, we see that while .NET Framework 4.8.1 is also available, it is only included in Widnows 11, and not included in any Windows 10 version, so we should *not* target .NET Framework 4.8.1 as some of our Windows 10 users may not yet have 4.8.1 installed.
 
 ## Deploying & Publishing New Versions
 
