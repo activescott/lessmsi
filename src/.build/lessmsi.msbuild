@@ -5,7 +5,7 @@
 		http://msdn.microsoft.com/en-us/library/vstudio/dd393574.aspx
 		http://msdn.microsoft.com/en-us/library/vstudio/ms164313.aspx
 	-->
-	
+
 	<!-- Some misc properties -->
 	<PropertyGroup>
 		<RootDir>..\</RootDir>
@@ -70,9 +70,9 @@
 			</_RequiredProperties>
 		</ItemGroup>
 
-		<Error 
+		<Error
 			Condition=" '%(_RequiredProperties.Value)'=='' "
-			Text=" Missing required property [%(_RequiredProperties.Identity)]" 
+			Text=" Missing required property [%(_RequiredProperties.Identity)]"
 		/>
 	</Target>
 
@@ -89,10 +89,10 @@
 				<_Parameter1>$(AssemblyCopyright)</_Parameter1>
 			</Attr>
 		</ItemGroup>
-		<WriteCodeFragment 
-			AssemblyAttributes="@(Attr)" 
-			Language="C#" 
-			OutputFile="$(RootDir)\CommonAssemblyInfo.cs" 
+		<WriteCodeFragment
+			AssemblyAttributes="@(Attr)"
+			Language="C#"
+			OutputFile="$(RootDir)\CommonAssemblyInfo.cs"
 		/>
 
 	</Target>
@@ -111,12 +111,12 @@
 
 	<Target Name="Build" DependsOnTargets="Init;Validate;SetProjectVersion;EnsureDependencies">
 		<Message Text="Building version: $(TheVersion)" />
-		
+
 		<Message Text="Absolute project path: %(TheProjects.FullPath)" />
 
-		<MSBuild 
-			Projects="%(TheProjects.FullPath)" 
-			Properties="Configuration=Release;Platform=x86;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)" 
+		<MSBuild
+			Projects="%(TheProjects.FullPath)"
+			Properties="Configuration=Release;Platform=x86;ApplicationVersion=$(TheVersion);SolutionDir=$(RootDir)"
 			Targets="Rebuild"
 		/>
 	</Target>
@@ -125,37 +125,44 @@
 		<MakeDir Directories="$(TheDeployDir)" />
 
 		<Copy
-            SourceFiles="%(DeployFiles.FullPath)"
-            DestinationFolder="$(TheDeployDir)"
-        />
-  </Target>
+			SourceFiles="%(DeployFiles.FullPath)"
+			DestinationFolder="$(TheDeployDir)"
+		/>
+	</Target>
 
-  <Target Name="BeforeTest" DependsOnTargets="Init;Clean">
-    <!-- Prepares for running tests in $(TheDeployDir) -->
-    <ItemGroup>
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\LessMsi.Tests.dll" />
-      <TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.*.dll" />
-    </ItemGroup>
-    <ItemGroup>
-      <TestFiles Include="$(RootDir)\LessMsi.Tests\TestFiles\**\*.*"></TestFiles>
-    </ItemGroup>
-    
-    <Copy
-      SourceFiles="@(TestFiles)"
-      DestinationFiles="@(TestFiles->'$(TheDeployDir)\TestFiles\%(RecursiveDir)%(Filename)%(Extension)')"
-    />
-    
-    <Copy
-      SourceFiles="@(TestBinaries)"
-      DestinationFolder="$(TheDeployDir)"
-    />
-  </Target>
+	<Target Name="BeforeTest" DependsOnTargets="Init;Clean">
+		<!-- Prepares for running tests in $(TheDeployDir) -->
+		<ItemGroup>
+			<TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\LessMsi.Tests.dll" />
+			<TestBinaries Include="$(RootDir)\LessMsi.Tests\Bin\$(Configuration)\xunit.*.dll" />
+		</ItemGroup>
+		<ItemGroup>
+			<TestFiles Include="$(RootDir)\LessMsi.Tests\TestFiles\**\*.*"></TestFiles>
+		</ItemGroup>
+
+		<Copy
+		  SourceFiles="@(TestFiles)"
+		  DestinationFiles="@(TestFiles->'$(TheDeployDir)\TestFiles\%(RecursiveDir)%(Filename)%(Extension)')"
+	/>
+
+		<Copy
+		  SourceFiles="@(TestBinaries)"
+		  DestinationFolder="$(TheDeployDir)"
+	/>
+	</Target>
 
 	<Target Name="Zip" DependsOnTargets="Deploy">
 		<!-- ZipDirectory built-in task: https://learn.microsoft.com/en-us/visualstudio/msbuild/zipdirectory-task?view=vs-2022 -->
 		<MakeDir Directories="$(TheTempDir)" />
+
+		<!-- the deploy dir has test files in it too, so we move deploy files to a staging directory -->
+		<MakeDir Directories="$(TheTempDir)\zipstaging" />
+		<Copy
+			SourceFiles="%(DeployFiles.FullPath)"
+			DestinationFolder="$(TheTempDir)\zipstaging"
+		/>
 		<ZipDirectory
-			SourceDirectory="$(TheDeployDir)"
+			SourceDirectory="$(TheTempDir)\zipstaging"
 			DestinationFile="$(TheTempDir)\$(TheZipFileName)"
 		/>
 		<!-- Now copy the temp zip file into the deploy directory -->
@@ -204,9 +211,9 @@
 			Lines="$([System.IO.File]::ReadAllText($(PackageDir)\tools\chocolateyInstall.ps1).Replace('__ZIP_FILE__','$(TheZipFileName)'))"
 			Overwrite="true"
 		/>
-		
+
 		<Exec
-			Command="choco pack $(PackageDir)\lessmsi.nuspec" 
+			Command="choco pack $(PackageDir)\lessmsi.nuspec"
 			WorkingDirectory="$(PackageDir)"
 			ContinueOnError="true"
 		>
@@ -217,10 +224,11 @@
 			Condition="$(ErrorCode)!=0"
 			Text="cpack failed. Make sure you have chocolatey installed and accessible from the commandline. See chocolatey.org to install and for more info about packaging see https://github.com/chocolatey/chocolatey/wiki"
 		/>
-		<Message 
+		<Message
 			Text="Chocolatey.org package built. To test the chocolatey.org package run `cinst lessmsi -source $(PackageDir)`"
 			Importance="high"
 		/>
+
 		<Message
 			Importance="high"
 			Text="
@@ -230,7 +238,7 @@ Next Steps to publish:
 - Push the tag to github to create the release: `git push --tags`
 - Upload $(TheZipFileName) at https://github.com/activescott/lessmsi/releases/tag/v$(TheVersion)
 - Run `cpush $(PackageDir)\lessmsi.$(TheVersion).nupkg` to push to chocolatey.org (see https://github.com/chocolatey/chocolatey/wiki/CommandsPush for more info on cpush)
-" 
+"
 		/>
 	</Target>
 </Project>
