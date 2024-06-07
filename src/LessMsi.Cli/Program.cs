@@ -189,12 +189,12 @@ namespace LessMsi.Cli
         {
             if (!Path.IsPathRooted(sFileName))
             {
-                if (isExtractionModeFlat(extractionMode))
-                {
-                    sFileName += c_TempFolderSuffix;
-                }
-
                 sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
+            }
+
+            if (isExtractionModeFlat(extractionMode))
+            {
+                sFileName += c_TempFolderSuffix;
             }
         }
     }
