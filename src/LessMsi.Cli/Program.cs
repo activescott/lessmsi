@@ -165,7 +165,8 @@ namespace LessMsi.Cli
                     }
                 }
 
-                var outputPath = targetDir + fileName + fileSuffix;
+                var outputPath = targetDir + Path.GetFileNameWithoutExtension(filePath) + fileSuffix + Path.GetExtension(filePath);
+
                 File.Copy(filePath, outputPath, extractionMode == eExtractionMode.OverwriteFlatExtraction);
             }
 
