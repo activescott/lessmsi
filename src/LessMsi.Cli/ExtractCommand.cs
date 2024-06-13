@@ -35,7 +35,7 @@ namespace LessMsi.Cli
 
         private eExtractionMode getExtractionMode(string commandArgument)
         {
-            commandArgument = commandArgument.ToLower();
+            commandArgument = commandArgument.ToLowerInvariant();
             eExtractionMode extractionMode = eExtractionMode.RegularExtraction;
 
             if (commandArgument[commandArgument.Length - 1] == 'o')
