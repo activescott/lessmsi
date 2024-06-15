@@ -33,18 +33,18 @@ namespace LessMsi.Cli
             Program.DoExtraction(msiFile, extractDir.TrimEnd('\"'), filesToExtract, getExtractionMode(allArgs[0]));
         }
 
-        private eExtractionMode getExtractionMode(string commandArgument)
+        private ExtractionMode getExtractionMode(string commandArgument)
         {
             commandArgument = commandArgument.ToLowerInvariant();
-            eExtractionMode extractionMode = eExtractionMode.RegularExtraction;
+            ExtractionMode extractionMode = ExtractionMode.RegularExtraction;
 
             if (commandArgument[commandArgument.Length - 1] == 'o')
             {
-                extractionMode = eExtractionMode.OverwriteFlatExtraction;
+                extractionMode = ExtractionMode.OverwriteFlatExtraction;
             }
             else if (commandArgument[commandArgument.Length - 1] == 'r')
             {
-                extractionMode = eExtractionMode.RenameFlatExtraction;
+                extractionMode = ExtractionMode.RenameFlatExtraction;
             }
 
             return extractionMode;

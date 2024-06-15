@@ -1,6 +1,6 @@
 ﻿namespace LessMsi.Cli
 {
-    public enum eExtractionMode
+    public enum ExtractionMode
     {
         None = 0,
         RegularExtraction = 1,

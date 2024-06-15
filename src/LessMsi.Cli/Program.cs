@@ -108,7 +108,7 @@ namespace LessMsi.Cli
         /// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
         /// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
         /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
-        public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, eExtractionMode extractionMode)
+        public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
         {
             if (string.IsNullOrEmpty(outDirName))
                 outDirName = Path.GetFileNameWithoutExtension(msiFileName);
@@ -135,15 +135,15 @@ namespace LessMsi.Cli
             }
         }
 
-        private static bool isExtractionModeFlat(eExtractionMode extractionMode)
+        private static bool isExtractionModeFlat(ExtractionMode extractionMode)
         {
-            bool flatExtractionModeFlag = extractionMode == eExtractionMode.OverwriteFlatExtraction;
-            flatExtractionModeFlag |= extractionMode == eExtractionMode.RenameFlatExtraction;
+            bool flatExtractionModeFlag = extractionMode == ExtractionMode.OverwriteFlatExtraction;
+            flatExtractionModeFlag |= extractionMode == ExtractionMode.RenameFlatExtraction;
 
             return flatExtractionModeFlag;
         }
 
-        private static void copyFilesInFlatWay(string sourceDir, string targetDir, eExtractionMode extractionMode, Dictionary<string, int> fileNameCountingDict)
+        private static void copyFilesInFlatWay(string sourceDir, string targetDir, ExtractionMode extractionMode, Dictionary<string, int> fileNameCountingDict)
         {
             var allFiles = Directory.GetFiles(sourceDir);
 
@@ -152,7 +152,7 @@ namespace LessMsi.Cli
                 string fileSuffix = string.Empty;
                 string fileName = Path.GetFileName(filePath);
 
-                if (extractionMode == eExtractionMode.RenameFlatExtraction)
+                if (extractionMode == ExtractionMode.RenameFlatExtraction)
                 {
                     if (fileNameCountingDict.ContainsKey(fileName))
                     {
@@ -167,7 +167,7 @@ namespace LessMsi.Cli
 
                 var outputPath = targetDir + Path.GetFileNameWithoutExtension(filePath) + fileSuffix + Path.GetExtension(filePath);
 
-                File.Copy(filePath, outputPath, extractionMode == eExtractionMode.OverwriteFlatExtraction);
+                File.Copy(filePath, outputPath, extractionMode == ExtractionMode.OverwriteFlatExtraction);
             }
 
             var allFolders = Directory.GetDirectories(sourceDir);
@@ -186,7 +186,7 @@ namespace LessMsi.Cli
             Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
         }
 
-        private static void EnsureFileRooted(ref string sFileName, eExtractionMode extractionMode = eExtractionMode.RegularExtraction)
+        private static void EnsureFileRooted(ref string sFileName, ExtractionMode extractionMode = ExtractionMode.RegularExtraction)
         {
             if (!Path.IsPathRooted(sFileName))
             {
