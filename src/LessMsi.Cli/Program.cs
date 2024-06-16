@@ -186,7 +186,7 @@ namespace LessMsi.Cli
             Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
         }
 
-        private static void EnsureFileRooted(ref string sFileName, ExtractionMode extractionMode = ExtractionMode.RegularExtraction)
+        private static void EnsureFileRooted(ref string sFileName, ExtractionMode extractionMode = ExtractionMode.PreserveDirectoriesExtraction)
         {
             if (!Path.IsPathRooted(sFileName))
             {

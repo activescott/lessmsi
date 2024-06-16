@@ -36,7 +36,7 @@ namespace LessMsi.Cli
         private ExtractionMode getExtractionMode(string commandArgument)
         {
             commandArgument = commandArgument.ToLowerInvariant();
-            ExtractionMode extractionMode = ExtractionMode.RegularExtraction;
+            ExtractionMode extractionMode = ExtractionMode.PreserveDirectoriesExtraction;
 
             if (commandArgument[commandArgument.Length - 1] == 'o')
             {
