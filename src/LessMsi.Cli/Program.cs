@@ -114,24 +114,27 @@ namespace LessMsi.Cli
                 outDirName = Path.GetFileNameWithoutExtension(msiFileName);
 
             EnsureFileRooted(ref msiFileName);
-            EnsureFileRooted(ref outDirName, extractionMode);
+            EnsureFileRooted(ref outDirName);
 
             var msiFile = new LessIO.Path(msiFileName);
 
             Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
 
-            Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
-
             if (isExtractionModeFlat(extractionMode))
             {
+                string tempOutDirName = $"{outDirName}{TempFolderSuffix}";
+                Wixtracts.ExtractFiles(msiFile, tempOutDirName, filesToExtract.ToArray(), PrintProgress);
+
                 var fileNameCountingDict = new Dictionary<string, int>();
 
-                string originalOutDirName = outDirName.Remove(outDirName.Length - TempFolderSuffix.Length) + "\\";
-                Directory.CreateDirectory(originalOutDirName);
-
-                copyFilesInFlatWay(outDirName, originalOutDirName, extractionMode, fileNameCountingDict);
-
-                Directory.Delete(outDirName, true);
+                outDirName += "\\";
+                Directory.CreateDirectory(outDirName);
+                copyFilesInFlatWay(tempOutDirName, outDirName, extractionMode, fileNameCountingDict);
+                Directory.Delete(tempOutDirName, true);
+            }
+            else
+            {
+                Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
             }
         }
 
@@ -165,7 +168,7 @@ namespace LessMsi.Cli
                     }
                 }
 
-                var outputPath = targetDir + Path.GetFileNameWithoutExtension(filePath) + fileSuffix + Path.GetExtension(filePath);
+                var outputPath = $"{targetDir}{Path.GetFileNameWithoutExtension(filePath)}{fileSuffix}{Path.GetExtension(filePath)}";
 
                 File.Copy(filePath, outputPath, extractionMode == ExtractionMode.OverwriteFlatExtraction);
             }
@@ -186,16 +189,11 @@ namespace LessMsi.Cli
             Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
         }
 
-        private static void EnsureFileRooted(ref string sFileName, ExtractionMode extractionMode = ExtractionMode.PreserveDirectoriesExtraction)
+        private static void EnsureFileRooted(ref string sFileName)
         {
             if (!Path.IsPathRooted(sFileName))
             {
                 sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
-            }
-
-            if (isExtractionModeFlat(extractionMode))
-            {
-                sFileName += TempFolderSuffix;
             }
         }
     }
