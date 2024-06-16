@@ -43,7 +43,7 @@ namespace LessMsi.Cli
 			UnrecognizedCommand=-3
 		}
 
-        private const string c_TempFolderSuffix = "_temp";
+        private const string TempFolderSuffix = "_temp";
 
         /// <summary>
         /// The main entry point for the application.
@@ -126,7 +126,7 @@ namespace LessMsi.Cli
             {
                 var fileNameCountingDict = new Dictionary<string, int>();
 
-                string originalOutDirName = outDirName.Remove(outDirName.Length - c_TempFolderSuffix.Length) + "\\";
+                string originalOutDirName = outDirName.Remove(outDirName.Length - TempFolderSuffix.Length) + "\\";
                 Directory.CreateDirectory(originalOutDirName);
 
                 copyFilesInFlatWay(outDirName, originalOutDirName, extractionMode, fileNameCountingDict);
@@ -195,7 +195,7 @@ namespace LessMsi.Cli
 
             if (isExtractionModeFlat(extractionMode))
             {
-                sFileName += c_TempFolderSuffix;
+                sFileName += TempFolderSuffix;
             }
         }
     }
