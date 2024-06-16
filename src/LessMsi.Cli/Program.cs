@@ -140,10 +140,7 @@ namespace LessMsi.Cli
 
         private static bool isExtractionModeFlat(ExtractionMode extractionMode)
         {
-            bool flatExtractionModeFlag = extractionMode == ExtractionMode.OverwriteFlatExtraction;
-            flatExtractionModeFlag |= extractionMode == ExtractionMode.RenameFlatExtraction;
-
-            return flatExtractionModeFlag;
+            return extractionMode == ExtractionMode.RenameFlatExtraction || extractionMode == ExtractionMode.OverwriteFlatExtraction;
         }
 
         private static void copyFilesInFlatWay(string sourceDir, string targetDir, ExtractionMode extractionMode, Dictionary<string, int> fileNameCountingDict)
