@@ -124,7 +124,7 @@ namespace LessMsi.Cli
 
             if (isExtractionModeFlat(extractionMode))
             {
-                Dictionary<string, int> fileNameCountingDict = new Dictionary<string, int>();
+                var fileNameCountingDict = new Dictionary<string, int>();
 
                 string originalOutDirName = outDirName.Remove(outDirName.Length - c_TempFolderSuffix.Length) + "\\";
                 Directory.CreateDirectory(originalOutDirName);
