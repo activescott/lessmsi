@@ -58,14 +58,14 @@ namespace LessMsi.Cli
 				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
 				 */
 
-                ExtractCommand extractCommandObject = new ExtractCommand();
+                ExtractCommand extractCommand = new ExtractCommand();
 
                 var subcommands = new Dictionary<string, LessMsiCommand> {
                     {"o", new OpenGuiCommand()},
-                    {"x", extractCommandObject},
-                    {"xfo", extractCommandObject},
-                    {"xfr", extractCommandObject},
-                    {"/x", extractCommandObject},
+                    {"x", extractCommand},
+                    {"xfo", extractCommand},
+                    {"xfr", extractCommand},
+                    {"/x", extractCommand},
                     {"l", new ListTableCommand()},
                     {"v", new ShowVersionCommand()},
                     {"h", new ShowHelpCommand()}
