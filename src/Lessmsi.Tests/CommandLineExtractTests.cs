@@ -16,21 +16,63 @@ namespace LessMsi.Tests
 			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
         }
 
-		[Fact]
+        [Fact]
+        public void FlatOverwriteExtract1Arg()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract1Arg", false);
+        }
+
+        [Fact]
+        public void FlatRenameExtract1Arg()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract1Arg", false);
+        }
+
+        [Fact]
 		public void Extract2Args()
 		{
 			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
 			TestExtraction(commandLine, GetTestName(), "Ex2Args", false);
 		}
 
-	    [Fact]
+        [Fact]
+        public void FlatOverwriteExtract2Args()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract2Args\\";
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract2Args", false);
+        }
+
+        [Fact]
+        public void FlatRenameExtract2Args()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract2Args\\";
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract2Args", false);
+        }
+
+        [Fact]
 		public void Extract3Args()
 		{
 			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
 			TestExtraction(commandLine, GetTestName(), "Ex3", false);
 		}
 
-		[Fact]
+        [Fact]
+        public void FlatOverwriteExtract3Args()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract3Args", false);
+        }
+
+        [Fact]
+        public void FlatRenameExtract3Args()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract3Args", false);
+        }
+
+        [Fact]
 	    public void ExtractCompatibility1Arg()
 		{
 			var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
