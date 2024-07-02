@@ -43,10 +43,12 @@ namespace LessMsi.Cli
 			UnrecognizedCommand=-3
 		}
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
+        private const string TempFolderSuffix = "_temp";
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
 		public static int Main(string[] args)
 		{
 			try
@@ -56,14 +58,18 @@ namespace LessMsi.Cli
 				 * See https://github.com/mono/mono/blob/master/mcs/tools/mdoc/Mono.Documentation/mdoc.cs#L54  for an example of using "commands" and "subcommands" with the NDesk.Options lib.
 				 */
 
+                ExtractCommand extractCommand = new ExtractCommand();
+
                 var subcommands = new Dictionary<string, LessMsiCommand> {
-					{"o", new OpenGuiCommand()},
-					{"x", new ExtractCommand()},
-					{"/x", new ExtractCommand()},
-					{"l", new ListTableCommand()},
-					{"v", new ShowVersionCommand()},
-					{"h", new ShowHelpCommand()}
-				};
+                    {"o", new OpenGuiCommand()},
+                    {"x", extractCommand},
+                    {"xfo", extractCommand},
+                    {"xfr", extractCommand},
+                    {"/x", extractCommand},
+                    {"l", new ListTableCommand()},
+                    {"v", new ShowVersionCommand()},
+                    {"h", new ShowHelpCommand()}
+                };
 
                 LessMsiCommand cmd;
                 if (args.Length > 0 && subcommands.TryGetValue(args[0], out cmd))
@@ -95,25 +101,81 @@ namespace LessMsi.Cli
 			}
 		}
 
-		/// <summary>
-		/// Extracts all files contained in the specified .msi file into the specified output directory.
-		/// </summary>
-		/// <param name="msiFileName">The path of the specified MSI file.</param>
-		/// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
-		/// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
-		public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract )
-		{
-			if (string.IsNullOrEmpty(outDirName))
-				outDirName = Path.GetFileNameWithoutExtension(msiFileName);
-			EnsureFileRooted(ref msiFileName);
-			EnsureFileRooted(ref outDirName);
+        /// <summary>
+        /// Extracts all files contained in the specified .msi file into the specified output directory.
+        /// </summary>
+        /// <param name="msiFileName">The path of the specified MSI file.</param>
+        /// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
+        /// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
+        /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
+        public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
+        {
+            if (string.IsNullOrEmpty(outDirName))
+                outDirName = Path.GetFileNameWithoutExtension(msiFileName);
+
+            EnsureFileRooted(ref msiFileName);
+            EnsureFileRooted(ref outDirName);
 
             var msiFile = new LessIO.Path(msiFileName);
 
-			Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
+            Console.WriteLine("Extracting \'" + msiFile + "\' to \'" + outDirName + "\'.");
 
-			Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
-		}
+            if (isExtractionModeFlat(extractionMode))
+            {
+                string tempOutDirName = $"{outDirName}{TempFolderSuffix}";
+                Wixtracts.ExtractFiles(msiFile, tempOutDirName, filesToExtract.ToArray(), PrintProgress);
+
+                var fileNameCountingDict = new Dictionary<string, int>();
+
+                outDirName += "\\";
+                Directory.CreateDirectory(outDirName);
+                copyFilesInFlatWay(tempOutDirName, outDirName, extractionMode, fileNameCountingDict);
+                Directory.Delete(tempOutDirName, true);
+            }
+            else
+            {
+                Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
+            }
+        }
+
+        private static bool isExtractionModeFlat(ExtractionMode extractionMode)
+        {
+            return extractionMode == ExtractionMode.RenameFlatExtraction || extractionMode == ExtractionMode.OverwriteFlatExtraction;
+        }
+
+        private static void copyFilesInFlatWay(string sourceDir, string targetDir, ExtractionMode extractionMode, Dictionary<string, int> fileNameCountingDict)
+        {
+            var allFiles = Directory.GetFiles(sourceDir);
+
+            foreach (var filePath in allFiles)
+            {
+                string fileSuffix = string.Empty;
+                string fileName = Path.GetFileName(filePath);
+
+                if (extractionMode == ExtractionMode.RenameFlatExtraction)
+                {
+                    if (fileNameCountingDict.ContainsKey(fileName))
+                    {
+                        fileSuffix = $"_{fileNameCountingDict[fileName]}";
+                        fileNameCountingDict[fileName]++;
+                    }
+                    else
+                    {
+                        fileNameCountingDict.Add(fileName, 1);
+                    }
+                }
+
+                var outputPath = $"{targetDir}{Path.GetFileNameWithoutExtension(filePath)}{fileSuffix}{Path.GetExtension(filePath)}";
+
+                File.Copy(filePath, outputPath, extractionMode == ExtractionMode.OverwriteFlatExtraction);
+            }
+
+            var allFolders = Directory.GetDirectories(sourceDir);
+            foreach (var directory in allFolders)
+            {
+                copyFilesInFlatWay(directory, targetDir, extractionMode, fileNameCountingDict);
+            }
+        }
 
         private static void PrintProgress(IAsyncResult result)
         {
@@ -125,9 +187,11 @@ namespace LessMsi.Cli
         }
 
         private static void EnsureFileRooted(ref string sFileName)
-		{
-			if (!Path.IsPathRooted(sFileName))
-				sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
-		}
-	}
+        {
+            if (!Path.IsPathRooted(sFileName))
+            {
+                sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
+            }
+        }
+    }
 }

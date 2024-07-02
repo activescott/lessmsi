@@ -30,3 +30,4 @@ src/.build/nuget.exe
 src/msbuild.log
 src/.vs/
 src/.temp/
+.vs/
