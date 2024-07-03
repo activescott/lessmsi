@@ -21,20 +21,22 @@ namespace LessMsi.Tests
         [DebuggerHidden]
         protected static void AssertAreEqual(FileEntryGraph expected, FileEntryGraph actual)
         {
-            string msg;
-            if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
+            CompareEntriesResult compareEntriesResult = FileEntryGraph.CompareEntries(expected, actual);
+
+            if (!compareEntriesResult.AreEntriesEqual)
             {
-                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", msg));
+                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessge));
             }
         }
 
         [DebuggerHidden]
         protected static void AssertAreEqual(FileEntryGraph expected, FileEntryGraph actual, bool flatExtractionFlag)
         {
-            string msg;
-            if (!FileEntryGraph.CompareEntries(expected, actual, out msg, flatExtractionFlag))
+            CompareEntriesResult compareEntriesResult = FileEntryGraph.CompareEntries(expected, actual, flatExtractionFlag);
+
+            if (!compareEntriesResult.AreEntriesEqual)
             {
-                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", msg));
+                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessge));
             }
         }
 

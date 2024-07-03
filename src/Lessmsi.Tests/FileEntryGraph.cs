@@ -172,9 +172,9 @@ namespace LessMsi.Tests
 			return output;
 		}
 
-	    public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage)
+	    public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b)
         {
-            errorMessage = "";
+            string errorMessage = "";
             bool suceeded = getErrorMessageIfEntriesCountDifferent(a, b, ref errorMessage);
 
             for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
@@ -185,12 +185,13 @@ namespace LessMsi.Tests
                     suceeded = false;
                 }
             }
-            return suceeded;
+
+            return new CompareEntriesResult(suceeded, errorMessage);
         }
 
-        public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage, bool flatExtractionFlag)
+        public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b, bool flatExtractionFlag)
         {
-            errorMessage = "";
+            string errorMessage = "";
             bool suceeded = getErrorMessageIfEntriesCountDifferent(a, b, ref errorMessage);
 
             for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
@@ -201,7 +202,8 @@ namespace LessMsi.Tests
                     suceeded = false;
                 }
             }
-            return suceeded;
+
+            return new CompareEntriesResult(suceeded, errorMessage);
         }
 
         /// <summary>
