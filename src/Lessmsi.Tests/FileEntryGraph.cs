@@ -172,7 +172,7 @@ namespace LessMsi.Tests
 			return output;
 		}
 
-	    public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage)
+	    public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage, bool flatExtractionFlag = false)
         {
             errorMessage = "";
             bool suceeded = true;
@@ -184,7 +184,7 @@ namespace LessMsi.Tests
 
             for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
             {
-                if (!a.Entries[i].Equals(b.Entries[i]))
+                if (!a.Entries[i].Equals(b.Entries[i], flatExtractionFlag))
                 {
                     errorMessage += string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
                     suceeded = false;

@@ -21,7 +21,7 @@ namespace LessMsi.Tests
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
             // setting "NUnit-2.5.2.9222" as actualEntriesOutputDir value, since no other output dir specified in command line text
-            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false, flatExtractionFlag: true);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace LessMsi.Tests
         {
             var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
             // setting "NUnit-2.5.2.9222" as actualEntriesOutputDir value, since no other output dir specified in command line text
-            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false, flatExtractionFlag: true);
         }
 
         [Fact]
@@ -43,14 +43,14 @@ namespace LessMsi.Tests
         public void FlatOverwriteExtract2Args()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract2Args\\";
-            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract2Args", false);
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract2Args", false, flatExtractionFlag: true);
         }
 
         [Fact]
         public void FlatRenameExtract2Args()
         {
             var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract2Args\\";
-            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract2Args", false);
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract2Args", false, flatExtractionFlag: true);
         }
 
         [Fact]
@@ -64,14 +64,14 @@ namespace LessMsi.Tests
         public void FlatOverwriteExtract3Args()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
-            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract3Args", false);
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract3Args", false, flatExtractionFlag: true);
         }
 
         [Fact]
         public void FlatRenameExtract3Args()
         {
             var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
-            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract3Args", false);
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract3Args", false, flatExtractionFlag: true);
         }
 
         [Fact]
@@ -180,7 +180,9 @@ WixUIRMOption,UseRM
         /// <param name="commandLineArguments">The command line arguments (everything after the exe name).</param>
         /// <param name="testName">The name of hte test (used to formulate the expectedEntries output dir).</param>
         /// <param name="actualEntriesOutputDir">The output directory where the actual extraction is expected to occur.</param>
-        private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir, bool useInProcessForDebugging)
+        /// <param name="useInProcessForDebugging">Bool flag for displaying extraction prints while testing</param>
+        /// <param name="flatExtractionFlag">Bool flag for testing flat extractions</param>
+        private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir, bool useInProcessForDebugging, bool flatExtractionFlag = false)
         {
 			string consoleOutput;
             var actualOutDir = new LessIO.Path(actualEntriesOutputDir).FullPath;
@@ -198,7 +200,7 @@ WixUIRMOption,UseRM
 	        actualEntries.Save(actualEntriesFile);
 			//Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
 			var expectedEntries = GetExpectedEntriesForMsi(testName);
-            AssertAreEqual(expectedEntries, actualEntries);
+            AssertAreEqual(expectedEntries, actualEntries, flatExtractionFlag);
         }
 
 		#endregion

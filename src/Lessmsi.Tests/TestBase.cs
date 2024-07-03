@@ -19,10 +19,10 @@ namespace LessMsi.Tests
         }
 
         [DebuggerHidden]
-        protected static void AssertAreEqual(FileEntryGraph expected, FileEntryGraph actual)
+        protected static void AssertAreEqual(FileEntryGraph expected, FileEntryGraph actual, bool flatExtractionFlag = false)
         {
             string msg;
-            if (!FileEntryGraph.CompareEntries(expected, actual, out msg))
+            if (!FileEntryGraph.CompareEntries(expected, actual, out msg, flatExtractionFlag))
             {
                 throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", msg));
             }
