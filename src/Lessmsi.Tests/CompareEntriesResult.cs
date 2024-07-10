@@ -44,7 +44,7 @@ namespace LessMsi.Tests
 
         public static bool operator !=(CompareEntriesResult a, CompareEntriesResult b)
         {
-            if (((object)a) == null || ((object)a) == null)
+            if (((object)a) == null || ((object)b) == null)
                 return !Object.Equals(a, b);
 
             return !a.Equals(b);
