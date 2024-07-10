@@ -7,10 +7,10 @@ namespace LessMsi.Tests
         public bool AreEntriesEqual { get; private set; }
         public string ErrorMessage { get; private set; }
 
-        public CompareEntriesResult(bool areEntriesEqual, string errorMessge)
+        public CompareEntriesResult(bool areEntriesEqual, string errorMessage)
         {
             AreEntriesEqual = areEntriesEqual;
-            ErrorMessage = errorMessge;
+            ErrorMessage = errorMessage;
         }
 
         public bool Equals(CompareEntriesResult other)
@@ -21,9 +21,15 @@ namespace LessMsi.Tests
         public override bool Equals(Object obj)
         {
             if (obj == null)
+            {
                 return false;
+            }
+
             if (!(obj is CompareEntriesResult))
+            {
                 return false;
+            }
+
             return this.Equals((CompareEntriesResult)obj);
         }
 
@@ -36,18 +42,17 @@ namespace LessMsi.Tests
 
         public static bool operator ==(CompareEntriesResult a, CompareEntriesResult b)
         {
-            if (((object)a) == null || ((object)a) == null)
+            if (((object)a) == null || ((object)b) == null)
+            {
                 return Object.Equals(a, b);
+            }
 
             return a.Equals(b);
         }
 
         public static bool operator !=(CompareEntriesResult a, CompareEntriesResult b)
         {
-            if (((object)a) == null || ((object)b) == null)
-                return !Object.Equals(a, b);
-
-            return !a.Equals(b);
+            return !(a == b);
         }
     }
 }
