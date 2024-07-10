@@ -25,7 +25,7 @@ namespace LessMsi.Tests
 
             if (!compareEntriesResult.AreEntriesEqual)
             {
-                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessge));
+                throw new ApplicationException(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessage));
             }
         }
 
@@ -36,7 +36,7 @@ namespace LessMsi.Tests
 
             if (!compareEntriesResult.AreEntriesEqual)
             {
-                throw new Exception(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessge));
+                throw new ApplicationException(string.Format("FileEntryGraph entries are not the equal: {0}", compareEntriesResult.ErrorMessage));
             }
         }
 

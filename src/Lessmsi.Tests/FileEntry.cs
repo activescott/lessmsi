@@ -57,30 +57,18 @@ namespace LessMsi.Tests
 	    public long Size { get; private set; }
 
 		#region IEquatable<FileEntry>
-		public bool Equals(FileEntry other, bool flatExtractionFlag)
+		public bool Equals(FileEntry other)
 		{
-			if (!flatExtractionFlag)
-			{
-				return this.Equals(other);
-			}
-
-			bool equalsFlag = true;
-
-			equalsFlag &= isSizeEqual(other);
-			equalsFlag &= isPathEqual(other);
-			equalsFlag &= areAttributesEqual(other);
-			equalsFlag &= isLastWriteTimeEqual(other);
-
-			return equalsFlag;
+			return this.Equals(other, false);
 		}
 
-        public bool Equals(FileEntry other)
+        public bool Equals(FileEntry other, bool flatExtractionFlag)
         {
             return isSizeEqual(other) &&
                 isPathEqual(other) &&
                 areAttributesEqual(other) &&
                 isLastWriteTimeEqual(other) &&
-                isCreationTime(other)
+                (flatExtractionFlag || isCreationTime(other))
                 ;
         }
 		#endregion

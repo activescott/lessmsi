@@ -174,19 +174,7 @@ namespace LessMsi.Tests
 
 	    public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b)
         {
-            string errorMessage = "";
-            bool suceeded = getErrorMessageIfEntriesCountDifferent(a, b, ref errorMessage);
-
-            for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
-            {
-                if (!a.Entries[i].Equals(b.Entries[i]))
-                {
-                    errorMessage += string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
-                    suceeded = false;
-                }
-            }
-
-            return new CompareEntriesResult(suceeded, errorMessage);
+            return CompareEntries(a, b, false);
         }
 
         public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b, bool flatExtractionFlag)
