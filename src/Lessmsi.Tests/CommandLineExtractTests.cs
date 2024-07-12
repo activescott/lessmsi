@@ -17,6 +17,13 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void Extract1ArgRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+        }
+
+        [Fact]
         public void FlatOverwriteExtract1Arg()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
@@ -40,6 +47,13 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void Extract2ArgsRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
+            TestExtraction(commandLine, GetTestName(), "Ex2Args", false);
+        }
+
+        [Fact]
         public void FlatOverwriteExtract2Args()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract2Args\\";
@@ -57,6 +71,13 @@ namespace LessMsi.Tests
         public void Extract3Args()
         {
             var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "Ex3", false);
+        }
+
+        [Fact]
+        public void Extract3ArgsRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
             TestExtraction(commandLine, GetTestName(), "Ex3", false);
         }
 
