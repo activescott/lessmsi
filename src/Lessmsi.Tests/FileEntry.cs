@@ -56,16 +56,48 @@ namespace LessMsi.Tests
 	    public string Path { get; private set; }
 	    public long Size { get; private set; }
 
-	    #region IEquatable<FileEntry>
-        public bool Equals(FileEntry other)
+		#region IEquatable<FileEntry>
+		public bool Equals(FileEntry other)
+		{
+			return this.Equals(other, false);
+		}
+
+        public bool Equals(FileEntry other, bool flatExtractionFlag)
         {
-            return this.Size == other.Size && 
-				string.Equals(this.Path, other.Path, StringComparison.InvariantCultureIgnoreCase) && 
-				this.Attributes == other.Attributes &&
-				this.LastWriteTime == other.LastWriteTime &&
-				this.CreationTime == other.CreationTime
-				;
+            return isSizeEqual(other) &&
+                isPathEqual(other) &&
+                areAttributesEqual(other) &&
+                isLastWriteTimeEqual(other) &&
+                (flatExtractionFlag || isCreationTime(other))
+                ;
         }
+		#endregion
+
+		#region Checking methods
+		private bool isSizeEqual(FileEntry other)
+		{
+			return this.Size == other.Size;
+		}
+
+		private bool isPathEqual(FileEntry other)
+		{
+			return string.Equals(this.Path, other.Path, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+		private bool areAttributesEqual(FileEntry other)
+		{
+			return this.Attributes == other.Attributes;
+		}
+
+		private bool isLastWriteTimeEqual(FileEntry other)
+		{
+			return this.LastWriteTime == other.LastWriteTime;
+		}
+
+		private bool isCreationTime(FileEntry other)
+		{ 
+			return this.CreationTime == other.CreationTime;
+		}
         #endregion
     }
 }

@@ -172,25 +172,45 @@ namespace LessMsi.Tests
 			return output;
 		}
 
-	    public static bool CompareEntries(FileEntryGraph a, FileEntryGraph b, out string errorMessage)
+	    public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b)
         {
-            errorMessage = "";
-            bool suceeded = true;
-            if (a.Entries.Count != b.Entries.Count)
-            {
-                errorMessage = string.Format("Entries for '{0}' and '{1}' have a different number of file entries ({2}, {3} respectively).", a.ForFileName, b.ForFileName, a.Entries.Count, b.Entries.Count);
-                suceeded = false;
-            }
+            return CompareEntries(a, b, false);
+        }
+
+        public static CompareEntriesResult CompareEntries(FileEntryGraph a, FileEntryGraph b, bool flatExtractionFlag)
+        {
+            string errorMessage = "";
+            bool suceeded = getErrorMessageIfEntriesCountDifferent(a, b, ref errorMessage);
 
             for (int i = 0; i < Math.Max(a.Entries.Count, b.Entries.Count); i++)
             {
-                if (!a.Entries[i].Equals(b.Entries[i]))
+                if (!a.Entries[i].Equals(b.Entries[i], flatExtractionFlag))
                 {
                     errorMessage += string.Format("'{0}'!='{1}' at index '{2}'.", a.Entries[i].Path, b.Entries[i].Path, i);
                     suceeded = false;
                 }
             }
-            return suceeded;
+
+            return new CompareEntriesResult(suceeded, errorMessage);
+        }
+
+        /// <summary>
+        /// This method compares two given FileEntryGraph objects, updates string container with error messages if needed and returns bool result
+        /// </summary>
+        /// <param name="a">Frst FileEntryGraph to compare</param>
+        /// <param name="b">Second FileEntryGraph to compare</param>
+        /// <param name="errorMessage">String container for storing any error messages</param>
+        /// <returns>Method return true if enteries count is same, and false otherwise</returns>
+        private static bool getErrorMessageIfEntriesCountDifferent(FileEntryGraph a, FileEntryGraph b, ref string errorMessage)
+        {
+            bool entryCountEqualFlag = a.Entries.Count == b.Entries.Count;
+
+            if (!entryCountEqualFlag)
+            {
+                errorMessage = string.Format("Entries for '{0}' and '{1}' have a different number of file entries ({2}, {3} respectively).", a.ForFileName, b.ForFileName, a.Entries.Count, b.Entries.Count);
+            }
+
+            return entryCountEqualFlag;
         }
     }
 }

@@ -12,44 +12,88 @@ namespace LessMsi.Tests
         [Fact]
         public void Extract1Arg()
         {
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
-			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+            var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
         }
 
-		[Fact]
-		public void Extract2Args()
-		{
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
-			TestExtraction(commandLine, GetTestName(), "Ex2Args", false);
-		}
+        [Fact]
+        public void FlatOverwriteExtract1Arg()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            // setting "NUnit-2.5.2.9222" as actualEntriesOutputDir value, since no other output dir specified in command line text
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false, flatExtractionFlag: true);
+        }
 
-	    [Fact]
-		public void Extract3Args()
-		{
-			var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
-			TestExtraction(commandLine, GetTestName(), "Ex3", false);
-		}
+        [Fact]
+        public void FlatRenameExtract1Arg()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            // setting "NUnit-2.5.2.9222" as actualEntriesOutputDir value, since no other output dir specified in command line text
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false, flatExtractionFlag: true);
+        }
 
-		[Fact]
-	    public void ExtractCompatibility1Arg()
-		{
-			var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
-			TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
-		}
+        [Fact]
+        public void Extract2Args()
+        {
+            var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
+            TestExtraction(commandLine, GetTestName(), "Ex2Args", false);
+        }
 
-		[Fact]
-		public void ExtractCompatibility2Args()
-		{
-			var commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
-			TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args", false);
-		}
+        [Fact]
+        public void FlatOverwriteExtract2Args()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract2Args\\";
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract2Args", false, flatExtractionFlag: true);
+        }
 
-		[Fact]
-		public void BackwardCompatibilityParserNoMsiSpecifiedParser()
-		{
-			var commandLine = "/x";
-			
-			string consoleOutput;
+        [Fact]
+        public void FlatRenameExtract2Args()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract2Args\\";
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract2Args", false, flatExtractionFlag: true);
+        }
+
+        [Fact]
+        public void Extract3Args()
+        {
+            var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "Ex3", false);
+        }
+
+        [Fact]
+        public void FlatOverwriteExtract3Args()
+        {
+            var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "FlatOverwriteExtract3Args", false, flatExtractionFlag: true);
+        }
+
+        [Fact]
+        public void FlatRenameExtract3Args()
+        {
+            var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "FlatRenameExtract3Args", false, flatExtractionFlag: true);
+        }
+
+        [Fact]
+        public void ExtractCompatibility1Arg()
+        {
+            var commandLine = @"/x TestFiles\MsiInput\NUnit-2.5.2.9222.msi";
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+        }
+
+        [Fact]
+        public void ExtractCompatibility2Args()
+        {
+            var commandLine = @"/x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi ExtractCompatibility2Args\";
+            TestExtraction(commandLine, GetTestName(), "ExtractCompatibility2Args", false);
+        }
+
+        [Fact]
+        public void BackwardCompatibilityParserNoMsiSpecifiedParser()
+        {
+            var commandLine = "/x";
+
+            string consoleOutput;
             Assert.Throws(typeof(ExitCodeException), () =>
             {
                 var exitCode = RunCommandLine(commandLine, out consoleOutput);
@@ -57,10 +101,10 @@ namespace LessMsi.Tests
             });
         }
 
-	    [Fact]
-		public void List()
-		{
-			var expectedOutput = @"Property,Value
+        [Fact]
+        public void List()
+        {
+            var expectedOutput = @"Property,Value
 Manufacturer,nunit.org
 ProductCode,{3AD32EC5-806E-43A8-8757-76D05AD4677A}
 ProductLanguage,1033
@@ -102,25 +146,25 @@ ErrorDialog,ErrorDlg
 WixUIRMOption,UseRM
 ";
 
-		    string consoleOutput;
-			RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
+            string consoleOutput;
+            RunCommandLine("l -t Property TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
             // strangely I've seen newlines treated differently either by xunit or different versions of windows. So lets compare these as a list of lines: https://ci.appveyor.com/project/activescott/lessmsi/build/1.0.7/tests
             string[] expectedOutputLines = expectedOutput.Split(new string[]{ "\r\n", "\n" }, StringSplitOptions.None);
             string[] consoleOutputLines = consoleOutput.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
             Assert.Equal(expectedOutputLines, consoleOutputLines);
-		}
+        }
 
-		[Fact]
-		public void Version()
-		{
-			var expectedOutput = "2.5.2.9222" + Environment.NewLine;
-			string consoleOutput;
-			RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
-			Assert.Equal(expectedOutput, consoleOutput);
-		}
+        [Fact]
+        public void Version()
+        {
+            var expectedOutput = "2.5.2.9222" + Environment.NewLine;
+            string consoleOutput;
+            RunCommandLine("v TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi", out consoleOutput);
+            Assert.Equal(expectedOutput, consoleOutput);
+        }
 
-		#region Helpers
-		
+        #region Helpers
+
         /// <summary>
         /// Returns the name of the calling method.
         /// </summary>
@@ -136,7 +180,9 @@ WixUIRMOption,UseRM
         /// <param name="commandLineArguments">The command line arguments (everything after the exe name).</param>
         /// <param name="testName">The name of hte test (used to formulate the expectedEntries output dir).</param>
         /// <param name="actualEntriesOutputDir">The output directory where the actual extraction is expected to occur.</param>
-        private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir, bool useInProcessForDebugging)
+        /// <param name="useInProcessForDebugging">Bool flag for displaying extraction prints while testing</param>
+        /// <param name="flatExtractionFlag">Bool flag for testing flat extractions</param>
+        private void TestExtraction(string commandLineArguments, string testName, string actualEntriesOutputDir, bool useInProcessForDebugging, bool flatExtractionFlag = false)
         {
 			string consoleOutput;
             var actualOutDir = new LessIO.Path(actualEntriesOutputDir).FullPath;
@@ -154,7 +200,7 @@ WixUIRMOption,UseRM
 	        actualEntries.Save(actualEntriesFile);
 			//Console.WriteLine("Actual entries saved to " + actualEntriesFile.FullName);
 			var expectedEntries = GetExpectedEntriesForMsi(testName);
-            AssertAreEqual(expectedEntries, actualEntries);
+            AssertAreEqual(expectedEntries, actualEntries, flatExtractionFlag);
         }
 
 		#endregion
