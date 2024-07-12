@@ -13,7 +13,7 @@ set _BUILD_VERSION=%1
 
 ECHO Running choco push...
 
-choco push "%THIS_DIR%..\.deploy\chocolateypackage\lessmsi.%_BUILD_VERSION%.nupkg" --api-key=%CHOCO_KEY%
+choco push --source https://push.chocolatey.org/ --api-key=%CHOCO_KEY% "%THIS_DIR%..\.deploy\chocolateypackage\lessmsi.%_BUILD_VERSION%.nupkg"
 
 REM NOTE: ECHO does not clear/set errorlevel https://ss64.com/nt/errorlevel.htmls
 ECHO Running choco push complete. Errorlevel was %ERRORLEVEL%
