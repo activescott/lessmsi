@@ -110,8 +110,12 @@ namespace LessMsi.Cli
         /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
         public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
         {
+            EnsureAbsolutePath(ref msiFileName);
+
             if (string.IsNullOrEmpty(outDirName))
+            {
                 outDirName = Path.GetFileNameWithoutExtension(msiFileName);
+            }
 
             EnsureFileRooted(ref msiFileName);
             EnsureFileRooted(ref outDirName);
@@ -188,10 +192,23 @@ namespace LessMsi.Cli
 
         private static void EnsureFileRooted(ref string sFileName)
         {
-            if (!Path.IsPathRooted(sFileName))
+            if (!IsPathRooted(sFileName))
             {
                 sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
             }
+        }
+
+        private static void EnsureAbsolutePath(ref string filePath)
+        {
+            if (!IsPathRooted(filePath))
+            {
+                filePath = Path.GetFullPath(filePath);
+            }
+        }
+
+        private static bool IsPathRooted(string filePath)
+        {
+            return Path.IsPathRooted(filePath);
         }
     }
 }
