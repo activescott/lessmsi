@@ -110,15 +110,15 @@ namespace LessMsi.Cli
         /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
         public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
         {
-            EnsureAbsolutePath(ref msiFileName);
+            msiFileName = EnsureAbsolutePath(msiFileName);
 
             if (string.IsNullOrEmpty(outDirName))
             {
                 outDirName = Path.GetFileNameWithoutExtension(msiFileName);
             }
 
-            EnsureFileRooted(ref msiFileName);
-            EnsureFileRooted(ref outDirName);
+            msiFileName = EnsureFileRooted(msiFileName);
+            outDirName = EnsureFileRooted(outDirName);
 
             var msiFile = new LessIO.Path(msiFileName);
 
@@ -190,25 +190,24 @@ namespace LessMsi.Cli
             Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
         }
 
-        private static void EnsureFileRooted(ref string sFileName)
+        private static string EnsureFileRooted(string fileName)
         {
-            if (!IsPathRooted(sFileName))
+            if (Path.IsPathRooted(fileName))
             {
-                sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
+                return fileName;
             }
+
+            return Path.Combine(Directory.GetCurrentDirectory(), fileName);
         }
 
-        private static void EnsureAbsolutePath(ref string filePath)
+        private static string EnsureAbsolutePath(string filePath)
         {
-            if (!IsPathRooted(filePath))
+            if (Path.IsPathRooted(filePath))
             {
-                filePath = Path.GetFullPath(filePath);
+                return filePath;
             }
-        }
 
-        private static bool IsPathRooted(string filePath)
-        {
-            return Path.IsPathRooted(filePath);
+            return Path.GetFullPath(filePath);
         }
     }
 }
