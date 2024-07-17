@@ -110,11 +110,15 @@ namespace LessMsi.Cli
         /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
         public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
         {
-            if (string.IsNullOrEmpty(outDirName))
-                outDirName = Path.GetFileNameWithoutExtension(msiFileName);
+            msiFileName = EnsureAbsolutePath(msiFileName);
 
-            EnsureFileRooted(ref msiFileName);
-            EnsureFileRooted(ref outDirName);
+            if (string.IsNullOrEmpty(outDirName))
+            {
+                outDirName = Path.GetFileNameWithoutExtension(msiFileName);
+            }
+
+            msiFileName = EnsureFileRooted(msiFileName);
+            outDirName = EnsureFileRooted(outDirName);
 
             var msiFile = new LessIO.Path(msiFileName);
 
@@ -186,12 +190,24 @@ namespace LessMsi.Cli
             Console.WriteLine(string.Format("{0}/{1}\t{2}", progress.FilesExtractedSoFar + 1, progress.TotalFileCount, progress.CurrentFileName));
         }
 
-        private static void EnsureFileRooted(ref string sFileName)
+        private static string EnsureFileRooted(string fileName)
         {
-            if (!Path.IsPathRooted(sFileName))
+            if (Path.IsPathRooted(fileName))
             {
-                sFileName = Path.Combine(Directory.GetCurrentDirectory(), sFileName);
+                return fileName;
             }
+
+            return Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        }
+
+        private static string EnsureAbsolutePath(string filePath)
+        {
+            if (Path.IsPathRooted(filePath))
+            {
+                return filePath;
+            }
+
+            return Path.GetFullPath(filePath);
         }
     }
 }

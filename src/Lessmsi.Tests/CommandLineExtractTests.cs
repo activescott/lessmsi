@@ -17,6 +17,14 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void Extract1ArgRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
+            // setting "NUnit-2.5.2.9222" as actualEntriesOutputDir value, since no other output dir specified in command line text
+            TestExtraction(commandLine, GetTestName(), "NUnit-2.5.2.9222", false);
+        }
+
+        [Fact]
         public void FlatOverwriteExtract1Arg()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi";
@@ -40,6 +48,13 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void Extract2ArgsRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Extract2ArgsRelativePath\\";
+            TestExtraction(commandLine, GetTestName(), "Extract2ArgsRelativePath", false);
+        }
+
+        [Fact]
         public void FlatOverwriteExtract2Args()
         {
             var commandLine = "xfo TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatOverwriteExtract2Args\\";
@@ -58,6 +73,13 @@ namespace LessMsi.Tests
         {
             var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
             TestExtraction(commandLine, GetTestName(), "Ex3", false);
+        }
+
+        [Fact]
+        public void Extract3ArgsRelativePath()
+        {
+            var commandLine = "x .\\TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Extract3ArgsRelativePath\\ \"cs-money.build\" \"requiresMTA.html\"";
+            TestExtraction(commandLine, GetTestName(), "Extract3ArgsRelativePath", false);
         }
 
         [Fact]
