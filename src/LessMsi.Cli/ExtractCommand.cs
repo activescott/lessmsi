@@ -30,7 +30,9 @@ namespace LessMsi.Cli
             while (++i < args.Count)
                 filesToExtract.Add(args[i]);
 
-            Program.DoExtraction(msiFile, extractDir.TrimEnd('\"'), filesToExtract, getExtractionMode(allArgs[0]));
+            ExtractionMode extractionMode = getExtractionMode(allArgs[0]);
+            ArchitectureType architectureType = getInverseArchitectureType(allArgs);
+            Program.DoExtraction(msiFile, extractDir.TrimEnd('\"'), filesToExtract, extractionMode, architectureType);
         }
 
         private ExtractionMode getExtractionMode(string commandArgument)
@@ -48,6 +50,33 @@ namespace LessMsi.Cli
             }
 
             return extractionMode;
+        }
+
+        private ArchitectureType getInverseArchitectureType(List<string> allArgs)
+        {
+            ArchitectureType architectureType = ArchitectureType.None;
+
+            foreach (string arg in allArgs) 
+            {
+                if (arg.Contains("-a"))
+                {
+                    string rawArchitecture = arg.Split('=')[1];
+                    switch (rawArchitecture) 
+                    {
+                        case "32":
+                            architectureType = ArchitectureType.X64;
+                            break;
+                        case "64":
+                            architectureType = ArchitectureType.X32;
+                            break;
+                        default:
+                            throw new System.Exception($"Unknown architecture {rawArchitecture} type was entered");
+                    }
+                    break;
+                }
+            }
+
+            return architectureType;
         }
     }
 }

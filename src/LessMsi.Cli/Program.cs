@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using LessMsi.Msi;
 
 #endregion
@@ -107,8 +108,9 @@ namespace LessMsi.Cli
         /// <param name="msiFileName">The path of the specified MSI file.</param>
         /// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
         /// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
-        /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
-        public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
+        /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
+        /// <param name="architectureType">Enum value for architecture type to delete after files extraction</param>
+        public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode, ArchitectureType architectureType)
         {
             msiFileName = EnsureAbsolutePath(msiFileName);
 
@@ -139,6 +141,12 @@ namespace LessMsi.Cli
             else
             {
                 Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
+            }
+
+            if (architectureType != ArchitectureType.None)
+            {
+                deleteFilesInGivenArchitecture(outDirName, architectureType);
+                removeFileNameSuffixInDirectory(outDirName, ".duplicate1");
             }
         }
 
@@ -208,6 +216,134 @@ namespace LessMsi.Cli
             }
 
             return Path.GetFullPath(filePath);
+        }
+
+        private static bool isPEFile(string filePath)
+        {
+            bool peFlag = true;
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    // Check for MZ header
+                    if (br.ReadUInt16() != 0x5A4D) // 'MZ' in little-endian
+                    {
+                        peFlag = false;
+                    }
+                    else
+                    {
+                        // Skip to the PE header offset location (0x3C)
+                        fs.Seek(0x3C, SeekOrigin.Begin);
+                        uint peHeaderOffset = br.ReadUInt32();
+
+                        // Check for PE header signature
+                        fs.Seek(peHeaderOffset, SeekOrigin.Begin);
+                        if (br.ReadUInt32() != 0x00004550) // 'PE\0\0' in little-endian
+                        {
+                            peFlag = false;
+                        }
+                    }
+                }
+            }
+
+            return peFlag;
+        }
+
+        private static ArchitectureType getArchitectureType(string filePath)
+        {
+            ArchitectureType architectureType = ArchitectureType.None;
+
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = new PEReader(stream))
+                {
+                    var headers = reader.PEHeaders;
+                    switch (headers.PEHeader.Magic)
+                    {
+                        case PEMagic.PE32:
+                            architectureType = ArchitectureType.X32;
+                            break;
+                        case PEMagic.PE32Plus:
+                            architectureType = ArchitectureType.X64;
+                            break;
+                    }
+                }
+            }
+
+            return architectureType;
+        }
+
+        private static void deleteFilesInGivenArchitecture(string directoryPath, ArchitectureType architectureType)
+        {
+            // Get all files in the current directory
+            string[] files = Directory.GetFiles(directoryPath);
+
+            foreach (string file in files)
+            {
+                // Check if current file is a PE file 
+                if (isPEFile(file))
+                {
+                    // delete all files in given architecture
+                    if (getArchitectureType(file) == architectureType)
+                    {
+                        File.Delete(file);
+                    }
+                }
+            }
+
+            // Get all subdirectories in the current directory
+            string[] directories = Directory.GetDirectories(directoryPath);
+
+            foreach (string directory in directories)
+            {
+                // Recursively call this method for each subdirectory
+                deleteFilesInGivenArchitecture(directory, architectureType);
+            }
+        }
+
+        private static void removeFileNameSuffixInDirectory(string directoryPath, string suffix)
+        {
+            // Get all files in the current directory
+            string[] files = Directory.GetFiles(directoryPath);
+
+            foreach (string file in files)
+            {
+                if (isPEFile(file))
+                {
+                    // Remove the suffix if it exists in the filename
+                    removeFileNameSuffix(file, suffix);
+                }
+            }
+
+            // Get all subdirectories in the current directory
+            string[] directories = Directory.GetDirectories(directoryPath);
+
+            foreach (string directory in directories)
+            {
+                // Recursively call this method for each subdirectory
+                removeFileNameSuffixInDirectory(directory, suffix);
+            }
+        }
+
+        private static void removeFileNameSuffix(string filePath, string suffix)
+        {
+            // Get the directory and filename separately
+            string directory = Path.GetDirectoryName(filePath);
+            string fileName = Path.GetFileName(filePath);
+
+            // Check if the file has the suffix
+            if (fileName.EndsWith(suffix))
+            {
+                // Remove the suffix from the filename
+                string newFileName = fileName.Substring(0, fileName.Length - suffix.Length);
+
+                // Combine the new filename with the directory to get the new path
+                string newFilePath = Path.Combine(directory, newFileName);
+
+                // Rename the file by moving it to the new path
+                File.Move(filePath, newFilePath);
+            }
         }
     }
 }
