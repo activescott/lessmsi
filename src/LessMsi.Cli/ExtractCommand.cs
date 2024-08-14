@@ -56,20 +56,20 @@ namespace LessMsi.Cli
         {
             ArchitectureType architectureType = ArchitectureType.None;
 
-            foreach (string arg in allArgs) 
+            foreach (string arg in allArgs)
             {
                 if (arg.Contains("-a"))
                 {
                     string rawArchitecture = arg.Split('=')[1];
-                    switch (rawArchitecture) 
+                    if (rawArchitecture == "32")
                     {
-                        case "32":
-                            architectureType = ArchitectureType.X64;
-                            break;
-                        case "64":
-                            architectureType = ArchitectureType.X32;
-                            break;
+                        architectureType = ArchitectureType.X64;
                     }
+                    else if (rawArchitecture == "64")
+                    {
+                        architectureType = ArchitectureType.X32;
+                    }
+
                     break;
                 }
             }
