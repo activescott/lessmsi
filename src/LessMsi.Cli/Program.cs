@@ -259,14 +259,13 @@ namespace LessMsi.Cli
                 using (var reader = new PEReader(stream))
                 {
                     var headers = reader.PEHeaders;
-                    switch (headers.PEHeader.Magic)
+                    if (headers.PEHeader.Magic == PEMagic.PE32)
                     {
-                        case PEMagic.PE32:
-                            architectureType = ArchitectureType.X32;
-                            break;
-                        case PEMagic.PE32Plus:
-                            architectureType = ArchitectureType.X64;
-                            break;
+                        architectureType = ArchitectureType.X32;
+                    }
+                    else if (headers.PEHeader.Magic == PEMagic.PE32Plus)
+                    {
+                        architectureType = ArchitectureType.X64;
                     }
                 }
             }

@@ -69,8 +69,6 @@ namespace LessMsi.Cli
                         case "64":
                             architectureType = ArchitectureType.X32;
                             break;
-                        default:
-                            throw new System.Exception($"Unknown architecture {rawArchitecture} type was entered");
                     }
                     break;
                 }
