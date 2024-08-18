@@ -16,7 +16,7 @@ namespace LessMsi.Gui
 			this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
 			this.labelCopyright.Text = AssemblyCopyright;
 
-            Icon = Resources.LessmsiIcon;
+            Icon = Properties.Resources.LessmsiIcon;
         }
 
 		#region Assembly Attribute Accessors

@@ -30,6 +30,7 @@ using System.IO;
 using System.Linq;
 using LessIO;
 using LessMsi.Gui.Model;
+using LessMsi.Gui.Resources.Languages;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
 using LessMsi.OleStorage;
@@ -75,11 +76,11 @@ namespace LessMsi.Gui
 
 		private void InitializeFileGrid()
 		{
-			View.AddFileGridColumn("Name", "Name");
-			View.AddFileGridColumn("Directory", "Directory");
-			View.AddFileGridColumn("Component", "Component");
-			View.AddFileGridColumn("Size", "Size");
-			View.AddFileGridColumn("Version", "Version");
+			View.AddFileGridColumn("Name", Strings.Name);
+			View.AddFileGridColumn("Directory", Strings.Directory);
+			View.AddFileGridColumn("Component", Strings.Component);
+			View.AddFileGridColumn("Size", Strings.Size);
+			View.AddFileGridColumn("Version", Strings.Version);
 		}
 
 		public IMainFormView View
