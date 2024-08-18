@@ -63,10 +63,10 @@ namespace LessMsi.Gui
 
 		private void InitializePropertyGrid()
 		{
-			View.AddPropertyGridColumn("Name", "Name");
-			View.AddPropertyGridColumn("Value", "Value");
-			View.AddPropertyGridColumn("ID", "ID");
-			View.AddPropertyGridColumn("Type", "Type");
+			View.AddPropertyGridColumn("Name", Strings.Name);
+			View.AddPropertyGridColumn("Value", Strings.Value);
+			View.AddPropertyGridColumn("ID", Strings.ID);
+			View.AddPropertyGridColumn("Type", Strings.Type);
 		}
 
 		private void InitializeTableGrid()

@@ -118,10 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Info programma</value>
+    <value>Info Programma</value>
   </data>
   <data name="Component" xml:space="preserve">
     <value>Componente</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copia</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrizione</value>
   </data>
   <data name="Directory" xml:space="preserve">
     <value>Cartella</value>
@@ -129,17 +135,38 @@
   <data name="Edit" xml:space="preserve">
     <value>Modifica</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>E&amp;sci</value>
+  </data>
   <data name="Extract" xml:space="preserve">
     <value>E&amp;strai</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Estrai File</value>
   </data>
+  <data name="ExtractStreamFiles" xml:space="preserve">
+    <value>Estrai File Flussi</value>
+  </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Apri</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Preferenze</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Recent Files???</value>
+  </data>
+  <data name="SearchFile" xml:space="preserve">
+    <value>Cerca File</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
     <value>Selziona &amp;Tutto</value>
@@ -147,17 +174,29 @@
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
   </data>
+  <data name="Stream" xml:space="preserve">
+    <value>Flusso</value>
+  </data>
   <data name="Streams" xml:space="preserve">
     <value>Flussi</value>
   </data>
   <data name="Summary" xml:space="preserve">
     <value>Summary???</value>
   </data>
+  <data name="Table" xml:space="preserve">
+    <value>Tabella</value>
+  </data>
   <data name="TableView" xml:space="preserve">
     <value>Vista Tabella</value>
   </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
   <data name="UnselectAll" xml:space="preserve">
-    <value>Deseleziona tutto</value>
+    <value>Deseleziona Tutto</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valore</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Versione</value>
