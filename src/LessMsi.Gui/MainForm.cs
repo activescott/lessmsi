@@ -30,6 +30,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using LessMsi.Gui.Extensions;
 using LessMsi.Gui.Model;
@@ -55,7 +56,9 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
-			InitializeComponent();
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
+
+            InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
 			Presenter = new MainFormPresenter(this);
@@ -456,6 +459,9 @@ namespace LessMsi.Gui
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = $"{Strings.SelectAll}";
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            this.btnSelectAll.AutoSize = true;
+            this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.btnSelectAll.AutoEllipsis = false;
             // 
             // btnUnselectAll
             // 
@@ -466,6 +472,9 @@ namespace LessMsi.Gui
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = $"&{Strings.UnselectAll}";
             this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
+            this.btnUnselectAll.AutoSize = true;
+            this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.btnUnselectAll.AutoEllipsis = false;
             // 
             // btnExtract
             // 
@@ -478,6 +487,9 @@ namespace LessMsi.Gui
             this.btnExtract.TabIndex = 3;
             this.btnExtract.Text = $"{Strings.Extract}";
             this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
+            this.btnExtract.AutoSize = true;
+            this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.btnExtract.AutoEllipsis = false;
             // 
             // tabTableView
             // 
