@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>The file path is badly formed</value>
+  </data>
   <data name="Component" xml:space="preserve">
     <value>Component</value>
   </data>
@@ -134,6 +137,12 @@
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>The file path is empty</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERROR</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>E&amp;xit</value>
@@ -150,14 +159,26 @@
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>File '{0}' does not exist</value>
+  </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>The file path contains invalid characters</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Error loading summary information</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>Failed to open file</value>
   </data>
   <data name="Preferences" xml:space="preserve">
     <value>Preferences</value>
@@ -189,6 +210,9 @@
   <data name="TableView" xml:space="preserve">
     <value>Table View</value>
   </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>The file path is too long</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -200,5 +224,11 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="ViewFilesError" xml:space="preserve">
+    <value>Cannot view files</value>
+  </data>
+  <data name="ViewTableError" xml:space="preserve">
+    <value>Cannot view table</value>
   </data>
 </root>

@@ -135,6 +135,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Modifica</value>
   </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERRORE</value>
+  </data>
   <data name="Exit" xml:space="preserve">
     <value>E&amp;sci</value>
   </data>
@@ -163,7 +166,7 @@
     <value>Preferenze</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent Files???</value>
+    <value>File Recenti</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
     <value>Cerca File</value>
@@ -181,7 +184,7 @@
     <value>Flussi</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value>Summary???</value>
+    <value>Riepilogo</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Tabella</value>
@@ -200,5 +203,32 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Versione</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Errore nel caricamento info riepilogo</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>Impossibile aprire il file</value>
+  </data>
+  <data name="ViewFilesError" xml:space="preserve">
+    <value>Impossibile visualizzare il file</value>
+  </data>
+  <data name="ViewTableError" xml:space="preserve">
+    <value>Impossibile visualizzare la tabella</value>
+  </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>Il percorso del file ha un formato non valido</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>Il percorso è vuoto</value>
+  </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>File '{0}' non esiste</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>Il percorso del file contiene caratteri non validi</value>
+  </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>Il percorso del file è troppo lungo</value>
   </data>
 </root>

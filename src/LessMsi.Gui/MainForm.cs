@@ -56,6 +56,8 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("it");
+
             InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
@@ -872,7 +874,7 @@ namespace LessMsi.Gui
 		{
 			if (DialogResult.OK != openMsiDialog.ShowDialog(this))
 			{
-				Presenter.Error(string.Format("File '{0}' does not exist.", openMsiDialog.FileName));
+				Presenter.Error(string.Format(Strings.FileExistError, openMsiDialog.FileName));
 				txtMsiFileName.Text = SelectedMsiFileFullName;
 				return;
 			}

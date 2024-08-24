@@ -70,6 +70,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file path is badly formed.
+        /// </summary>
+        internal static string BadlyFormedFilePathError {
+            get {
+                return ResourceManager.GetString("BadlyFormedFilePathError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component.
         /// </summary>
         internal static string Component {
@@ -111,6 +120,24 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file path is empty.
+        /// </summary>
+        internal static string EmptyFilePathError {
+            get {
+                return ResourceManager.GetString("EmptyFilePathError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR.
+        /// </summary>
+        internal static string ERROR {
+            get {
+                return ResourceManager.GetString("ERROR", resourceCulture);
             }
         }
         
@@ -160,11 +187,38 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File &apos;{0}&apos; does not exist.
+        /// </summary>
+        internal static string FileExistError {
+            get {
+                return ResourceManager.GetString("FileExistError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID.
         /// </summary>
         internal static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file path contains invalid characters.
+        /// </summary>
+        internal static string InvalidCharsInFilePathError {
+            get {
+                return ResourceManager.GetString("InvalidCharsInFilePathError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading summary information.
+        /// </summary>
+        internal static string LoadingSummaryInfoError {
+            get {
+                return ResourceManager.GetString("LoadingSummaryInfoError", resourceCulture);
             }
         }
         
@@ -183,6 +237,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Open {
             get {
                 return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open file.
+        /// </summary>
+        internal static string OpenFileError {
+            get {
+                return ResourceManager.GetString("OpenFileError", resourceCulture);
             }
         }
         
@@ -277,6 +340,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file path is too long.
+        /// </summary>
+        internal static string TooLongFilePathError {
+            get {
+                return ResourceManager.GetString("TooLongFilePathError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string Type {
@@ -309,6 +381,24 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot view files.
+        /// </summary>
+        internal static string ViewFilesError {
+            get {
+                return ResourceManager.GetString("ViewFilesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot view table.
+        /// </summary>
+        internal static string ViewTableError {
+            get {
+                return ResourceManager.GetString("ViewTableError", resourceCulture);
             }
         }
     }

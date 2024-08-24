@@ -141,7 +141,7 @@ namespace LessMsi.Gui
 				}
 				catch (Exception eUnexpected)
 				{
-					Error(string.Concat("Cannot view files:", eUnexpected.Message), eUnexpected);
+					Error(string.Concat(Strings.ViewFilesError, eUnexpected.Message), eUnexpected);
 				}
 			}
 		}
@@ -162,7 +162,7 @@ namespace LessMsi.Gui
 			}
 			catch (Exception eUnexpected)
 			{
-				Error("Error loading Summary Information", eUnexpected);
+				Error(Strings.LoadingSummaryInfoError, eUnexpected);
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace LessMsi.Gui
 		public void Error(string msg, Exception exception = null)
 		{
 			string toolTip = exception != null ? exception.ToString() : "";
-			View.StatusText("ERROR:" + msg, toolTip);
+			View.StatusText($"{Strings.ERROR}:" + msg, toolTip);
 		}
 
 		/// <summary>
@@ -466,7 +466,7 @@ namespace LessMsi.Gui
 				}
 				catch (Exception eUnexpected)
 				{
-					Error(string.Concat("Cannot view table:", eUnexpected.Message), eUnexpected);
+					Error(string.Concat(Strings.ViewTableError, eUnexpected.Message), eUnexpected);
 				}
 			}
 		}
@@ -502,24 +502,24 @@ namespace LessMsi.Gui
 			}
 			catch (ArgumentNullException)
 			{
-				this.Error("The file path is empty");
+				this.Error(Strings.EmptyFilePathError);
 			}
 			catch (ArgumentException)
 			{
-				this.Error("The file path is badly formed.");
+				this.Error(Strings.BadlyFormedFilePathError);
 			}
 			catch (PathTooLongException)
 			{
-				this.Error("The file path is too long.");
+				this.Error(Strings.TooLongFilePathError);
 			}
 			catch (NotSupportedException)
 			{
-				this.Error("The file path contains invalid characters.");
+				this.Error(Strings.InvalidCharsInFilePathError);
 			}
 			if (file == null) return;
 			if (!file.Exists)
 			{
-				this.Error(string.Format("File '{0}' does not exist.", file.FullName));
+				this.Error(string.Format(Strings.FileExistError, file.FullName));
 				if (SelectedMsiFile != null)
 					ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
 				return;
@@ -546,7 +546,7 @@ namespace LessMsi.Gui
 			catch (Exception eCatchAll)
 			{
 				isBadFile = true;
-				Error("Failed to open file.", eCatchAll);
+				Error(Strings.OpenFileError, eCatchAll);
 			}
 			View.ChangeUiEnabled(!isBadFile);
 		}
