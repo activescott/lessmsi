@@ -231,4 +231,16 @@
   <data name="TooLongFilePathError" xml:space="preserve">
     <value>Il percorso del file è troppo lungo</value>
   </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Aggiungi menu contestuale Explorer</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Aggiungi le voci 'Estrai' e 'Sfoglia' al menu contestuale dei file .msi</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Rimuovi menu contestuale Explorer</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Rimuovi se esistono voci menu contestuale Explorer</value>
+  </data>
 </root>

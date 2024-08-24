@@ -120,6 +120,12 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Add Shortcut Item to Explorer</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Adds 'Extract' &amp; 'Explore' menu items to the right-click context menu of .msi files</value>
+  </data>
   <data name="BadlyFormedFilePathError" xml:space="preserve">
     <value>The file path is badly formed</value>
   </data>
@@ -185,6 +191,12 @@
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Recent Files</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Remove Shortcut Item</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Removes the context menu if it exists</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
     <value>Search File</value>

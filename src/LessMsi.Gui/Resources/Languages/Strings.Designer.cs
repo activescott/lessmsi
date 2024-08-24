@@ -70,6 +70,24 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Shortcut Item to Explorer.
+        /// </summary>
+        internal static string AddShortcutText {
+            get {
+                return ResourceManager.GetString("AddShortcutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds &apos;Extract&apos; &amp; &apos;Explore&apos; menu items to the right-click context menu of .msi files.
+        /// </summary>
+        internal static string AddShortcutTextNote {
+            get {
+                return ResourceManager.GetString("AddShortcutTextNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file path is badly formed.
         /// </summary>
         internal static string BadlyFormedFilePathError {
@@ -264,6 +282,24 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string RecentFiles {
             get {
                 return ResourceManager.GetString("RecentFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Shortcut Item.
+        /// </summary>
+        internal static string RemoveShortcutText {
+            get {
+                return ResourceManager.GetString("RemoveShortcutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removes the context menu if it exists.
+        /// </summary>
+        internal static string RemoveShortcutTextNote {
+            get {
+                return ResourceManager.GetString("RemoveShortcutTextNote", resourceCulture);
             }
         }
         
