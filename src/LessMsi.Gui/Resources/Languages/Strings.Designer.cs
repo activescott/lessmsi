@@ -88,6 +88,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to and others.
+        /// </summary>
+        internal static string AndOthers {
+            get {
+                return ResourceManager.GetString("AndOthers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file path is badly formed.
         /// </summary>
         internal static string BadlyFormedFilePathError {
@@ -111,6 +120,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Copy {
             get {
                 return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created by.
+        /// </summary>
+        internal static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
             }
         }
         
@@ -232,11 +250,38 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to library.
+        /// </summary>
+        internal static string Library {
+            get {
+                return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error loading summary information.
         /// </summary>
         internal static string LoadingSummaryInfoError {
             get {
                 return ResourceManager.GetString("LoadingSummaryInfoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The modified libmspack source code is available from the lessmsi site at.
+        /// </summary>
+        internal static string ModifiedLibmspackText {
+            get {
+                return ResourceManager.GetString("ModifiedLibmspackText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This program uses a slightly modified version of the.
+        /// </summary>
+        internal static string ModifiedVersionText {
+            get {
+                return ResourceManager.GetString("ModifiedVersionText", resourceCulture);
             }
         }
         
@@ -435,6 +480,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string ViewTableError {
             get {
                 return ResourceManager.GetString("ViewTableError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to with contributions from.
+        /// </summary>
+        internal static string WithContributionsFrom {
+            get {
+                return ResourceManager.GetString("WithContributionsFrom", resourceCulture);
             }
         }
     }

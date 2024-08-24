@@ -126,6 +126,9 @@
   <data name="AddShortcutTextNote" xml:space="preserve">
     <value>Adds 'Extract' &amp; 'Explore' menu items to the right-click context menu of .msi files</value>
   </data>
+  <data name="AndOthers" xml:space="preserve">
+    <value>and others</value>
+  </data>
   <data name="BadlyFormedFilePathError" xml:space="preserve">
     <value>The file path is badly formed</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created by</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
@@ -174,8 +180,17 @@
   <data name="InvalidCharsInFilePathError" xml:space="preserve">
     <value>The file path contains invalid characters</value>
   </data>
+  <data name="Library" xml:space="preserve">
+    <value>library</value>
+  </data>
   <data name="LoadingSummaryInfoError" xml:space="preserve">
     <value>Error loading summary information</value>
+  </data>
+  <data name="ModifiedLibmspackText" xml:space="preserve">
+    <value>The modified libmspack source code is available from the lessmsi site at</value>
+  </data>
+  <data name="ModifiedVersionText" xml:space="preserve">
+    <value>This program uses a slightly modified version of the</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -242,5 +257,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Cannot view table</value>
+  </data>
+  <data name="WithContributionsFrom" xml:space="preserve">
+    <value>with contributions from</value>
   </data>
 </root>
