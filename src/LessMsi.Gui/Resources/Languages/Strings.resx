@@ -138,6 +138,9 @@
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>Created by</value>
   </data>

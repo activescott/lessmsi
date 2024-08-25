@@ -17,7 +17,7 @@ namespace LessMsi.Gui
 			this.Text = $"{Strings.About} {AssemblyTitle}";
 			this.labelProductName.Text = AssemblyProduct;
 			this.labelVersion.Text = $"{Strings.Version} {AssemblyVersion}";
-			this.labelCopyright.Text = AssemblyCopyright;
+			this.labelCopyright.Text = $"{Strings.Copyright} Scott Willeke © 2004-{DateTime.Now.Year}";
 
             Icon = Properties.Resources.LessmsiIcon;
 
@@ -132,7 +132,7 @@ namespace LessMsi.Gui
             }
         }
 
-        static void replacePlaceholder(RichTextBox rtb, string placeholder, string value)
+        private static void replacePlaceholder(RichTextBox rtb, string placeholder, string value)
         {
             rtb.Rtf  = rtb.Rtf.Replace(placeholder, value);
         }

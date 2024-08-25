@@ -267,4 +267,7 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>deve essere nella stessa cartella di</value>
   </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
 </root>
