@@ -9,8 +9,6 @@ namespace LessMsi.Gui
 {
     partial class AboutBox : Form
 	{
-		private const string AboutBoxFilePath = "../../aboutbox.rtf";
-
         public AboutBox()
 		{
 			InitializeComponent();
@@ -109,6 +107,8 @@ namespace LessMsi.Gui
             // Create a new RichTextBox control
             using (RichTextBox richTextBox = new RichTextBox())
             {
+				string aboutBoxFilePath = "../../aboutbox.rtf";
+
                 // Load the RTF template into the RichTextBox
                 string rtfTemplate = File.ReadAllText("../../aboutbox_template.rtf");
                 richTextBox.Rtf = rtfTemplate;
@@ -122,13 +122,13 @@ namespace LessMsi.Gui
                 replacePlaceholder(richTextBox, "#ModifiedLibmspackText#", Strings.ModifiedLibmspackText);
 
                 // Delete any old AboutBox.rtf file
-                if (File.Exists(AboutBoxFilePath))
+                if (File.Exists(aboutBoxFilePath))
 				{
-					File.Delete(AboutBoxFilePath);
+					File.Delete(aboutBoxFilePath);
                 }
 
                 // Save the modified RTF content to a new file
-                File.WriteAllText(AboutBoxFilePath, richTextBox.Rtf);
+                File.WriteAllText(aboutBoxFilePath, richTextBox.Rtf);
             }
         }
 
