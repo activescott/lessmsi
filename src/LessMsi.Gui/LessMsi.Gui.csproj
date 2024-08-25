@@ -137,7 +137,6 @@
     </Compile>
     <Compile Include="Windows.Forms\SortableBindingList.cs" />
     <Compile Include="Windows.Forms\WinFormsHelper.cs" />
-    <EmbeddedResource Include="aboutbox.rtf" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
