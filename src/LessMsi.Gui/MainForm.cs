@@ -56,8 +56,6 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("it");
-
             InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
@@ -930,7 +928,7 @@ namespace LessMsi.Gui
 			var selectedFiles = new List<MsiFile>();
 			if (fileGrid.SelectedRows.Count == 0)
 			{
-				ShowUserMessageBox("Please select some or all of the files to extract them.");
+				ShowUserMessageBox($"{Strings.SelectFilesMessage}.");
 				return;
 			}
 

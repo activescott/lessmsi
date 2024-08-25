@@ -132,11 +132,11 @@ namespace LessMsi.Gui
 						fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
 						ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
 						View.AutoSizeFileGridColumns();
-						Status(fileDataSource.Count + " files found.");
+						Status(fileDataSource.Count + $" {Strings.FilesFoundStatus}.");
 					}
 					else
 					{
-						Status("No files present.");
+						Status(Strings.NoFilesPresentStatus);
 					}
 				}
 				catch (Exception eUnexpected)
@@ -331,7 +331,7 @@ namespace LessMsi.Gui
 				{
 					try
 					{
-						Status("Loading list of tables...");
+						Status($"{Strings.LoadingTablesStatus}...");
 						var query = "SELECT * FROM `_Tables`";
 						using (var msiTable = new ViewWrapper(msidb.OpenExecuteView(query)))
 						{
@@ -379,7 +379,7 @@ namespace LessMsi.Gui
 					var foundStream = oleFile.GetStreams().FirstOrDefault(s => string.Equals(View.SelectedStreamInfo.Name, s.Name, StringComparison.InvariantCulture));
 					if (foundStream == null)
 					{
-						View.ShowUserError("Could not find stream for CAB '{0}'", View.SelectedStreamInfo.Name);
+						View.ShowUserError($"{Strings.FindStreamError} CAB '{0}'", View.SelectedStreamInfo.Name);
 						return;
 					}
 					// if the file is a cab, we'll list the files in it (if it isn't clear the view):
@@ -434,7 +434,7 @@ namespace LessMsi.Gui
 			if (msidb == null || string.IsNullOrEmpty(tableName))
 				return;
 
-			Status(string.Concat("Processing Table \'", tableName, "\'."));
+			Status(string.Concat($"{Strings.ProcessingTableStatus} \'", tableName, "\'."));
 
 			using (View.StartWaitCursor())
 			{   // clear the columns no matter what happens (in the event the table doesn't exist we don't want to show anything).
@@ -568,7 +568,7 @@ namespace LessMsi.Gui
 			    else
 			    {
 				    dataSource = this.fileDataSource.Where(x => x.Component.Contains(searchTerm) || x.Directory.Contains(searchTerm) || x.Name.Contains(searchTerm) || x.Version.Contains(searchTerm)).ToList();
-					Status(string.Format("{0} files found.", dataSource.Count));
+					Status(string.Format($"{0} {Strings.FilesFoundStatus}.", dataSource.Count));
 			    }
 				ViewLeakedAbstraction.fileGrid.DataSource = dataSource;
 		    }

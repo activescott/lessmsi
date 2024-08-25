@@ -241,6 +241,24 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to files found.
+        /// </summary>
+        internal static string FilesFoundStatus {
+            get {
+                return ResourceManager.GetString("FilesFoundStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find stream for.
+        /// </summary>
+        internal static string FindStreamError {
+            get {
+                return ResourceManager.GetString("FindStreamError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID.
         /// </summary>
         internal static string ID {
@@ -273,6 +291,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string LoadingSummaryInfoError {
             get {
                 return ResourceManager.GetString("LoadingSummaryInfoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading list of tables.
+        /// </summary>
+        internal static string LoadingTablesStatus {
+            get {
+                return ResourceManager.GetString("LoadingTablesStatus", resourceCulture);
             }
         }
         
@@ -313,6 +340,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No files present.
+        /// </summary>
+        internal static string NoFilesPresentStatus {
+            get {
+                return ResourceManager.GetString("NoFilesPresentStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         internal static string Open {
@@ -336,6 +372,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Preferences {
             get {
                 return ResourceManager.GetString("Preferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing table.
+        /// </summary>
+        internal static string ProcessingTableStatus {
+            get {
+                return ResourceManager.GetString("ProcessingTableStatus", resourceCulture);
             }
         }
         
@@ -376,6 +421,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search File.
         /// </summary>
         internal static string SearchFile {
@@ -390,6 +444,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string SelectAll {
             get {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select some or all of the files to extract them.
+        /// </summary>
+        internal static string SelectFilesMessage {
+            get {
+                return ResourceManager.GetString("SelectFilesMessage", resourceCulture);
             }
         }
         

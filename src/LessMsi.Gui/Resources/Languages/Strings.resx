@@ -177,6 +177,12 @@
   <data name="FileExistError" xml:space="preserve">
     <value>File '{0}' does not exist</value>
   </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>files found</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Could not find stream for</value>
+  </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
   </data>
@@ -188,6 +194,9 @@
   </data>
   <data name="LoadingSummaryInfoError" xml:space="preserve">
     <value>Error loading summary information</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Loading list of tables</value>
   </data>
   <data name="MissingFile" xml:space="preserve">
     <value>Missing File</value>
@@ -201,6 +210,9 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>No files present</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
@@ -209,6 +221,9 @@
   </data>
   <data name="Preferences" xml:space="preserve">
     <value>Preferences</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>Processing table</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Recent Files</value>
@@ -222,11 +237,17 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>should be in the same directory as</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="SearchFile" xml:space="preserve">
     <value>Search File</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
     <value>Select &amp;All</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Please select some or all of the files to extract them</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Size</value>

@@ -270,4 +270,25 @@
   <data name="Copyright" xml:space="preserve">
     <value>Copyright</value>
   </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>file trovati</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Impossibile trovare lo stream per</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Caricamento elenco tabelle</value>
+  </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>Nessun file presente</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>Tabella elaborazione</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Cerca</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Seleziona i file da estrarre</value>
+  </data>
 </root>
