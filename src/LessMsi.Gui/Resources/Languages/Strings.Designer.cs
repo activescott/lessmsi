@@ -268,6 +268,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing File.
+        /// </summary>
+        internal static string MissingFile {
+            get {
+                return ResourceManager.GetString("MissingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The modified libmspack source code is available from the lessmsi site at.
         /// </summary>
         internal static string ModifiedLibmspackText {
@@ -345,6 +354,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string RemoveShortcutTextNote {
             get {
                 return ResourceManager.GetString("RemoveShortcutTextNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to should be in the same directory as.
+        /// </summary>
+        internal static string SameDirMassage {
+            get {
+                return ResourceManager.GetString("SameDirMassage", resourceCulture);
             }
         }
         

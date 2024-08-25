@@ -22,6 +22,7 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
+using LessMsi.Gui.Resources.Languages;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -35,7 +36,9 @@ namespace LessMsi.Gui
 		public PreferencesForm()
 		{
 			InitializeComponent();
-		}
+
+            this.Text = $"LessMSIerables {Strings.Preferences}";
+        }
 
 		private void btnOk_Click(object sender, EventArgs e)
 		{
@@ -77,8 +80,10 @@ namespace LessMsi.Gui
 			if (!File.Exists(shortcutHelperExe))
 			{
 				MessageBox.Show(this,
-								"File '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
-								"' should be in the same directory as lessmsi-gui.exe.", "Missing File", MessageBoxButtons.OK,
+								$"{Strings.File} '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
+								$"' {Strings.SameDirMassage} lessmsi-gui.exe.", 
+								Strings.MissingFile, 
+								MessageBoxButtons.OK,
 								MessageBoxIcon.Error);
 				return;
 			}

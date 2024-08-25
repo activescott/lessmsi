@@ -89,7 +89,6 @@ namespace LessMsi.Gui
 			this.MinimizeBox = false;
 			this.Name = "PreferencesForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = $"LessMSIerables {Strings.Preferences}";
 			this.ResumeLayout(false);
 		}
 

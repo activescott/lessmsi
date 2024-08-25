@@ -261,4 +261,10 @@
   <data name="WithContributionsFrom" xml:space="preserve">
     <value>con il contributo di</value>
   </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>File Mancante</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>deve essere nella stessa cartella di</value>
+  </data>
 </root>

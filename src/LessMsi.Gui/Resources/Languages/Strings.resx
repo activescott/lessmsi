@@ -186,6 +186,9 @@
   <data name="LoadingSummaryInfoError" xml:space="preserve">
     <value>Error loading summary information</value>
   </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>Missing File</value>
+  </data>
   <data name="ModifiedLibmspackText" xml:space="preserve">
     <value>The modified libmspack source code is available from the lessmsi site at</value>
   </data>
@@ -212,6 +215,9 @@
   </data>
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Removes the context menu if it exists</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>should be in the same directory as</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
     <value>Search File</value>
