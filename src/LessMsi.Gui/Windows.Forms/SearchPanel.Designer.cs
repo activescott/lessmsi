@@ -58,7 +58,7 @@ namespace LessMsi.Gui.Windows.Forms {
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(46, 18);
 			this.label1.TabIndex = 2;
-			this.label1.Text = $"{Strings.Search}:";
+			this.label1.Text = Strings.Search;
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// SearchPanel

@@ -56,6 +56,8 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("it");
+
             InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
@@ -416,7 +418,7 @@ namespace LessMsi.Gui
             this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
             this.tabExtractFiles.Size = new System.Drawing.Size(456, 413);
             this.tabExtractFiles.TabIndex = 0;
-            this.tabExtractFiles.Text = $"{Strings.ExtractFiles}";
+            this.tabExtractFiles.Text = Strings.ExtractFiles;
             // 
             // fileGrid
             // 
@@ -455,7 +457,7 @@ namespace LessMsi.Gui
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(90, 27);
             this.btnSelectAll.TabIndex = 1;
-            this.btnSelectAll.Text = $"{Strings.SelectAll}";
+            this.btnSelectAll.Text = Strings.SelectAll;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -468,7 +470,7 @@ namespace LessMsi.Gui
             this.btnUnselectAll.Name = "btnUnselectAll";
             this.btnUnselectAll.Size = new System.Drawing.Size(90, 27);
             this.btnUnselectAll.TabIndex = 2;
-            this.btnUnselectAll.Text = $"&{Strings.UnselectAll}";
+            this.btnUnselectAll.Text = Strings.UnselectAll;
             this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -483,7 +485,7 @@ namespace LessMsi.Gui
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.Size = new System.Drawing.Size(90, 27);
             this.btnExtract.TabIndex = 3;
-            this.btnExtract.Text = $"{Strings.Extract}";
+            this.btnExtract.Text = Strings.Extract;
             this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -497,7 +499,7 @@ namespace LessMsi.Gui
             this.tabTableView.Name = "tabTableView";
             this.tabTableView.Size = new System.Drawing.Size(456, 415);
             this.tabTableView.TabIndex = 1;
-            this.tabTableView.Text = $"{Strings.TableView}";
+            this.tabTableView.Text = Strings.TableView;
             // 
             // panel3
             // 
@@ -516,7 +518,7 @@ namespace LessMsi.Gui
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 15);
             this.label2.TabIndex = 9;
-            this.label2.Text = $"&{Strings.Table}";
+            this.label2.Text = Strings.Table;
             // 
             // cboTable
             // 
@@ -557,7 +559,7 @@ namespace LessMsi.Gui
             this.tabSummary.Padding = new System.Windows.Forms.Padding(5);
             this.tabSummary.Size = new System.Drawing.Size(456, 415);
             this.tabSummary.TabIndex = 2;
-            this.tabSummary.Text = $"{Strings.Summary}";
+            this.tabSummary.Text = Strings.Summary;
             // 
             // msiPropertyGrid
             // 
@@ -584,7 +586,7 @@ namespace LessMsi.Gui
             this.grpDescription.Size = new System.Drawing.Size(446, 106);
             this.grpDescription.TabIndex = 2;
             this.grpDescription.TabStop = false;
-            this.grpDescription.Text = $"{Strings.Description}:";
+            this.grpDescription.Text = Strings.Description;
             // 
             // txtSummaryDescription
             // 
@@ -606,7 +608,7 @@ namespace LessMsi.Gui
             this.tabStreams.Name = "tabStreams";
             this.tabStreams.Size = new System.Drawing.Size(456, 415);
             this.tabStreams.TabIndex = 3;
-            this.tabStreams.Text = $"{Strings.Streams}";
+            this.tabStreams.Text = Strings.Streams;
             this.tabStreams.UseVisualStyleBackColor = true;
             // 
             // lstStreamFiles
@@ -637,7 +639,7 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.Name = "btnExtractStreamFiles";
             this.btnExtractStreamFiles.Size = new System.Drawing.Size(129, 23);
             this.btnExtractStreamFiles.TabIndex = 0;
-            this.btnExtractStreamFiles.Text = $"{Strings.ExtractStreamFiles}...";
+            this.btnExtractStreamFiles.Text = Strings.ExtractStreamFiles;
             this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoSize = true;
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -661,7 +663,7 @@ namespace LessMsi.Gui
             this.lblStream.Name = "lblStream";
             this.lblStream.Size = new System.Drawing.Size(44, 15);
             this.lblStream.TabIndex = 11;
-            this.lblStream.Text = $"{Strings.Stream}";
+            this.lblStream.Text = Strings.Stream;
             // 
             // cboStream
             // 
@@ -736,13 +738,13 @@ namespace LessMsi.Gui
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = $"&{Strings.File}";
+            this.fileToolStripMenuItem.Text = Strings.FileMenuLabel;
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = $"&{Strings.Open}";
+            this.openToolStripMenuItem.Text = Strings.Open;
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
@@ -767,7 +769,7 @@ namespace LessMsi.Gui
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = $"{Strings.Exit}";
+            this.exitToolStripMenuItem.Text = Strings.Exit;
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
@@ -779,14 +781,14 @@ namespace LessMsi.Gui
             this.searchFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = $"&{Strings.Edit}";
+            this.editToolStripMenuItem.Text = Strings.Edit;
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.copyToolStripMenuItem.Text = $"&{Strings.Copy}";
+            this.copyToolStripMenuItem.Text = Strings.Copy;
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -798,7 +800,7 @@ namespace LessMsi.Gui
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.preferencesToolStripMenuItem.Text = $"&{Strings.Preferences}";
+            this.preferencesToolStripMenuItem.Text = Strings.PreferencesMenuLabel;
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // searchFileToolStripMenuItem
@@ -807,14 +809,14 @@ namespace LessMsi.Gui
             this.searchFileToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+F";
             this.searchFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.searchFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.searchFileToolStripMenuItem.Text = $"{Strings.SearchFile}";
+            this.searchFileToolStripMenuItem.Text = Strings.SearchFile;
             this.searchFileToolStripMenuItem.Click += new System.EventHandler(this.searchFileToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = $"{Strings.About}";
+            this.aboutToolStripMenuItem.Text = Strings.About;
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // MainForm
@@ -928,7 +930,7 @@ namespace LessMsi.Gui
 			var selectedFiles = new List<MsiFile>();
 			if (fileGrid.SelectedRows.Count == 0)
 			{
-				ShowUserMessageBox($"{Strings.SelectFilesMessage}.");
+				ShowUserMessageBox($"{Strings.SelectFilesMessage}");
 				return;
 			}
 

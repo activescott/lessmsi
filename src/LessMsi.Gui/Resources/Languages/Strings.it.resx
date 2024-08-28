@@ -124,16 +124,16 @@
     <value>Componente</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copia</value>
+    <value>&amp;Copia</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Descrizione</value>
+    <value>Descrizione:</value>
   </data>
   <data name="Directory" xml:space="preserve">
     <value>Cartella</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Modifica</value>
+    <value>&amp;Modifica</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>ERRORE</value>
@@ -148,7 +148,7 @@
     <value>Estrai File</value>
   </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
-    <value>Estrai File Flussi</value>
+    <value>Estrai File Flussi...</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
@@ -160,7 +160,7 @@
     <value>Nome</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Apri</value>
+    <value>&amp;Apri</value>
   </data>
   <data name="Preferences" xml:space="preserve">
     <value>Preferenze</value>
@@ -187,7 +187,7 @@
     <value>Riepilogo</value>
   </data>
   <data name="Table" xml:space="preserve">
-    <value>Tabella</value>
+    <value>&amp;Tabella</value>
   </data>
   <data name="TableView" xml:space="preserve">
     <value>Vista Tabella</value>
@@ -196,7 +196,7 @@
     <value>Tipo</value>
   </data>
   <data name="UnselectAll" xml:space="preserve">
-    <value>Deseleziona Tutto</value>
+    <value>&amp;Deseleziona Tutto</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Valore</value>
@@ -271,24 +271,30 @@
     <value>Copyright</value>
   </data>
   <data name="FilesFoundStatus" xml:space="preserve">
-    <value>file trovati</value>
+    <value>file trovati.</value>
   </data>
   <data name="FindStreamError" xml:space="preserve">
-    <value>Impossibile trovare lo stream per</value>
+    <value>Impossibile trovare lo stream per CAB '{0}'</value>
   </data>
   <data name="LoadingTablesStatus" xml:space="preserve">
-    <value>Caricamento elenco tabelle</value>
+    <value>Caricamento elenco tabelle...</value>
   </data>
   <data name="NoFilesPresentStatus" xml:space="preserve">
     <value>Nessun file presente</value>
   </data>
   <data name="ProcessingTableStatus" xml:space="preserve">
-    <value>Tabella elaborazione</value>
+    <value>Tabella elaborazione '{0}'.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Cerca</value>
+    <value>Cerca:</value>
   </data>
   <data name="SelectFilesMessage" xml:space="preserve">
-    <value>Seleziona i file da estrarre</value>
+    <value>Seleziona i file da estrarre.</value>
+  </data>
+  <data name="FileMenuLabel" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="PreferencesMenuLabel" xml:space="preserve">
+    <value>&amp;Preferenze</value>
   </data>
 </root>
