@@ -108,11 +108,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
-    <Compile Include="Resources\Languages\Strings.it.Designer.cs">
-      <DependentUpon>Strings.it.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Resources\Languages\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
