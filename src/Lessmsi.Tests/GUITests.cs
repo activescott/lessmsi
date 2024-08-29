@@ -8,7 +8,13 @@ namespace LessMsi.Tests
     public class GUITests : TestBase
     {
         [Fact]
-        public void CheckEnglishUIStrings()
+        public void CheckUIStrings()
+        {
+            checkEnglishUIStrings();
+            checkItalianUIStrings();
+        }
+
+        private void checkEnglishUIStrings()
         {
             CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
@@ -29,8 +35,7 @@ namespace LessMsi.Tests
             Thread.CurrentThread.CurrentUICulture = currentCulture;
         }
 
-        [Fact]
-        public void CheckItalianUIStrings()
+        private void checkItalianUIStrings()
         {
             CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("it");
