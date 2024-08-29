@@ -2,7 +2,6 @@
 using LessMsi.Gui;
 using System.Threading;
 using System.Globalization;
-using Microsoft.Tools.WindowsInstallerXml;
 
 namespace LessMsi.Tests
 {
