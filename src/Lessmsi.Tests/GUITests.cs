@@ -2,11 +2,14 @@
 using LessMsi.Gui;
 using System.Threading;
 using System.Globalization;
+using Microsoft.Tools.WindowsInstallerXml;
 
 namespace LessMsi.Tests
 {
     public class GUITests : TestBase
     {
+        private CultureInfo m_OriginalCultureInfo;
+
         [Fact]
         public void CheckUIStrings()
         {
@@ -16,14 +19,14 @@ namespace LessMsi.Tests
 
         private void checkEnglishUIStrings()
         {
-            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+            setCustomLocale("en");
 
             var form = new MainForm(string.Empty);
 
             // test if form was created successfully
             Assert.NotNull(form);
 
+            // check buttons strings
             Assert.Equal("Select &All", form.btnSelectAll.Text);
             Assert.Equal("&Unselect All", form.btnUnselectAll.Text);
             Assert.Equal("E&xtract", form.btnExtract.Text);
@@ -32,13 +35,12 @@ namespace LessMsi.Tests
             Assert.Equal("&Edit", form.editToolStripMenuItem.Text);
             Assert.Equal("&Preferences", form.preferencesToolStripMenuItem.Text);
 
-            Thread.CurrentThread.CurrentUICulture = currentCulture;
+            revertToOriginalLocale();
         }
 
         private void checkItalianUIStrings()
         {
-            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("it");
+            setCustomLocale("it");
 
             var form = new MainForm(string.Empty);
 
@@ -54,7 +56,21 @@ namespace LessMsi.Tests
             Assert.Equal("&Modifica", form.editToolStripMenuItem.Text);
             Assert.Equal("&Preferenze", form.preferencesToolStripMenuItem.Text);
 
-            Thread.CurrentThread.CurrentUICulture = currentCulture;
+            revertToOriginalLocale();
+        }
+
+        private void setCustomLocale(string locale)
+        {
+            m_OriginalCultureInfo = Thread.CurrentThread.CurrentCulture;
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(locale);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(locale);
+        }
+
+        private void revertToOriginalLocale()
+        {
+            Thread.CurrentThread.CurrentCulture = m_OriginalCultureInfo;
+            Thread.CurrentThread.CurrentUICulture = m_OriginalCultureInfo;
         }
     }
 }
