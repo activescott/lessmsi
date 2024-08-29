@@ -25,12 +25,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using LessMsi.Gui.Extensions;
 using LessMsi.Gui.Model;
@@ -38,10 +36,13 @@ using LessMsi.Gui.Properties;
 using LessMsi.Gui.Resources.Languages;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleToAttribute("LessMsi.Tests")]
 
 namespace LessMsi.Gui
 {
-	internal class MainForm : Form, IMainFormView
+    internal class MainForm : Form, IMainFormView
 	{
 		private readonly MruMenuStripManager _mruManager;
 		private TabPage tabStreams;
@@ -70,7 +71,7 @@ namespace LessMsi.Gui
 			}
 
             Icon = Properties.Resources.LessmsiIcon;
-		}
+        }
 
 		private MainFormPresenter Presenter { get; set; }
 
@@ -239,23 +240,23 @@ namespace LessMsi.Gui
 		public ComboBox cboTable;
 		private Label label2;
 		private Panel panel1;
-		private Button btnExtract;
+		public Button btnExtract;
 		private FolderBrowserDialog folderBrowser;
 		private OpenFileDialog openMsiDialog;
 		private StatusBar statusBar1;
 		internal StatusBarPanel statusPanelDefault;
 		private StatusBarPanel statusPanelFileCount;
-		private Button btnSelectAll;
-		private Button btnUnselectAll;
+		public Button btnSelectAll;
+        public Button btnUnselectAll;
 		private TabPage tabSummary;
 		private TextBox txtSummaryDescription;
 		private GroupBox grpDescription;
 		private Panel panel2;
 		private MenuStrip menuStrip1;
-		private ToolStripMenuItem editToolStripMenuItem;
+		public ToolStripMenuItem editToolStripMenuItem;
 		private ToolStripMenuItem copyToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem preferencesToolStripMenuItem;
+		public ToolStripMenuItem preferencesToolStripMenuItem;
 		private ToolStripMenuItem fileToolStripMenuItem;
 		private ToolStripMenuItem openToolStripMenuItem;
 		public DataGridView fileGrid;
