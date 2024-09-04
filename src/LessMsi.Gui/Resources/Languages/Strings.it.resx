@@ -243,32 +243,11 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Rimuovi se esistono voci menu contestuale Explorer</value>
   </data>
-  <data name="AndOthers" xml:space="preserve">
-    <value>e altri</value>
-  </data>
-  <data name="CreatedBy" xml:space="preserve">
-    <value>Creata da</value>
-  </data>
-  <data name="Library" xml:space="preserve">
-    <value>libreria</value>
-  </data>
-  <data name="ModifiedLibmspackText" xml:space="preserve">
-    <value>Il codice sorgente modificato di libsmpack è disponibile nel sito web lessmsi all'indirizzo</value>
-  </data>
-  <data name="ModifiedVersionText" xml:space="preserve">
-    <value>Questo programma usa una versione leggermente modificata della</value>
-  </data>
-  <data name="WithContributionsFrom" xml:space="preserve">
-    <value>con il contributo di</value>
-  </data>
   <data name="MissingFile" xml:space="preserve">
     <value>File Mancante</value>
   </data>
   <data name="SameDirMassage" xml:space="preserve">
     <value>deve essere nella stessa cartella di</value>
-  </data>
-  <data name="Copyright" xml:space="preserve">
-    <value>Copyright</value>
   </data>
   <data name="FilesFoundStatus" xml:space="preserve">
     <value>file trovati.</value>

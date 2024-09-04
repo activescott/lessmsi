@@ -159,7 +159,7 @@
     <EmbeddedResource Include="Windows.Forms\SearchPanel.resx">
       <DependentUpon>SearchPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="aboutbox_template.rtf" />
+    <EmbeddedResource Include="aboutbox.rtf" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
