@@ -13,7 +13,7 @@ namespace LessMsi.Gui
             this.Text = String.Format("About {0}", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            this.labelCopyright.Text = $" Scott Willeke © 2004-{DateTime.Now.Year}";
+            this.labelCopyright.Text = $"Copyright Scott Willeke © 2004-{DateTime.Now.Year}";
 
             Icon = Properties.Resources.LessmsiIcon;
         }
