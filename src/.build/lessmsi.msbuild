@@ -33,6 +33,9 @@
 		<DeployFiles Include="$(RootDir)\LessMsi.Cli\bin\Release\lessmsi.exe.config"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\lessmsi-gui.exe"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\lessmsi-gui.exe.config"></DeployFiles>
+		<!-- GUI Resources: -->
+		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\**\lessmsi-gui.resources.dll"></DeployFiles>
+		
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.9.10\lib\net40\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.9.10\build\x86\mspack.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\LessIO.1.0.34\lib\net40\LessIO.dll"></DeployFiles>
@@ -126,7 +129,7 @@
 
 		<Copy
 			SourceFiles="%(DeployFiles.FullPath)"
-			DestinationFolder="$(TheDeployDir)"
+			DestinationFolder="$(TheDeployDir)\%(RecursiveDir)"
 		/>
 	</Target>
 

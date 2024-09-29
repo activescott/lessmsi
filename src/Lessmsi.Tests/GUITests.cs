@@ -7,7 +7,8 @@ namespace LessMsi.Tests
 {
     public class GUITests : TestBase
     {
-        private CultureInfo m_OriginalCultureInfo;
+        private CultureInfo originalUICulture;
+        private CultureInfo originalCulture;
 
         [Fact]
         public void CheckUIStrings()
@@ -39,7 +40,7 @@ namespace LessMsi.Tests
 
         private void checkItalianUIStrings()
         {
-            setCustomLocale("it");
+            setCustomLocale("it-IT");
 
             var form = new MainForm(string.Empty);
 
@@ -60,16 +61,18 @@ namespace LessMsi.Tests
 
         private void setCustomLocale(string locale)
         {
-            m_OriginalCultureInfo = Thread.CurrentThread.CurrentCulture;
+            originalCulture = CultureInfo.CurrentCulture;
+            originalUICulture = CultureInfo.CurrentUICulture;
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(locale);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(locale);
+            var culture = CultureInfo.CreateSpecificCulture(locale);
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
         }
 
         private void revertToOriginalLocale()
         {
-            Thread.CurrentThread.CurrentCulture = m_OriginalCultureInfo;
-            Thread.CurrentThread.CurrentUICulture = m_OriginalCultureInfo;
+            CultureInfo.CurrentCulture = originalCulture;
+            CultureInfo.CurrentUICulture = originalUICulture;
         }
     }
 }
