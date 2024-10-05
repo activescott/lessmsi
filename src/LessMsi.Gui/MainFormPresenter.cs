@@ -30,6 +30,7 @@ using System.IO;
 using System.Linq;
 using LessIO;
 using LessMsi.Gui.Model;
+using LessMsi.Gui.Resources.Languages;
 using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
 using LessMsi.OleStorage;
@@ -62,10 +63,10 @@ namespace LessMsi.Gui
 
 		private void InitializePropertyGrid()
 		{
-			View.AddPropertyGridColumn("Name", "Name");
-			View.AddPropertyGridColumn("Value", "Value");
-			View.AddPropertyGridColumn("ID", "ID");
-			View.AddPropertyGridColumn("Type", "Type");
+			View.AddPropertyGridColumn("Name", Strings.Name);
+			View.AddPropertyGridColumn("Value", Strings.Value);
+			View.AddPropertyGridColumn("ID", Strings.ID);
+			View.AddPropertyGridColumn("Type", Strings.Type);
 		}
 
 		private void InitializeTableGrid()
@@ -75,11 +76,11 @@ namespace LessMsi.Gui
 
 		private void InitializeFileGrid()
 		{
-			View.AddFileGridColumn("Name", "Name");
-			View.AddFileGridColumn("Directory", "Directory");
-			View.AddFileGridColumn("Component", "Component");
-			View.AddFileGridColumn("Size", "Size");
-			View.AddFileGridColumn("Version", "Version");
+			View.AddFileGridColumn("Name", Strings.Name);
+			View.AddFileGridColumn("Directory", Strings.Directory);
+			View.AddFileGridColumn("Component", Strings.Component);
+			View.AddFileGridColumn("Size", Strings.Size);
+			View.AddFileGridColumn("Version", Strings.Version);
 		}
 
 		public IMainFormView View
@@ -131,16 +132,16 @@ namespace LessMsi.Gui
 						fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
 						ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
 						View.AutoSizeFileGridColumns();
-						Status(fileDataSource.Count + " files found.");
+						Status(fileDataSource.Count + $" {Strings.FilesFoundStatus}");
 					}
 					else
 					{
-						Status("No files present.");
+						Status(Strings.NoFilesPresentStatus);
 					}
 				}
 				catch (Exception eUnexpected)
 				{
-					Error(string.Concat("Cannot view files:", eUnexpected.Message), eUnexpected);
+					Error(string.Concat(Strings.ViewFilesError, eUnexpected.Message), eUnexpected);
 				}
 			}
 		}
@@ -161,7 +162,7 @@ namespace LessMsi.Gui
 			}
 			catch (Exception eUnexpected)
 			{
-				Error("Error loading Summary Information", eUnexpected);
+				Error(Strings.LoadingSummaryInfoError, eUnexpected);
 			}
 		}
 
@@ -185,7 +186,7 @@ namespace LessMsi.Gui
 		public void Error(string msg, Exception exception = null)
 		{
 			string toolTip = exception != null ? exception.ToString() : "";
-			View.StatusText("ERROR:" + msg, toolTip);
+			View.StatusText($"{Strings.ERROR}:" + msg, toolTip);
 		}
 
 		/// <summary>
@@ -330,7 +331,7 @@ namespace LessMsi.Gui
 				{
 					try
 					{
-						Status("Loading list of tables...");
+						Status($"{Strings.LoadingTablesStatus}");
 						var query = "SELECT * FROM `_Tables`";
 						using (var msiTable = new ViewWrapper(msidb.OpenExecuteView(query)))
 						{
@@ -378,7 +379,7 @@ namespace LessMsi.Gui
 					var foundStream = oleFile.GetStreams().FirstOrDefault(s => string.Equals(View.SelectedStreamInfo.Name, s.Name, StringComparison.InvariantCulture));
 					if (foundStream == null)
 					{
-						View.ShowUserError("Could not find stream for CAB '{0}'", View.SelectedStreamInfo.Name);
+						View.ShowUserError(Strings.FindStreamError, View.SelectedStreamInfo.Name);
 						return;
 					}
 					// if the file is a cab, we'll list the files in it (if it isn't clear the view):
@@ -433,7 +434,7 @@ namespace LessMsi.Gui
 			if (msidb == null || string.IsNullOrEmpty(tableName))
 				return;
 
-			Status(string.Concat("Processing Table \'", tableName, "\'."));
+			Status(string.Format(Strings.ProcessingTableStatus, tableName));
 
 			using (View.StartWaitCursor())
 			{   // clear the columns no matter what happens (in the event the table doesn't exist we don't want to show anything).
@@ -465,7 +466,7 @@ namespace LessMsi.Gui
 				}
 				catch (Exception eUnexpected)
 				{
-					Error(string.Concat("Cannot view table:", eUnexpected.Message), eUnexpected);
+					Error(string.Concat(Strings.ViewTableError, eUnexpected.Message), eUnexpected);
 				}
 			}
 		}
@@ -501,24 +502,24 @@ namespace LessMsi.Gui
 			}
 			catch (ArgumentNullException)
 			{
-				this.Error("The file path is empty");
+				this.Error(Strings.EmptyFilePathError);
 			}
 			catch (ArgumentException)
 			{
-				this.Error("The file path is badly formed.");
+				this.Error(Strings.BadlyFormedFilePathError);
 			}
 			catch (PathTooLongException)
 			{
-				this.Error("The file path is too long.");
+				this.Error(Strings.TooLongFilePathError);
 			}
 			catch (NotSupportedException)
 			{
-				this.Error("The file path contains invalid characters.");
+				this.Error(Strings.InvalidCharsInFilePathError);
 			}
 			if (file == null) return;
 			if (!file.Exists)
 			{
-				this.Error(string.Format("File '{0}' does not exist.", file.FullName));
+				this.Error(string.Format(Strings.FileExistError, file.FullName));
 				if (SelectedMsiFile != null)
 					ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
 				return;
@@ -545,7 +546,7 @@ namespace LessMsi.Gui
 			catch (Exception eCatchAll)
 			{
 				isBadFile = true;
-				Error("Failed to open file.", eCatchAll);
+				Error(Strings.OpenFileError, eCatchAll);
 			}
 			View.ChangeUiEnabled(!isBadFile);
 		}
@@ -567,7 +568,7 @@ namespace LessMsi.Gui
 			    else
 			    {
 				    dataSource = this.fileDataSource.Where(x => x.Component.Contains(searchTerm) || x.Directory.Contains(searchTerm) || x.Name.Contains(searchTerm) || x.Version.Contains(searchTerm)).ToList();
-					Status(string.Format("{0} files found.", dataSource.Count));
+					Status(string.Format($"{0} {Strings.FilesFoundStatus}", dataSource.Count));
 			    }
 				ViewLeakedAbstraction.fileGrid.DataSource = dataSource;
 		    }

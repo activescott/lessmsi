@@ -1,4 +1,5 @@
-﻿using LessMsi.Gui.Windows.Forms;
+﻿using LessMsi.Gui.Resources.Languages;
+using LessMsi.Gui.Windows.Forms;
 
 namespace LessMsi.Gui
 {
@@ -43,9 +44,8 @@ namespace LessMsi.Gui
 			this.cmdAddShortcut.ShowElevationShield = true;
 			this.cmdAddShortcut.Size = new System.Drawing.Size(344, 72);
 			this.cmdAddShortcut.TabIndex = 1;
-			this.cmdAddShortcut.Text = "Add Shortcut Item to Explorer";
-			this.cmdAddShortcut.TextNote = "Adds \'Extract\' & \'Explore\' menu items to the right-click context menu of .msi fil" +
-    "es";
+			this.cmdAddShortcut.Text = Strings.AddShortcutText;
+			this.cmdAddShortcut.TextNote = Strings.AddShortcutTextNote;
 			this.cmdAddShortcut.UseVisualStyleBackColor = true;
 			this.cmdAddShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
 			// 
@@ -57,8 +57,8 @@ namespace LessMsi.Gui
 			this.cmdRemoveShortcut.ShowElevationShield = true;
 			this.cmdRemoveShortcut.Size = new System.Drawing.Size(344, 60);
 			this.cmdRemoveShortcut.TabIndex = 2;
-			this.cmdRemoveShortcut.Text = "Remove Shortcut Item";
-			this.cmdRemoveShortcut.TextNote = "Removes the context menu if it exists";
+			this.cmdRemoveShortcut.Text = Strings.RemoveShortcutText;
+			this.cmdRemoveShortcut.TextNote = Strings.RemoveShortcutTextNote;
 			this.cmdRemoveShortcut.UseVisualStyleBackColor = true;
 			this.cmdRemoveShortcut.Click += new System.EventHandler(this.cmdAddRemoveShortcut_Click);
 			// 
@@ -89,9 +89,7 @@ namespace LessMsi.Gui
 			this.MinimizeBox = false;
 			this.Name = "PreferencesForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "LessMSIerables Preferences";
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

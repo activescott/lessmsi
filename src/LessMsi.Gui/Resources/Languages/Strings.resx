@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Add Shortcut Item to Explorer</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Adds 'Extract' &amp; 'Explore' menu items to the right-click context menu of .msi files</value>
+  </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>The file path is badly formed</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>Component</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>The file path is empty</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERROR</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>E&amp;xtract</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extract Files</value>
+  </data>
+  <data name="ExtractStreamFiles" xml:space="preserve">
+    <value>Extract Stream Files...</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>File '{0}' does not exist</value>
+  </data>
+  <data name="FileMenuLabel" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>files found.</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Could not find stream for CAB '{0}'</value>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>The file path contains invalid characters</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Error loading summary information</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Loading list of tables...</value>
+  </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>Missing File</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>No files present</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>&amp;Open</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>Failed to open file</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="PreferencesMenuLabel" xml:space="preserve">
+    <value>&amp;Preferences</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>Processing table '{0}'.</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Recent Files</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Remove Shortcut Item</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Removes the context menu if it exists</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>should be in the same directory as</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search:</value>
+  </data>
+  <data name="SearchFile" xml:space="preserve">
+    <value>Search File</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select &amp;All</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Please select some or all of the files to extract them.</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Stream" xml:space="preserve">
+    <value>Stream</value>
+  </data>
+  <data name="Streams" xml:space="preserve">
+    <value>Streams</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>&amp;Table</value>
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Table View</value>
+  </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>The file path is too long</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UnselectAll" xml:space="preserve">
+    <value>&amp;Unselect All</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="ViewFilesError" xml:space="preserve">
+    <value>Cannot view files</value>
+  </data>
+  <data name="ViewTableError" xml:space="preserve">
+    <value>Cannot view table</value>
+  </data>
+</root>
