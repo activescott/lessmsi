@@ -48,8 +48,8 @@ namespace LessMsi.Tests
             Assert.NotNull(form);
 
             // check buttons strings
-            Assert.Equal("Selziona &Tutto", form.btnSelectAll.Text);
-            Assert.Equal("&Deseleziona Tutto", form.btnUnselectAll.Text);
+            Assert.Equal("Selziona &tutto", form.btnSelectAll.Text);
+            Assert.Equal("&Deseleziona tutto", form.btnUnselectAll.Text);
             Assert.Equal("E&strai", form.btnExtract.Text);
 
             // check strip menu items strings

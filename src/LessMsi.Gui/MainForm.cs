@@ -57,10 +57,6 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
-            var culture = CultureInfo.CreateSpecificCulture("it-IT");
-            CultureInfo.CurrentCulture = culture;
-            CultureInfo.CurrentUICulture = culture;
-
             InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
