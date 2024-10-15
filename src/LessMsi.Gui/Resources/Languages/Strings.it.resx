@@ -276,4 +276,10 @@
   <data name="PreferencesMenuLabel" xml:space="preserve">
     <value>&amp;Preferenze</value>
   </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>Tutti i file</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>File eseguibili .msi</value>
+  </data>
 </root>

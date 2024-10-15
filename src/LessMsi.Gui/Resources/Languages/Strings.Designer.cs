@@ -88,6 +88,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Files.
+        /// </summary>
+        internal static string AllFilesFilter {
+            get {
+                return ResourceManager.GetString("AllFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file path is badly formed.
         /// </summary>
         internal static string BadlyFormedFilePathError {
@@ -282,6 +291,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string MissingFile {
             get {
                 return ResourceManager.GetString("MissingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to msierablefiles.
+        /// </summary>
+        internal static string MsiFilesFilter {
+            get {
+                return ResourceManager.GetString("MsiFilesFilter", resourceCulture);
             }
         }
         

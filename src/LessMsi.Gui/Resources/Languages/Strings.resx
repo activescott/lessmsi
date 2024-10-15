@@ -126,6 +126,9 @@
   <data name="AddShortcutTextNote" xml:space="preserve">
     <value>Adds 'Extract' &amp; 'Explore' menu items to the right-click context menu of .msi files</value>
   </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>All Files</value>
+  </data>
   <data name="BadlyFormedFilePathError" xml:space="preserve">
     <value>The file path is badly formed</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="MissingFile" xml:space="preserve">
     <value>Missing File</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>msierablefiles</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>

@@ -57,6 +57,10 @@ namespace LessMsi.Gui
 
         public MainForm(string defaultInputFile)
 		{
+            var culture = CultureInfo.CreateSpecificCulture("it-IT");
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+
             InitializeComponent();
 			msiTableGrid.AutoGenerateColumns = false;
 			msiPropertyGrid.AutoGenerateColumns = false;
@@ -691,7 +695,7 @@ namespace LessMsi.Gui
             // openMsiDialog
             // 
             this.openMsiDialog.DefaultExt = "msi";
-            this.openMsiDialog.Filter = "msierablefiles|*.msi;*.msp|All Files|*.*";
+            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp|{Strings.AllFilesFilter}|*.*";
             // 
             // statusBar1
             // 
