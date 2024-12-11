@@ -691,7 +691,7 @@ namespace LessMsi.Gui
             // openMsiDialog
             // 
             this.openMsiDialog.DefaultExt = "msi";
-            this.openMsiDialog.Filter = "msierablefiles|*.msi;*.msp|All Files|*.*";
+            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp|{Strings.AllFilesFilter}|*.*";
             // 
             // statusBar1
             // 

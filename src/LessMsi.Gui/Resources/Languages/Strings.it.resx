@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Info Programma</value>
+    <value>Info programma</value>
   </data>
   <data name="Component" xml:space="preserve">
     <value>Componente</value>
@@ -145,10 +145,10 @@
     <value>E&amp;strai</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Estrai File</value>
+    <value>Estrai file</value>
   </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
-    <value>Estrai File Flussi...</value>
+    <value>Estrai file flussi...</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
@@ -166,13 +166,13 @@
     <value>Preferenze</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>File Recenti</value>
+    <value>File recenti</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
-    <value>Cerca File</value>
+    <value>Cerca file</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Selziona &amp;Tutto</value>
+    <value>Selziona &amp;tutto</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
@@ -190,13 +190,13 @@
     <value>&amp;Tabella</value>
   </data>
   <data name="TableView" xml:space="preserve">
-    <value>Vista Tabella</value>
+    <value>Vista tabella</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
   </data>
   <data name="UnselectAll" xml:space="preserve">
-    <value>&amp;Deseleziona Tutto</value>
+    <value>&amp;Deseleziona tutto</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Valore</value>
@@ -232,19 +232,19 @@
     <value>Il percorso del file è troppo lungo</value>
   </data>
   <data name="AddShortcutText" xml:space="preserve">
-    <value>Aggiungi menu contestuale Explorer</value>
+    <value>Aggiungi menu contestuale explorer</value>
   </data>
   <data name="AddShortcutTextNote" xml:space="preserve">
     <value>Aggiungi le voci 'Estrai' e 'Sfoglia' al menu contestuale dei file .msi</value>
   </data>
   <data name="RemoveShortcutText" xml:space="preserve">
-    <value>Rimuovi menu contestuale Explorer</value>
+    <value>Rimuovi menu contestuale explorer</value>
   </data>
   <data name="RemoveShortcutTextNote" xml:space="preserve">
-    <value>Rimuovi se esistono voci menu contestuale Explorer</value>
+    <value>Rimuovi se esistono voci menu contestuale explorer</value>
   </data>
   <data name="MissingFile" xml:space="preserve">
-    <value>File Mancante</value>
+    <value>File mancante</value>
   </data>
   <data name="SameDirMassage" xml:space="preserve">
     <value>deve essere nella stessa cartella di</value>
@@ -275,5 +275,11 @@
   </data>
   <data name="PreferencesMenuLabel" xml:space="preserve">
     <value>&amp;Preferenze</value>
+  </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>Tutti i file</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>File eseguibili .msi</value>
   </data>
 </root>
