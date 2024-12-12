@@ -63,6 +63,7 @@ namespace LessMsi.Cli
                 var subcommands = new Dictionary<string, LessMsiCommand> {
                     {"o", new OpenGuiCommand()},
                     {"x", extractCommand},
+                    {"xo", extractCommand},
                     {"xfo", extractCommand},
                     {"xfr", extractCommand},
                     {"/x", extractCommand},
@@ -139,6 +140,10 @@ namespace LessMsi.Cli
             else
             {
                 Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
+                if (extractionMode == ExtractionMode.OverwriteExtraction)
+                {
+                    deleteDuplicateFiles(outDirName);
+                }
             }
         }
 
@@ -208,6 +213,21 @@ namespace LessMsi.Cli
             }
 
             return Path.GetFullPath(filePath);
+        }
+
+        private static void deleteDuplicateFiles(string folderPath)
+        {
+            // Iterate through each file in the directory and subdirectories
+            foreach (string file in Directory.EnumerateFiles(folderPath, "*", SearchOption.AllDirectories))
+            {
+                // Check if the file name ends with "duplicate1"
+                string fileName = Path.GetFileName(file);
+                if (fileName.EndsWith("duplicate1", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Delete the file
+                    File.Delete(file);
+                }
+            }
         }
     }
 }

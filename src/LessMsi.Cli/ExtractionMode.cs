@@ -17,6 +17,11 @@
         /// <summary>
         /// Value indicating that a file extraction overwriting identical files should be performed.
         /// </summary>
-        OverwriteFlatExtraction
+        OverwriteFlatExtraction,
+        /// <summary>
+        /// Value indicating that a file extraction overwriting identical files should be performed.
+        /// While preserving the directories structures
+        /// </summary>
+        OverwriteExtraction
     }
 }

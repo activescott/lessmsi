@@ -38,16 +38,45 @@ namespace LessMsi.Cli
             commandArgument = commandArgument.ToLowerInvariant();
             ExtractionMode extractionMode = ExtractionMode.PreserveDirectoriesExtraction;
 
-            if (commandArgument[commandArgument.Length - 1] == 'o')
+            if (isFlatExtractionRequired(commandArgument))
             {
-                extractionMode = ExtractionMode.OverwriteFlatExtraction;
+                if (commandArgument[commandArgument.Length - 1] == 'o')
+                {
+                    extractionMode = ExtractionMode.OverwriteFlatExtraction;
+                }
+                else if (commandArgument[commandArgument.Length - 1] == 'r')
+                {
+                    extractionMode = ExtractionMode.RenameFlatExtraction;
+                }
             }
-            else if (commandArgument[commandArgument.Length - 1] == 'r')
+            else
             {
-                extractionMode = ExtractionMode.RenameFlatExtraction;
+                if (isRegularExtracionWithOverwriteRequired(commandArgument))
+                {
+                    extractionMode = ExtractionMode.OverwriteExtraction;
+                }
             }
 
             return extractionMode;
+        }
+
+        private bool isFlatExtractionRequired(string commandArgument)
+        {
+            bool flatExtractionRequiredFlag = false;
+
+            if (commandArgument.Length > 1)
+            {
+                flatExtractionRequiredFlag = commandArgument[1] == 'f';
+            }
+
+            return flatExtractionRequiredFlag;
+        }
+
+        private bool isRegularExtracionWithOverwriteRequired(string commandArgument)
+        {
+            bool regularExtracionWithOverwriteFlag = commandArgument[commandArgument.Length - 1] == 'o';
+
+            return regularExtracionWithOverwriteFlag;
         }
     }
 }
