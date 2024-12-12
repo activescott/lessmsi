@@ -217,14 +217,11 @@ namespace LessMsi.Cli
 
         private static void deleteDuplicateFiles(string folderPath)
         {
-            // Iterate through each file in the directory and subdirectories
             foreach (string file in Directory.EnumerateFiles(folderPath, "*", SearchOption.AllDirectories))
             {
-                // Check if the file name ends with "duplicate1"
                 string fileName = Path.GetFileName(file);
-                if (fileName.EndsWith("duplicate1", StringComparison.OrdinalIgnoreCase))
+                if (fileName.Contains("duplicate"))
                 {
-                    // Delete the file
                     File.Delete(file);
                 }
             }
