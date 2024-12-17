@@ -41,6 +41,14 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void OverwriteExtract1Arg()
+        {
+            var commandLine = "xo TestFiles\\MsiInput\\AppleMobileDeviceSupport64.msi";
+            // setting "AppleMobileDeviceSupport64.msi" as actualEntriesOutputDir value, since no other output dir specified in command line text
+            TestExtraction(commandLine, GetTestName(), "AppleMobileDeviceSupport64", false);
+        }
+
+        [Fact]
         public void Extract2Args()
         {
             var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex2Args\\";
@@ -69,6 +77,13 @@ namespace LessMsi.Tests
         }
 
         [Fact]
+        public void OverwriteExtract2Args()
+        {
+            var commandLine = "xo TestFiles\\MsiInput\\AppleMobileDeviceSupport64.msi OverwriteExtract2Args\\";
+            TestExtraction(commandLine, GetTestName(), "OverwriteExtract2Args", false);
+        }
+
+        [Fact]
         public void Extract3Args()
         {
             var commandLine = "x TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi Ex3\\ \"cs-money.build\" \"requiresMTA.html\"";
@@ -94,6 +109,13 @@ namespace LessMsi.Tests
         {
             var commandLine = "xfr TestFiles\\MsiInput\\NUnit-2.5.2.9222.msi FlatRenameExtract3Args\\ \"cs-money.build\" \"requiresMTA.html\"";
             TestExtraction(commandLine, GetTestName(), "FlatRenameExtract3Args", false, flatExtractionFlag: true);
+        }
+
+        [Fact]
+        public void OverwriteExtract3Args()
+        {
+            var commandLine = "xo TestFiles\\MsiInput\\AppleMobileDeviceSupport64.msi OverwriteExtract3Args\\ \"api-ms-win-core-file-l1-1-0.dll\" \"api-ms-win-core-file-l1-1-0.dll.duplicate1\"";
+            TestExtraction(commandLine, GetTestName(), "OverwriteExtract3Args", false);
         }
 
         [Fact]

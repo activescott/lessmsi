@@ -1,0 +1,361 @@
+﻿Path,Size,CreationTime,LastWriteTime,Attributes
+\SourceDir\System64\api-ms-win-core-console-l1-1-0.dll,19864,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-datetime-l1-1-0.dll,19360,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-debug-l1-1-0.dll,19344,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-errorhandling-l1-1-0.dll,19376,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-file-l1-1-0.dll,22928,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-file-l1-2-0.dll,19344,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-file-l2-1-0.dll,19344,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-handle-l1-1-0.dll,19352,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-heap-l1-1-0.dll,19856,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-interlocked-l1-1-0.dll,19368,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-libraryloader-l1-1-0.dll,19888,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-localization-l1-2-0.dll,21936,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-memory-l1-1-0.dll,19864,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-namedpipe-l1-1-0.dll,19360,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-processenvironment-l1-1-0.dll,20424,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-processthreads-l1-1-0.dll,21432,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-processthreads-l1-1-1.dll,19896,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-profile-l1-1-0.dll,18840,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-rtlsupport-l1-1-0.dll,19880,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-string-l1-1-0.dll,19352,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-synch-l1-1-0.dll,21392,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-synch-l1-2-0.dll,19856,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-sysinfo-l1-1-0.dll,20376,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-timezone-l1-1-0.dll,19360,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-core-util-l1-1-0.dll,19344,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-conio-l1-1-0.dll,20368,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-convert-l1-1-0.dll,23448,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-environment-l1-1-0.dll,19880,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-filesystem-l1-1-0.dll,21408,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-heap-l1-1-0.dll,20360,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-locale-l1-1-0.dll,19856,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-math-l1-1-0.dll,28552,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-multibyte-l1-1-0.dll,27552,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-private-l1-1-0.dll,71576,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-process-l1-1-0.dll,20376,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-runtime-l1-1-0.dll,23960,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-stdio-l1-1-0.dll,25488,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-string-l1-1-0.dll,25488,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-time-l1-1-0.dll,21896,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\api-ms-win-crt-utility-l1-1-0.dll,19864,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\concrt140.dll,331432,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\msvcp140.dll,641696,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\ucrtbase.dll,993600,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\vccorlib140.dll,389296,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System64\vcruntime140.dll,87728,2017-05-25T13:43:38.0000000,2017-05-25T13:43:38.0000000,Archive
+\SourceDir\System\api-ms-win-core-console-l1-1-0.dll,19864,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-datetime-l1-1-0.dll,19360,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-debug-l1-1-0.dll,19344,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-errorhandling-l1-1-0.dll,19376,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-file-l1-1-0.dll,22928,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-file-l1-2-0.dll,19344,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-file-l2-1-0.dll,19344,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-handle-l1-1-0.dll,19352,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-heap-l1-1-0.dll,19856,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-interlocked-l1-1-0.dll,19880,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-libraryloader-l1-1-0.dll,19888,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-localization-l1-2-0.dll,21936,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-memory-l1-1-0.dll,19864,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-namedpipe-l1-1-0.dll,19360,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-processenvironment-l1-1-0.dll,20424,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-processthreads-l1-1-0.dll,21432,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-processthreads-l1-1-1.dll,19896,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-profile-l1-1-0.dll,18840,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-rtlsupport-l1-1-0.dll,18856,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-string-l1-1-0.dll,19352,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-synch-l1-1-0.dll,21392,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-synch-l1-2-0.dll,19856,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-sysinfo-l1-1-0.dll,20376,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-timezone-l1-1-0.dll,19360,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-core-util-l1-1-0.dll,19344,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-conio-l1-1-0.dll,20368,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-convert-l1-1-0.dll,23448,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-environment-l1-1-0.dll,19880,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-filesystem-l1-1-0.dll,21408,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-heap-l1-1-0.dll,20360,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-locale-l1-1-0.dll,19856,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-math-l1-1-0.dll,30088,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-multibyte-l1-1-0.dll,27552,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-private-l1-1-0.dll,74136,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-process-l1-1-0.dll,20376,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-runtime-l1-1-0.dll,23960,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-stdio-l1-1-0.dll,25488,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-string-l1-1-0.dll,25488,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-time-l1-1-0.dll,21896,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\api-ms-win-crt-utility-l1-1-0.dll,19864,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\concrt140.dll,242496,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\msvcp140.dll,440120,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\ucrtbase.dll,921912,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\vccorlib140.dll,263856,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\System\vcruntime140.dll,83784,2017-05-25T13:39:24.0000000,2017-05-25T13:39:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AirTrafficHost.dll,321888,2023-11-09T07:39:58.0000000,2023-11-09T07:39:58.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-console-l1-1-0.dll,19136,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-datetime-l1-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-debug-l1-1-0.dll,18624,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-errorhandling-l1-1-0.dll,18624,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-file-l1-1-0.dll,22208,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-file-l1-2-0.dll,18624,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-file-l2-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-handle-l1-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-heap-l1-1-0.dll,19136,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-interlocked-l1-1-0.dll,19136,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-libraryloader-l1-1-0.dll,19136,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-localization-l1-2-0.dll,21184,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-memory-l1-1-0.dll,19136,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-namedpipe-l1-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-processenvironment-l1-1-0.dll,19648,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-processthreads-l1-1-0.dll,20672,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-processthreads-l1-1-1.dll,19136,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-profile-l1-1-0.dll,18112,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-rtlsupport-l1-1-0.dll,18112,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-string-l1-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-synch-l1-1-0.dll,20672,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-synch-l1-2-0.dll,19136,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-sysinfo-l1-1-0.dll,19648,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-timezone-l1-1-0.dll,18624,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-core-util-l1-1-0.dll,18624,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-conio-l1-1-0.dll,19648,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-convert-l1-1-0.dll,22720,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-environment-l1-1-0.dll,19136,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-filesystem-l1-1-0.dll,20672,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-heap-l1-1-0.dll,19648,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-locale-l1-1-0.dll,19136,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-math-l1-1-0.dll,29376,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-multibyte-l1-1-0.dll,26816,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-private-l1-1-0.dll,73408,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-process-l1-1-0.dll,19648,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-runtime-l1-1-0.dll,23232,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-stdio-l1-1-0.dll,24768,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-string-l1-1-0.dll,24768,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-time-l1-1-0.dll,21184,2023-11-09T08:17:24.0000000,2023-11-09T08:17:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\api-ms-win-crt-utility-l1-1-0.dll,19136,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileBackup.exe,83808,2023-11-09T07:30:08.0000000,2023-11-09T07:30:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileBackup_main.dll,162144,2023-11-09T07:30:08.0000000,2023-11-09T07:30:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.exe,83808,2023-11-09T08:59:36.0000000,2023-11-09T08:59:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper_main.dll,176992,2023-11-09T08:59:44.0000000,2023-11-09T08:59:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceService.exe,103776,2023-11-09T08:16:52.0000000,2023-11-09T08:16:52.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceService_main.dll,235872,2023-11-09T08:16:54.0000000,2023-11-09T08:16:54.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileSync.exe,83808,2023-11-09T08:59:36.0000000,2023-11-09T08:59:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileSync_main.dll,287072,2023-11-09T08:59:40.0000000,2023-11-09T08:59:40.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleSyncMapiInterface.dll,150368,2023-11-09T08:16:40.0000000,2023-11-09T08:16:40.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleSyncMapiInterfaceHelper_x64.exe,125792,2023-11-09T08:16:42.0000000,2023-11-09T08:16:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleVersions.dll,28984,2023-11-08T15:30:52.0000000,2023-11-08T15:30:52.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\ASL.dll,80696,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.dll,1861408,2023-11-08T15:29:58.0000000,2023-11-08T15:29:58.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.IE.client.exe,83808,2023-11-09T08:17:10.0000000,2023-11-09T08:17:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.IE.client_main.dll,222048,2023-11-09T08:17:08.0000000,2023-11-09T08:17:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Outlook.client.exe,83808,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Outlook.client_main.dll,586080,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Safari.client.exe,83808,2023-11-09T08:18:04.0000000,2023-11-09T08:18:04.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Safari.client_main.dll,169824,2023-11-09T08:18:04.0000000,2023-11-09T08:18:04.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsContacts.client.exe,83808,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsContacts.client_main.dll,233824,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsMail.client.exe,83808,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsMail.client_main.dll,132960,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.dll,2230584,2023-11-08T15:30:02.0000000,2023-11-08T15:30:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\crypto-44.dll,1576760,2023-11-08T15:18:16.0000000,2023-11-08T15:18:16.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\DeviceLink.dll,151392,2023-11-09T05:29:18.0000000,2023-11-09T05:29:18.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\distnoted.exe,37176,2023-11-08T15:37:08.0000000,2023-11-08T15:37:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.dll,2911520,2023-11-08T15:32:18.0000000,2023-11-08T15:32:18.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\icudt62.dll,27159352,2023-11-08T15:29:24.0000000,2023-11-08T15:29:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\iSyncConduit.dll,1796448,2023-11-09T09:00:58.0000000,2023-11-09T09:00:58.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libcache.dll,37688,2023-11-08T15:37:16.0000000,2023-11-08T15:37:16.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libdispatch.dll,104760,2023-11-08T15:30:00.0000000,2023-11-08T15:30:00.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libicuin.dll,2117944,2023-11-08T15:38:02.0000000,2023-11-08T15:38:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libicuuc.dll,1579320,2023-11-08T15:31:24.0000000,2023-11-08T15:31:24.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libtidy.dll,252728,2023-11-08T15:37:36.0000000,2023-11-08T15:37:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libxml2.dll,1042208,2023-11-08T15:37:08.0000000,2023-11-08T15:37:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\libxslt.dll,194336,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\MDCrashReportTool.exe,83808,2023-11-09T07:30:00.0000000,2023-11-09T07:30:00.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\MDCrashReportTool_main.dll,149856,2023-11-09T07:30:00.0000000,2023-11-09T07:30:00.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Mingler.exe,83808,2023-11-09T07:31:48.0000000,2023-11-09T07:31:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Mingler_main.dll,462176,2023-11-09T07:31:18.0000000,2023-11-09T07:31:18.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\MobileDevice.dll,3183456,2023-11-09T03:57:10.0000000,2023-11-09T03:57:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\objc.dll,237368,2023-11-08T15:28:42.0000000,2023-11-08T15:28:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\OutlookChangeNotifierAddIn.dll,269152,2023-11-09T08:18:00.0000000,2023-11-09T08:18:00.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\pthreadVC2.dll,72504,2023-11-08T15:32:20.0000000,2023-11-08T15:32:20.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SQLite3.dll,991008,2023-11-08T15:28:44.0000000,2023-11-08T15:28:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\ssl-46.dll,308024,2023-11-08T15:18:06.0000000,2023-11-08T15:18:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncDiagnostics.exe,83808,2023-11-09T07:31:42.0000000,2023-11-09T07:31:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncDiagnostics_main.dll,115552,2023-11-09T07:31:48.0000000,2023-11-09T07:31:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\syncli.exe,83808,2023-11-09T07:31:42.0000000,2023-11-09T07:31:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\syncli_main.dll,94560,2023-11-09T07:31:42.0000000,2023-11-09T07:31:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncPlanObserver.exe,83808,2023-11-09T07:31:20.0000000,2023-11-09T07:31:20.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncPlanObserver_main.dll,90976,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServer.exe,83808,2023-11-09T07:31:18.0000000,2023-11-09T07:31:18.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServer_main.dll,118624,2023-11-09T07:31:44.0000000,2023-11-09T07:31:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices.dll,2862944,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.dll,274784,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncUICore.dll,567136,2023-11-09T09:00:44.0000000,2023-11-09T09:00:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncUIHandler.exe,83808,2023-11-09T09:00:44.0000000,2023-11-09T09:00:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncUIHandlerDll.dll,36704,2023-11-09T09:00:44.0000000,2023-11-09T09:00:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncUIHandler_main.dll,51552,2023-11-09T09:00:44.0000000,2023-11-09T09:00:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\ucrtbase.dll,921280,2023-11-09T08:17:26.0000000,2023-11-09T08:17:26.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\upgradedb.exe,83808,2023-11-09T07:31:44.0000000,2023-11-09T07:31:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\upgradedb_main.dll,117088,2023-11-09T07:31:48.0000000,2023-11-09T07:31:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\YSCrashDump.dll,46880,2023-11-08T15:26:10.0000000,2023-11-08T15:26:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\YSUtilities.dll,34592,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\zlib1.dll,82232,2023-11-08T15:37:30.0000000,2023-11-08T15:37:30.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncUICore.Resources\en.lproj\SyncUICoreLocalized.dll,83808,2023-11-09T09:00:44.0000000,2023-11-09T09:00:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\Conflict Resolver-Info.plist,1127,2023-11-09T07:31:48.0000000,2023-11-09T07:31:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\principleClients.plist,541,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\Sync.menu-Info.plist,949,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\SyncMenuExtraBundle-Info.plist,771,2023-11-09T07:31:48.0000000,2023-11-09T07:31:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\SyncServicesUI-Info.plist,954,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\syncuid-Info.plist,1047,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServicesUI.Resources\English.lproj\Localizable.strings,395,2023-11-09T07:31:46.0000000,2023-11-09T07:31:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Outlook.syncschema\Contents\Resources\Info-Windows.plist,796,2023-11-09T08:58:30.0000000,2023-11-09T08:58:30.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Outlook.syncschema\Contents\Resources\Schema.plist,859,2023-11-09T08:58:30.0000000,2023-11-09T08:58:30.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Notes.syncschema\Contents\Windows\Notes.dll,43360,2023-11-09T08:58:34.0000000,2023-11-09T08:58:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Notes.syncschema\Contents\Resources\Schema.plist,6534,2023-11-09T08:58:34.0000000,2023-11-09T08:58:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Notes.syncschema\Contents\Resources\English.lproj\Localizable.strings,56,2023-11-09T08:58:34.0000000,2023-11-09T08:58:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Notes.syncschema\Contents\Resources\English.lproj\Schema.strings,962,2023-11-09T08:58:34.0000000,2023-11-09T08:58:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\MailAccounts.syncschema\Contents\Resources\Schema.plist,10230,2023-11-09T08:58:30.0000000,2023-11-09T08:58:30.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\MailAccounts.syncschema\Contents\Resources\English.lproj\Schema.strings,4763,2023-11-09T08:58:30.0000000,2023-11-09T08:58:30.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\iCal.syncschema\Contents\Resources\Schema.plist,25359,2023-11-09T08:58:38.0000000,2023-11-09T08:58:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\iCal.syncschema\Contents\Resources\English.lproj\Schema.strings,6548,2023-11-09T08:58:38.0000000,2023-11-09T08:58:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Contacts.syncschema\Contents\Windows\Contacts.dll,62816,2023-11-09T08:58:34.0000000,2023-11-09T08:58:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Contacts.syncschema\Contents\Resources\Schema-Windows.plist,33975,2023-11-09T08:58:36.0000000,2023-11-09T08:58:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Contacts.syncschema\Contents\Resources\Schema.plist,39718,2023-11-09T08:58:36.0000000,2023-11-09T08:58:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Contacts.syncschema\Contents\Resources\English.lproj\Conflicts.strings,172,2023-11-09T08:58:36.0000000,2023-11-09T08:58:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Contacts.syncschema\Contents\Resources\English.lproj\Schema.strings,6496,2023-11-09T08:58:36.0000000,2023-11-09T08:58:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Calendars.syncschema\Contents\Windows\Calendars.dll,166240,2023-11-09T08:58:32.0000000,2023-11-09T08:58:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Calendars.syncschema\Contents\Resources\Schema.plist,43537,2023-11-09T08:58:32.0000000,2023-11-09T08:58:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Calendars.syncschema\Contents\Resources\English.lproj\Localizable.strings,2613,2023-11-09T08:58:32.0000000,2023-11-09T08:58:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Calendars.syncschema\Contents\Resources\English.lproj\RecurrenceRule.strings,1619,2023-11-09T08:58:32.0000000,2023-11-09T08:58:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Calendars.syncschema\Contents\Resources\English.lproj\Schema.strings,7122,2023-11-09T08:58:32.0000000,2023-11-09T08:58:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Bookmarks.syncschema\Contents\Windows\Bookmarks.dll,39264,2023-11-09T08:58:36.0000000,2023-11-09T08:58:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Bookmarks.syncschema\Contents\Resources\Schema.plist,4178,2023-11-09T08:58:38.0000000,2023-11-09T08:58:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Bookmarks.syncschema\Contents\Resources\English.lproj\Localizable.strings,68,2023-11-09T08:58:38.0000000,2023-11-09T08:58:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Schemas\Bookmarks.syncschema\Contents\Resources\English.lproj\Schema.strings,703,2023-11-09T08:58:38.0000000,2023-11-09T08:58:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Clients\com.apple.WindowsMail\com.apple.WindowsMail.isRegistered.dll,33632,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Clients\com.apple.WindowsContacts\com.apple.WindowsContacts.isRegistered.dll,33632,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Clients\com.apple.Safari\com.apple.Safari.isRegistered.dll,34144,2023-11-09T08:18:04.0000000,2023-11-09T08:18:04.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Clients\com.apple.Outlook\com.apple.Outlook.isRegistered.dll,35168,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\SyncServices\Clients\com.apple.IE\com.apple.IE.isRegistered.dll,32608,2023-11-09T08:17:08.0000000,2023-11-09T08:17:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\NetDrivers\netaapl64.cat,10247,2023-11-09T07:40:48.0000000,2023-11-09T07:40:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\NetDrivers\netaapl64.inf,4215,2023-11-09T07:40:46.0000000,2023-11-09T07:40:46.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\NetDrivers\netaapl64.sys,23040,2023-11-09T07:40:44.0000000,2023-11-09T07:40:44.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\NetDrivers\WdfCoInstaller01009.dll,1721576,2023-11-09T07:40:50.0000000,2023-11-09T07:40:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\Info.plist,748,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\en.lproj\Document.strings,1964,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\en.lproj\EncodingNames.strings,10202,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\en.lproj\Formatter.strings,1084,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\en.lproj\FoundationErrors.strings,39738,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Foundation.resources\en.lproj\URL.strings,14244,2023-11-08T15:31:36.0000000,2023-11-08T15:31:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Drivers\usbaapl64.cat,14353,2023-11-09T08:16:52.0000000,2023-11-09T08:16:52.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Drivers\usbaapl64.inf,5729,2023-11-09T08:16:52.0000000,2023-11-09T08:16:52.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Drivers\usbaapl64.sys,54784,2023-11-09T08:16:50.0000000,2023-11-09T08:16:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\Drivers\usbaaplrc.dll,6112072,2023-11-09T08:16:48.0000000,2023-11-09T08:16:48.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\CFCharacterSetBitmaps.bitmap,434391,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\CFUniCharPropertyDatabase.data,31780,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\CFUnicodeData-L.mapping,90744,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\Info.plist,1026,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\zh_TW.lproj\Error.strings,6644,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\zh_CN.lproj\Error.strings,6700,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\vi.lproj\Error.strings,7810,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\uk.lproj\Error.strings,8126,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\tr.lproj\Error.strings,8032,2023-11-08T15:28:06.0000000,2023-11-08T15:28:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\th.lproj\Error.strings,7724,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\sv.lproj\Error.strings,8206,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\sk.lproj\Error.strings,8094,2023-11-08T15:28:12.0000000,2023-11-08T15:28:12.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ru.lproj\Error.strings,8104,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ro.lproj\Error.strings,8316,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\pt_PT.lproj\Error.strings,8250,2023-11-08T15:28:10.0000000,2023-11-08T15:28:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\pt.lproj\Error.strings,8132,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\pl.lproj\Error.strings,8300,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\nl.lproj\Error.strings,8402,2023-11-08T15:32:32.0000000,2023-11-08T15:32:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\nb.lproj\Error.strings,8200,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ms.lproj\Error.strings,8448,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ko.lproj\Error.strings,7098,2023-11-08T15:28:12.0000000,2023-11-08T15:28:12.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ja.lproj\Error.strings,7152,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\it.lproj\Error.strings,8330,2023-11-08T15:28:12.0000000,2023-11-08T15:28:12.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\id.lproj\Error.strings,8146,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\hu.lproj\Error.strings,8546,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\hr.lproj\Error.strings,8118,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\he.lproj\Error.strings,7838,2023-11-08T15:32:32.0000000,2023-11-08T15:32:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\fr.lproj\Error.strings,8258,2023-11-08T15:28:10.0000000,2023-11-08T15:28:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\fi.lproj\Error.strings,7944,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\es_419.lproj\Error.strings,8192,2023-11-08T15:28:12.0000000,2023-11-08T15:28:12.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\es.lproj\Error.strings,8318,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\en.lproj\Error.strings,8184,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\el.lproj\Error.strings,8554,2023-11-08T15:32:32.0000000,2023-11-08T15:32:32.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\de.lproj\Error.strings,8644,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\da.lproj\Error.strings,8110,2023-11-08T15:28:12.0000000,2023-11-08T15:28:12.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\cs.lproj\Error.strings,7902,2023-11-08T15:28:08.0000000,2023-11-08T15:28:08.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ca.lproj\Error.strings,8288,2023-11-08T15:32:34.0000000,2023-11-08T15:32:34.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CoreFoundation.resources\ar.lproj\Error.strings,7780,2023-11-08T15:28:14.0000000,2023-11-08T15:28:14.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsMail.client.resources\Description.plist,1247,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsMail.client.resources\VistaOrLaterDescription.plist,1244,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsMail.client.resources\English.lproj\Localizable.strings,112,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsContacts.client.resources\Description.plist,2820,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsContacts.client.resources\VistaOrLaterDescription.plist,2842,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.WindowsContacts.client.resources\English.lproj\Localizable.strings,123,2023-11-09T09:00:42.0000000,2023-11-09T09:00:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Safari.client.resources\Description.plist,1101,2023-11-09T08:18:04.0000000,2023-11-09T08:18:04.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Safari.client.resources\English.lproj\Localizable.strings,65,2023-11-09T08:18:04.0000000,2023-11-09T08:18:04.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Outlook.client.resources\Description-FlatList.plist,6291,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Outlook.client.resources\Description.plist,6498,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.Outlook.client.resources\English.lproj\Localizable.strings,66,2023-11-09T08:18:02.0000000,2023-11-09T08:18:02.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription.plist,2253,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription20.plist,2400,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription30.plist,2570,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription33.plist,2573,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription33Tiger.plist,2464,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription40.plist,2632,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription40Tiger.plist,2523,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription50.plist,2659,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription50SnowLeopard.plist,2632,2023-11-09T08:59:40.0000000,2023-11-09T08:59:40.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.MobileSync.client.resources\ClientDescription50Tiger.plist,2523,2023-11-09T08:59:42.0000000,2023-11-09T08:59:42.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.IE.client.resources\Description.plist,1060,2023-11-09T08:17:10.0000000,2023-11-09T08:17:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\com.apple.IE.client.resources\English.lproj\Localizable.strings,78,2023-11-09T08:17:10.0000000,2023-11-09T08:17:10.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\CFNetworkCoreTypes-Info.plist,51273,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\Info.plist,884,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\PACSupport.js,9860,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\types.plist,10720,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\zh_TW.lproj\Localizable.strings,18474,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\zh_CN.lproj\Localizable.strings,18470,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\vi.lproj\Localizable.strings,23520,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\uk.lproj\Localizable.strings,23434,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\tr.lproj\Localizable.strings,23626,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\th.lproj\Localizable.strings,22852,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\sv.lproj\Localizable.strings,23586,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\Spanish.lproj\Localizable.strings,25236,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\sk.lproj\Localizable.strings,23766,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ru.lproj\Localizable.strings,24086,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ro.lproj\Localizable.strings,24104,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\pt_PT.lproj\Localizable.strings,24812,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\pt.lproj\Localizable.strings,24864,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\pl.lproj\Localizable.strings,23904,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\nb.lproj\Localizable.strings,23514,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ms.lproj\Localizable.strings,23870,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ko.lproj\Localizable.strings,19956,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\Japanese.lproj\Localizable.strings,20028,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\Italian.lproj\Localizable.strings,24650,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\id.lproj\Localizable.strings,23752,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\hu.lproj\Localizable.strings,24522,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\hr.lproj\Localizable.strings,24020,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\he.lproj\Localizable.strings,21688,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\German.lproj\Localizable.strings,25068,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\French.lproj\Localizable.strings,24710,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\fi.lproj\Localizable.strings,23492,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\es_419.lproj\Localizable.strings,24966,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\en_GB.lproj\Localizable.strings,23506,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\English.lproj\Localizable.strings,23506,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\el.lproj\Localizable.strings,25376,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\Dutch.lproj\Localizable.strings,24708,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\da.lproj\Localizable.strings,23992,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\cs.lproj\Localizable.strings,23680,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ca.lproj\Localizable.strings,24558,2023-11-08T15:30:50.0000000,2023-11-08T15:30:50.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\CFNetwork.resources\ar.lproj\Localizable.strings,22324,2023-11-08T15:37:06.0000000,2023-11-08T15:37:06.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription.plist,2253,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription20.plist,2400,2023-11-09T08:59:36.0000000,2023-11-09T08:59:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription30.plist,2570,2023-11-09T08:59:40.0000000,2023-11-09T08:59:40.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription33.plist,2573,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription33Tiger.plist,2464,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription40.plist,2632,2023-11-09T08:59:40.0000000,2023-11-09T08:59:40.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription40Tiger.plist,2523,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription50.plist,2659,2023-11-09T08:59:36.0000000,2023-11-09T08:59:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription50SnowLeopard.plist,2632,2023-11-09T08:59:36.0000000,2023-11-09T08:59:36.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\ClientDescription50Tiger.plist,2523,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive
+\SourceDir\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.resources\Info.plist,808,2023-11-09T08:59:38.0000000,2023-11-09T08:59:38.0000000,Archive

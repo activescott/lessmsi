@@ -328,7 +328,8 @@ namespace LessMsi.Msi
                             LessIO.Path destName = LessIO.Path.Combine(targetDirectoryForFile, entry.LongFileName);
 					        if (FileSystem.Exists(destName))
 					        {
-						        Debug.Fail(string.Format("output file '{0}' already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.", destName));
+						        Debug.WriteLine(string.Format("output file '{0}' already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.", destName));
+
 						        //make unique
 						        // ReSharper disable HeuristicUnreachableCode
 						        Trace.WriteLine(string.Concat("Duplicate file found \'", destName, "\'"));
