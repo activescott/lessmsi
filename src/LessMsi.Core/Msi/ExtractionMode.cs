@@ -1,4 +1,4 @@
-﻿namespace LessMsi.Cli
+﻿namespace LessMsi.Msi
 {
     public enum ExtractionMode
     {
