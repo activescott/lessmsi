@@ -23,12 +23,10 @@
 //	Scott Willeke (scott@willeke.com)
 //
 #region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using LessMsi.Msi;
-
 #endregion
 
 namespace LessMsi.Cli
@@ -108,7 +106,7 @@ namespace LessMsi.Cli
         /// <param name="msiFileName">The path of the specified MSI file.</param>
         /// <param name="outDirName">The directory to extract to. If empty it will use the current directory.</param>
         /// <param name="filesToExtract">The files to be extracted from the msi. If empty all files will be extracted.</param>
-        /// /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
+        /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
         public static void DoExtraction(string msiFileName, string outDirName, List<string> filesToExtract, ExtractionMode extractionMode)
         {
             msiFileName = EnsureAbsolutePath(msiFileName);
@@ -128,7 +126,7 @@ namespace LessMsi.Cli
             if (isExtractionModeFlat(extractionMode))
             {
                 string tempOutDirName = $"{outDirName}{TempFolderSuffix}";
-                Wixtracts.ExtractFiles(msiFile, tempOutDirName, filesToExtract.ToArray(), PrintProgress);
+                Wixtracts.ExtractFiles(msiFile, tempOutDirName, filesToExtract.ToArray(), PrintProgress, extractionMode);
 
                 var fileNameCountingDict = new Dictionary<string, int>();
 
@@ -139,11 +137,7 @@ namespace LessMsi.Cli
             }
             else
             {
-                Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress);
-                if (extractionMode == ExtractionMode.OverwriteExtraction)
-                {
-                    deleteDuplicateFiles(outDirName);
-                }
+                Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract.ToArray(), PrintProgress, extractionMode); 
             }
         }
 
@@ -213,18 +207,6 @@ namespace LessMsi.Cli
             }
 
             return Path.GetFullPath(filePath);
-        }
-
-        private static void deleteDuplicateFiles(string folderPath)
-        {
-            foreach (string file in Directory.EnumerateFiles(folderPath, "*", SearchOption.AllDirectories))
-            {
-                string fileName = Path.GetFileName(file);
-                if (fileName.Contains("duplicate"))
-                {
-                    File.Delete(file);
-                }
-            }
         }
     }
 }

@@ -205,7 +205,7 @@ namespace LessMsi.Msi
 
         public static void ExtractFiles(Path msi, string outputDir)
         {
-            ExtractFiles(msi, outputDir, new string[0], null);
+            ExtractFiles(msi, outputDir, new string[0], null, ExtractionMode.None);
         }
 
 		public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract)
@@ -214,10 +214,10 @@ namespace LessMsi.Msi
 			ExtractFiles(msi, outputDir, msiFiles, null);
 		}
 
-        public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract, AsyncCallback progressCallback)
+        public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract, AsyncCallback progressCallback, ExtractionMode extractionMode)
         {
             var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
-            ExtractFiles(msi, outputDir, msiFiles, progressCallback);
+            ExtractFiles(msi, outputDir, msiFiles, progressCallback, extractionMode);
         }
 
         private static MsiFile[] GetMsiFileFromFileNames(Path msi, string[] fileNamesToExtract)
@@ -256,13 +256,19 @@ namespace LessMsi.Msi
 		    }
 	    }
 
-	    /// <summary>
+        /// <summary>
         /// Extracts the compressed files from the specified MSI file to the specified output directory.
         /// If specified, the list of <paramref name="filesToExtract"/> objects are the only files extracted.
         /// </summary>
         /// <param name="filesToExtract">The files to extract or null or empty to extract all files.</param>
         /// <param name="progressCallback">Will be called during during the operation with progress information, and upon completion. The argument will be of type <see cref="ExtractionProgress"/>.</param>
-        public static void ExtractFiles(Path msi, string outputDir, MsiFile[] filesToExtract, AsyncCallback progressCallback)
+        /// <param name="extractionMode">Enum value for files extraction without folder structure</param>
+        public static void ExtractFiles(
+			Path msi,
+			string outputDir,
+			MsiFile[] filesToExtract,
+			AsyncCallback progressCallback,
+			ExtractionMode extractionMode = ExtractionMode.None)
         {
             if (msi.IsEmpty)
                 throw new ArgumentNullException("msi");
@@ -289,7 +295,8 @@ namespace LessMsi.Msi
 
 		        progress.ReportProgress(ExtractionActivity.Initializing, "", filesExtractedSoFar);
                 var outputDirPath = new Path(outputDir);
-                if (!FileSystem.Exists(outputDirPath)) {
+                if (!FileSystem.Exists(outputDirPath)) 
+				{
 		            FileSystem.CreateDirectory(outputDirPath);
 				}
 
@@ -326,9 +333,9 @@ namespace LessMsi.Msi
 					        progress.ReportProgress(ExtractionActivity.ExtractingFile, entry.LongFileName, filesExtractedSoFar);
 					        string targetDirectoryForFile = GetTargetDirectory(outputDir, entry.Directory);
                             LessIO.Path destName = LessIO.Path.Combine(targetDirectoryForFile, entry.LongFileName);
-					        if (FileSystem.Exists(destName))
+					        if (IsExtractionModeAllowsDuplicates(extractionMode) && FileSystem.Exists(destName))
 					        {
-						        Debug.WriteLine(string.Format("output file '{0}' already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.", destName));
+						        Debug.Fail(string.Format("output file '{0}' already exists. We'll make it unique, but this is probably a strange msi or a bug in this program.", destName));
 
 						        //make unique
 						        // ReSharper disable HeuristicUnreachableCode
@@ -372,11 +379,22 @@ namespace LessMsi.Msi
 			        progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
 	        }
         }
+        /// <summary>
+        /// Checks if given extraction mode value allows duplicate files during extraction
+        /// </summary>
+        /// <param name="extractionMode"></param>
+        /// <returns>Boolean flag for using duplicate files</returns>
+        private static bool IsExtractionModeAllowsDuplicates(ExtractionMode extractionMode)
+		{
+			bool duplicateFilesFlag = extractionMode != ExtractionMode.OverwriteExtraction;
 
-		/// <summary>
-		/// Deletes a file even if it is readonly.
-		/// </summary>
-	    private static void DeleteFileForcefully(Path localFilePath)
+			return duplicateFilesFlag;
+		}
+
+        /// <summary>
+        /// Deletes a file even if it is readonly.
+        /// </summary>
+        private static void DeleteFileForcefully(Path localFilePath)
 	    {
             // In github issue #4 found that the cab files in the Win7SDK have the readonly attribute set and File.Delete fails to delete them. Explicitly unsetting that bit before deleting works okay...
             FileSystem.RemoveFile(localFilePath, true);
