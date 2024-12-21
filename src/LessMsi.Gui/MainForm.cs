@@ -960,7 +960,7 @@ namespace LessMsi.Gui
 					var filesToExtract = selectedFiles.ToArray();
 					Wixtracts.ExtractFiles(msiFile, outputDir, filesToExtract,
 					                       new AsyncCallback(progressDialog.UpdateProgress), 
-                                           ExtractionMode.None);
+                                           ExtractionMode.Default);
 				}
 				catch (Exception err)
 				{

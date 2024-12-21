@@ -3,9 +3,9 @@
     public enum ExtractionMode
     {
         /// <summary>
-        /// Default value indicating that no extraction should be performed.
+        /// Default value indicating that a regular extraction should be performed.
         /// </summary>
-        None,
+        Default,
         /// <summary>
         /// Value indicating that a file extraction preserving directories should be performed.
         /// </summary>

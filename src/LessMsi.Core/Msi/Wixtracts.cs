@@ -205,13 +205,13 @@ namespace LessMsi.Msi
 
         public static void ExtractFiles(Path msi, string outputDir)
         {
-            ExtractFiles(msi, outputDir, new string[0], null, ExtractionMode.None);
+            ExtractFiles(msi, outputDir, new string[0], null, ExtractionMode.Default);
         }
 
 		public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract)
 		{
 			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
-			ExtractFiles(msi, outputDir, msiFiles, null, ExtractionMode.None);
+			ExtractFiles(msi, outputDir, msiFiles, null, ExtractionMode.Default);
 		}
 
         public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract, AsyncCallback progressCallback, ExtractionMode extractionMode)
