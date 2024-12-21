@@ -211,7 +211,7 @@ namespace LessMsi.Msi
 		public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract)
 		{
 			var msiFiles = GetMsiFileFromFileNames(msi, fileNamesToExtract);
-			ExtractFiles(msi, outputDir, msiFiles, null);
+			ExtractFiles(msi, outputDir, msiFiles, null, ExtractionMode.None);
 		}
 
         public static void ExtractFiles(Path msi, string outputDir, string[] fileNamesToExtract, AsyncCallback progressCallback, ExtractionMode extractionMode)
@@ -268,7 +268,7 @@ namespace LessMsi.Msi
 			string outputDir,
 			MsiFile[] filesToExtract,
 			AsyncCallback progressCallback,
-			ExtractionMode extractionMode = ExtractionMode.None)
+			ExtractionMode extractionMode)
         {
             if (msi.IsEmpty)
                 throw new ArgumentNullException("msi");
