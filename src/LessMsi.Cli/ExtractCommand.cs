@@ -37,14 +37,15 @@ namespace LessMsi.Cli
         private ExtractionMode getExtractionMode(string commandArgument)
         {
             commandArgument = commandArgument.ToLowerInvariant();
-            
-            if (commandArgument = 'xfo')
+
+            if (commandArgument == "xfo")
                 return ExtractionMode.OverwriteFlatExtraction;
-            if (commandArgument = 'xfr')
+            if (commandArgument == "xfr")
                 return ExtractionMode.RenameFlatExtraction;
-            if (commandArgument = 'xo')
+            if (commandArgument == "xo")
                 return ExtractionMode.OverwriteExtraction;
-            return ExtractionMode.PreserveDirectoriesExtraction
+
+            return ExtractionMode.PreserveDirectoriesExtraction;
         }
     }
 }
