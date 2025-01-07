@@ -39,11 +39,19 @@ namespace LessMsi.Cli
             commandArgument = commandArgument.ToLowerInvariant();
 
             if (commandArgument == "xfo")
+            {
                 return ExtractionMode.OverwriteFlatExtraction;
+            }
+
             if (commandArgument == "xfr")
+            {
                 return ExtractionMode.RenameFlatExtraction;
+            }
+
             if (commandArgument == "xo")
+            {
                 return ExtractionMode.OverwriteExtraction;
+            }
 
             return ExtractionMode.PreserveDirectoriesExtraction;
         }
