@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LessMsi.Msi;
 using NDesk.Options;
 
 namespace LessMsi.Cli
@@ -36,18 +37,23 @@ namespace LessMsi.Cli
         private ExtractionMode getExtractionMode(string commandArgument)
         {
             commandArgument = commandArgument.ToLowerInvariant();
-            ExtractionMode extractionMode = ExtractionMode.PreserveDirectoriesExtraction;
 
-            if (commandArgument[commandArgument.Length - 1] == 'o')
+            if (commandArgument == "xfo")
             {
-                extractionMode = ExtractionMode.OverwriteFlatExtraction;
-            }
-            else if (commandArgument[commandArgument.Length - 1] == 'r')
-            {
-                extractionMode = ExtractionMode.RenameFlatExtraction;
+                return ExtractionMode.OverwriteFlatExtraction;
             }
 
-            return extractionMode;
+            if (commandArgument == "xfr")
+            {
+                return ExtractionMode.RenameFlatExtraction;
+            }
+
+            if (commandArgument == "xo")
+            {
+                return ExtractionMode.OverwriteExtraction;
+            }
+
+            return ExtractionMode.PreserveDirectoriesExtraction;
         }
     }
 }
