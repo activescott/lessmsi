@@ -11,7 +11,7 @@ namespace LessMsi.Gui
 {
     public partial class ChangeLanguageForm : Form
     {
-        private bool m_SaveBtnUsed = false;
+        private bool m_SaveBtnUsed;
 
         private string m_PreviousCheckedLang;
         private string m_CurrentCheckedLang;
@@ -86,7 +86,7 @@ namespace LessMsi.Gui
                     Checked = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == currentCultureKey
                 };
 
-                checkBox.Click += (sender, e) => OnCheckboxClick(checkBox, e);
+                checkBox.Click += (_, e) => OnCheckboxClick(checkBox, e);
 
                 m_CheckBoxDict.Add(currentCultureKey, checkBox);
 
@@ -102,14 +102,16 @@ namespace LessMsi.Gui
 
         private void OnCheckboxClick(object sender, EventArgs e)
         {
-            if (sender is CheckBox checkBox)
+
+            if (sender is CheckBox)
             {
+                CheckBox checkBox = sender as CheckBox;
                 m_PreviousCheckedLang = m_CurrentCheckedLang;
-                m_CurrentCheckedLang = (sender as CheckBox).Name;
+                m_CurrentCheckedLang = checkBox.Name;
 
                 if (m_CurrentCheckedLang == m_PreviousCheckedLang)
                 {
-                    (sender as CheckBox).Checked = true;
+                    checkBox.Checked = true;
                     return;
                 }
 
