@@ -1032,10 +1032,13 @@ namespace LessMsi.Gui
             changeLanguageForm.ShowDialog(this);
 
             string newSelectedLanguage = changeLanguageForm.NewSelectedLanguage;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
+            if (newSelectedLanguage != string.Empty)
+            {
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
 
-            Controls.Clear();
-            InitializeComponent();
+                Controls.Clear();
+                InitializeComponent();
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

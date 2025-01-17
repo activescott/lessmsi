@@ -11,11 +11,13 @@ namespace LessMsi.Gui
 {
     public partial class ChangeLanguageForm : Form
     {
-        private Dictionary<string, CheckBox> m_CheckBoxDict;
-        private Dictionary<string, CultureInfo> m_CultureInfoDict;
+        private bool m_SaveBtnUsed = false;
 
         private string m_PreviousCheckedLang;
         private string m_CurrentCheckedLang;
+
+        private Dictionary<string, CheckBox> m_CheckBoxDict;
+        private Dictionary<string, CultureInfo> m_CultureInfoDict;
 
         public ChangeLanguageForm()
         {
@@ -94,6 +96,7 @@ namespace LessMsi.Gui
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
+            m_SaveBtnUsed = true;
             Close();
         }
 
@@ -111,6 +114,14 @@ namespace LessMsi.Gui
                 }
 
                 m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
+            }
+        }
+
+        private void ChangeLanguageForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!m_SaveBtnUsed)
+            {
+                m_CurrentCheckedLang = string.Empty;
             }
         }
     }
