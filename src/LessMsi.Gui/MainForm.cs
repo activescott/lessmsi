@@ -457,7 +457,7 @@ namespace LessMsi.Gui
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectAll.Location = new System.Drawing.Point(0, 9);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(90, 27);
+            this.btnSelectAll.Size = new System.Drawing.Size(Strings.SelectAll.Length * 6, 27);
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = Strings.SelectAll;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -470,7 +470,7 @@ namespace LessMsi.Gui
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnUnselectAll.Location = new System.Drawing.Point(106, 9);
             this.btnUnselectAll.Name = "btnUnselectAll";
-            this.btnUnselectAll.Size = new System.Drawing.Size(90, 27);
+            this.btnUnselectAll.Size = new System.Drawing.Size(Strings.UnselectAll.Length * 7, 27);
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = Strings.UnselectAll;
             this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
@@ -1023,13 +1023,17 @@ namespace LessMsi.Gui
 
         private void changeLangToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var changeLanguageForm = new ChangeLanguageForm();
+            var changeLanguageForm = new ChangeLanguageForm
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                Owner = this
+            };
+
             changeLanguageForm.ShowDialog(this);
 
             string newSelectedLanguage = changeLanguageForm.NewSelectedLanguage;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
 
-            // Reinitialize the form to apply the culture
             Controls.Clear();
             InitializeComponent();
         }
