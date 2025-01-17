@@ -71,6 +71,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangeLanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeLanguageForm.Designer.cs">
+      <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\SummaryInformationExtensions.cs" />
     <Compile Include="ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
@@ -132,6 +138,9 @@
     </Compile>
     <Compile Include="Windows.Forms\SortableBindingList.cs" />
     <Compile Include="Windows.Forms\WinFormsHelper.cs" />
+    <EmbeddedResource Include="ChangeLanguageForm.resx">
+      <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -143,6 +152,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Languages\Strings.de.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.it.Designer.cs</LastGenOutput>
