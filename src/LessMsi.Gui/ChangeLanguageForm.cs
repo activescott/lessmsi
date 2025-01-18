@@ -102,8 +102,8 @@ namespace LessMsi.Gui
 
         private void OnCheckboxClick(object sender, EventArgs e)
         {
-
-            if (sender is CheckBox checkBox)
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox != null)
             {
                 m_PreviousCheckedLang = m_CurrentCheckedLang;
                 m_CurrentCheckedLang = checkBox.Name;
