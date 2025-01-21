@@ -120,6 +120,21 @@
   <data name="About" xml:space="preserve">
     <value>Info programma</value>
   </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Aggiungi menu contestuale explorer</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Aggiungi le voci 'Estrai' e 'Sfoglia' al menu contestuale dei file .msi</value>
+  </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>Tutti i file</value>
+  </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>Il percorso del file ha un formato non valido</value>
+  </data>
+  <data name="ChangeLang" xml:space="preserve">
+    <value>Cambia lingua</value>
+  </data>
   <data name="Component" xml:space="preserve">
     <value>Componente</value>
   </data>
@@ -134,6 +149,9 @@
   </data>
   <data name="Edit" xml:space="preserve">
     <value>&amp;Modifica</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>Il percorso è vuoto</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>ERRORE</value>
@@ -153,26 +171,80 @@
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>File '{0}' non esiste</value>
+  </data>
+  <data name="FileMenuLabel" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>file trovati.</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Impossibile trovare lo stream per CAB '{0}'</value>
+  </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>Il percorso del file contiene caratteri non validi</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Errore nel caricamento info riepilogo</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Caricamento elenco tabelle...</value>
+  </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>File mancante</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>File eseguibili .msi</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
   </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>Nessun file presente</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>&amp;Apri</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>Impossibile aprire il file</value>
   </data>
   <data name="Preferences" xml:space="preserve">
     <value>Preferenze</value>
   </data>
+  <data name="PreferencesMenuLabel" xml:space="preserve">
+    <value>&amp;Preferenze</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>Tabella elaborazione '{0}'.</value>
+  </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>File recenti</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Rimuovi menu contestuale explorer</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Rimuovi se esistono voci menu contestuale explorer</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>deve essere nella stessa cartella di</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Cerca:</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
     <value>Cerca file</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
     <value>Selziona &amp;tutto</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Seleziona i file da estrarre.</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
@@ -192,6 +264,9 @@
   <data name="TableView" xml:space="preserve">
     <value>Vista tabella</value>
   </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>Il percorso del file è troppo lungo</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
   </data>
@@ -204,82 +279,10 @@
   <data name="Version" xml:space="preserve">
     <value>Versione</value>
   </data>
-  <data name="LoadingSummaryInfoError" xml:space="preserve">
-    <value>Errore nel caricamento info riepilogo</value>
-  </data>
-  <data name="OpenFileError" xml:space="preserve">
-    <value>Impossibile aprire il file</value>
-  </data>
   <data name="ViewFilesError" xml:space="preserve">
     <value>Impossibile visualizzare il file</value>
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Impossibile visualizzare la tabella</value>
-  </data>
-  <data name="BadlyFormedFilePathError" xml:space="preserve">
-    <value>Il percorso del file ha un formato non valido</value>
-  </data>
-  <data name="EmptyFilePathError" xml:space="preserve">
-    <value>Il percorso è vuoto</value>
-  </data>
-  <data name="FileExistError" xml:space="preserve">
-    <value>File '{0}' non esiste</value>
-  </data>
-  <data name="InvalidCharsInFilePathError" xml:space="preserve">
-    <value>Il percorso del file contiene caratteri non validi</value>
-  </data>
-  <data name="TooLongFilePathError" xml:space="preserve">
-    <value>Il percorso del file è troppo lungo</value>
-  </data>
-  <data name="AddShortcutText" xml:space="preserve">
-    <value>Aggiungi menu contestuale explorer</value>
-  </data>
-  <data name="AddShortcutTextNote" xml:space="preserve">
-    <value>Aggiungi le voci 'Estrai' e 'Sfoglia' al menu contestuale dei file .msi</value>
-  </data>
-  <data name="RemoveShortcutText" xml:space="preserve">
-    <value>Rimuovi menu contestuale explorer</value>
-  </data>
-  <data name="RemoveShortcutTextNote" xml:space="preserve">
-    <value>Rimuovi se esistono voci menu contestuale explorer</value>
-  </data>
-  <data name="MissingFile" xml:space="preserve">
-    <value>File mancante</value>
-  </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>deve essere nella stessa cartella di</value>
-  </data>
-  <data name="FilesFoundStatus" xml:space="preserve">
-    <value>file trovati.</value>
-  </data>
-  <data name="FindStreamError" xml:space="preserve">
-    <value>Impossibile trovare lo stream per CAB '{0}'</value>
-  </data>
-  <data name="LoadingTablesStatus" xml:space="preserve">
-    <value>Caricamento elenco tabelle...</value>
-  </data>
-  <data name="NoFilesPresentStatus" xml:space="preserve">
-    <value>Nessun file presente</value>
-  </data>
-  <data name="ProcessingTableStatus" xml:space="preserve">
-    <value>Tabella elaborazione '{0}'.</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Cerca:</value>
-  </data>
-  <data name="SelectFilesMessage" xml:space="preserve">
-    <value>Seleziona i file da estrarre.</value>
-  </data>
-  <data name="FileMenuLabel" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="PreferencesMenuLabel" xml:space="preserve">
-    <value>&amp;Preferenze</value>
-  </data>
-  <data name="AllFilesFilter" xml:space="preserve">
-    <value>Tutti i file</value>
-  </data>
-  <data name="MsiFilesFilter" xml:space="preserve">
-    <value>File eseguibili .msi</value>
   </data>
 </root>

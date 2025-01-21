@@ -132,6 +132,9 @@
   <data name="BadlyFormedFilePathError" xml:space="preserve">
     <value>Der Dateipfad ist fehlerhaft</value>
   </data>
+  <data name="ChangeLang" xml:space="preserve">
+    <value>Sprache ändern</value>
+  </data>
   <data name="Component" xml:space="preserve">
     <value>Komponente</value>
   </data>
