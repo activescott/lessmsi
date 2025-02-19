@@ -121,7 +121,7 @@
     <value>Info programma</value>
   </data>
   <data name="AddShortcutText" xml:space="preserve">
-    <value>Aggiungi menu contestuale explorer</value>
+    <value>Aggiungi menu contestuale Explorer</value>
   </data>
   <data name="AddShortcutTextNote" xml:space="preserve">
     <value>Aggiungi le voci 'Estrai' e 'Sfoglia' al menu contestuale dei file .msi</value>
@@ -241,7 +241,7 @@
     <value>Cerca file</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Selziona &amp;tutto</value>
+    <value>Seleiona &amp;tutto</value>
   </data>
   <data name="SelectFilesMessage" xml:space="preserve">
     <value>Seleziona i file da estrarre.</value>
