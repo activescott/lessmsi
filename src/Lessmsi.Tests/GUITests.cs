@@ -48,7 +48,7 @@ namespace LessMsi.Tests
             Assert.NotNull(form);
 
             // check buttons strings
-            Assert.Equal("Selziona &tutto", form.btnSelectAll.Text);
+            Assert.Equal("Seleiona &tutto", form.btnSelectAll.Text);
             Assert.Equal("&Deseleziona tutto", form.btnUnselectAll.Text);
             Assert.Equal("E&strai", form.btnExtract.Text);
 
