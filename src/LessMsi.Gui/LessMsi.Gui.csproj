@@ -153,6 +153,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Languages\Strings.de.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.fr.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.it.Designer.cs</LastGenOutput>
