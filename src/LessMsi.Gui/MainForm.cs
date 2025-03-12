@@ -291,6 +291,10 @@ namespace LessMsi.Gui
 
         #region Windows Form Designer generated code
 
+        private int SelectAllButtonArea => Strings.SelectAll.Length * 6;
+        private int UnselectAllButtonArea => Strings.UnselectAll.Length * 7;
+        private int ExtractButtonArea => Strings.Extract.Length * 7;
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -457,7 +461,7 @@ namespace LessMsi.Gui
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectAll.Location = new System.Drawing.Point(0, 9);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(Strings.SelectAll.Length * 6, 27);
+            this.btnSelectAll.Size = new System.Drawing.Size(SelectAllButtonArea, 27);
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = Strings.SelectAll;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -468,9 +472,9 @@ namespace LessMsi.Gui
             // btnUnselectAll
             // 
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnUnselectAll.Location = new System.Drawing.Point(106, 9);
+            this.btnUnselectAll.Location = new System.Drawing.Point(SelectAllButtonArea + 5, 9);
             this.btnUnselectAll.Name = "btnUnselectAll";
-            this.btnUnselectAll.Size = new System.Drawing.Size(Strings.UnselectAll.Length * 7, 27);
+            this.btnUnselectAll.Size = new System.Drawing.Size(UnselectAllButtonArea, 27);
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = Strings.UnselectAll;
             this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
@@ -479,13 +483,12 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoEllipsis = false;
             // 
             // btnExtract
-            // 
-            this.btnExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnExtract.Location = new System.Drawing.Point(354, 9);
+            this.btnExtract.Location = new System.Drawing.Point(SelectAllButtonArea + UnselectAllButtonArea + 10, 9);
             this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(90, 27);
+            this.btnExtract.Size = new System.Drawing.Size(ExtractButtonArea, 27);
             this.btnExtract.TabIndex = 3;
             this.btnExtract.Text = Strings.Extract;
             this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
