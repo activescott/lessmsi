@@ -291,9 +291,23 @@ namespace LessMsi.Gui
 
         #region Windows Form Designer generated code
 
+        private bool m_bLangChangeFlag = false;
+
         private int SelectAllButtonArea => Strings.SelectAll.Length * 6;
         private int UnselectAllButtonArea => Strings.UnselectAll.Length * 7;
         private int ExtractButtonArea => Strings.Extract.Length * 7;
+        private int LangChangeAddition
+        {
+            get
+            {
+                if (m_bLangChangeFlag)
+                {
+                    return 10;
+                }
+
+                return 0;
+            }
+        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -486,7 +500,7 @@ namespace LessMsi.Gui
             //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnExtract.Location = new System.Drawing.Point(SelectAllButtonArea + UnselectAllButtonArea + 10, 9);
+            this.btnExtract.Location = new System.Drawing.Point(SelectAllButtonArea + UnselectAllButtonArea + LangChangeAddition, 9);
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.Size = new System.Drawing.Size(ExtractButtonArea, 27);
             this.btnExtract.TabIndex = 3;
@@ -1037,6 +1051,7 @@ namespace LessMsi.Gui
             string newSelectedLanguage = changeLanguageForm.NewSelectedLanguage;
             if (newSelectedLanguage != string.Empty)
             {
+                m_bLangChangeFlag = true;
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
 
                 Controls.Clear();
