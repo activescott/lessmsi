@@ -290,25 +290,6 @@ namespace LessMsi.Gui
         }
 
         #region Windows Form Designer generated code
-
-        private bool m_bLangChangeFlag = false;
-
-        private int SelectAllButtonArea => Strings.SelectAll.Length * 6;
-        private int UnselectAllButtonArea => Strings.UnselectAll.Length * 7;
-        private int ExtractButtonArea => Strings.Extract.Length * 7;
-        private int LangChangeAddition
-        {
-            get
-            {
-                if (m_bLangChangeFlag)
-                {
-                    return 10;
-                }
-
-                return 0;
-            }
-        }
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -475,40 +456,40 @@ namespace LessMsi.Gui
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectAll.Location = new System.Drawing.Point(0, 9);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(SelectAllButtonArea, 27);
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = Strings.SelectAll;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
+            updateButtonSize(this.btnSelectAll);
             // 
             // btnUnselectAll
             // 
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnUnselectAll.Location = new System.Drawing.Point(SelectAllButtonArea + 5, 9);
+            this.btnUnselectAll.Location = new System.Drawing.Point(106, 9);
             this.btnUnselectAll.Name = "btnUnselectAll";
-            this.btnUnselectAll.Size = new System.Drawing.Size(UnselectAllButtonArea, 27);
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = Strings.UnselectAll;
             this.btnUnselectAll.Click += new System.EventHandler(this.btnUnselectAll_Click);
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
+            updateButtonSize(this.btnUnselectAll);
             // 
             // btnExtract
             //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnExtract.Location = new System.Drawing.Point(SelectAllButtonArea + UnselectAllButtonArea + LangChangeAddition, 9);
+            this.btnExtract.Location = new System.Drawing.Point(212, 9);
             this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(ExtractButtonArea, 27);
             this.btnExtract.TabIndex = 3;
             this.btnExtract.Text = Strings.Extract;
             this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
+            updateButtonSize(this.btnExtract);
             // 
             // tabTableView
             // 
@@ -890,12 +871,35 @@ namespace LessMsi.Gui
             this.ResumeLayout(false);
             this.PerformLayout();
 
+            UpdateButtonLayout(panel2);
         }
 
+        private void updateButtonSize(Button btn)
+        {
+            using (Graphics cg = this.CreateGraphics())
+            {
+                SizeF size = cg.MeasureString(btn.Text, btn.Font);
+                btn.Width = (int)size.Width;
+            }
+        }
+
+        private void UpdateButtonLayout(Panel panel)
+        {
+            int margin = 5;
+            var buttons = panel.Controls.OfType<Button>().ToList();
+
+            int startX = 0;
+            int y = (panel.Height - buttons[0].Height) / 2;
+
+            foreach (var button in buttons)
+            {
+                button.Location = new Point(startX, y);
+                startX += button.Width + margin;
+            }
+        }
         #endregion
 
         #endregion
-
 
         private void OpenFileCommand()
         {
@@ -1051,7 +1055,6 @@ namespace LessMsi.Gui
             string newSelectedLanguage = changeLanguageForm.NewSelectedLanguage;
             if (newSelectedLanguage != string.Empty)
             {
-                m_bLangChangeFlag = true;
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
 
                 Controls.Clear();
