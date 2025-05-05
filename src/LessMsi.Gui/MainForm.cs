@@ -454,7 +454,6 @@ namespace LessMsi.Gui
             // btnSelectAll
             // 
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSelectAll.Location = new System.Drawing.Point(0, 9);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = Strings.SelectAll;
@@ -462,12 +461,11 @@ namespace LessMsi.Gui
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
-            updateButtonSize(this.btnSelectAll);
+            UpdateButtonSize(this.btnSelectAll);
             // 
             // btnUnselectAll
             // 
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnUnselectAll.Location = new System.Drawing.Point(106, 9);
             this.btnUnselectAll.Name = "btnUnselectAll";
             this.btnUnselectAll.TabIndex = 2;
             this.btnUnselectAll.Text = Strings.UnselectAll;
@@ -475,13 +473,12 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
-            updateButtonSize(this.btnUnselectAll);
+            UpdateButtonSize(this.btnUnselectAll);
             // 
             // btnExtract
             //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnExtract.Location = new System.Drawing.Point(212, 9);
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.TabIndex = 3;
             this.btnExtract.Text = Strings.Extract;
@@ -489,7 +486,7 @@ namespace LessMsi.Gui
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
-            updateButtonSize(this.btnExtract);
+            UpdateButtonSize(this.btnExtract);
             // 
             // tabTableView
             // 
@@ -874,7 +871,7 @@ namespace LessMsi.Gui
             UpdateButtonLayout(panel2);
         }
 
-        private void updateButtonSize(Button btn)
+        private void UpdateButtonSize(Button btn)
         {
             using (Graphics cg = this.CreateGraphics())
             {
