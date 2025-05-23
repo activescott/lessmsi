@@ -5,7 +5,7 @@ image: Visual Studio 2022
 environment:
   # from https://github.com/settings/tokens encrypted at https://ci.appveyor.com/tools/encrypt
   GH_TOKEN:
-    secure: MJhg1HrP+chjNOM6GAdrQ957321OGuvKqKKiHfOM7igvzwDf36FQw7AHstrUxOOeY+QHh9spKK4y/s/YB+GIJ+vFjl4x+AXMOVio90NOGpMU+r19DimdewGg+im4Ca9U
+    secure: MJhg1HrP+chjNOM6GAdrQzMWMTHNwmzD57kWT7mhWwnOOJiag1EZHHgVtrTUmGJ1syJncgmKTVofdOND+9QmqbpbMji6V0eN9EPXN6t+Os78H+wuCj58GLWjel0x+nM9
   CHOCO_KEY:
     secure: /Ie5xuB5GTDwElbSN0V+mCyYtYNhfQJRjdoWFUsNsVJW9bq32LNzSlI1cn4OUxIu
 
