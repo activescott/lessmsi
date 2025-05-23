@@ -1159,9 +1159,12 @@ namespace LessMsi.Gui
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.LastRecordedAppSize = Size;
-            Settings.Default.LastRecordedAppLocation = Location;
-            Settings.Default.Save();
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                Settings.Default.LastRecordedAppSize = Size;
+                Settings.Default.LastRecordedAppLocation = Location;
+                Settings.Default.Save();
+            }
         }
         #endregion
 
