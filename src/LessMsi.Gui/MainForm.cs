@@ -1154,14 +1154,23 @@ namespace LessMsi.Gui
                 Math.Max(MinimumSize.Height, lastRecordedAppSize.Height)
             );
 
-            Location = lastRecordedAppLocation;
+            Screen currentScreen = Screen.FromControl(this);
+            Rectangle workingArea = currentScreen.WorkingArea;
+
+            if (workingArea.Contains(lastRecordedAppLocation))
+            {
+                Location = lastRecordedAppLocation;
+            }
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.LastRecordedAppSize = Size;
-            Settings.Default.LastRecordedAppLocation = Location;
-            Settings.Default.Save();
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                Settings.Default.LastRecordedAppSize = Size;
+                Settings.Default.LastRecordedAppLocation = Location;
+                Settings.Default.Save();
+            }
         }
         #endregion
 
