@@ -632,15 +632,14 @@ namespace LessMsi.Gui
             // btnExtractStreamFiles
             // 
             this.btnExtractStreamFiles.Enabled = false;
-            this.btnExtractStreamFiles.Location = new System.Drawing.Point(319, 6);
             this.btnExtractStreamFiles.Name = "btnExtractStreamFiles";
-            this.btnExtractStreamFiles.Size = new System.Drawing.Size(129, 23);
             this.btnExtractStreamFiles.TabIndex = 0;
             this.btnExtractStreamFiles.Text = Strings.ExtractStreamFiles;
-            this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoSize = true;
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoEllipsis = false;
+            UpdateButtonSize(this.btnExtractStreamFiles);
             // 
             // panel4
             // 
