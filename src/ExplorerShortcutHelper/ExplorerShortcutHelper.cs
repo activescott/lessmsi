@@ -25,28 +25,42 @@ namespace Willeke.Scott.ExplorerShortcutHelper
                 if (!string.IsNullOrEmpty(addOrRemoveString))
                 {
                     if ("add".Equals(addOrRemoveString, StringComparison.InvariantCulture))
+                    {
                         isAddingKey = true;
-                    else if ("remove".Equals(addOrRemoveString, StringComparison.InvariantCulture))
-                        isAddingKey = false;
+                    }
+                    else
+                    {
+                        if ("remove".Equals(addOrRemoveString, StringComparison.InvariantCulture))
+                        {
+                            isAddingKey = false;
+                        }
+                    }
                 }
             }
 
             if (!isAddingKey.HasValue)
+            {
                 return CommandLineError("Invalid argument. Expected 'add' or 'remove'.");
+            }
 
             if (args.Length < 2)
+            {
                 return CommandLineError("Invalid argument. Expected a unique command name.");
+            }
 
             string commandName = args[1];
 
             if (args.Length < 3)
+            {
                 return CommandLineError("Invalid argument. Expected a file class.");
+            }
 
-            var fileClass = args[2]; //e.g. "Msi.Package";
+            //e.g. "Msi.Package";
+            var fileClass = args[2];
 
             if (isAddingKey.Value)
-            {   // if we're adding a key we're expecting more arguments:
-
+            {   
+                // if we're adding a key we're expecting more arguments:
                 if (args.Length < 3)
                     return CommandLineError("Invalid argument. Expected caption.");
 
@@ -64,7 +78,7 @@ namespace Willeke.Scott.ExplorerShortcutHelper
                 }
                 catch (Exception oops)
                 {
-                    Console.WriteLine("Error adding shortcut menu: " + oops.ToString());
+                    Console.WriteLine("Error adding shortcut menu: " + oops);
                     return -1;
                 }
                 Console.WriteLine("Shortcut added.");
@@ -78,7 +92,7 @@ namespace Willeke.Scott.ExplorerShortcutHelper
                 }
                 catch (Exception oops)
                 {
-                    Console.WriteLine("Error removing shortcut menu: " + oops.ToString());
+                    Console.WriteLine("Error removing shortcut menu: " + oops);
                     return -1;
                 }
                 Console.WriteLine("Shortcut removed.");

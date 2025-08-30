@@ -72,9 +72,13 @@ namespace Willeke.Scott.ExplorerShortcutHelper
             List<string> args = new List<string>();
 
             if (isAdding)
+            {
                 args.Add("add");
+            }
             else
-                args.Add("remove");
+            { 
+                args.Add("remove"); 
+            }
 
             args.Add(commandName);
             args.Add(fileClass);
