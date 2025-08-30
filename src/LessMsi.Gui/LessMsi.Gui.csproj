@@ -189,6 +189,10 @@
     <None Include="Resources\LessmsiIcon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExplorerShortcutHelper\ExplorerShortcutHelper.csproj">
+      <Project>{13F99803-59EF-4DEA-BE1C-68561A427B08}</Project>
+      <Name>ExplorerShortcutHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LessMsi.Core\LessMsi.Core.csproj">
       <Project>{1fd916f2-1df6-42f6-9ad4-83565fbf8e5c}</Project>
       <Name>LessMsi.Core</Name>

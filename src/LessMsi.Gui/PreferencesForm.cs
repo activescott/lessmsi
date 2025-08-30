@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Willeke.Scott.ExplorerShortcutHelper;
 
 namespace LessMsi.Gui
 {
@@ -47,12 +48,7 @@ namespace LessMsi.Gui
 
 		private void cmdAddRemoveShortcut_Click(object sender, EventArgs e)
 		{
-			bool isAdding;
-
-			if (sender == cmdAddShortcut)
-				isAdding = true;
-			else
-				isAdding = false;
+			bool isAdding = sender == cmdAddShortcut;
 
 			/* FIX for http://code.google.com/p/lessmsi/issues/detail?id=11
 			 * This code below is funky because apparently Win32 requires us to escape double quotes on the command line when passing them through the command line. 
@@ -62,20 +58,26 @@ namespace LessMsi.Gui
 			 * Also see https://github.com/activescott/lessmsi/wiki/Command-Line for commandline reference for the commands used below.
 			 */
 			const string escapedDoubleQuote = "\\" + "\"";
-			
-			var shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
+			string lessmsiExeName = "lessmsi.exe";
+
+            var shellCommand = escapedDoubleQuote + ExplorerShortcutHelper.GetExeFilePathByName<PreferencesForm>(lessmsiExeName) + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "Lessmsi &Extract Files", shellCommand);
 
 			/* Fix for https://code.google.com/p/lessmsi/issues/detail?id=6&sort=-id
 			 */
-			shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
+			shellCommand = escapedDoubleQuote + ExplorerShortcutHelper.GetExeFilePathByName<PreferencesForm>(lessmsiExeName) + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Lessmsi Explore", shellCommand);
 		}
-		void AddRemoveShortcut(bool isAdding, string commandName, string fileClass, string caption, string shellCommand)
+		void AddRemoveShortcut(
+			bool isAdding, 
+			string commandName, 
+			string fileClass, 
+			string caption, 
+			string shellCommand)
 		{
-			var thisExe = GetThisExeFile();
+			var thisExe = ExplorerShortcutHelper.GetThisExeFile<PreferencesForm>();
 			string shortcutHelperExe = Path.Combine(thisExe.Directory.FullName, "AddWindowsExplorerShortcut.exe");
 			if (!File.Exists(shortcutHelperExe))
 			{
@@ -87,38 +89,34 @@ namespace LessMsi.Gui
 								MessageBoxIcon.Error);
 				return;
 			}
+
 			var newProcess = new Process();
 			var info = new ProcessStartInfo("");
 			info.FileName = shortcutHelperExe;
 			info.UseShellExecute = true;
 			info.ErrorDialog = true;
 			info.ErrorDialogParentHandle = this.Handle;
+
 			//AddWindowsExplorerShortcut add|remove commandName fileClass [caption shellCommand]
 			var args = new StringBuilder();
+
 			if (isAdding)
 				args.Append("add");
 			else
 				args.Append("remove");
+
 			args.Append(' ').Append(commandName);
 			args.Append(' ').Append(fileClass);
+
 			if (isAdding)
 			{
 				args.Append(" \"").Append(caption).Append("\"");
 				args.Append(' ').Append('\"').Append(shellCommand).Append('\"');
 			}
+
 			info.Arguments = args.ToString();
 			newProcess.StartInfo = info;
 			newProcess.Start();
 		}
-
-		static string GetLessMsiExeFile()
-		{
-			return Path.Combine(GetThisExeFile().Directory.FullName, "lessmsi.exe");
-		}
-
-		static FileInfo GetThisExeFile()
-		{
-			return new FileInfo(typeof(PreferencesForm).Module.FullyQualifiedName);
-		}
-	}
+    }
 }
