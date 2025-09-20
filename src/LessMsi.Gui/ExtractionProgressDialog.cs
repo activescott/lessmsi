@@ -25,6 +25,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using LessMsi.Gui.Resources.Languages;
 using LessMsi.Msi;
 
 namespace LessMsi.Gui
@@ -84,13 +85,26 @@ namespace LessMsi.Gui
             _progressBar.Minimum = 0;
             _progressBar.Maximum = progress.TotalFileCount;
             _progressBar.Value = progress.FilesExtractedSoFar;
-            string details;
-            if (progress.Activity == Wixtracts.ExtractionActivity.ExtractingFile)
-                details = "Extracting file '" + progress.CurrentFileName + "'";
-            else
-                details = Enum.GetName(typeof (Wixtracts.ExtractionActivity), progress.Activity);
 
-            _label.Text = String.Format("Extracting ({0})...", details);
+            string details = string.Empty;
+
+            switch (progress.Activity)
+            {
+                case Wixtracts.ExtractionActivity.Initializing:
+                    details = Strings.Initializing;
+                    break;
+                case Wixtracts.ExtractionActivity.Uncompressing:
+                    details = Strings.Uncompressing;
+                    break;
+                case Wixtracts.ExtractionActivity.ExtractingFile:
+                    details = $"{Strings.ExtractingFile} '{progress.CurrentFileName}'";
+                    break;
+                case Wixtracts.ExtractionActivity.Complete:
+                    details = Strings.Complete;
+                    break;
+            }
+
+            _label.Text = $"{Strings.Extracting} ({details})";
             this.Invalidate(true);
             this.Update();
         }
