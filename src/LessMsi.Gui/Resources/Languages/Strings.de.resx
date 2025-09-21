@@ -172,7 +172,7 @@
     <value>Extrahieren</value>
   </data>
   <data name="ExtractingFile" xml:space="preserve">
-    <value>Datei extrahieren</value>
+    <value>Datei wird extrahiert</value>
   </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
     <value>Stream-Dateien extrahieren...</value>
@@ -283,7 +283,7 @@
     <value>Typ</value>
   </data>
   <data name="Uncompressing" xml:space="preserve">
-    <value>Dekomprimieren</value>
+    <value>Dekomprimierung</value>
   </data>
   <data name="UnselectAll" xml:space="preserve">
     <value>Auswahl &amp;umkehren</value>
