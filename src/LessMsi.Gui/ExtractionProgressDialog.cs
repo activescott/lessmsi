@@ -23,10 +23,12 @@
 //	Scott Willeke (scott@willeke.com)
 //
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using LessMsi.Gui.Resources.Languages;
 using LessMsi.Msi;
+using Microsoft.Tools.WindowsInstallerXml.Serialize;
 
 namespace LessMsi.Gui
 {
@@ -101,6 +103,9 @@ namespace LessMsi.Gui
                     break;
                 case Wixtracts.ExtractionActivity.Complete:
                     details = Strings.Complete;
+                    break;
+                default:
+                    Debug.Fail("Unrecognised ExtractionActivity value was given");
                     break;
             }
 
