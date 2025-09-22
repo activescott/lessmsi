@@ -28,7 +28,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using LessMsi.Gui.Resources.Languages;
 using LessMsi.Msi;
-using Microsoft.Tools.WindowsInstallerXml.Serialize;
 
 namespace LessMsi.Gui
 {
