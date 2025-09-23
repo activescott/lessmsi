@@ -135,6 +135,9 @@
   <data name="ChangeLang" xml:space="preserve">
     <value>Cambia lingua</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Completata</value>
+  </data>
   <data name="Component" xml:space="preserve">
     <value>Componente</value>
   </data>
@@ -165,6 +168,12 @@
   <data name="ExtractFiles" xml:space="preserve">
     <value>Estrai file</value>
   </data>
+  <data name="Extracting" xml:space="preserve">
+    <value>Estrazione</value>
+  </data>
+  <data name="ExtractingFile" xml:space="preserve">
+    <value>Estrazione file</value>
+  </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
     <value>Estrai file flussi...</value>
   </data>
@@ -185,6 +194,9 @@
   </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>Inizializzazione</value>
   </data>
   <data name="InvalidCharsInFilePathError" xml:space="preserve">
     <value>Il percorso del file contiene caratteri non validi</value>
@@ -269,6 +281,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
+  </data>
+  <data name="Uncompressing" xml:space="preserve">
+    <value>Decompressione</value>
   </data>
   <data name="UnselectAll" xml:space="preserve">
     <value>&amp;Deseleziona tutto</value>

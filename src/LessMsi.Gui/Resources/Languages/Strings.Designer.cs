@@ -115,6 +115,15 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complete.
+        /// </summary>
+        internal static string Complete {
+            get {
+                return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component.
         /// </summary>
         internal static string Component {
@@ -205,6 +214,24 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extracting.
+        /// </summary>
+        internal static string Extracting {
+            get {
+                return ResourceManager.GetString("Extracting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracting File.
+        /// </summary>
+        internal static string ExtractingFile {
+            get {
+                return ResourceManager.GetString("ExtractingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extract Stream Files....
         /// </summary>
         internal static string ExtractStreamFiles {
@@ -264,6 +291,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string ID {
             get {
                 return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing.
+        /// </summary>
+        internal static string Initializing {
+            get {
+                return ResourceManager.GetString("Initializing", resourceCulture);
             }
         }
         
@@ -516,6 +552,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uncompressing.
+        /// </summary>
+        internal static string Uncompressing {
+            get {
+                return ResourceManager.GetString("Uncompressing", resourceCulture);
             }
         }
         

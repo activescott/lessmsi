@@ -123,11 +123,20 @@
   <data name="AddShortcutText" xml:space="preserve">
     <value>Adicionar atalho ao menu de contexto</value>
   </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Adiciona o itens 'Extrair' e 'Explorar' ao menu de contexto dos arquivos .msi.</value>
+  </data>
   <data name="AllFilesFilter" xml:space="preserve">
     <value>Todos os arquivos</value>
   </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>O caminho do arquivo está mal formado</value>
+  </data>
   <data name="ChangeLang" xml:space="preserve">
     <value>Alterar idioma</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Concluído</value>
   </data>
   <data name="Component" xml:space="preserve">
     <value>Componente</value>
@@ -159,6 +168,12 @@
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extrair arquivos</value>
   </data>
+  <data name="Extracting" xml:space="preserve">
+    <value>Extraindo</value>
+  </data>
+  <data name="ExtractingFile" xml:space="preserve">
+    <value>Extraindo arquivo</value>
+  </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
     <value>Extrair arquivos de fluxo...</value>
   </data>
@@ -174,74 +189,14 @@
   <data name="FilesFoundStatus" xml:space="preserve">
     <value>arquivos encontrados.</value>
   </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Não foi possível encontrar o fluxo para o CAB '{0}'</value>
+  </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
   </data>
-  <data name="Size" xml:space="preserve">
-    <value>Tamanho</value>
-  </data>
-  <data name="Stream" xml:space="preserve">
-    <value>Fluxo</value>
-  </data>
-  <data name="Streams" xml:space="preserve">
-    <value>Fluxos</value>
-  </data>
-  <data name="Summary" xml:space="preserve">
-    <value>Resumo</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>&amp;Tabela</value>
-  </data>
-  <data name="TableView" xml:space="preserve">
-    <value>Visualização em tabela</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
-  <data name="UnselectAll" xml:space="preserve">
-    <value>&amp;Desmarcar todos</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Valor</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Versão</value>
-  </data>
-  <data name="TooLongFilePathError" xml:space="preserve">
-    <value>O caminho do arquivo é muito longo</value>
-  </data>
-  <data name="SelectFilesMessage" xml:space="preserve">
-    <value>Selecione alguns ou todos os arquivos para extraí-los.</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Pesquisar</value>
-  </data>
-  <data name="SearchFile" xml:space="preserve">
-    <value>Pesquisar arquivo</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>Selecionar &amp;todos</value>
-  </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Arquivos recentes</value>
-  </data>
-  <data name="RemoveShortcutText" xml:space="preserve">
-    <value>Remover item dos atalhos</value>
-  </data>
-  <data name="RemoveShortcutTextNote" xml:space="preserve">
-    <value>Remove o menu de contexto se ele existir</value>
-  </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>deve estar na mesma pasta que</value>
-  </data>
-  <data name="AddShortcutTextNote" xml:space="preserve">
-    <value>Adiciona o itens 'Extrair' e 'Explorar' ao menu de contexto dos arquivos .msi.</value>
-  </data>
-  <data name="BadlyFormedFilePathError" xml:space="preserve">
-    <value>O caminho do arquivo está mal formado</value>
-  </data>
-  <data name="FindStreamError" xml:space="preserve">
-    <value>Não foi possível encontrar o fluxo para o CAB '{0}'</value>
+  <data name="Initializing" xml:space="preserve">
+    <value>Inicializando</value>
   </data>
   <data name="InvalidCharsInFilePathError" xml:space="preserve">
     <value>O caminho do arquivo contêm caracteres inválidos</value>
@@ -254,6 +209,9 @@
   </data>
   <data name="MissingFile" xml:space="preserve">
     <value>Arquivo ausente</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>Arquivos .msi</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
@@ -276,13 +234,70 @@
   <data name="ProcessingTableStatus" xml:space="preserve">
     <value>Processando tabela '{0}'.</value>
   </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Arquivos recentes</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Remover item dos atalhos</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Remove o menu de contexto se ele existir</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>deve estar na mesma pasta que</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Pesquisar</value>
+  </data>
+  <data name="SearchFile" xml:space="preserve">
+    <value>Pesquisar arquivo</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Selecionar &amp;todos</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Selecione alguns ou todos os arquivos para extraí-los.</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Tamanho</value>
+  </data>
+  <data name="Stream" xml:space="preserve">
+    <value>Fluxo</value>
+  </data>
+  <data name="Streams" xml:space="preserve">
+    <value>Fluxos</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Resumo</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>&amp;Tabela</value>
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Visualização em tabela</value>
+  </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>O caminho do arquivo é muito longo</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Uncompressing" xml:space="preserve">
+    <value>Descompactando</value>
+  </data>
+  <data name="UnselectAll" xml:space="preserve">
+    <value>&amp;Desmarcar todos</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versão</value>
+  </data>
   <data name="ViewFilesError" xml:space="preserve">
     <value>Não é possível visualizar os arquivos</value>
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Não é possível visualizar a tabela</value>
-  </data>
-  <data name="MsiFilesFilter" xml:space="preserve">
-    <value>Arquivos .msi</value>
   </data>
 </root>
