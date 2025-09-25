@@ -461,7 +461,7 @@ namespace LessMsi.Gui
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
-            UpdateButtonSize(this.btnSelectAll);
+            UpdateControlWidth(this.btnSelectAll);
             // 
             // btnUnselectAll
             // 
@@ -473,7 +473,7 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
-            UpdateButtonSize(this.btnUnselectAll);
+            UpdateControlWidth(this.btnUnselectAll);
             // 
             // btnExtract
             //
@@ -486,7 +486,7 @@ namespace LessMsi.Gui
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
-            UpdateButtonSize(this.btnExtract);
+            UpdateControlWidth(this.btnExtract);
             // 
             // tabTableView
             // 
@@ -639,7 +639,7 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoEllipsis = false;
-            UpdateButtonSize(this.btnExtractStreamFiles);
+            UpdateControlWidth(this.btnExtractStreamFiles);
             // 
             // panel4
             // 
@@ -655,11 +655,10 @@ namespace LessMsi.Gui
             // lblStream
             // 
             this.lblStream.AutoSize = true;
-            this.lblStream.Location = new System.Drawing.Point(4, 7);
             this.lblStream.Name = "lblStream";
-            this.lblStream.Size = new System.Drawing.Size(44, 15);
             this.lblStream.TabIndex = 11;
             this.lblStream.Text = Strings.Stream;
+            UpdateControlWidth(this.lblStream);
             // 
             // cboStream
             // 
@@ -867,30 +866,31 @@ namespace LessMsi.Gui
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            UpdateButtonLayout(panel2);
+            UpdateControlLayout(panel2);
+            UpdateControlLayout(panel4);
         }
 
-        private void UpdateButtonSize(Button btn)
+        private void UpdateControlWidth(Control control)
         {
             using (Graphics cg = this.CreateGraphics())
             {
-                SizeF size = cg.MeasureString(btn.Text, btn.Font);
-                btn.Width = (int)size.Width;
+                SizeF size = cg.MeasureString(control.Text, control.Font);
+                control.Width = (int)size.Width;
             }
         }
 
-        private void UpdateButtonLayout(Panel panel)
+        private void UpdateControlLayout(Panel panel)
         {
             int margin = 5;
-            var buttons = panel.Controls.OfType<Button>().ToList();
+            var controls = panel.Controls.OfType<Control>().ToList();
 
             int startX = 0;
-            int y = (panel.Height - buttons[0].Height) / 2;
+            int y = (panel.Height - controls[0].Height) / 2;
 
-            foreach (var button in buttons)
+            foreach (var control in controls)
             {
-                button.Location = new Point(startX, y);
-                startX += button.Width + margin;
+                control.Location = new Point(startX, y);
+                startX += control.Width + margin;
             }
         }
         #endregion
