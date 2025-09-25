@@ -69,12 +69,12 @@ namespace LessMsi.Msi
 					long readOffset = 0;
 					while (true)
 					{
-						int remaining = accessor.ReadArray(readOffset, buffer, 0, buffer.Length);
+						var totalRemaining = accessor.Capacity - readOffset;
+						if (totalRemaining <= 0)
+							break;
+						int remaining = accessor.ReadArray(readOffset, buffer, 0, (int)Math.Min(totalRemaining, buffer.Length));
 						if (remaining <= 0)
-						{
-							offset = -1;
-							return false;
-						}
+							break;
 
 						bool moveLess = false;
 						for (int n = 0; n < remaining; n++)
@@ -112,6 +112,9 @@ namespace LessMsi.Msi
 						}
 						readOffset += remaining;
 					}
+
+					offset = -1;
+					return false;
 				}
 			}
 		}
