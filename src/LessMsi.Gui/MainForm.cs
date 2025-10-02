@@ -239,7 +239,7 @@ namespace LessMsi.Gui
         private TabPage tabExtractFiles;
         private TabPage tabTableView;
         public ComboBox cboTable;
-        private Label label2;
+        private Label lblTable;
         private Panel panel1;
         public Button btnExtract;
         private FolderBrowserDialog folderBrowser;
@@ -311,7 +311,7 @@ namespace LessMsi.Gui
             this.btnExtract = new System.Windows.Forms.Button();
             this.tabTableView = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTable = new System.Windows.Forms.Label();
             this.cboTable = new System.Windows.Forms.ComboBox();
             this.msiTableGrid = new System.Windows.Forms.DataGridView();
             this.tabSummary = new System.Windows.Forms.TabPage();
@@ -500,7 +500,7 @@ namespace LessMsi.Gui
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.lblTable);
             this.panel3.Controls.Add(this.cboTable);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
@@ -508,14 +508,13 @@ namespace LessMsi.Gui
             this.panel3.Size = new System.Drawing.Size(456, 28);
             this.panel3.TabIndex = 11;
             // 
-            // label2
+            // lblTable
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 15);
-            this.label2.TabIndex = 9;
-            this.label2.Text = Strings.Table;
+            this.lblTable.AutoSize = true;
+            this.lblTable.Name = "lblTable";
+            this.lblTable.TabIndex = 9;
+            this.lblTable.Text = Strings.Table;
+            UpdateControlWidth(this.lblTable);
             // 
             // cboTable
             // 
@@ -867,6 +866,7 @@ namespace LessMsi.Gui
             this.PerformLayout();
 
             UpdateControlLayout(panel2);
+            UpdateControlLayout(panel3);
             UpdateControlLayout(panel4);
         }
 
