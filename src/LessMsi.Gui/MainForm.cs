@@ -47,7 +47,7 @@ namespace LessMsi.Gui
     {
         private readonly MruMenuStripManager _mruManager;
         private TabPage tabStreams;
-        private Panel panel4;
+        private Panel pnlStreamView;
         private Label lblStream;
         public ComboBox cboStream;
         private ListBox lstStreamFiles;
@@ -233,18 +233,18 @@ namespace LessMsi.Gui
 
         // ReSharper disable InconsistentNaming
         private TextBox txtMsiFileName;
-        private Label label1;
+        private Label lblFile;
         private Button btnBrowse;
         private TabControl tabs;
         private TabPage tabExtractFiles;
         private TabPage tabTableView;
         public ComboBox cboTable;
         private Label lblTable;
-        private Panel panel1;
+        private Panel pnlMsiFileBrowse;
         public Button btnExtract;
         private FolderBrowserDialog folderBrowser;
         private OpenFileDialog openMsiDialog;
-        private StatusBar statusBar1;
+        private StatusBar fileInfoStatusBar;
         internal StatusBarPanel statusPanelDefault;
         private StatusBarPanel statusPanelFileCount;
         public Button btnSelectAll;
@@ -252,23 +252,23 @@ namespace LessMsi.Gui
         private TabPage tabSummary;
         private TextBox txtSummaryDescription;
         private GroupBox grpDescription;
-        private Panel panel2;
-        private MenuStrip menuStrip1;
+        private Panel pnlExtractFilesBtns;
+        private MenuStrip mainMenuBar;
         public ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
         private ToolStripMenuItem changeLangToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator editStripSeparator;
         public ToolStripMenuItem preferencesToolStripMenuItem;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         public DataGridView fileGrid;
         private DataGridView msiTableGrid;
         private DataGridView msiPropertyGrid;
-        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripSeparator fileOpenStripSeparator;
         private ToolStripMenuItem mruPlaceHolderToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripSeparator fileRecentFilesStripSeparator;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private Panel panel3;
+        private Panel pnlTableView;
         private ToolStripMenuItem aboutToolStripMenuItem;
         // ReSharper restore InconsistentNaming
         /// <summary>
@@ -300,17 +300,17 @@ namespace LessMsi.Gui
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtMsiFileName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblFile = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabExtractFiles = new System.Windows.Forms.TabPage();
             this.fileGrid = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlExtractFilesBtns = new System.Windows.Forms.Panel();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
             this.tabTableView = new System.Windows.Forms.TabPage();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.pnlTableView = new System.Windows.Forms.Panel();
             this.lblTable = new System.Windows.Forms.Label();
             this.cboTable = new System.Windows.Forms.ComboBox();
             this.msiTableGrid = new System.Windows.Forms.DataGridView();
@@ -322,46 +322,46 @@ namespace LessMsi.Gui
             this.lstStreamFiles = new System.Windows.Forms.ListBox();
             this.pnlStreamsBottom = new System.Windows.Forms.Panel();
             this.btnExtractStreamFiles = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.pnlStreamView = new System.Windows.Forms.Panel();
             this.lblStream = new System.Windows.Forms.Label();
             this.cboStream = new System.Windows.Forms.ComboBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlMsiFileBrowse = new System.Windows.Forms.Panel();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.openMsiDialog = new System.Windows.Forms.OpenFileDialog();
-            this.statusBar1 = new System.Windows.Forms.StatusBar();
+            this.fileInfoStatusBar = new System.Windows.Forms.StatusBar();
             this.statusPanelDefault = new System.Windows.Forms.StatusBarPanel();
             this.statusPanelFileCount = new System.Windows.Forms.StatusBarPanel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainMenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.fileOpenStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.mruPlaceHolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.fileRecentFilesStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeLangToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.editStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.pnlExtractFilesBtns.SuspendLayout();
             this.tabTableView.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.pnlTableView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
             this.tabSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
             this.grpDescription.SuspendLayout();
             this.tabStreams.SuspendLayout();
             this.pnlStreamsBottom.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pnlStreamView.SuspendLayout();
+            this.pnlMsiFileBrowse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            this.mainMenuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtMsiFileName
@@ -378,12 +378,12 @@ namespace LessMsi.Gui
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = $"{Strings.File}:";
+            this.lblFile.AutoSize = true;
+            this.lblFile.Location = new System.Drawing.Point(12, 8);
+            this.lblFile.Name = "lblFile";
+            this.lblFile.Size = new System.Drawing.Size(28, 15);
+            this.lblFile.TabIndex = 1;
+            this.lblFile.Text = $"{Strings.File}:";
             // 
             // btnBrowse
             // 
@@ -413,7 +413,7 @@ namespace LessMsi.Gui
             // tabExtractFiles
             // 
             this.tabExtractFiles.Controls.Add(this.fileGrid);
-            this.tabExtractFiles.Controls.Add(this.panel2);
+            this.tabExtractFiles.Controls.Add(this.pnlExtractFilesBtns);
             this.tabExtractFiles.Location = new System.Drawing.Point(4, 24);
             this.tabExtractFiles.Name = "tabExtractFiles";
             this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
@@ -442,14 +442,14 @@ namespace LessMsi.Gui
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnSelectAll);
-            this.panel2.Controls.Add(this.btnUnselectAll);
-            this.panel2.Controls.Add(this.btnExtract);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(5, 371);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(446, 37);
-            this.panel2.TabIndex = 4;
+            this.pnlExtractFilesBtns.Controls.Add(this.btnSelectAll);
+            this.pnlExtractFilesBtns.Controls.Add(this.btnUnselectAll);
+            this.pnlExtractFilesBtns.Controls.Add(this.btnExtract);
+            this.pnlExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
+            this.pnlExtractFilesBtns.Name = "pnlExtractFilesBtns";
+            this.pnlExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
+            this.pnlExtractFilesBtns.TabIndex = 4;
             // 
             // btnSelectAll
             // 
@@ -490,7 +490,7 @@ namespace LessMsi.Gui
             // 
             // tabTableView
             // 
-            this.tabTableView.Controls.Add(this.panel3);
+            this.tabTableView.Controls.Add(this.pnlTableView);
             this.tabTableView.Controls.Add(this.msiTableGrid);
             this.tabTableView.Location = new System.Drawing.Point(4, 22);
             this.tabTableView.Name = "tabTableView";
@@ -500,13 +500,13 @@ namespace LessMsi.Gui
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.lblTable);
-            this.panel3.Controls.Add(this.cboTable);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(456, 28);
-            this.panel3.TabIndex = 11;
+            this.pnlTableView.Controls.Add(this.lblTable);
+            this.pnlTableView.Controls.Add(this.cboTable);
+            this.pnlTableView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTableView.Location = new System.Drawing.Point(0, 0);
+            this.pnlTableView.Name = "pnlTableView";
+            this.pnlTableView.Size = new System.Drawing.Size(456, 28);
+            this.pnlTableView.TabIndex = 11;
             // 
             // lblTable
             // 
@@ -599,7 +599,7 @@ namespace LessMsi.Gui
             // 
             this.tabStreams.Controls.Add(this.lstStreamFiles);
             this.tabStreams.Controls.Add(this.pnlStreamsBottom);
-            this.tabStreams.Controls.Add(this.panel4);
+            this.tabStreams.Controls.Add(this.pnlStreamView);
             this.tabStreams.Location = new System.Drawing.Point(4, 22);
             this.tabStreams.Name = "tabStreams";
             this.tabStreams.Size = new System.Drawing.Size(456, 415);
@@ -642,14 +642,14 @@ namespace LessMsi.Gui
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.SystemColors.Control;
-            this.panel4.Controls.Add(this.lblStream);
-            this.panel4.Controls.Add(this.cboStream);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(456, 28);
-            this.panel4.TabIndex = 0;
+            this.pnlStreamView.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlStreamView.Controls.Add(this.lblStream);
+            this.pnlStreamView.Controls.Add(this.cboStream);
+            this.pnlStreamView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlStreamView.Location = new System.Drawing.Point(0, 0);
+            this.pnlStreamView.Name = "pnlStreamView";
+            this.pnlStreamView.Size = new System.Drawing.Size(456, 28);
+            this.pnlStreamView.TabIndex = 0;
             // 
             // lblStream
             // 
@@ -674,14 +674,14 @@ namespace LessMsi.Gui
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.txtMsiFileName);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnBrowse);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(464, 31);
-            this.panel1.TabIndex = 0;
+            this.pnlMsiFileBrowse.Controls.Add(this.txtMsiFileName);
+            this.pnlMsiFileBrowse.Controls.Add(this.lblFile);
+            this.pnlMsiFileBrowse.Controls.Add(this.btnBrowse);
+            this.pnlMsiFileBrowse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlMsiFileBrowse.Location = new System.Drawing.Point(0, 24);
+            this.pnlMsiFileBrowse.Name = "pnlMsiFileBrowse";
+            this.pnlMsiFileBrowse.Size = new System.Drawing.Size(464, 31);
+            this.pnlMsiFileBrowse.TabIndex = 0;
             // 
             // openMsiDialog
             // 
@@ -690,14 +690,14 @@ namespace LessMsi.Gui
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 496);
-            this.statusBar1.Name = "statusBar1";
-            this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.fileInfoStatusBar.Location = new System.Drawing.Point(0, 496);
+            this.fileInfoStatusBar.Name = "fileInfoStatusBar";
+            this.fileInfoStatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.statusPanelDefault,
             this.statusPanelFileCount});
-            this.statusBar1.ShowPanels = true;
-            this.statusBar1.Size = new System.Drawing.Size(464, 16);
-            this.statusBar1.TabIndex = 2;
+            this.fileInfoStatusBar.ShowPanels = true;
+            this.fileInfoStatusBar.Size = new System.Drawing.Size(464, 16);
+            this.fileInfoStatusBar.TabIndex = 2;
             // 
             // statusPanelDefault
             // 
@@ -712,23 +712,23 @@ namespace LessMsi.Gui
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.aboutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(464, 24);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenuBar.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuBar.Name = "mainMenuBar";
+            this.mainMenuBar.Size = new System.Drawing.Size(464, 24);
+            this.mainMenuBar.TabIndex = 3;
+            this.mainMenuBar.Text = "mainMenuBar";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.toolStripSeparator2,
+            this.fileOpenStripSeparator,
             this.mruPlaceHolderToolStripMenuItem,
-            this.toolStripSeparator3,
+            this.fileRecentFilesStripSeparator,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -743,8 +743,8 @@ namespace LessMsi.Gui
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.fileOpenStripSeparator.Name = "fileOpenStripSeparator";
+            this.fileOpenStripSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // mruPlaceHolderToolStripMenuItem
             // 
@@ -755,8 +755,8 @@ namespace LessMsi.Gui
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.fileRecentFilesStripSeparator.Name = "fileRecentFilesStripSeparator";
+            this.fileRecentFilesStripSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -771,7 +771,7 @@ namespace LessMsi.Gui
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyToolStripMenuItem,
             this.changeLangToolStripMenuItem,
-            this.toolStripSeparator1,
+            this.editStripSeparator,
             this.preferencesToolStripMenuItem,
             this.searchFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -795,8 +795,8 @@ namespace LessMsi.Gui
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            this.editStripSeparator.Name = "editStripSeparator";
+            this.editStripSeparator.Size = new System.Drawing.Size(167, 6);
             // 
             // preferencesToolStripMenuItem
             // 
@@ -827,11 +827,11 @@ namespace LessMsi.Gui
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.ClientSize = new System.Drawing.Size(464, 512);
             this.Controls.Add(this.tabs);
-            this.Controls.Add(this.statusBar1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.fileInfoStatusBar);
+            this.Controls.Add(this.pnlMsiFileBrowse);
+            this.Controls.Add(this.mainMenuBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mainMenuBar;
             this.MinimumSize = new System.Drawing.Size(352, 404);
             this.Name = "MainForm";
             this.Text = "Less MSIérables";
@@ -843,10 +843,10 @@ namespace LessMsi.Gui
             this.tabs.ResumeLayout(false);
             this.tabExtractFiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
-            this.panel2.ResumeLayout(false);
+            this.pnlExtractFilesBtns.ResumeLayout(false);
             this.tabTableView.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.pnlTableView.ResumeLayout(false);
+            this.pnlTableView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).EndInit();
             this.tabSummary.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
@@ -854,20 +854,20 @@ namespace LessMsi.Gui
             this.grpDescription.PerformLayout();
             this.tabStreams.ResumeLayout(false);
             this.pnlStreamsBottom.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnlStreamView.ResumeLayout(false);
+            this.pnlStreamView.PerformLayout();
+            this.pnlMsiFileBrowse.ResumeLayout(false);
+            this.pnlMsiFileBrowse.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenuBar.ResumeLayout(false);
+            this.mainMenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            UpdateControlLayout(panel2);
-            UpdateControlLayout(panel3);
-            UpdateControlLayout(panel4);
+            UpdateControlLayout(pnlExtractFilesBtns);
+            UpdateControlLayout(pnlTableView);
+            UpdateControlLayout(pnlStreamView);
         }
 
         private void UpdateControlWidth(Control control)
