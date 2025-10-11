@@ -77,6 +77,8 @@ namespace LessMsi.Gui
 		/// Shows an error to the user.
 		/// </summary>
 		void ShowUserError(string formatStr, params object[] args);
+
+        bool ShowUserMessageQuestionYesNo(string message);
         /// <summary>
         /// Adds a column to the MSI table grid.
         /// </summary>
