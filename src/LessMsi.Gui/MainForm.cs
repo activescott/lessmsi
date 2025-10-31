@@ -899,13 +899,20 @@ namespace LessMsi.Gui
 
         private void OpenFileCommand()
         {
-            if (DialogResult.OK != openMsiDialog.ShowDialog(this))
+            DialogResult dialogResult = openMsiDialog.ShowDialog(this);
+
+            if (DialogResult.OK == dialogResult)
             {
-                Presenter.Error(string.Format(Strings.FileExistError, openMsiDialog.FileName));
-                txtMsiFileName.Text = SelectedMsiFileFullName;
-                return;
+                if (File.Exists(openMsiDialog.FileName))
+                {
+                    LoadFile(openMsiDialog.FileName);
+                }
+                else
+                {
+                    Presenter.Error(string.Format(Strings.FileExistError, openMsiDialog.FileName));
+                    txtMsiFileName.Text = SelectedMsiFileFullName;
+                }
             }
-            LoadFile(openMsiDialog.FileName);
         }
 
         private void LoadFile(string fileToLoad)
