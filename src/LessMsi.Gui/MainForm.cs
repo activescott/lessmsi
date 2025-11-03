@@ -901,18 +901,17 @@ namespace LessMsi.Gui
         {
             DialogResult dialogResult = openMsiDialog.ShowDialog(this);
 
-            if (DialogResult.OK == dialogResult)
+            if (DialogResult.OK != dialogResult)
+                return;
+
+            if (File.Exists(openMsiDialog.FileName))
             {
-                if (File.Exists(openMsiDialog.FileName))
-                {
-                    LoadFile(openMsiDialog.FileName);
-                }
-                else
-                {
-                    Presenter.Error(string.Format(Strings.FileExistError, openMsiDialog.FileName));
-                    txtMsiFileName.Text = SelectedMsiFileFullName;
-                }
+                LoadFile(openMsiDialog.FileName);
+                return;
             }
+
+            Presenter.Error(string.Format(Strings.FileExistError, openMsiDialog.FileName));
+            txtMsiFileName.Text = SelectedMsiFileFullName;
         }
 
         private void LoadFile(string fileToLoad)
