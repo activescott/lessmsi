@@ -379,11 +379,10 @@ namespace LessMsi.Gui
             // label1
             // 
             this.lblFile.AutoSize = true;
-            this.lblFile.Location = new System.Drawing.Point(12, 8);
             this.lblFile.Name = "lblFile";
-            this.lblFile.Size = new System.Drawing.Size(28, 15);
             this.lblFile.TabIndex = 1;
             this.lblFile.Text = $"{Strings.File}:";
+            UpdateControlWidth(this.lblFile);
             // 
             // btnBrowse
             // 
@@ -674,8 +673,8 @@ namespace LessMsi.Gui
             // 
             // panel1
             // 
-            this.pnlMsiFileBrowse.Controls.Add(this.txtMsiFileName);
             this.pnlMsiFileBrowse.Controls.Add(this.lblFile);
+            this.pnlMsiFileBrowse.Controls.Add(this.txtMsiFileName);
             this.pnlMsiFileBrowse.Controls.Add(this.btnBrowse);
             this.pnlMsiFileBrowse.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMsiFileBrowse.Location = new System.Drawing.Point(0, 24);
@@ -868,6 +867,7 @@ namespace LessMsi.Gui
             UpdateControlLayout(pnlExtractFilesBtns);
             UpdateControlLayout(pnlTableView);
             UpdateControlLayout(pnlStreamView);
+            UpdateControlLayout(pnlMsiFileBrowse, startX: 13);
         }
 
         private void UpdateControlWidth(Control control)
@@ -879,16 +879,17 @@ namespace LessMsi.Gui
             }
         }
 
-        private void UpdateControlLayout(Panel panel)
+        private void UpdateControlLayout(Panel panel, int startX = 0)
         {
             int margin = 5;
             var controls = panel.Controls.OfType<Control>().ToList();
 
-            int startX = 0;
-            int y = (panel.Height - controls[0].Height) / 2;
+            if (controls.Count == 0)
+                return;
 
             foreach (var control in controls)
             {
+                int y = (panel.Height - control.Height) / 2;
                 control.Location = new Point(startX, y);
                 startX += control.Width + margin;
             }
