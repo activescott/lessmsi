@@ -140,5 +140,27 @@ namespace LessMsi.Tests
         {
             ExtractAndCompareToMaster("IviNetSharedComponents32_Fx20_1.3.0.msi");
         }
+
+        /// <summary>
+        /// From https://github.com/activescott/lessmsi/pull/237
+        /// </summary>
+        [Fact]
+        public void TryDetectEmbeddedMsi()
+        {
+            const long stg_storage_offset_in_vmware_tools_setup = 0x315E3C;
+            bool containsMsi = Msi.MsiDatabase.TryDetectMsiHeader(GetMsiTestFile("vmware_tools_setup.exe"), out long offset);
+            Assert.True(containsMsi);
+            Assert.Equal(stg_storage_offset_in_vmware_tools_setup, offset);
+
+            const long stg_storage_offset_in_ivinetsharedcomponents_msi = 0;
+            containsMsi = Msi.MsiDatabase.TryDetectMsiHeader(GetMsiTestFile("IviNetSharedComponents32_Fx20_1.3.0.msi"), out offset);
+            Assert.True(containsMsi);
+            Assert.Equal(stg_storage_offset_in_ivinetsharedcomponents_msi, offset);
+
+            const long no_stg_storage_magic_found = -1;
+            containsMsi = Msi.MsiDatabase.TryDetectMsiHeader(GetMsiTestFile("msi_with_external_cab.cab"), out offset);
+            Assert.False(containsMsi);
+            Assert.Equal(no_stg_storage_magic_found, offset);
+        }
     }
 }
