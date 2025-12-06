@@ -240,7 +240,7 @@ namespace LessMsi.Gui
         private TabPage tabTableView;
         public ComboBox cboTable;
         private Label lblTable;
-        private Panel pnlMsiFileBrowse;
+        private TableLayoutPanel tlpMsiFileBrowse;
         public Button btnExtract;
         private FolderBrowserDialog folderBrowser;
         private OpenFileDialog openMsiDialog;
@@ -325,7 +325,7 @@ namespace LessMsi.Gui
             this.pnlStreamView = new System.Windows.Forms.Panel();
             this.lblStream = new System.Windows.Forms.Label();
             this.cboStream = new System.Windows.Forms.ComboBox();
-            this.pnlMsiFileBrowse = new System.Windows.Forms.Panel();
+            this.tlpMsiFileBrowse = new System.Windows.Forms.TableLayoutPanel();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.openMsiDialog = new System.Windows.Forms.OpenFileDialog();
             this.fileInfoStatusBar = new System.Windows.Forms.StatusBar();
@@ -358,7 +358,6 @@ namespace LessMsi.Gui
             this.tabStreams.SuspendLayout();
             this.pnlStreamsBottom.SuspendLayout();
             this.pnlStreamView.SuspendLayout();
-            this.pnlMsiFileBrowse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
             this.mainMenuBar.SuspendLayout();
@@ -366,33 +365,31 @@ namespace LessMsi.Gui
             // 
             // txtMsiFileName
             // 
-            this.txtMsiFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMsiFileName.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
             this.txtMsiFileName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txtMsiFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.txtMsiFileName.Location = new System.Drawing.Point(55, 5);
             this.txtMsiFileName.Name = "txtMsiFileName";
-            this.txtMsiFileName.Size = new System.Drawing.Size(367, 23);
             this.txtMsiFileName.TabIndex = 0;
             this.txtMsiFileName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ReloadCurrentUIOnEnterKeyDown);
             // 
-            // label1
+            // lblFile
             // 
             this.lblFile.AutoSize = true;
             this.lblFile.Name = "lblFile";
             this.lblFile.TabIndex = 1;
             this.lblFile.Text = $"{Strings.File}:";
-            UpdateControlWidth(this.lblFile);
+            this.lblFile.Margin = new Padding(13, 0, 0, 0);
+            this.lblFile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnBrowse.Location = new System.Drawing.Point(428, 7);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(24, 19);
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "...";
+            this.btnBrowse.Margin = new Padding(0, 0, 13, 0);
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // tabs
@@ -671,16 +668,22 @@ namespace LessMsi.Gui
             this.cboStream.Text = "streamInfo";
             this.cboStream.SelectedValueChanged += new System.EventHandler(this.cboStream_SelectedValueChanged);
             // 
-            // panel1
-            // 
-            this.pnlMsiFileBrowse.Controls.Add(this.lblFile);
-            this.pnlMsiFileBrowse.Controls.Add(this.txtMsiFileName);
-            this.pnlMsiFileBrowse.Controls.Add(this.btnBrowse);
-            this.pnlMsiFileBrowse.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlMsiFileBrowse.Location = new System.Drawing.Point(0, 24);
-            this.pnlMsiFileBrowse.Name = "pnlMsiFileBrowse";
-            this.pnlMsiFileBrowse.Size = new System.Drawing.Size(464, 31);
-            this.pnlMsiFileBrowse.TabIndex = 0;
+            // tlpMsiFileBrowse
+            //
+            this.tlpMsiFileBrowse.ColumnCount = 3;
+            this.tlpMsiFileBrowse.Controls.Add(this.lblFile, 0, 0);
+            this.tlpMsiFileBrowse.Controls.Add(this.txtMsiFileName, 1, 0);
+            this.tlpMsiFileBrowse.Controls.Add(this.btnBrowse, 2, 0);
+            this.tlpMsiFileBrowse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlpMsiFileBrowse.Location = new System.Drawing.Point(0, 24);
+            this.tlpMsiFileBrowse.Name = "tlpMsiFileBrowse";
+            this.tlpMsiFileBrowse.RowCount = 1;
+            this.tlpMsiFileBrowse.Size = new System.Drawing.Size(464, 31);
+            this.tlpMsiFileBrowse.TabIndex = 0;
+            this.tlpMsiFileBrowse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tlpMsiFileBrowse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMsiFileBrowse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tlpMsiFileBrowse.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // openMsiDialog
             // 
@@ -827,7 +830,7 @@ namespace LessMsi.Gui
             this.ClientSize = new System.Drawing.Size(464, 512);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.fileInfoStatusBar);
-            this.Controls.Add(this.pnlMsiFileBrowse);
+            this.Controls.Add(this.tlpMsiFileBrowse);
             this.Controls.Add(this.mainMenuBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.mainMenuBar;
@@ -855,8 +858,6 @@ namespace LessMsi.Gui
             this.pnlStreamsBottom.ResumeLayout(false);
             this.pnlStreamView.ResumeLayout(false);
             this.pnlStreamView.PerformLayout();
-            this.pnlMsiFileBrowse.ResumeLayout(false);
-            this.pnlMsiFileBrowse.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
             this.mainMenuBar.ResumeLayout(false);
@@ -867,7 +868,6 @@ namespace LessMsi.Gui
             UpdateControlLayout(pnlExtractFilesBtns);
             UpdateControlLayout(pnlTableView);
             UpdateControlLayout(pnlStreamView);
-            UpdateControlLayout(pnlMsiFileBrowse, startX: 13);
         }
 
         private void UpdateControlWidth(Control control)
