@@ -48,20 +48,24 @@ namespace LessMsi.Gui
             string executingAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var cultureDirectories = Directory.GetDirectories(executingAssemblyPath);
 
-            var cultures = cultureDirectories
+            var cultureCodes = cultureDirectories
                 .Select(Path.GetFileName)
                 .Where(dir => !string.IsNullOrEmpty(dir))
-                .OrderBy(c => c)
                 .ToList();
 
-            cultures.Add("en");
+            cultureCodes.Add("en");
 
-            if (cultures.Any())
+            var orderedCultures = cultureCodes
+                .Distinct()
+                .Select(code => new CultureInfo(code))
+                .OrderBy(ci => ci.DisplayName)
+                .ToList();
+
+            if (orderedCultures.Any())
             {
-                foreach (var culture in cultures)
+                foreach (var cultureInfo in orderedCultures)
                 {
-                    var cultureInfo = new CultureInfo(culture);
-                    m_CultureInfoDict.Add(culture, cultureInfo);
+                    m_CultureInfoDict.Add(cultureInfo.Name, cultureInfo);
                 }
             }
         }
