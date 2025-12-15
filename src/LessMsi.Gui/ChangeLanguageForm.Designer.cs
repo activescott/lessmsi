@@ -1,4 +1,4 @@
-﻿namespace LessMsi.Gui
+namespace LessMsi.Gui
 {
     partial class ChangeLanguageForm
     {
@@ -33,45 +33,55 @@
             this.checkBoxesPanel = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
+            
             // 
-            // panel1
+            // panel1 (Bottom button area)
             // 
             this.panel1.Controls.Add(this.saveBtn);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 297);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom; // Dock to bottom
+            this.panel1.Location = new System.Drawing.Point(0, 397);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(281, 100);
+            this.panel1.Size = new System.Drawing.Size(400, 80); // Reduced height slightly for a more compact look
             this.panel1.TabIndex = 0;
+            
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(12, 53);
+            // Center the button
+            this.saveBtn.Anchor = System.Windows.Forms.AnchorStyles.None; 
+            this.saveBtn.Location = new System.Drawing.Point(72, 20); 
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(257, 39);
             this.saveBtn.TabIndex = 0;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            
             // 
-            // checkBoxesPanel
+            // checkBoxesPanel (Language list area)
             // 
-            this.checkBoxesPanel.Location = new System.Drawing.Point(0, 1);
+            this.checkBoxesPanel.Dock = System.Windows.Forms.DockStyle.Fill; // Fill remaining space
+            this.checkBoxesPanel.AutoScroll = true; // [Key Change] Enable auto-scrolling
+            this.checkBoxesPanel.Location = new System.Drawing.Point(0, 0);
             this.checkBoxesPanel.Name = "checkBoxesPanel";
-            this.checkBoxesPanel.Size = new System.Drawing.Size(281, 343);
+            this.checkBoxesPanel.Size = new System.Drawing.Size(400, 397);
             this.checkBoxesPanel.TabIndex = 1;
+            
             // 
             // ChangeLanguageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 397);
+            // [Key Change] Increase width to 400 (was 291) to ensure content isn't cut off
+            this.ClientSize = new System.Drawing.Size(400, 480); 
             this.Controls.Add(this.checkBoxesPanel);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog; // Changed to FixedDialog to look more like a dialog
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent; // Suggestion: Center on parent
             this.Name = "ChangeLanguageForm";
-            this.Text = "ChangeLanguageForm";
+            this.Text = "Change Language";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChangeLanguageForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
