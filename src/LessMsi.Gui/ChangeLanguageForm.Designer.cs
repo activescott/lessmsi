@@ -1,97 +1,149 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Reflection;
+using System.Globalization;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
 namespace LessMsi.Gui
 {
-    partial class ChangeLanguageForm
+    public partial class ChangeLanguageForm : Form
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private bool m_SaveBtnUsed;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        private string m_PreviousCheckedLang;
+        private string m_CurrentCheckedLang;
+
+        private Dictionary<string, CheckBox> m_CheckBoxDict;
+        private Dictionary<string, CultureInfo> m_CultureInfoDict;
+
+        public ChangeLanguageForm()
         {
-            if (disposing && (components != null))
+            InitializeComponent();
+
+            m_PreviousCheckedLang = string.Empty;
+            m_CurrentCheckedLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+            setGUIData();
+
+            fillCultureInfoDict();
+
+            generateCheckboxes();
+        }
+
+        public string NewSelectedLanguage => m_CurrentCheckedLang;
+
+        private void setGUIData()
+        {
+            Icon = Properties.Resources.LessmsiIcon; 
+            Text = Resources.Languages.Strings.ChangeLang;
+        }
+
+        private void fillCultureInfoDict()
+        {
+            m_CultureInfoDict = new Dictionary<string, CultureInfo>();
+
+            string executingAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var cultureDirectories = Directory.GetDirectories(executingAssemblyPath);
+
+            var cultureCodes = cultureDirectories
+                .Select(Path.GetFileName)
+                .Where(dir => !string.IsNullOrEmpty(dir))
+                .ToList();
+
+            // Ensure English is included
+            if (!cultureCodes.Contains("en"))
             {
-                components.Dispose();
+                cultureCodes.Add("en");
             }
-            base.Dispose(disposing);
+
+            var orderedCultures = cultureCodes
+                .Distinct()
+                .Select(code => {
+                    try { return new CultureInfo(code); }
+                    catch { return null; } // Prevent crashes caused by invalid folder names
+                })
+                .Where(ci => ci != null)
+                .OrderBy(ci => ci.DisplayName)
+                .ToList();
+
+            if (orderedCultures.Any())
+            {
+                foreach (var cultureInfo in orderedCultures)
+                {
+                    if (!m_CultureInfoDict.ContainsKey(cultureInfo.Name))
+                    {
+                        m_CultureInfoDict.Add(cultureInfo.Name, cultureInfo);
+                    }
+                }
+            }
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        private void generateCheckboxes()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.saveBtn = new System.Windows.Forms.Button();
-            this.checkBoxesPanel = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            
-            // 
-            // panel1 (Bottom button area)
-            // 
-            this.panel1.Controls.Add(this.saveBtn);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom; // Dock to bottom
-            this.panel1.Location = new System.Drawing.Point(0, 397);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(400, 80); // Reduced height slightly for a more compact look
-            this.panel1.TabIndex = 0;
-            
-            // 
-            // saveBtn
-            // 
-            // Center the button
-            this.saveBtn.Anchor = System.Windows.Forms.AnchorStyles.None; 
-            this.saveBtn.Location = new System.Drawing.Point(72, 20); 
-            this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(257, 39);
-            this.saveBtn.TabIndex = 0;
-            this.saveBtn.Text = "Save";
-            this.saveBtn.UseVisualStyleBackColor = true;
-            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
-            
-            // 
-            // checkBoxesPanel (Language list area)
-            // 
-            this.checkBoxesPanel.Dock = System.Windows.Forms.DockStyle.Fill; // Fill remaining space
-            this.checkBoxesPanel.AutoScroll = true; // [Key Change] Enable auto-scrolling
-            this.checkBoxesPanel.Location = new System.Drawing.Point(0, 0);
-            this.checkBoxesPanel.Name = "checkBoxesPanel";
-            this.checkBoxesPanel.Size = new System.Drawing.Size(400, 397);
-            this.checkBoxesPanel.TabIndex = 1;
-            
-            // 
-            // ChangeLanguageForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            // [Key Change] Increase width to 400 (was 291) to ensure content isn't cut off
-            this.ClientSize = new System.Drawing.Size(400, 480); 
-            this.Controls.Add(this.checkBoxesPanel);
-            this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog; // Changed to FixedDialog to look more like a dialog
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent; // Suggestion: Center on parent
-            this.Name = "ChangeLanguageForm";
-            this.Text = "Change Language";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChangeLanguageForm_FormClosing);
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            checkBoxesPanel.Controls.Clear();
+            m_CheckBoxDict = new Dictionary<string, CheckBox>();
 
+            for (int i = 0; i < m_CultureInfoDict.Count; i++)
+            {
+                var currentCultureKey = m_CultureInfoDict.ElementAt(i).Key;
+                var currentCultureInfo = m_CultureInfoDict.ElementAt(i).Value;
+
+                var checkBox = new CheckBox
+                {
+                    Name = currentCultureKey,
+                    Text = currentCultureInfo.DisplayName,
+                    AutoSize = true,
+                    Margin = new Padding(5),
+                    // Adjust position slightly to avoid being too close to the edge
+                    Location = new System.Drawing.Point(20, 10 + (30 * i)), 
+                    Checked = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == currentCultureKey
+                };
+
+                checkBox.Click += (_, e) => OnCheckboxClick(checkBox, e);
+
+                m_CheckBoxDict.Add(currentCultureKey, checkBox);
+
+                checkBoxesPanel.Controls.Add(checkBox);
+            }
         }
 
-        #endregion
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            m_SaveBtnUsed = true;
+            Close();
+        }
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel checkBoxesPanel;
-        private System.Windows.Forms.Button saveBtn;
+        private void OnCheckboxClick(object sender, EventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox != null)
+            {
+                m_PreviousCheckedLang = m_CurrentCheckedLang;
+                m_CurrentCheckedLang = checkBox.Name;
+
+                if (m_CurrentCheckedLang == m_PreviousCheckedLang)
+                {
+                    checkBox.Checked = true;
+                    return;
+                }
+
+                // Uncheck the previous selection
+                if (!string.IsNullOrEmpty(m_PreviousCheckedLang) && m_CheckBoxDict.ContainsKey(m_PreviousCheckedLang))
+                {
+                    m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
+                }
+            }
+        }
+
+        private void ChangeLanguageForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!m_SaveBtnUsed)
+            {
+                m_CurrentCheckedLang = string.Empty;
+            }
+        }
     }
 }
