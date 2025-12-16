@@ -211,7 +211,7 @@
     <value>缺少文件</value>
   </data>
   <data name="MsiFilesFilter" xml:space="preserve">
-    <value>MSI 文件</value>
+    <value>MSI文件</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名称</value>
