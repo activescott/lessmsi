@@ -178,7 +178,7 @@
     <value>Extrair arquivos de fluxo...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>Arquivo</value>
+    <value>Arquivo:</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>O arquivo '{0}' não existe</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Remove o menu de contexto se ele existir</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>deve estar na mesma pasta que</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Pesquisar</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Não é possível visualizar a tabela</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>

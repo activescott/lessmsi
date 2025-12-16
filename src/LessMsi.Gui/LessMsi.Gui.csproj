@@ -163,8 +163,9 @@
     <EmbeddedResource Include="Resources\Languages\Strings.pl.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.pt.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.es.resx" />
-	  <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.ko.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.zh-TW.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

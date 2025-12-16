@@ -80,11 +80,10 @@ namespace LessMsi.Gui
 			if (!File.Exists(shortcutHelperExe))
 			{
 				MessageBox.Show(this,
-								$"{Strings.File} '" + Path.GetFileNameWithoutExtension(shortcutHelperExe) +
-								$"' {Strings.SameDirMassage} lessmsi-gui.exe.", 
-								Strings.MissingFile, 
-								MessageBoxButtons.OK,
-								MessageBoxIcon.Error);
+						string.Format(Strings.ShortcutHelperMissing, Path.GetFileNameWithoutExtension(shortcutHelperExe), "lessmsi-gui.exe"),
+						Strings.MissingFile,
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Error);
 				return;
 			}
 			var newProcess = new Process();

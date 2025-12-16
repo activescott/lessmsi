@@ -178,7 +178,7 @@
     <value>스트림 파일 추출...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>파일</value>
+    <value>파일:</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>'{0}' 파일이 존재하지 않습니다</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>컨텍스트 메뉴가 있는 경우 해당 메뉴 제거</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>다음 디렉터리와 동일해야 합니다</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>검색:</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>테이블을 볼 수 없습니다</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>

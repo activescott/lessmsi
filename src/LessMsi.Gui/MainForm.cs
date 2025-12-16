@@ -377,7 +377,7 @@ namespace LessMsi.Gui
             this.lblFile.AutoSize = true;
             this.lblFile.Name = "lblFile";
             this.lblFile.TabIndex = 1;
-            this.lblFile.Text = $"{Strings.File}:";
+            this.lblFile.Text = $"{Strings.File}";
             this.lblFile.Margin = new Padding(13, 0, 0, 0);
             this.lblFile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 

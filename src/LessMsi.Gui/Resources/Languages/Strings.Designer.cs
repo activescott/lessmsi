@@ -241,7 +241,7 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File.
+        ///   Looks up a localized string similar to File:.
         /// </summary>
         internal static string File {
             get {
@@ -439,15 +439,6 @@ namespace LessMsi.Gui.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to should be in the same directory as.
-        /// </summary>
-        internal static string SameDirMassage {
-            get {
-                return ResourceManager.GetString("SameDirMassage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Search:.
         /// </summary>
         internal static string Search {
@@ -606,6 +597,15 @@ namespace LessMsi.Gui.Resources.Languages {
         internal static string ViewTableError {
             get {
                 return ResourceManager.GetString("ViewTableError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to File &apos;{0}&apos; should be in the same directory as &apos;{1}&apos;.
+        /// </summary>
+        internal static string ShortcutHelperMissing {
+            get {
+                return ResourceManager.GetString("ShortcutHelperMissing", resourceCulture);
             }
         }
     }
