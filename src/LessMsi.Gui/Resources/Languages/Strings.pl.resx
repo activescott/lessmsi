@@ -178,7 +178,7 @@
     <value>Wypakuj pliki strumienia...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>Plik</value>
+    <value>Plik:</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>Plik '{0}' nie istnieje</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Usuwa opcje menu kontekstowego, jeśli istnieją</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>powinien znajdować się w tym samym katalogu co</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Szukaj:</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Nie można wyświetlić tabeli</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>

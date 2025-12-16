@@ -178,7 +178,7 @@
     <value>ストリームファイルの抽出...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>ファイル</value>
+    <value>ファイル :</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>ファイル '{0}' は存在しません</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>コンテキストメニューが存在する場合は削除します</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>同じディレクトリにある必要があります</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>検索 :</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>テーブルを表示できません</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,186 +118,186 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Rreth nesh</value>
+    <value>關於</value>
   </data>
   <data name="AddShortcutText" xml:space="preserve">
-    <value>Shto Shkurtore në Eksplorues</value>
+    <value>新增捷徑到檔案總管</value>
   </data>
   <data name="AddShortcutTextNote" xml:space="preserve">
-    <value>Shton artikujt 'Nxirr' &amp; 'Eksploro' në menynë kontekstuale (klik i djathtë) për skedarët .msi</value>
+    <value>對 .msi 檔案按右鍵時，新增「解壓縮」與「瀏覽」選單項目</value>
   </data>
   <data name="AllFilesFilter" xml:space="preserve">
-    <value>Të gjithë Skedarët</value>
+    <value>所有檔案</value>
   </data>
   <data name="BadlyFormedFilePathError" xml:space="preserve">
-    <value>Rruga e skedarit është formuar gabim</value>
+    <value>檔案路徑格式不正確</value>
   </data>
   <data name="ChangeLang" xml:space="preserve">
-    <value>Ndrysho Gjuhën</value>
+    <value>更改語言</value>
   </data>
   <data name="Complete" xml:space="preserve">
-    <value>Përfunduar</value>
+    <value>完成</value>
   </data>
   <data name="Component" xml:space="preserve">
-    <value>Komponent</value>
+    <value>元件</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>&amp;Kopjo</value>
+    <value>複製 (&amp;C)</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Përshkrimi:</value>
+    <value>描述：</value>
   </data>
   <data name="Directory" xml:space="preserve">
-    <value>Direktoria</value>
+    <value>目錄</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>&amp;Modifiko</value>
+    <value>編輯 (&amp;E)</value>
   </data>
   <data name="EmptyFilePathError" xml:space="preserve">
-    <value>Rruga e skedarit është bosh</value>
+    <value>檔案路徑空白</value>
   </data>
   <data name="ERROR" xml:space="preserve">
-    <value>GABIM</value>
+    <value>錯誤</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>D&amp;il</value>
+    <value>結束 (&amp;x)</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>N&amp;xirr</value>
+    <value>解壓縮 (&amp;x)</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Nxirr Skedarët</value>
+    <value>解壓縮檔案</value>
   </data>
   <data name="Extracting" xml:space="preserve">
-    <value>Duke nxjerrë</value>
+    <value>正在解壓縮</value>
   </data>
   <data name="ExtractingFile" xml:space="preserve">
-    <value>Duke nxjerrë Skedarin</value>
+    <value>正在解壓縮檔案</value>
   </data>
   <data name="ExtractStreamFiles" xml:space="preserve">
-    <value>Nxirr Skedarët nga Rrjedha...</value>
+    <value>解壓縮串流檔…</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>Skedari:</value>
+    <value>檔案：</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
-    <value>Skedari '{0}' nuk ekziston</value>
+    <value>檔案「{0}」不存在</value>
   </data>
   <data name="FileMenuLabel" xml:space="preserve">
-    <value>&amp;Skedari</value>
+    <value>檔案 (&amp;F)</value>
   </data>
   <data name="FilesFoundStatus" xml:space="preserve">
-    <value>skedarë u gjetën.</value>
+    <value>找到檔案。</value>
   </data>
   <data name="FindStreamError" xml:space="preserve">
-    <value>Nuk u gjet rrjedhë për CAB '{0}'</value>
+    <value>找不到 CAB 檔「{0}」當中的串流</value>
   </data>
   <data name="ID" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="Initializing" xml:space="preserve">
-    <value>Duke inicializuar</value>
+    <value>正在初始化</value>
   </data>
   <data name="InvalidCharsInFilePathError" xml:space="preserve">
-    <value>Rruga e skedarit përmban karaktere të pavlefshme</value>
+    <value>檔案路徑包含無效字元</value>
   </data>
   <data name="LoadingSummaryInfoError" xml:space="preserve">
-    <value>Gabim gjatë ngarkimit të informacionit përmbledhës</value>
+    <value>載入摘要資訊時發生錯誤</value>
   </data>
   <data name="LoadingTablesStatus" xml:space="preserve">
-    <value>Duke ngarkuar listën e tabelave...</value>
+    <value>正在載入表格清單…</value>
   </data>
   <data name="MissingFile" xml:space="preserve">
-    <value>Skedari mungon</value>
+    <value>缺少檔案</value>
   </data>
   <data name="MsiFilesFilter" xml:space="preserve">
     <value>msierablefiles</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Emri</value>
+    <value>名稱</value>
   </data>
   <data name="NoFilesPresentStatus" xml:space="preserve">
-    <value>Nuk ka skedarë të pranishëm</value>
+    <value>檔案不存在</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>&amp;Hap</value>
+    <value>開啟 (&amp;O)</value>
   </data>
   <data name="OpenFileError" xml:space="preserve">
-    <value>Dështim në hapjen e skedarit</value>
+    <value>檔案開啟失敗</value>
   </data>
   <data name="Preferences" xml:space="preserve">
-    <value>Preferencat</value>
+    <value>偏好設定</value>
   </data>
   <data name="PreferencesMenuLabel" xml:space="preserve">
-    <value>&amp;Preferencat</value>
+    <value>偏好設定 (&amp;P)</value>
   </data>
   <data name="ProcessingTableStatus" xml:space="preserve">
-    <value>Duke përpunuar tabelën '{0}'.</value>
+    <value>正在處理表格「{0}」。</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Skedarët e Fundit</value>
+    <value>近期的檔案</value>
   </data>
   <data name="RemoveShortcutText" xml:space="preserve">
-    <value>Hiq Shkurtoren</value>
+    <value>移除捷徑項目</value>
   </data>
   <data name="RemoveShortcutTextNote" xml:space="preserve">
-    <value>Heq menunë kontekstuale nëse ekziston</value>
+    <value>移除右鍵選單（若存在）</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Kërko:</value>
+    <value>搜尋：</value>
   </data>
   <data name="SearchFile" xml:space="preserve">
-    <value>Kërko Skedar</value>
+    <value>搜尋檔案</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Përzgjidh të Gjitha</value>
+    <value>選擇全部 (&amp;A)</value>
   </data>
   <data name="SelectFilesMessage" xml:space="preserve">
-    <value>Ju lutem përzgjidhni disa ose të gjithë skedarët për t’i nxjerrë.</value>
+    <value>請選擇全部或部分檔案進行解壓縮。</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Madhësia</value>
+    <value>大小</value>
   </data>
   <data name="Stream" xml:space="preserve">
-    <value>Rrjedha</value>
+    <value>串流</value>
   </data>
   <data name="Streams" xml:space="preserve">
-    <value>Rrjedhat</value>
+    <value>串流</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value>Përmbledhje</value>
+    <value>摘要</value>
   </data>
   <data name="Table" xml:space="preserve">
-    <value>&amp;Tabelë</value>
+    <value>表格 (&amp;T)</value>
   </data>
   <data name="TableView" xml:space="preserve">
-    <value>Pamje Tabelore</value>
+    <value>表格檢視</value>
   </data>
   <data name="TooLongFilePathError" xml:space="preserve">
-    <value>Rruga e skedarit është shumë e gjatë</value>
+    <value>檔案路徑太長</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Lloji</value>
+    <value>類型</value>
   </data>
   <data name="Uncompressing" xml:space="preserve">
-    <value>Duke dekompresuar</value>
+    <value>正在解壓縮</value>
   </data>
   <data name="UnselectAll" xml:space="preserve">
-    <value>&amp;Çzgjidh të Gjitha</value>
+    <value>取消選擇全部 (&amp;U)</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Vlera</value>
+    <value>值</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Versioni</value>
+    <value>版本</value>
   </data>
   <data name="ViewFilesError" xml:space="preserve">
-    <value>Nuk mund të shihen skedarët</value>
+    <value>無法檢視檔案</value>
   </data>
   <data name="ViewTableError" xml:space="preserve">
-    <value>Nuk mund të shihet tabela</value>
+    <value>無法檢視表格</value>
   </data>
   <data name="ShortcutHelperMissing" xml:space="preserve">
-    <value>File '{0}' should be in the same directory as '{1}'.</value>
+    <value>「{0}」檔案應該與「{1}」位於相同資料夾。</value>
   </data>
 </root>

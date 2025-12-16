@@ -178,7 +178,7 @@
     <value>Extract Stream Files...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>File</value>
+    <value>File:</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>File '{0}' does not exist</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Removes the context menu if it exists</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>should be in the same directory as</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Search:</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Cannot view table</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>

@@ -178,7 +178,7 @@
     <value>Estrai file flussi...</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>File</value>
+    <value>File:</value>
   </data>
   <data name="FileExistError" xml:space="preserve">
     <value>File '{0}' non esiste</value>
@@ -243,9 +243,6 @@
   <data name="RemoveShortcutTextNote" xml:space="preserve">
     <value>Rimuovi se esistono voci menu contestuale explorer</value>
   </data>
-  <data name="SameDirMassage" xml:space="preserve">
-    <value>deve essere nella stessa cartella di</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Cerca:</value>
   </data>
@@ -299,5 +296,8 @@
   </data>
   <data name="ViewTableError" xml:space="preserve">
     <value>Impossibile visualizzare la tabella</value>
+  </data>
+  <data name="ShortcutHelperMissing" xml:space="preserve">
+    <value>File '{0}' should be in the same directory as '{1}'.</value>
   </data>
 </root>
