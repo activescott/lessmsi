@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -37,7 +37,7 @@ namespace LessMsi.Gui
 
         private void setGUIData()
         {
-            Icon = Properties.Resources.LessmsiIcon;
+            Icon = Properties.Resources.LessmsiIcon; 
             Text = Resources.Languages.Strings.ChangeLang;
         }
 
@@ -53,11 +53,19 @@ namespace LessMsi.Gui
                 .Where(dir => !string.IsNullOrEmpty(dir))
                 .ToList();
 
-            cultureCodes.Add("en");
+            // Ensure English is included
+            if (!cultureCodes.Contains("en"))
+            {
+                cultureCodes.Add("en");
+            }
 
             var orderedCultures = cultureCodes
                 .Distinct()
-                .Select(code => new CultureInfo(code))
+                .Select(code => {
+                    try { return new CultureInfo(code); }
+                    catch { return null; } // Prevent crashes caused by invalid folder names
+                })
+                .Where(ci => ci != null)
                 .OrderBy(ci => ci.DisplayName)
                 .ToList();
 
@@ -65,7 +73,10 @@ namespace LessMsi.Gui
             {
                 foreach (var cultureInfo in orderedCultures)
                 {
-                    m_CultureInfoDict.Add(cultureInfo.Name, cultureInfo);
+                    if (!m_CultureInfoDict.ContainsKey(cultureInfo.Name))
+                    {
+                        m_CultureInfoDict.Add(cultureInfo.Name, cultureInfo);
+                    }
                 }
             }
         }
@@ -86,7 +97,8 @@ namespace LessMsi.Gui
                     Text = currentCultureInfo.DisplayName,
                     AutoSize = true,
                     Margin = new Padding(5),
-                    Location = new System.Drawing.Point(10, 25 * i),
+                    // Adjust position slightly to avoid being too close to the edge
+                    Location = new System.Drawing.Point(20, 10 + (30 * i)), 
                     Checked = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == currentCultureKey
                 };
 
@@ -118,7 +130,11 @@ namespace LessMsi.Gui
                     return;
                 }
 
-                m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
+                // Uncheck the previous selection
+                if (!string.IsNullOrEmpty(m_PreviousCheckedLang) && m_CheckBoxDict.ContainsKey(m_PreviousCheckedLang))
+                {
+                    m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
+                }
             }
         }
 
