@@ -47,7 +47,7 @@ namespace LessMsi.Gui
     {
         private readonly MruMenuStripManager _mruManager;
         private TabPage tabStreams;
-        private Panel pnlStreamView;
+        private TableLayoutPanel tlpStreamView;
         private Label lblStream;
         public ComboBox cboStream;
         private ListBox lstStreamFiles;
@@ -322,7 +322,7 @@ namespace LessMsi.Gui
             this.lstStreamFiles = new System.Windows.Forms.ListBox();
             this.pnlStreamsBottom = new System.Windows.Forms.Panel();
             this.btnExtractStreamFiles = new System.Windows.Forms.Button();
-            this.pnlStreamView = new System.Windows.Forms.Panel();
+            this.tlpStreamView = new System.Windows.Forms.TableLayoutPanel();
             this.lblStream = new System.Windows.Forms.Label();
             this.cboStream = new System.Windows.Forms.ComboBox();
             this.tlpMsiFileBrowse = new System.Windows.Forms.TableLayoutPanel();
@@ -355,7 +355,6 @@ namespace LessMsi.Gui
             this.grpDescription.SuspendLayout();
             this.tabStreams.SuspendLayout();
             this.pnlStreamsBottom.SuspendLayout();
-            this.pnlStreamView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
             this.mainMenuBar.SuspendLayout();
@@ -612,7 +611,7 @@ namespace LessMsi.Gui
             // 
             this.tabStreams.Controls.Add(this.lstStreamFiles);
             this.tabStreams.Controls.Add(this.pnlStreamsBottom);
-            this.tabStreams.Controls.Add(this.pnlStreamView);
+            this.tabStreams.Controls.Add(this.tlpStreamView);
             this.tabStreams.Location = new System.Drawing.Point(4, 22);
             this.tabStreams.Name = "tabStreams";
             this.tabStreams.Size = new System.Drawing.Size(456, 415);
@@ -653,16 +652,26 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.AutoEllipsis = false;
             UpdateControlWidth(this.btnExtractStreamFiles);
             // 
-            // panel4
+            // tlpStreamView
             // 
-            this.pnlStreamView.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlStreamView.Controls.Add(this.lblStream);
-            this.pnlStreamView.Controls.Add(this.cboStream);
-            this.pnlStreamView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlStreamView.Location = new System.Drawing.Point(0, 0);
-            this.pnlStreamView.Name = "pnlStreamView";
-            this.pnlStreamView.Size = new System.Drawing.Size(456, 28);
-            this.pnlStreamView.TabIndex = 0;
+            this.tlpStreamView.ColumnCount = 2;
+            this.tlpStreamView.Controls.Add(this.lblStream, 0, 0);
+            this.tlpStreamView.Controls.Add(this.cboStream, 1, 0);
+
+            this.tlpStreamView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlpStreamView.Location = new System.Drawing.Point(0, 0);
+            this.tlpStreamView.Name = "tlpStreamView";
+            this.tlpStreamView.RowCount = 1;
+            this.tlpStreamView.Size = new System.Drawing.Size(456, 32);
+            this.tlpStreamView.TabIndex = 0;
+            this.tlpStreamView.BackColor = System.Drawing.SystemColors.Control;
+
+            // Column Styles
+            this.tlpStreamView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Column 0: Label
+            this.tlpStreamView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Column 1: ComboBox
+
+            // Row Style (Vertical alignment)
+            this.tlpStreamView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // lblStream
             // 
@@ -670,19 +679,17 @@ namespace LessMsi.Gui
             this.lblStream.Name = "lblStream";
             this.lblStream.TabIndex = 11;
             this.lblStream.Text = Strings.Stream;
-            UpdateControlWidth(this.lblStream);
+            this.lblStream.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblStream.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // cboStream
             // 
-            this.cboStream.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboStream.Anchor = (System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right);
             this.cboStream.Enabled = false;
-            this.cboStream.Location = new System.Drawing.Point(50, 5);
             this.cboStream.Name = "cboStream";
-            this.cboStream.Size = new System.Drawing.Size(323, 23);
-            this.cboStream.TabIndex = 10;
             this.cboStream.Text = "streamInfo";
+            this.cboStream.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.cboStream.TabIndex = 10;
             this.cboStream.SelectedValueChanged += new System.EventHandler(this.cboStream_SelectedValueChanged);
             // 
             // tlpMsiFileBrowse
@@ -870,40 +877,19 @@ namespace LessMsi.Gui
             this.grpDescription.PerformLayout();
             this.tabStreams.ResumeLayout(false);
             this.pnlStreamsBottom.ResumeLayout(false);
-            this.pnlStreamView.ResumeLayout(false);
-            this.pnlStreamView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
             this.mainMenuBar.ResumeLayout(false);
             this.mainMenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-            UpdateControlLayout(pnlStreamView);
         }
-
         private void UpdateControlWidth(Control control)
         {
             using (Graphics cg = this.CreateGraphics())
             {
                 SizeF size = cg.MeasureString(control.Text, control.Font);
                 control.Width = (int)size.Width;
-            }
-        }
-
-        private void UpdateControlLayout(Panel panel, int startX = 0)
-        {
-            int margin = 5;
-            var controls = panel.Controls.OfType<Control>().ToList();
-
-            if (controls.Count == 0)
-                return;
-
-            foreach (var control in controls)
-            {
-                int y = (panel.Height - control.Height) / 2;
-                control.Location = new Point(startX, y);
-                startX += control.Width + margin;
             }
         }
         #endregion
