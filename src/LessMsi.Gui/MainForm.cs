@@ -268,7 +268,7 @@ namespace LessMsi.Gui
         private ToolStripMenuItem mruPlaceHolderToolStripMenuItem;
         private ToolStripSeparator fileRecentFilesStripSeparator;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private Panel pnlTableView;
+        private TableLayoutPanel tlpTableView;
         private ToolStripMenuItem aboutToolStripMenuItem;
         // ReSharper restore InconsistentNaming
         /// <summary>
@@ -310,7 +310,7 @@ namespace LessMsi.Gui
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
             this.tabTableView = new System.Windows.Forms.TabPage();
-            this.pnlTableView = new System.Windows.Forms.Panel();
+            this.tlpTableView = new System.Windows.Forms.TableLayoutPanel();
             this.lblTable = new System.Windows.Forms.Label();
             this.cboTable = new System.Windows.Forms.ComboBox();
             this.msiTableGrid = new System.Windows.Forms.DataGridView();
@@ -349,7 +349,6 @@ namespace LessMsi.Gui
             this.tabExtractFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
             this.tabTableView.SuspendLayout();
-            this.pnlTableView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
             this.tabSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
@@ -496,7 +495,7 @@ namespace LessMsi.Gui
             // 
             // tabTableView
             // 
-            this.tabTableView.Controls.Add(this.pnlTableView);
+            this.tabTableView.Controls.Add(this.tlpTableView);
             this.tabTableView.Controls.Add(this.msiTableGrid);
             this.tabTableView.Location = new System.Drawing.Point(4, 22);
             this.tabTableView.Name = "tabTableView";
@@ -504,15 +503,25 @@ namespace LessMsi.Gui
             this.tabTableView.TabIndex = 1;
             this.tabTableView.Text = Strings.TableView;
             // 
-            // panel3
+            // tlpTableView
             // 
-            this.pnlTableView.Controls.Add(this.lblTable);
-            this.pnlTableView.Controls.Add(this.cboTable);
-            this.pnlTableView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTableView.Location = new System.Drawing.Point(0, 0);
-            this.pnlTableView.Name = "pnlTableView";
-            this.pnlTableView.Size = new System.Drawing.Size(456, 28);
-            this.pnlTableView.TabIndex = 11;
+            this.tlpTableView.ColumnCount = 2;
+            this.tlpTableView.Controls.Add(this.lblTable, 0, 0);
+            this.tlpTableView.Controls.Add(this.cboTable, 1, 0);
+
+            this.tlpTableView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlpTableView.Location = new System.Drawing.Point(0, 0);
+            this.tlpTableView.Name = "tlpTableView";
+            this.tlpTableView.RowCount = 1;
+            this.tlpTableView.Size = new System.Drawing.Size(456, 32);
+            this.tlpTableView.TabIndex = 11;
+
+            // Column Styles
+            this.tlpTableView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Label
+            this.tlpTableView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // ComboBox
+
+            // Row Style (Vertical centering)
+            this.tlpTableView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // lblTable
             // 
@@ -520,18 +529,16 @@ namespace LessMsi.Gui
             this.lblTable.Name = "lblTable";
             this.lblTable.TabIndex = 9;
             this.lblTable.Text = Strings.Table;
-            UpdateControlWidth(this.lblTable);
+            this.lblTable.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblTable.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // cboTable
             // 
-            this.cboTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTable.Anchor = (System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right);
             this.cboTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTable.Enabled = false;
-            this.cboTable.Location = new System.Drawing.Point(50, 5);
             this.cboTable.Name = "cboTable";
-            this.cboTable.Size = new System.Drawing.Size(323, 23);
+            this.cboTable.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.cboTable.TabIndex = 8;
             this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -856,8 +863,6 @@ namespace LessMsi.Gui
             this.tabExtractFiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
             this.tabTableView.ResumeLayout(false);
-            this.pnlTableView.ResumeLayout(false);
-            this.pnlTableView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).EndInit();
             this.tabSummary.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
@@ -874,7 +879,6 @@ namespace LessMsi.Gui
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            UpdateControlLayout(pnlTableView);
             UpdateControlLayout(pnlStreamView);
         }
 
