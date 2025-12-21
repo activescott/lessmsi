@@ -51,7 +51,7 @@ namespace LessMsi.Gui
         private Label lblStream;
         public ComboBox cboStream;
         private ListBox lstStreamFiles;
-        private Panel pnlStreamsBottom;
+        private TableLayoutPanel tlpStreamsBottom;
         private Button btnExtractStreamFiles;
         private ToolStripMenuItem searchFileToolStripMenuItem;
         readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
@@ -320,7 +320,7 @@ namespace LessMsi.Gui
             this.txtSummaryDescription = new System.Windows.Forms.TextBox();
             this.tabStreams = new System.Windows.Forms.TabPage();
             this.lstStreamFiles = new System.Windows.Forms.ListBox();
-            this.pnlStreamsBottom = new System.Windows.Forms.Panel();
+            this.tlpStreamsBottom = new System.Windows.Forms.TableLayoutPanel();
             this.btnExtractStreamFiles = new System.Windows.Forms.Button();
             this.tlpStreamView = new System.Windows.Forms.TableLayoutPanel();
             this.lblStream = new System.Windows.Forms.Label();
@@ -354,7 +354,6 @@ namespace LessMsi.Gui
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
             this.grpDescription.SuspendLayout();
             this.tabStreams.SuspendLayout();
-            this.pnlStreamsBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
             this.mainMenuBar.SuspendLayout();
@@ -610,7 +609,7 @@ namespace LessMsi.Gui
             // tabStreams
             // 
             this.tabStreams.Controls.Add(this.lstStreamFiles);
-            this.tabStreams.Controls.Add(this.pnlStreamsBottom);
+            this.tabStreams.Controls.Add(this.tlpStreamsBottom);
             this.tabStreams.Controls.Add(this.tlpStreamView);
             this.tabStreams.Location = new System.Drawing.Point(4, 22);
             this.tabStreams.Name = "tabStreams";
@@ -632,13 +631,23 @@ namespace LessMsi.Gui
             // 
             // pnlStreamsBottom
             // 
-            this.pnlStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlStreamsBottom.Controls.Add(this.btnExtractStreamFiles);
-            this.pnlStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlStreamsBottom.Location = new System.Drawing.Point(0, 379);
-            this.pnlStreamsBottom.Name = "pnlStreamsBottom";
-            this.pnlStreamsBottom.Size = new System.Drawing.Size(456, 36);
-            this.pnlStreamsBottom.TabIndex = 1;
+            this.tlpStreamsBottom.ColumnCount = 2;
+            this.tlpStreamsBottom.Controls.Add(this.btnExtractStreamFiles, 0, 0); // Column 0
+
+            this.tlpStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tlpStreamsBottom.Location = new System.Drawing.Point(0, 379);
+            this.tlpStreamsBottom.Name = "tlpStreamsBottom";
+            this.tlpStreamsBottom.RowCount = 1;
+            this.tlpStreamsBottom.Size = new System.Drawing.Size(456, 36);
+            this.tlpStreamsBottom.TabIndex = 1;
+            this.tlpStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
+
+            // Column Styles
+            this.tlpStreamsBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Button
+            this.tlpStreamsBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Spacer (pushes left)
+
+            // Row Style (Vertical centering)
+            this.tlpStreamsBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // btnExtractStreamFiles
             // 
@@ -650,7 +659,8 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoEllipsis = false;
-            UpdateControlWidth(this.btnExtractStreamFiles);
+            this.btnExtractStreamFiles.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.btnExtractStreamFiles.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // tlpStreamView
             // 
@@ -876,21 +886,12 @@ namespace LessMsi.Gui
             this.grpDescription.ResumeLayout(false);
             this.grpDescription.PerformLayout();
             this.tabStreams.ResumeLayout(false);
-            this.pnlStreamsBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
             this.mainMenuBar.ResumeLayout(false);
             this.mainMenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-        }
-        private void UpdateControlWidth(Control control)
-        {
-            using (Graphics cg = this.CreateGraphics())
-            {
-                SizeF size = cg.MeasureString(control.Text, control.Font);
-                control.Width = (int)size.Width;
-            }
         }
         #endregion
 
