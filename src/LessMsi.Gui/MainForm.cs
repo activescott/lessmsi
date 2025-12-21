@@ -252,7 +252,7 @@ namespace LessMsi.Gui
         private TabPage tabSummary;
         private TextBox txtSummaryDescription;
         private GroupBox grpDescription;
-        private Panel pnlExtractFilesBtns;
+        private TableLayoutPanel tlpExtractFilesBtns;
         private MenuStrip mainMenuBar;
         public ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
@@ -305,7 +305,7 @@ namespace LessMsi.Gui
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabExtractFiles = new System.Windows.Forms.TabPage();
             this.fileGrid = new System.Windows.Forms.DataGridView();
-            this.pnlExtractFilesBtns = new System.Windows.Forms.Panel();
+            this.tlpExtractFilesBtns = new System.Windows.Forms.TableLayoutPanel();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
@@ -348,7 +348,6 @@ namespace LessMsi.Gui
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
-            this.pnlExtractFilesBtns.SuspendLayout();
             this.tabTableView.SuspendLayout();
             this.pnlTableView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
@@ -409,7 +408,7 @@ namespace LessMsi.Gui
             // tabExtractFiles
             // 
             this.tabExtractFiles.Controls.Add(this.fileGrid);
-            this.tabExtractFiles.Controls.Add(this.pnlExtractFilesBtns);
+            this.tabExtractFiles.Controls.Add(this.tlpExtractFilesBtns);
             this.tabExtractFiles.Location = new System.Drawing.Point(4, 24);
             this.tabExtractFiles.Name = "tabExtractFiles";
             this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
@@ -435,20 +434,33 @@ namespace LessMsi.Gui
             this.fileGrid.TabIndex = 5;
             this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
             this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
-            // 
-            // panel2
-            // 
-            this.pnlExtractFilesBtns.Controls.Add(this.btnSelectAll);
-            this.pnlExtractFilesBtns.Controls.Add(this.btnUnselectAll);
-            this.pnlExtractFilesBtns.Controls.Add(this.btnExtract);
-            this.pnlExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
-            this.pnlExtractFilesBtns.Name = "pnlExtractFilesBtns";
-            this.pnlExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
-            this.pnlExtractFilesBtns.TabIndex = 4;
-            // 
+
+            // tlpExtractFilesBtns
+            this.tlpExtractFilesBtns.ColumnCount = 4;
+            this.tlpExtractFilesBtns.Controls.Clear(); // Clear existing controls if re-configuring
+            this.tlpExtractFilesBtns.Controls.Add(this.btnSelectAll, 0, 0);   // Column 0
+            this.tlpExtractFilesBtns.Controls.Add(this.btnUnselectAll, 1, 0); // Column 1
+            this.tlpExtractFilesBtns.Controls.Add(this.btnExtract, 2, 0);     // Column 2
+            // Column 3 is left empty to act as the spacer
+
+            this.tlpExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tlpExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
+            this.tlpExtractFilesBtns.Name = "tlpExtractFilesBtns";
+            this.tlpExtractFilesBtns.RowCount = 1;
+            this.tlpExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
+            this.tlpExtractFilesBtns.TabIndex = 4;
+
+            // Column Styles Configuration
+            this.tlpExtractFilesBtns.ColumnStyles.Clear(); // Clear existing styles if re-configuring
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 0: Select All
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 1: Unselect All
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 2: Extract
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Column 3: Spacer (pushes everything left)
+
+            // Row Style Configuration (For vertical centering)
+            this.tlpExtractFilesBtns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+
             // btnSelectAll
-            // 
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.TabIndex = 1;
@@ -457,10 +469,9 @@ namespace LessMsi.Gui
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
-            UpdateControlWidth(this.btnSelectAll);
-            // 
+            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnSelectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // btnUnselectAll
-            // 
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnUnselectAll.Name = "btnUnselectAll";
             this.btnUnselectAll.TabIndex = 2;
@@ -469,10 +480,9 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
-            UpdateControlWidth(this.btnUnselectAll);
-            // 
+            this.btnUnselectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnUnselectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // btnExtract
-            //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnExtract.Name = "btnExtract";
@@ -482,7 +492,7 @@ namespace LessMsi.Gui
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
-            UpdateControlWidth(this.btnExtract);
+            this.btnExtract.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // tabTableView
             // 
@@ -845,7 +855,6 @@ namespace LessMsi.Gui
             this.tabs.ResumeLayout(false);
             this.tabExtractFiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
-            this.pnlExtractFilesBtns.ResumeLayout(false);
             this.tabTableView.ResumeLayout(false);
             this.pnlTableView.ResumeLayout(false);
             this.pnlTableView.PerformLayout();
@@ -865,7 +874,6 @@ namespace LessMsi.Gui
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            UpdateControlLayout(pnlExtractFilesBtns);
             UpdateControlLayout(pnlTableView);
             UpdateControlLayout(pnlStreamView);
         }
