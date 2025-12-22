@@ -12,25 +12,22 @@ namespace LessMsi.Gui
     public partial class ChangeLanguageForm : Form
     {
         private bool m_SaveBtnUsed;
-
-        private string m_PreviousCheckedLang;
         private string m_CurrentCheckedLang;
 
-        private Dictionary<string, CheckBox> m_CheckBoxDict;
+        private Dictionary<string, RadioButton> m_RadioButtonDict;
         private Dictionary<string, CultureInfo> m_CultureInfoDict;
 
         public ChangeLanguageForm()
         {
             InitializeComponent();
 
-            m_PreviousCheckedLang = string.Empty;
             m_CurrentCheckedLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
             setGUIData();
 
             fillCultureInfoDict();
 
-            generateCheckboxes();
+            generateRadioButtons();
         }
 
         public string NewSelectedLanguage => m_CurrentCheckedLang;
@@ -81,60 +78,53 @@ namespace LessMsi.Gui
             }
         }
 
-        private void generateCheckboxes()
+        private void generateRadioButtons()
         {
-            checkBoxesPanel.Controls.Clear();
-            m_CheckBoxDict = new Dictionary<string, CheckBox>();
+            radioButtonsPanel.Controls.Clear();
+            m_RadioButtonDict = new Dictionary<string, RadioButton>();
 
-            for (int i = 0; i < m_CultureInfoDict.Count; i++)
+            string currentTwoLetterLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+            //Reorder cultures: current language at the top, others sorted by DisplayName
+            var orderedCultures = m_CultureInfoDict
+                .OrderByDescending(kvp => kvp.Key == currentTwoLetterLang)
+                .ThenBy(kvp => kvp.Value.DisplayName)
+                .ToList();
+
+            for (int i = 0; i < orderedCultures.Count; i++)
             {
-                var currentCultureKey = m_CultureInfoDict.ElementAt(i).Key;
-                var currentCultureInfo = m_CultureInfoDict.ElementAt(i).Value;
+                var currentCultureKey = orderedCultures[i].Key;
+                var currentCultureInfo = orderedCultures[i].Value;
 
-                var checkBox = new CheckBox
+                var radioButton = new RadioButton
                 {
                     Name = currentCultureKey,
                     Text = currentCultureInfo.DisplayName,
                     AutoSize = true,
                     Margin = new Padding(5),
-                    // Adjust position slightly to avoid being too close to the edge
-                    Location = new System.Drawing.Point(20, 10 + (30 * i)), 
-                    Checked = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == currentCultureKey
+                    Location = new System.Drawing.Point(20, 10 + (30 * i)),
+                    Checked = currentTwoLetterLang == currentCultureKey
                 };
 
-                checkBox.Click += (_, e) => OnCheckboxClick(checkBox, e);
+                radioButton.CheckedChanged += OnRadioButtonCheckedChanged;
 
-                m_CheckBoxDict.Add(currentCultureKey, checkBox);
+                m_RadioButtonDict.Add(currentCultureKey, radioButton);
 
-                checkBoxesPanel.Controls.Add(checkBox);
+                radioButtonsPanel.Controls.Add(radioButton);
             }
         }
-
         private void saveBtn_Click(object sender, EventArgs e)
         {
             m_SaveBtnUsed = true;
             Close();
         }
 
-        private void OnCheckboxClick(object sender, EventArgs e)
+        private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox = sender as CheckBox;
-            if (checkBox != null)
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton != null && radioButton.Checked)
             {
-                m_PreviousCheckedLang = m_CurrentCheckedLang;
-                m_CurrentCheckedLang = checkBox.Name;
-
-                if (m_CurrentCheckedLang == m_PreviousCheckedLang)
-                {
-                    checkBox.Checked = true;
-                    return;
-                }
-
-                // Uncheck the previous selection
-                if (!string.IsNullOrEmpty(m_PreviousCheckedLang) && m_CheckBoxDict.ContainsKey(m_PreviousCheckedLang))
-                {
-                    m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
-                }
+                m_CurrentCheckedLang = radioButton.Name;
             }
         }
 
