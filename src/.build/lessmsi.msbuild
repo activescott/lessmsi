@@ -79,6 +79,7 @@
         <DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\zh\lessmsi-gui.resources.dll">
 			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
 			<TheCulture>zh</TheCulture>
+        </DeployFiles>
 		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\nl\lessmsi-gui.resources.dll">
 			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
 		<TheCulture>nl</TheCulture>
