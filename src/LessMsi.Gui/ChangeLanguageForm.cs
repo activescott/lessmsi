@@ -34,7 +34,7 @@ namespace LessMsi.Gui
 
         private void setGUIData()
         {
-            Icon = Properties.Resources.LessmsiIcon; 
+            Icon = Properties.Resources.LessmsiIcon;
             Text = Resources.Languages.Strings.ChangeLang;
         }
 
@@ -85,16 +85,10 @@ namespace LessMsi.Gui
 
             string currentTwoLetterLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
-            //Reorder cultures: current language at the top, others sorted by DisplayName
-            var orderedCultures = m_CultureInfoDict
-                .OrderByDescending(kvp => kvp.Key == currentTwoLetterLang)
-                .ThenBy(kvp => kvp.Value.DisplayName)
-                .ToList();
-
-            for (int i = 0; i < orderedCultures.Count; i++)
+            for (int i = 0; i < m_CultureInfoDict.Count; i++)
             {
-                var currentCultureKey = orderedCultures[i].Key;
-                var currentCultureInfo = orderedCultures[i].Value;
+                var currentCultureKey = m_CultureInfoDict.ElementAt(i).Key;
+                var currentCultureInfo = m_CultureInfoDict.ElementAt(i).Value;
 
                 var radioButton = new RadioButton
                 {
@@ -102,7 +96,7 @@ namespace LessMsi.Gui
                     Text = currentCultureInfo.DisplayName,
                     AutoSize = true,
                     Margin = new Padding(5),
-                    Location = new System.Drawing.Point(20, 10 + (30 * i)),
+                    Location = new System.Drawing.Point(10, 25 * i),
                     Checked = currentTwoLetterLang == currentCultureKey
                 };
 
@@ -113,6 +107,7 @@ namespace LessMsi.Gui
                 radioButtonsPanel.Controls.Add(radioButton);
             }
         }
+
         private void saveBtn_Click(object sender, EventArgs e)
         {
             m_SaveBtnUsed = true;
