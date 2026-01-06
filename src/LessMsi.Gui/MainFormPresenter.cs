@@ -88,12 +88,6 @@ namespace LessMsi.Gui
 			get { return _view; }
 		}
 
-		[Obsolete("ViewLeakedAbstraction is leaking the raw view implementation. Convert to using View instead.")]
-		public MainForm ViewLeakedAbstraction
-		{
-			get { return _view; }
-		}
-
 		/// <summary>
 		/// Updates the ui with the currently selected msi file.
 		/// </summary>
@@ -106,50 +100,50 @@ namespace LessMsi.Gui
 			}
 		}
 
-		/// <summary>
-		/// Displays the list of files in the extract tab.
-		/// </summary>
-		/// <param name="msidb">The msi database.</param>
-		private void ViewFiles(Database msidb)
-		{
-			if (msidb == null)
-				return;
+        /// <summary>
+        /// Displays the list of files in the extract tab.
+        /// </summary>
+        /// <param name="msidb">The msi database.</param>
+        private void ViewFiles(Database msidb)
+        {
+            if (msidb == null)
+                return;
 
-			using (View.StartWaitCursor())
-			{
-				try
-				{
-					Status();
+            using (View.StartWaitCursor())
+            {
+                try
+                {
+                    Status();
+                    View.SetFileGridDataSource(null);
 
-					ViewLeakedAbstraction.fileGrid.DataSource = null;
+                    if (msidb.TableExists("File"))
+                    {
+                        MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
+                        MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
+                            inItem => new MsiFileItemView(inItem)
+                            );
+                        fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
+                        View.SetFileGridDataSource(fileDataSource);
 
-					if (msidb.TableExists("File"))
-					{
-						MsiFile[] dataItems = MsiFile.CreateMsiFilesFromMSI(msidb);
-						MsiFileItemView[] viewItems = Array.ConvertAll<MsiFile, MsiFileItemView>(dataItems,
-							inItem => new MsiFileItemView(inItem)
-							);
-						fileDataSource = new SortableBindingList<MsiFileItemView>(viewItems);
-						ViewLeakedAbstraction.fileGrid.DataSource = fileDataSource;
-						View.AutoSizeFileGridColumns();
-						Status(fileDataSource.Count + $" {Strings.FilesFoundStatus}");
-					}
-					else
-					{
-						Status(Strings.NoFilesPresentStatus);
-					}
-				}
-				catch (Exception eUnexpected)
-				{
-					Error(string.Concat(Strings.ViewFilesError, eUnexpected.Message), eUnexpected);
-				}
-			}
-		}
+                        View.AutoSizeFileGridColumns();
+                        Status(fileDataSource.Count + $" {Strings.FilesFoundStatus}");
+                    }
+                    else
+                    {
+                        Status(Strings.NoFilesPresentStatus);
+                    }
+                }
+                catch (Exception eUnexpected)
+                {
+                    Error(string.Concat(Strings.ViewFilesError, eUnexpected.Message), eUnexpected);
+                }
+            }
+        }
 
-		/// <summary>
-		/// Updates the MSI property tab/list
-		/// </summary>
-		public void UpdatePropertyTabView()
+        /// <summary>
+        /// Updates the MSI property tab/list
+        /// </summary>
+        public void UpdatePropertyTabView()
 		{
 			try
 			{
@@ -166,24 +160,23 @@ namespace LessMsi.Gui
 			}
 		}
 
-		/// <summary>
-		/// Selects or unselects all files in the file list.
-		/// </summary>
-		/// <param name="doSelect">True to select the files, false to unselect them.</param>
-		public void ToggleSelectAllFiles(bool doSelect)
-		{
-			using (WinFormsHelper.BeginUiUpdate(ViewLeakedAbstraction.fileGrid))
+        /// <summary>
+        /// Selects or unselects all files in the file list.
+        /// </summary>
+        /// <param name="doSelect">True to select the files, false to unselect them.</param>
+        public void ToggleSelectAllFiles(bool doSelect)
+        {
+			if (doSelect)
 			{
-				if (doSelect)
-					ViewLeakedAbstraction.fileGrid.SelectAll();
-				else
-				{
-					ViewLeakedAbstraction.fileGrid.ClearSelection();
-				}
+				View.SelectAllFiles();
 			}
-		}
+			else
+			{
+				View.ClearFileSelection();
+			}
+        }
 
-		public void Error(string msg, Exception exception = null)
+        public void Error(string msg, Exception exception = null)
 		{
 			string toolTip = exception != null ? exception.ToString() : "";
 			View.StatusText($"{Strings.ERROR}:" + msg, toolTip);
@@ -350,9 +343,7 @@ namespace LessMsi.Gui
 						Status(e.Message);
 					}
 
-					ViewLeakedAbstraction.cboTable.Items.Clear();
-					ViewLeakedAbstraction.cboTable.Items.AddRange(msiTableNames.ToArray());
-					ViewLeakedAbstraction.cboTable.SelectedIndex = 0;
+                    View.SetTableList(msiTableNames);
 				}
 			}
 		}
@@ -521,7 +512,10 @@ namespace LessMsi.Gui
 			{
 				this.Error(string.Format(Strings.FileExistError, file.FullName));
 				if (SelectedMsiFile != null)
-					ViewLeakedAbstraction.SelectedMsiFileFullName = SelectedMsiFile.FullName;
+				{
+					View.SelectedMsiFileFullName = SelectedMsiFile.FullName;
+				}
+
 				return;
 			}
 			SelectedMsiFile = file;
@@ -570,8 +564,9 @@ namespace LessMsi.Gui
 				    dataSource = this.fileDataSource.Where(x => x.Component.Contains(searchTerm) || x.Directory.Contains(searchTerm) || x.Name.Contains(searchTerm) || x.Version.Contains(searchTerm)).ToList();
 					Status(string.Format($"{0} {Strings.FilesFoundStatus}", dataSource.Count));
 			    }
-				ViewLeakedAbstraction.fileGrid.DataSource = dataSource;
-		    }
+
+                View.SetFileGridDataSource(dataSource);
+            }
 
 	    }
 	}

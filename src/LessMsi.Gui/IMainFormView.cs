@@ -113,5 +113,25 @@ namespace LessMsi.Gui
 		/// Displays a status text in the bar at the bottom of the form.
 		/// </summary>
 		void StatusText(string text, string toolTip);
-	}
+
+        /// <summary>
+        /// Sets the data source for the file list grid.
+        /// </summary>
+        void SetFileGridDataSource(object dataSource);
+
+        /// <summary>
+        /// Selects all items in the file grid.
+        /// </summary>
+        void SelectAllFiles();
+
+        /// <summary>
+        /// Clears selection in the file grid.
+        /// </summary>
+        void ClearFileSelection();
+
+        /// <summary>
+        /// Populates the table selector (ComboBox) with the provided names.
+        /// </summary>
+        void SetTableList(IEnumerable<string> tableNames);
+    }
 }
