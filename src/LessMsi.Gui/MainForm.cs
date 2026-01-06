@@ -47,11 +47,11 @@ namespace LessMsi.Gui
     {
         private readonly MruMenuStripManager _mruManager;
         private TabPage tabStreams;
-        private Panel pnlStreamView;
+        private TableLayoutPanel tlpStreamView;
         private Label lblStream;
         public ComboBox cboStream;
         private ListBox lstStreamFiles;
-        private Panel pnlStreamsBottom;
+        private TableLayoutPanel tlpStreamsBottom;
         private Button btnExtractStreamFiles;
         private ToolStripMenuItem searchFileToolStripMenuItem;
         readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
@@ -252,7 +252,7 @@ namespace LessMsi.Gui
         private TabPage tabSummary;
         private TextBox txtSummaryDescription;
         private GroupBox grpDescription;
-        private Panel pnlExtractFilesBtns;
+        private TableLayoutPanel tlpExtractFilesBtns;
         private MenuStrip mainMenuBar;
         public ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
@@ -268,7 +268,7 @@ namespace LessMsi.Gui
         private ToolStripMenuItem mruPlaceHolderToolStripMenuItem;
         private ToolStripSeparator fileRecentFilesStripSeparator;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private Panel pnlTableView;
+        private TableLayoutPanel tlpTableView;
         private ToolStripMenuItem aboutToolStripMenuItem;
         // ReSharper restore InconsistentNaming
         /// <summary>
@@ -305,12 +305,12 @@ namespace LessMsi.Gui
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabExtractFiles = new System.Windows.Forms.TabPage();
             this.fileGrid = new System.Windows.Forms.DataGridView();
-            this.pnlExtractFilesBtns = new System.Windows.Forms.Panel();
+            this.tlpExtractFilesBtns = new System.Windows.Forms.TableLayoutPanel();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectAll = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
             this.tabTableView = new System.Windows.Forms.TabPage();
-            this.pnlTableView = new System.Windows.Forms.Panel();
+            this.tlpTableView = new System.Windows.Forms.TableLayoutPanel();
             this.lblTable = new System.Windows.Forms.Label();
             this.cboTable = new System.Windows.Forms.ComboBox();
             this.msiTableGrid = new System.Windows.Forms.DataGridView();
@@ -320,9 +320,9 @@ namespace LessMsi.Gui
             this.txtSummaryDescription = new System.Windows.Forms.TextBox();
             this.tabStreams = new System.Windows.Forms.TabPage();
             this.lstStreamFiles = new System.Windows.Forms.ListBox();
-            this.pnlStreamsBottom = new System.Windows.Forms.Panel();
+            this.tlpStreamsBottom = new System.Windows.Forms.TableLayoutPanel();
             this.btnExtractStreamFiles = new System.Windows.Forms.Button();
-            this.pnlStreamView = new System.Windows.Forms.Panel();
+            this.tlpStreamView = new System.Windows.Forms.TableLayoutPanel();
             this.lblStream = new System.Windows.Forms.Label();
             this.cboStream = new System.Windows.Forms.ComboBox();
             this.tlpMsiFileBrowse = new System.Windows.Forms.TableLayoutPanel();
@@ -348,16 +348,12 @@ namespace LessMsi.Gui
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).BeginInit();
-            this.pnlExtractFilesBtns.SuspendLayout();
             this.tabTableView.SuspendLayout();
-            this.pnlTableView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).BeginInit();
             this.tabSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
             this.grpDescription.SuspendLayout();
             this.tabStreams.SuspendLayout();
-            this.pnlStreamsBottom.SuspendLayout();
-            this.pnlStreamView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
             this.mainMenuBar.SuspendLayout();
@@ -409,7 +405,7 @@ namespace LessMsi.Gui
             // tabExtractFiles
             // 
             this.tabExtractFiles.Controls.Add(this.fileGrid);
-            this.tabExtractFiles.Controls.Add(this.pnlExtractFilesBtns);
+            this.tabExtractFiles.Controls.Add(this.tlpExtractFilesBtns);
             this.tabExtractFiles.Location = new System.Drawing.Point(4, 24);
             this.tabExtractFiles.Name = "tabExtractFiles";
             this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
@@ -435,20 +431,33 @@ namespace LessMsi.Gui
             this.fileGrid.TabIndex = 5;
             this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
             this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
-            // 
-            // panel2
-            // 
-            this.pnlExtractFilesBtns.Controls.Add(this.btnSelectAll);
-            this.pnlExtractFilesBtns.Controls.Add(this.btnUnselectAll);
-            this.pnlExtractFilesBtns.Controls.Add(this.btnExtract);
-            this.pnlExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
-            this.pnlExtractFilesBtns.Name = "pnlExtractFilesBtns";
-            this.pnlExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
-            this.pnlExtractFilesBtns.TabIndex = 4;
-            // 
+
+            // tlpExtractFilesBtns
+            this.tlpExtractFilesBtns.ColumnCount = 4;
+            this.tlpExtractFilesBtns.Controls.Clear(); // Clear existing controls if re-configuring
+            this.tlpExtractFilesBtns.Controls.Add(this.btnSelectAll, 0, 0);   // Column 0
+            this.tlpExtractFilesBtns.Controls.Add(this.btnUnselectAll, 1, 0); // Column 1
+            this.tlpExtractFilesBtns.Controls.Add(this.btnExtract, 2, 0);     // Column 2
+            // Column 3 is left empty to act as the spacer
+
+            this.tlpExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tlpExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
+            this.tlpExtractFilesBtns.Name = "tlpExtractFilesBtns";
+            this.tlpExtractFilesBtns.RowCount = 1;
+            this.tlpExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
+            this.tlpExtractFilesBtns.TabIndex = 4;
+
+            // Column Styles Configuration
+            this.tlpExtractFilesBtns.ColumnStyles.Clear(); // Clear existing styles if re-configuring
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 0: Select All
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 1: Unselect All
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));      // Column 2: Extract
+            this.tlpExtractFilesBtns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Column 3: Spacer (pushes everything left)
+
+            // Row Style Configuration (For vertical centering)
+            this.tlpExtractFilesBtns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+
             // btnSelectAll
-            // 
             this.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.TabIndex = 1;
@@ -457,10 +466,9 @@ namespace LessMsi.Gui
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
-            UpdateControlWidth(this.btnSelectAll);
-            // 
+            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnSelectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // btnUnselectAll
-            // 
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnUnselectAll.Name = "btnUnselectAll";
             this.btnUnselectAll.TabIndex = 2;
@@ -469,10 +477,9 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
-            UpdateControlWidth(this.btnUnselectAll);
-            // 
+            this.btnUnselectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnUnselectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // btnExtract
-            //
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnExtract.Name = "btnExtract";
@@ -482,11 +489,11 @@ namespace LessMsi.Gui
             this.btnExtract.AutoSize = true;
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
-            UpdateControlWidth(this.btnExtract);
+            this.btnExtract.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // tabTableView
             // 
-            this.tabTableView.Controls.Add(this.pnlTableView);
+            this.tabTableView.Controls.Add(this.tlpTableView);
             this.tabTableView.Controls.Add(this.msiTableGrid);
             this.tabTableView.Location = new System.Drawing.Point(4, 22);
             this.tabTableView.Name = "tabTableView";
@@ -494,15 +501,25 @@ namespace LessMsi.Gui
             this.tabTableView.TabIndex = 1;
             this.tabTableView.Text = Strings.TableView;
             // 
-            // panel3
+            // tlpTableView
             // 
-            this.pnlTableView.Controls.Add(this.lblTable);
-            this.pnlTableView.Controls.Add(this.cboTable);
-            this.pnlTableView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTableView.Location = new System.Drawing.Point(0, 0);
-            this.pnlTableView.Name = "pnlTableView";
-            this.pnlTableView.Size = new System.Drawing.Size(456, 28);
-            this.pnlTableView.TabIndex = 11;
+            this.tlpTableView.ColumnCount = 2;
+            this.tlpTableView.Controls.Add(this.lblTable, 0, 0);
+            this.tlpTableView.Controls.Add(this.cboTable, 1, 0);
+
+            this.tlpTableView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlpTableView.Location = new System.Drawing.Point(0, 0);
+            this.tlpTableView.Name = "tlpTableView";
+            this.tlpTableView.RowCount = 1;
+            this.tlpTableView.Size = new System.Drawing.Size(456, 32);
+            this.tlpTableView.TabIndex = 11;
+
+            // Column Styles
+            this.tlpTableView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Label
+            this.tlpTableView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // ComboBox
+
+            // Row Style (Vertical centering)
+            this.tlpTableView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // lblTable
             // 
@@ -510,18 +527,16 @@ namespace LessMsi.Gui
             this.lblTable.Name = "lblTable";
             this.lblTable.TabIndex = 9;
             this.lblTable.Text = Strings.Table;
-            UpdateControlWidth(this.lblTable);
+            this.lblTable.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblTable.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // cboTable
             // 
-            this.cboTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTable.Anchor = (System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right);
             this.cboTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTable.Enabled = false;
-            this.cboTable.Location = new System.Drawing.Point(50, 5);
             this.cboTable.Name = "cboTable";
-            this.cboTable.Size = new System.Drawing.Size(323, 23);
+            this.cboTable.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.cboTable.TabIndex = 8;
             this.cboTable.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -594,8 +609,8 @@ namespace LessMsi.Gui
             // tabStreams
             // 
             this.tabStreams.Controls.Add(this.lstStreamFiles);
-            this.tabStreams.Controls.Add(this.pnlStreamsBottom);
-            this.tabStreams.Controls.Add(this.pnlStreamView);
+            this.tabStreams.Controls.Add(this.tlpStreamsBottom);
+            this.tabStreams.Controls.Add(this.tlpStreamView);
             this.tabStreams.Location = new System.Drawing.Point(4, 22);
             this.tabStreams.Name = "tabStreams";
             this.tabStreams.Size = new System.Drawing.Size(456, 415);
@@ -616,13 +631,23 @@ namespace LessMsi.Gui
             // 
             // pnlStreamsBottom
             // 
-            this.pnlStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlStreamsBottom.Controls.Add(this.btnExtractStreamFiles);
-            this.pnlStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlStreamsBottom.Location = new System.Drawing.Point(0, 379);
-            this.pnlStreamsBottom.Name = "pnlStreamsBottom";
-            this.pnlStreamsBottom.Size = new System.Drawing.Size(456, 36);
-            this.pnlStreamsBottom.TabIndex = 1;
+            this.tlpStreamsBottom.ColumnCount = 2;
+            this.tlpStreamsBottom.Controls.Add(this.btnExtractStreamFiles, 0, 0); // Column 0
+
+            this.tlpStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tlpStreamsBottom.Location = new System.Drawing.Point(0, 379);
+            this.tlpStreamsBottom.Name = "tlpStreamsBottom";
+            this.tlpStreamsBottom.RowCount = 1;
+            this.tlpStreamsBottom.Size = new System.Drawing.Size(456, 36);
+            this.tlpStreamsBottom.TabIndex = 1;
+            this.tlpStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
+
+            // Column Styles
+            this.tlpStreamsBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Button
+            this.tlpStreamsBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Spacer (pushes left)
+
+            // Row Style (Vertical centering)
+            this.tlpStreamsBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // btnExtractStreamFiles
             // 
@@ -634,18 +659,29 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoEllipsis = false;
-            UpdateControlWidth(this.btnExtractStreamFiles);
+            this.btnExtractStreamFiles.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.btnExtractStreamFiles.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
-            // panel4
+            // tlpStreamView
             // 
-            this.pnlStreamView.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlStreamView.Controls.Add(this.lblStream);
-            this.pnlStreamView.Controls.Add(this.cboStream);
-            this.pnlStreamView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlStreamView.Location = new System.Drawing.Point(0, 0);
-            this.pnlStreamView.Name = "pnlStreamView";
-            this.pnlStreamView.Size = new System.Drawing.Size(456, 28);
-            this.pnlStreamView.TabIndex = 0;
+            this.tlpStreamView.ColumnCount = 2;
+            this.tlpStreamView.Controls.Add(this.lblStream, 0, 0);
+            this.tlpStreamView.Controls.Add(this.cboStream, 1, 0);
+
+            this.tlpStreamView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tlpStreamView.Location = new System.Drawing.Point(0, 0);
+            this.tlpStreamView.Name = "tlpStreamView";
+            this.tlpStreamView.RowCount = 1;
+            this.tlpStreamView.Size = new System.Drawing.Size(456, 32);
+            this.tlpStreamView.TabIndex = 0;
+            this.tlpStreamView.BackColor = System.Drawing.SystemColors.Control;
+
+            // Column Styles
+            this.tlpStreamView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));    // Column 0: Label
+            this.tlpStreamView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Column 1: ComboBox
+
+            // Row Style (Vertical alignment)
+            this.tlpStreamView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             // 
             // lblStream
             // 
@@ -653,19 +689,17 @@ namespace LessMsi.Gui
             this.lblStream.Name = "lblStream";
             this.lblStream.TabIndex = 11;
             this.lblStream.Text = Strings.Stream;
-            UpdateControlWidth(this.lblStream);
+            this.lblStream.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblStream.Anchor = System.Windows.Forms.AnchorStyles.Left;
             // 
             // cboStream
             // 
-            this.cboStream.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboStream.Anchor = (System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right);
             this.cboStream.Enabled = false;
-            this.cboStream.Location = new System.Drawing.Point(50, 5);
             this.cboStream.Name = "cboStream";
-            this.cboStream.Size = new System.Drawing.Size(323, 23);
-            this.cboStream.TabIndex = 10;
             this.cboStream.Text = "streamInfo";
+            this.cboStream.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.cboStream.TabIndex = 10;
             this.cboStream.SelectedValueChanged += new System.EventHandler(this.cboStream_SelectedValueChanged);
             // 
             // tlpMsiFileBrowse
@@ -845,54 +879,19 @@ namespace LessMsi.Gui
             this.tabs.ResumeLayout(false);
             this.tabExtractFiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fileGrid)).EndInit();
-            this.pnlExtractFilesBtns.ResumeLayout(false);
             this.tabTableView.ResumeLayout(false);
-            this.pnlTableView.ResumeLayout(false);
-            this.pnlTableView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msiTableGrid)).EndInit();
             this.tabSummary.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).EndInit();
             this.grpDescription.ResumeLayout(false);
             this.grpDescription.PerformLayout();
             this.tabStreams.ResumeLayout(false);
-            this.pnlStreamsBottom.ResumeLayout(false);
-            this.pnlStreamView.ResumeLayout(false);
-            this.pnlStreamView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
             this.mainMenuBar.ResumeLayout(false);
             this.mainMenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-            UpdateControlLayout(pnlExtractFilesBtns);
-            UpdateControlLayout(pnlTableView);
-            UpdateControlLayout(pnlStreamView);
-        }
-
-        private void UpdateControlWidth(Control control)
-        {
-            using (Graphics cg = this.CreateGraphics())
-            {
-                SizeF size = cg.MeasureString(control.Text, control.Font);
-                control.Width = (int)size.Width;
-            }
-        }
-
-        private void UpdateControlLayout(Panel panel, int startX = 0)
-        {
-            int margin = 5;
-            var controls = panel.Controls.OfType<Control>().ToList();
-
-            if (controls.Count == 0)
-                return;
-
-            foreach (var control in controls)
-            {
-                int y = (panel.Height - control.Height) / 2;
-                control.Location = new Point(startX, y);
-                startX += control.Width + margin;
-            }
         }
         #endregion
 
