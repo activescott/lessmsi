@@ -219,7 +219,7 @@ namespace LessMsi.Gui
         public void AddPropertyGridColumn(string boundPropertyName, string headerText)
         {
             DataGridViewColumn col = new DataGridViewTextBoxColumn
-				                         {DataPropertyName = boundPropertyName, HeaderText = headerText};
+                                         {DataPropertyName = boundPropertyName, HeaderText = headerText};
             msiPropertyGrid.Columns.Add(col);
         }
 
@@ -986,7 +986,7 @@ namespace LessMsi.Gui
                     string outputDir = folderBrowser.SelectedPath;
                     foreach (DataGridViewRow row in fileGrid.SelectedRows)
                     {
-						MsiFileItemView fileToExtract = (MsiFileItemView) row.DataBoundItem;
+                        MsiFileItemView fileToExtract = (MsiFileItemView) row.DataBoundItem;
                         selectedFiles.Add(fileToExtract.File);
                     }
 
@@ -1091,7 +1091,7 @@ namespace LessMsi.Gui
 
         private static IEnumerable<string> GetDraggedFiles(DragEventArgs e)
         {
-			var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
             var query = from file in files
                         where file != null && AllowedDragDropExtensions.Contains(Path.GetExtension(file).ToLowerInvariant())
                         select file;
@@ -1196,6 +1196,46 @@ namespace LessMsi.Gui
         {
             statusPanelDefault.Text = text;
             statusPanelDefault.ToolTipText = toolTip;
+        }
+
+        public void SetFileGridDataSource(object dataSource)
+        {
+            fileGrid.DataSource = dataSource;
+        }
+
+        public void SelectAllFiles()
+        {
+            using (WinFormsHelper.BeginUiUpdate(fileGrid))
+            {
+                fileGrid.SelectAll();
+            }
+        }
+
+        public void SetTableList(IEnumerable<string> tableNames)
+        {
+            cboTable.BeginUpdate();
+            try
+            {
+                cboTable.Items.Clear();
+                cboTable.Items.AddRange(tableNames.ToArray());
+
+                if (cboTable.Items.Count > 0)
+                {
+                    cboTable.SelectedIndex = 0;
+                }
+            }
+            finally
+            {
+                cboTable.EndUpdate();
+            }
+        }
+
+        public void ClearFileSelection()
+        {
+            using (WinFormsHelper.BeginUiUpdate(fileGrid))
+            {
+                fileGrid.ClearSelection();
+            }
         }
 
         protected bool IsFileTabSelected
