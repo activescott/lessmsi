@@ -160,6 +160,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Languages\Strings.ja.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.sv.resx" />
 	<EmbeddedResource Include="Resources\Languages\Strings.da.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.nl.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.pl.resx" />
