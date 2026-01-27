@@ -76,6 +76,26 @@
 			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
 			<TheCulture>ko</TheCulture>
 		</DeployFiles>
+        <DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\zh\lessmsi-gui.resources.dll">
+			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
+			<TheCulture>zh</TheCulture>
+        </DeployFiles>
+		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\nl\lessmsi-gui.resources.dll">
+			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
+			<TheCulture>nl</TheCulture>
+		</DeployFiles>
+		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\ru\lessmsi-gui.resources.dll">
+			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
+			<TheCulture>ru</TheCulture>
+		</DeployFiles>
+		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\da\lessmsi-gui.resources.dll">
+			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
+			<TheCulture>da</TheCulture>
+		</DeployFiles>
+		<DeployFiles Include="$(RootDir)\LessMsi.Gui\bin\Release\sv\lessmsi-gui.resources.dll">
+			<!-- TheCulture is MSBuild's so-called "Item Metadata". See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2022&source=recommendations#item-metadata -->
+			<TheCulture>sv</TheCulture>
+		</DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.9.10\lib\net40\libmspackn.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\libmspack4n.0.9.10\build\x86\mspack.dll"></DeployFiles>
 		<DeployFiles Include="$(RootDir)\packages\LessIO.1.0.34\lib\net40\LessIO.dll"></DeployFiles>

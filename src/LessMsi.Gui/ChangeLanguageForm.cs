@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,25 +12,22 @@ namespace LessMsi.Gui
     public partial class ChangeLanguageForm : Form
     {
         private bool m_SaveBtnUsed;
-
-        private string m_PreviousCheckedLang;
         private string m_CurrentCheckedLang;
 
-        private Dictionary<string, CheckBox> m_CheckBoxDict;
+        private Dictionary<string, RadioButton> m_RadioButtonDict;
         private Dictionary<string, CultureInfo> m_CultureInfoDict;
 
         public ChangeLanguageForm()
         {
             InitializeComponent();
 
-            m_PreviousCheckedLang = string.Empty;
             m_CurrentCheckedLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
             setGUIData();
 
             fillCultureInfoDict();
 
-            generateCheckboxes();
+            generateRadioButtons();
         }
 
         public string NewSelectedLanguage => m_CurrentCheckedLang;
@@ -48,49 +45,66 @@ namespace LessMsi.Gui
             string executingAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var cultureDirectories = Directory.GetDirectories(executingAssemblyPath);
 
-            var cultures = cultureDirectories
+            var cultureCodes = cultureDirectories
                 .Select(Path.GetFileName)
                 .Where(dir => !string.IsNullOrEmpty(dir))
-                .OrderBy(c => c)
                 .ToList();
 
-            cultures.Add("en");
-
-            if (cultures.Any())
+            // Ensure English is included
+            if (!cultureCodes.Contains("en"))
             {
-                foreach (var culture in cultures)
+                cultureCodes.Add("en");
+            }
+
+            var orderedCultures = cultureCodes
+                .Distinct()
+                .Select(code => {
+                    try { return new CultureInfo(code); }
+                    catch { return null; } // Prevent crashes caused by invalid folder names
+                })
+                .Where(ci => ci != null)
+                .OrderBy(ci => ci.DisplayName)
+                .ToList();
+
+            if (orderedCultures.Any())
+            {
+                foreach (var cultureInfo in orderedCultures)
                 {
-                    var cultureInfo = new CultureInfo(culture);
-                    m_CultureInfoDict.Add(culture, cultureInfo);
+                    if (!m_CultureInfoDict.ContainsKey(cultureInfo.Name))
+                    {
+                        m_CultureInfoDict.Add(cultureInfo.Name, cultureInfo);
+                    }
                 }
             }
         }
 
-        private void generateCheckboxes()
+        private void generateRadioButtons()
         {
-            checkBoxesPanel.Controls.Clear();
-            m_CheckBoxDict = new Dictionary<string, CheckBox>();
+            radioButtonsPanel.Controls.Clear();
+            m_RadioButtonDict = new Dictionary<string, RadioButton>();
+
+            string currentTwoLetterLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
             for (int i = 0; i < m_CultureInfoDict.Count; i++)
             {
                 var currentCultureKey = m_CultureInfoDict.ElementAt(i).Key;
                 var currentCultureInfo = m_CultureInfoDict.ElementAt(i).Value;
 
-                var checkBox = new CheckBox
+                var radioButton = new RadioButton
                 {
                     Name = currentCultureKey,
                     Text = currentCultureInfo.DisplayName,
                     AutoSize = true,
                     Margin = new Padding(5),
                     Location = new System.Drawing.Point(10, 25 * i),
-                    Checked = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == currentCultureKey
+                    Checked = currentTwoLetterLang == currentCultureKey
                 };
 
-                checkBox.Click += (_, e) => OnCheckboxClick(checkBox, e);
+                radioButton.CheckedChanged += OnRadioButtonCheckedChanged;
 
-                m_CheckBoxDict.Add(currentCultureKey, checkBox);
+                m_RadioButtonDict.Add(currentCultureKey, radioButton);
 
-                checkBoxesPanel.Controls.Add(checkBox);
+                radioButtonsPanel.Controls.Add(radioButton);
             }
         }
 
@@ -100,21 +114,12 @@ namespace LessMsi.Gui
             Close();
         }
 
-        private void OnCheckboxClick(object sender, EventArgs e)
+        private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox = sender as CheckBox;
-            if (checkBox != null)
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton != null && radioButton.Checked)
             {
-                m_PreviousCheckedLang = m_CurrentCheckedLang;
-                m_CurrentCheckedLang = checkBox.Name;
-
-                if (m_CurrentCheckedLang == m_PreviousCheckedLang)
-                {
-                    checkBox.Checked = true;
-                    return;
-                }
-
-                m_CheckBoxDict[m_PreviousCheckedLang].Checked = false;
+                m_CurrentCheckedLang = radioButton.Name;
             }
         }
 

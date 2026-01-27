@@ -160,11 +160,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Languages\Strings.ja.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.sv.resx" />
+	<EmbeddedResource Include="Resources\Languages\Strings.da.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.nl.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.pl.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.pt.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.es.resx" />
-	  <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.ru.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.ko.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.zh.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -212,3 +217,4 @@
   </Target>
   -->
 </Project>
+
