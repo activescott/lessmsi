@@ -64,7 +64,7 @@ Pull requests are welcome! Just make sure the build passes and you run unit test
 
 We tip contributors for their PRs with Bitcoin. Look over the [issues in this repository](https://github.com/activescott/lessmsi/issues?q=sort%3Aupdated-desc%20is%3Aissue%20is%3Aopen%20label%3A%22help%20wanted%22), submit a PR to fix one, and when your fix merges we'll send you a tip via Tip4Commit.
 
-If you are going to be working on an issue, please tag us and let us know how your plan if it is a non-trivial fix or a new feature. If you want some help or direction please please ask. We're happy to help 🫡
+If you are going to be working on an issue, please tag us (@activescott or @mega5800) and let us know how your plan goes if it is a non-trivial fix or a new feature. If you want some help or direction please ask. We're happy to help 🫡
 
 ## Development Environment
 
