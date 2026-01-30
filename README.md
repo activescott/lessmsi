@@ -52,26 +52,23 @@ If you have a problem _please_ submit it by clicking in the [Issue tracker](http
 
 # Donate to Support Open Source Contributors of lessmsi
 
-You can **donate** in two ways:
-
-- [Donate at Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) (Bitcoin only) to fund a general fund. Each new commit to this repository receives a percentage of the available balance.
-- [Donate at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) to deposit your donation as a "bounty" against a specific issue or feature request. When a contributor resolves the issue they will earn the deposit for that issue.
+Please [Donate via Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) to thank and encourage our contributors. Each new commit to this repository receives a percentage of the available balance.
 
 # Contributing
 
-Pull requests are welcome! Just make sure the Travis-CI build (compile only) passes and you run unit tests and I'll merge your contributions ASAP! The Issues app has an indication of some of the plans.
+Pull requests are welcome! Just make sure the build passes and you run unit tests and I'll merge your contributions ASAP!
 
 ## You Earn Bitcoin Tips for Contributing!
 
-We're now tipping committers with bitcoin: [![tip for next commit](http://tip4commit.com/projects/316.svg)](http://tip4commit.com/projects/316)
+[![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316)
 
-## You Earn a Bounty for Resolving Issues!
+We tip contributors for their PRs with Bitcoin. Look over the [issues in this repository](https://github.com/activescott/lessmsi/issues?q=sort%3Aupdated-desc%20is%3Aissue%20is%3Aopen%20label%3A%22help%20wanted%22), submit a PR to fix one, and when your fix merges we'll send you a tip via Tip4Commit.
 
-We're now [registered at IssueHunt](https://issuehunt.io/r/activescott/lessmsi) so contributors can earn the bounty on specific issues that users have deposited funds against.
+If you are going to be working on an issue, please tag us (@activescott or @mega5800) and let us know how your plan goes if it is a non-trivial fix or a new feature. If you want some help or direction please ask. We're happy to help 🫡
 
 ## Development Environment
 
-To set up a _free_ Windows development environment that works with Lessmsi:
+To set up a Windows development environment that works with Lessmsi:
 
 1. Install [VMWare Fusion Player](https://www.vmware.com/products/fusion.html) (using free "Player" version, only needed if developing on MacOS - [homebrew also has a vmware-fusion formula](https://formulae.brew.sh/cask/vmware-fusion))
 2. Download a Virtual Machine for Windows development that Microsoft provides at https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/. These VMs include virtual machine with the latest versions of Windows, the developer tools, SDKs, and samples ready to go.
@@ -135,7 +132,3 @@ _Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and htt
 It was also called Less Msiérables as well as lessmsi._
 
 _Was featured in the book [Windows Developer Power Tools](https://www.oreilly.com/library/view/windows-developer-power/0596527543/) as Less MSIérables._
-
-```
-
-```
