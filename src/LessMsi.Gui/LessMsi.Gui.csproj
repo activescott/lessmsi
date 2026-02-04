@@ -170,6 +170,7 @@
     <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.ko.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.zh.resx" />
+	<EmbeddedResource Include="Resources\Languages\Strings.no.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
