@@ -169,6 +169,7 @@
     <EmbeddedResource Include="Resources\Languages\Strings.ru.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.sq.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.sr-Cyrl.resx" />
+    <EmbeddedResource Include="Resources\Languages\Strings.sr-Latn.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.ko.resx" />
     <EmbeddedResource Include="Resources\Languages\Strings.zh.resx" />
 	<EmbeddedResource Include="Resources\Languages\Strings.no.resx" />
