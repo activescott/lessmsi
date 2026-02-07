@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Tietoja</value>
+  </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Lisää pikakuvake Exploreriin</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>Lisää valikon kohdat 'Pura' ja 'Selaa' .msi-tiedostojen hiiren kakkospainikkeen kontekstivalikkoon</value>
+  </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>Kaikki tiedostot</value>
+  </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>Tiedostopolku on muodostettu virheellisesti</value>
+  </data>
+  <data name="ChangeLang" xml:space="preserve">
+    <value>Vaihda kieltä</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Valmis</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>Komponentti</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>&amp;Kopioi</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Kuvaus:</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Hakemisto</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>&amp;Muokkaa</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>Tiedostopolku on tyhjä</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>VIRHE</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>P&amp;oistu</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>P&amp;ura</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Pura tiedostot</value>
+  </data>
+  <data name="Extracting" xml:space="preserve">
+    <value>Puretaan</value>
+  </data>
+  <data name="ExtractingFile" xml:space="preserve">
+    <value>Puretaan tiedostoa</value>
+  </data>
+  <data name="ExtractStreamFiles" xml:space="preserve">
+    <value>Pura virtatiedostoja…</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Tiedosto</value>
+  </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>Tiedostoa '{0}' ei ole olemassa</value>
+  </data>
+  <data name="FileMenuLabel" xml:space="preserve">
+    <value>&amp;Tiedosto</value>
+  </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>tiedostoa löytyi.</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>CAB '{0}' -virtaa ei löytynyt</value>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>Alustetaan</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>Tiedostopolku sisältää virheellisiä merkkejä</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Yhteenvetotietoja ladattaessa tapahtui virhe</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Ladataan taulukkoluetteloa…</value>
+  </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>Puuttuva tiedosto</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>msierablefiles</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nimi</value>
+  </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>Ei tiedostoja</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>&amp;Avaa</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>Tiedoston avaaminen epäonnistui</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Asetukset</value>
+  </data>
+  <data name="PreferencesMenuLabel" xml:space="preserve">
+    <value>&amp;Asetukset</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>Käsitellään taulukkoa '{0}'.</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Viimeisimmät tiedostot</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Poista pikakuvake</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Poistaa kontekstivalikon, jos se on olemassa</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>tulisi olla samassa hakemistossa kuin</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hae:</value>
+  </data>
+  <data name="SearchFile" xml:space="preserve">
+    <value>Hae tiedostoa</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Valitse &amp;kaikki</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Valitse osa tiedostoista, tai kaikki, purkaaksesi.</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Koko</value>
+  </data>
+  <data name="Stream" xml:space="preserve">
+    <value>Virta</value>
+  </data>
+  <data name="Streams" xml:space="preserve">
+    <value>Virrat</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Yhteenveto</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>&amp;Taulukko</value>
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Taulukkonäkymä</value>
+  </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>Tiedostopolku on liian pitkä</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tyyppi</value>
+  </data>
+  <data name="Uncompressing" xml:space="preserve">
+    <value>Puretaan tiedostoa</value>
+  </data>
+  <data name="UnselectAll" xml:space="preserve">
+    <value>&amp;Poista kaikki valinnat</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Arvo</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versio</value>
+  </data>
+  <data name="ViewFilesError" xml:space="preserve">
+    <value>Tiedostoja ei voida näyttää</value>
+  </data>
+  <data name="ViewTableError" xml:space="preserve">
+    <value>Taulukkoa ei voida näyttää</value>
+  </data>
+</root>
