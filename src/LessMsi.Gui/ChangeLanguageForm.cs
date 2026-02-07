@@ -21,7 +21,7 @@ namespace LessMsi.Gui
         {
             InitializeComponent();
 
-            m_CurrentCheckedLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            m_CurrentCheckedLang = Thread.CurrentThread.CurrentUICulture.Name;
 
             setGUIData();
 
@@ -83,26 +83,26 @@ namespace LessMsi.Gui
             radioButtonsPanel.Controls.Clear();
             m_RadioButtonDict = new Dictionary<string, RadioButton>();
 
-            string currentTwoLetterLang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            string currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
             for (int i = 0; i < m_CultureInfoDict.Count; i++)
             {
-                var currentCultureKey = m_CultureInfoDict.ElementAt(i).Key;
-                var currentCultureInfo = m_CultureInfoDict.ElementAt(i).Value;
+                var cultureName = m_CultureInfoDict.ElementAt(i).Key;
+                var cultureInfo = m_CultureInfoDict.ElementAt(i).Value;
 
                 var radioButton = new RadioButton
                 {
-                    Name = currentCultureKey,
-                    Text = currentCultureInfo.DisplayName,
+                    Name = cultureName,
+                    Text = cultureInfo.DisplayName,
                     AutoSize = true,
                     Margin = new Padding(5),
                     Location = new System.Drawing.Point(10, 25 * i),
-                    Checked = currentTwoLetterLang == currentCultureKey
+                    Checked = currentCultureName == cultureName
                 };
 
                 radioButton.CheckedChanged += OnRadioButtonCheckedChanged;
 
-                m_RadioButtonDict.Add(currentCultureKey, radioButton);
+                m_RadioButtonDict.Add(cultureName, radioButton);
 
                 radioButtonsPanel.Controls.Add(radioButton);
             }

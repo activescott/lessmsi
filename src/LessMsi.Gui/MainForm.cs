@@ -1057,7 +1057,7 @@ namespace LessMsi.Gui
             string newSelectedLanguage = changeLanguageForm.NewSelectedLanguage;
             if (newSelectedLanguage != string.Empty)
             {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(newSelectedLanguage);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(newSelectedLanguage);
 
                 Controls.Clear();
                 InitializeComponent();
