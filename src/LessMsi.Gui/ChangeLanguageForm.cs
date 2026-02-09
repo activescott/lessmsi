@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using LessMsi.Gui.Extensions;
 
 namespace LessMsi.Gui
 {
@@ -83,7 +84,7 @@ namespace LessMsi.Gui
             radioButtonsPanel.Controls.Clear();
             m_RadioButtonDict = new Dictionary<string, RadioButton>();
 
-            string currentCultureName = Thread.CurrentThread.CurrentUICulture.Name;
+            var currentCulture = Thread.CurrentThread.CurrentUICulture;
 
             for (int i = 0; i < m_CultureInfoDict.Count; i++)
             {
@@ -97,7 +98,7 @@ namespace LessMsi.Gui
                     AutoSize = true,
                     Margin = new Padding(5),
                     Location = new System.Drawing.Point(10, 25 * i),
-                    Checked = currentCultureName == cultureName
+                    Checked = currentCulture.BelongsTo(cultureInfo)
                 };
 
                 radioButton.CheckedChanged += OnRadioButtonCheckedChanged;

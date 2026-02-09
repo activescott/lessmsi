@@ -77,6 +77,7 @@
     <Compile Include="ChangeLanguageForm.Designer.cs">
       <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\CultureInfoExtensions.cs" />
     <Compile Include="Extensions\SummaryInformationExtensions.cs" />
     <Compile Include="ExtractionProgressDialog.cs">
       <SubType>Form</SubType>
