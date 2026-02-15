@@ -15,6 +15,8 @@ namespace LessMsi.Tests
         {
             checkEnglishUIStrings();
             checkItalianUIStrings();
+            checkSerbianCyrillicUIStrings();
+            checkSerbianLatinUIStrings();
         }
 
         private void checkEnglishUIStrings()
@@ -59,12 +61,54 @@ namespace LessMsi.Tests
             revertToOriginalLocale();
         }
 
+        private void checkSerbianCyrillicUIStrings()
+        {
+            setCustomLocale("sr-Cyrl");
+
+            var form = new MainForm(string.Empty);
+
+            // test if form was created successfully
+            Assert.NotNull(form);
+
+            // check buttons strings
+            Assert.Equal("Изабери &све", form.btnSelectAll.Text);
+            Assert.Equal("По&ништи избор свега", form.btnUnselectAll.Text);
+            Assert.Equal("И&здвоји", form.btnExtract.Text);
+
+            // check strip menu items strings
+            Assert.Equal("&Уреди", form.editToolStripMenuItem.Text);
+            Assert.Equal("&Подешавања", form.preferencesToolStripMenuItem.Text);
+
+            revertToOriginalLocale();
+        }
+
+        private void checkSerbianLatinUIStrings()
+        {
+            setCustomLocale("sr-Latn");
+
+            var form = new MainForm(string.Empty);
+
+            // test if form was created successfully
+            Assert.NotNull(form);
+
+            // check buttons strings
+            Assert.Equal("Izaberi &sve", form.btnSelectAll.Text);
+            Assert.Equal("Po&ništi izbor svega", form.btnUnselectAll.Text);
+            Assert.Equal("I&zdvoji", form.btnExtract.Text);
+
+            // check strip menu items strings
+            Assert.Equal("&Uredi", form.editToolStripMenuItem.Text);
+            Assert.Equal("&Podešavanja", form.preferencesToolStripMenuItem.Text);
+
+            revertToOriginalLocale();
+        }
+
         private void setCustomLocale(string locale)
         {
             originalCulture = CultureInfo.CurrentCulture;
             originalUICulture = CultureInfo.CurrentUICulture;
 
-            var culture = CultureInfo.CreateSpecificCulture(locale);
+            var culture = new CultureInfo(locale);
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
         }
