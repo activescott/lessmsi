@@ -246,9 +246,8 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>다음 디렉터리와 동일해야 합니다</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Save" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Save" xml:space="preserve">
+    <value>저장</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>검색:</value>
