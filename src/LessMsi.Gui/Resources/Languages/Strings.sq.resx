@@ -246,8 +246,7 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>duhet të jetë në të njëjtën direktori me</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Save" type="System.Resources.ResXNullRef, System.Windows.Forms">
+  <data name="Save" xml:space="preserve">
     <value />
   </data>
   <data name="Search" xml:space="preserve">
