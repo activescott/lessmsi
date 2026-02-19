@@ -22,12 +22,6 @@
 // Authors:
 //	Scott Willeke (scott@willeke.com)
 //
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using LessIO;
 using LessMsi.Gui.Model;
 using LessMsi.Gui.Resources.Languages;
@@ -35,6 +29,13 @@ using LessMsi.Gui.Windows.Forms;
 using LessMsi.Msi;
 using LessMsi.OleStorage;
 using Microsoft.Tools.WindowsInstallerXml.Msi;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.Linq;
 
 namespace LessMsi.Gui
 {
@@ -539,6 +540,16 @@ namespace LessMsi.Gui
 			}
 			catch (Exception eCatchAll)
 			{
+				if (eCatchAll is IOException && this.SelectedMsiFile.Extension.ToLower() == ".exe" && MsiDatabase.TryDetectMsiHeader(new LessIO.Path(this.SelectedMsiFile.FullName), out long offset))
+				{
+					if (View.ShowUserMessageQuestionYesNo("It looks like this file contains a .msi file, do you want to extract it?"))
+					{
+						var tempFile = System.IO.Path.GetTempFileName();
+						MsiDatabase.ExtractMsiFromExe(new LessIO.Path(this.SelectedMsiFile.FullName), new LessIO.Path(tempFile), offset);
+						LoadFile(tempFile);
+						return;
+					}
+				}
 				isBadFile = true;
 				Error(Strings.OpenFileError, eCatchAll);
 			}

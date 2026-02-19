@@ -54,7 +54,7 @@ namespace LessMsi.Gui
         private TableLayoutPanel tlpStreamsBottom;
         private Button btnExtractStreamFiles;
         private ToolStripMenuItem searchFileToolStripMenuItem;
-        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
+        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp", ".exe" };
 
         public MainForm(string defaultInputFile)
         {
@@ -168,6 +168,12 @@ namespace LessMsi.Gui
         {
             ShowUserMessageBox(string.Format(CultureInfo.CurrentUICulture, formatStr, args));
         }
+
+        public bool ShowUserMessageQuestionYesNo(string message)
+        {
+            return MessageBox.Show(this, message, "LessMSI", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+        }
+
 
         #region MSI Table Grid Stuff
 

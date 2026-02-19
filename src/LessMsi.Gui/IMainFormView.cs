@@ -78,6 +78,11 @@ namespace LessMsi.Gui
 		/// </summary>
 		void ShowUserError(string formatStr, params object[] args);
         /// <summary>
+        /// Displays a message to the user with a Yes/No question and returns the user's response.
+        /// </summary>
+        /// <param name="message">The message to display to the user.</param>
+        bool ShowUserMessageQuestionYesNo(string message);
+        /// <summary>
         /// Adds a column to the MSI table grid.
         /// </summary>
         void AddTableViewGridColumn(string headerText);
