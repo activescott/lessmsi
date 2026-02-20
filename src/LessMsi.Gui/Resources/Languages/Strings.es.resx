@@ -247,7 +247,7 @@
     <value>debe estar en el mismo directorio que</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value />
+    <value>Guardar</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar:</value>
