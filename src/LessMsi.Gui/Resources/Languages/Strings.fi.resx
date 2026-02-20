@@ -247,7 +247,7 @@
     <value>tulisi olla samassa hakemistossa kuin</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value />
+    <value>Tallenna</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Hae:</value>
