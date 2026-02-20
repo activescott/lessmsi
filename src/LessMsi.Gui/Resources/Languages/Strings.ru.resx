@@ -247,7 +247,7 @@
     <value>должен находиться в том же каталоге, что и</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value />
+    <value>Сохранить</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Поиск:</value>
