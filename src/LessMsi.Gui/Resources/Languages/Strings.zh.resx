@@ -246,6 +246,9 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>应位于同一目录下，与</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value />
+  </data>
   <data name="Search" xml:space="preserve">
     <value>搜索:</value>
   </data>

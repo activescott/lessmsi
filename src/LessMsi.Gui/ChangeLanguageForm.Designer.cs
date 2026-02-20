@@ -1,3 +1,5 @@
+using LessMsi.Gui.Resources.Languages;
+
 namespace LessMsi.Gui
 {
     partial class ChangeLanguageForm
@@ -51,7 +53,7 @@ namespace LessMsi.Gui
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(257, 39);
             this.saveBtn.TabIndex = 0;
-            this.saveBtn.Text = "Save";
+            this.saveBtn.Text = Strings.Save;
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             

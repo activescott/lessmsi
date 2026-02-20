@@ -246,6 +246,9 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>tulisi olla samassa hakemistossa kuin</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value />
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Hae:</value>
   </data>

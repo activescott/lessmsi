@@ -246,6 +246,9 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>треба да буде у истом директоријуму као</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сачувај</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Претражи:</value>
   </data>

@@ -246,6 +246,9 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>duhet të jetë në të njëjtën direktori me</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value />
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Kërko:</value>
   </data>

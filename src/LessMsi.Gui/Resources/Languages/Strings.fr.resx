@@ -246,6 +246,9 @@
   <data name="SameDirMassage" xml:space="preserve">
     <value>doit être dans le même répertoire que</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Recherche:</value>
   </data>
