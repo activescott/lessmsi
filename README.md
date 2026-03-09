@@ -4,7 +4,7 @@
 [![Chocolatey Downloads](https://img.shields.io/chocolatey/dt/lessmsi.svg?style=popout)](https://chocolatey.org/packages/lessmsi)
 [![chocolatey](https://img.shields.io/chocolatey/v/lessmsi.svg?maxAge=2592000)](https://chocolatey.org/packages/lessmsi)
 [![GitHub forks](https://img.shields.io/github/forks/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/network)
-[![GitHub stars](https://img.shields.io/github/stars/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/activescott/lessmsi?style=flat)](https://github.com/activescott/lessmsi/stargazers)
 [![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316)
 [![GitHub issues](https://img.shields.io/github/issues/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/issues)
 
