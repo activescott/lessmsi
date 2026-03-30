@@ -52,7 +52,7 @@ namespace LessMsi.Gui
 			// cmdRemoveShortcut
 			// 
 			this.cmdRemoveShortcut.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.cmdRemoveShortcut.Location = new System.Drawing.Point(12, 94);
+			this.cmdRemoveShortcut.Location = new System.Drawing.Point(12, 107);
 			this.cmdRemoveShortcut.Name = "cmdRemoveShortcut";
 			this.cmdRemoveShortcut.ShowElevationShield = true;
 			this.cmdRemoveShortcut.Size = new System.Drawing.Size(344, 60);
