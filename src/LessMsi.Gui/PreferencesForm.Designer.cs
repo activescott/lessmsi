@@ -42,7 +42,7 @@ namespace LessMsi.Gui
 			this.cmdAddShortcut.Location = new System.Drawing.Point(12, 16);
 			this.cmdAddShortcut.Name = "cmdAddShortcut";
 			this.cmdAddShortcut.ShowElevationShield = true;
-			this.cmdAddShortcut.Size = new System.Drawing.Size(344, 72);
+			this.cmdAddShortcut.Size = new System.Drawing.Size(344, 85);
 			this.cmdAddShortcut.TabIndex = 1;
 			this.cmdAddShortcut.Text = Strings.AddShortcutText;
 			this.cmdAddShortcut.TextNote = Strings.AddShortcutTextNote;
