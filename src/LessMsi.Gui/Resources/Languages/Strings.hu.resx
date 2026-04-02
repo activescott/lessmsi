@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Rólunk</value>
+  </data>
+  <data name="AddShortcutText" xml:space="preserve">
+    <value>Parancsikon hozzáadása az Explorerhez</value>
+  </data>
+  <data name="AddShortcutTextNote" xml:space="preserve">
+    <value>„Kicsomagolás” és „Felfedezés” menüpontokat ad hozzá az .msi fájlok jobb egérgombbal elérhető helyi menüjéhez</value>
+  </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>Minden fájl</value>
+  </data>
+  <data name="BadlyFormedFilePathError" xml:space="preserve">
+    <value>A fájl elérési útja hibás</value>
+  </data>
+  <data name="ChangeLang" xml:space="preserve">
+    <value>Nyelv váltása</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Befejezés</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>Komponens</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>&amp;Másolás</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Leírás:</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>&amp;Szerkesztés</value>
+  </data>
+  <data name="EmptyFilePathError" xml:space="preserve">
+    <value>A fájl elérési útja üres</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>HIBA</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>K&amp;ilépés</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>K&amp;icsomagolás</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Fájlok kicsomagolása</value>
+  </data>
+  <data name="Extracting" xml:space="preserve">
+    <value>Kicsomagolás</value>
+  </data>
+  <data name="ExtractingFile" xml:space="preserve">
+    <value>Fájl kicsomagolása</value>
+  </data>
+  <data name="ExtractStreamFiles" xml:space="preserve">
+    <value>Stream fájlok kicsomagolása...</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="FileExistError" xml:space="preserve">
+    <value>A '{0}' fájl nem létezik</value>
+  </data>
+  <data name="FileMenuLabel" xml:space="preserve">
+    <value>&amp;Fájl</value>
+  </data>
+  <data name="FilesFoundStatus" xml:space="preserve">
+    <value>fájl található.</value>
+  </data>
+  <data name="FindStreamError" xml:space="preserve">
+    <value>Nem sikerült megtalálni a '{0}' CAB streamjét</value>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>Inicializálás</value>
+  </data>
+  <data name="InvalidCharsInFilePathError" xml:space="preserve">
+    <value>A fájl elérési útja érvénytelen karaktereket tartalmaz</value>
+  </data>
+  <data name="LoadingSummaryInfoError" xml:space="preserve">
+    <value>Hiba az összefoglaló információk betöltésekor</value>
+  </data>
+  <data name="LoadingTablesStatus" xml:space="preserve">
+    <value>Táblázatok listájának betöltése...</value>
+  </data>
+  <data name="MissingFile" xml:space="preserve">
+    <value>Hiányzó fájl</value>
+  </data>
+  <data name="MsiFilesFilter" xml:space="preserve">
+    <value>msierablefiles</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="NoFilesPresentStatus" xml:space="preserve">
+    <value>Nincs fájl jelen</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>&amp;Megnyitni</value>
+  </data>
+  <data name="OpenFileError" xml:space="preserve">
+    <value>A fájl megnyitása nem sikerült</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
+  <data name="PreferencesMenuLabel" xml:space="preserve">
+    <value>&amp;Beállítások</value>
+  </data>
+  <data name="ProcessingTableStatus" xml:space="preserve">
+    <value>A '{0}' táblázat feldolgozása.</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Legutóbbi fájlok</value>
+  </data>
+  <data name="RemoveShortcutText" xml:space="preserve">
+    <value>Parancsikon eltávolítása</value>
+  </data>
+  <data name="RemoveShortcutTextNote" xml:space="preserve">
+    <value>Eltávolítja a helyi menüt, ha létezik</value>
+  </data>
+  <data name="SameDirMassage" xml:space="preserve">
+    <value>ugyanabban a könyvtárban kell lennie, mint a</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Keresés:</value>
+  </data>
+  <data name="SearchFile" xml:space="preserve">
+    <value>Fájl keresése</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Összes kijelölése</value>
+  </data>
+  <data name="SelectFilesMessage" xml:space="preserve">
+    <value>Kérjük, jelölje ki a kibontani kívánt fájlokat vagy az összes fájlt.</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Méret</value>
+  </data>
+  <data name="Stream" xml:space="preserve">
+    <value>Stream</value>
+  </data>
+  <data name="Streams" xml:space="preserve">
+    <value>Streamek</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Összefoglaló</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>&amp;Táblázat</value>
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Táblázat nézet</value>
+  </data>
+  <data name="TooLongFilePathError" xml:space="preserve">
+    <value>A fájl elérési útja túl hosszú</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Típus</value>
+  </data>
+  <data name="Uncompressing" xml:space="preserve">
+    <value>Kicsomagolás</value>
+  </data>
+  <data name="UnselectAll" xml:space="preserve">
+    <value>&amp;Összes kijelölésének megszüntetése</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Érték</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Verzió</value>
+  </data>
+  <data name="ViewFilesError" xml:space="preserve">
+    <value>A fájlok nem jeleníthetők meg</value>
+  </data>
+  <data name="ViewTableError" xml:space="preserve">
+    <value>A táblázat nem jeleníthető meg</value>
+  </data>
+</root>
