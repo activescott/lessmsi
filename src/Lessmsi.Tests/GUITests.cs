@@ -2,6 +2,8 @@
 using LessMsi.Gui;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace LessMsi.Tests
 {
@@ -9,6 +11,19 @@ namespace LessMsi.Tests
     {
         private CultureInfo originalUICulture;
         private CultureInfo originalCulture;
+
+        [Fact]
+        public void EscapeBeforeOpeningFileSearch()
+        {
+            using (var form = new MainForm(string.Empty))
+            {
+                var search = typeof(MainForm).GetField("searchPanel", BindingFlags.NonPublic | BindingFlags.Instance);
+                Assert.Null(search.GetValue(form));
+                var keyDown = typeof(MainForm).GetMethod("fileGrid_KeyDown", BindingFlags.NonPublic | BindingFlags.Instance);
+                keyDown.Invoke(form, new object[] { form, new KeyEventArgs(Keys.Escape) });
+                Assert.Null(search.GetValue(form));
+            }
+        }
 
         [Fact]
         public void CheckUIStrings()

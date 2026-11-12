@@ -1,10 +1,14 @@
 __all__=["doExtraction", "ExtrProgress"]
 import typing
+# Let Python.NET resolve the managed LessMsi subnamespace while this wrapper
+# is imported as the Python module named LessMsi.
+__path__ = []
 import clr
 clr.AddReference("LessMsi.core")
 clr.AddReference("LessIO")
 import LessIO
-from LessMsi.Msi import Wixtracts
+from LessMsi.Msi import Wixtracts, ExtractionMode
+from System import Array, String, AsyncCallback
 from pathlib import Path
 
 __license__="MIT"
@@ -39,17 +43,16 @@ def doExtraction(msiFileName:Path, outDirName:Path="", filesToExtract:typing.Ite
 	
 	msiFileName=str(Path(msiFileName).absolute())
 	outDirName=str(Path(outDirName).absolute())
-	if filesToExtract:
-		filesToExtract=(str(Path(outDirName).absolute()) for f in filesToExtract)
+	filesToExtract = Array[String]([] if filesToExtract is None else [str(f) for f in filesToExtract])
 	msiFile = LessIO.Path(msiFileName)
 	if progressCallback:
-		def cb(progress:Wixtracts.ExtractionProgress):
-			#progress.Activity
+		def cb(result):
+			progress = result.AsyncState
 			return progressCallback(ExtrProgress(progress.FilesExtractedSoFar, progress.TotalFileCount, Path(progress.CurrentFileName)))
-		cb=clr.System.AsyncCallback(cb)
+		cb=AsyncCallback(cb)
 	else:
 		cb=None
-	Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract, cb)
+	Wixtracts.ExtractFiles(msiFile, outDirName, filesToExtract, cb, ExtractionMode.Default)
 
 try:
 	from tqdm import tqdm
@@ -62,7 +65,7 @@ try:
 				pb.desc=str(progr.fileName)
 				delta=progr.current-prev
 				prev=progr.current
-					pb.total=progr.total
+				pb.total=progr.total
 				pb.update(delta)
 				if progressCallback:
 					return progressCallback(progr)

@@ -1121,7 +1121,7 @@ namespace LessMsi.Gui
         private void fileGrid_KeyDown(object sender, KeyEventArgs e)
         {
             // If they press escape while navigating the grid and the search panel is open in the search panel, cancel the search:
-            if (e.KeyCode == Keys.Escape)
+            if (e.KeyCode == Keys.Escape && searchPanel != null)
             {
                 searchPanel.CancelSearch();
             }
