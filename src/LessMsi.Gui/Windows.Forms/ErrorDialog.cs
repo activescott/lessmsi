@@ -12,6 +12,7 @@ namespace LessMsi.Gui.Windows.Forms
         public static void ShowError(IWin32Window owner, string message, string technicalDetails)
         {
             var dlg = new ErrorDialog();
+            DarkTheme.Apply(dlg, DarkTheme.IsEnabled);
             dlg.txtErrorDetail.Text = string.Format("{0}\r\n\r\nTechnical Detail:\r\n\r\n{1}", message, technicalDetails);
             dlg.ShowDialog(owner);
         }
