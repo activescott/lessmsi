@@ -135,6 +135,10 @@ build-tools\nuget.exe restore src\LessMsi.sln -OutputDirectory src\packages
 & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\lessmsi.iss
 ```
 
+The test suite extracts real packages from `src\LessMsi.Tests\TestFiles\MsiInput` and compares the
+result with `TestFiles\ExpectedOutput\<name>.expected.csv`. Merge modules are covered by
+`MiscTests.MergeModuleWithoutMediaTable`, which uses `Microsoft_VC143_CRT_x64.msm` as its fixture.
+
 Outputs: binaries in `src\LessMsi.Cli\bin\Release` and `src\LessMsi.Gui\bin\Release`, the staged
 release layout in `dist\staging`, and the installer in `dist\lessmsi-2.12.12-setup.exe`
 (`stage-and-package.ps1` does the staging and the ISCC run in one step).
