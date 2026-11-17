@@ -54,7 +54,7 @@ namespace LessMsi.Gui
         private TableLayoutPanel tlpStreamsBottom;
         private Button btnExtractStreamFiles;
         private ToolStripMenuItem searchFileToolStripMenuItem;
-        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
+        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp", ".msm" };
 
         public MainForm(string defaultInputFile)
         {
@@ -756,7 +756,7 @@ namespace LessMsi.Gui
             // openMsiDialog
             // 
             this.openMsiDialog.DefaultExt = "msi";
-            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp|{Strings.AllFilesFilter}|*.*";
+            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp;*.msm|{Strings.AllFilesFilter}|*.*";
             // 
             // statusBar1
             // 

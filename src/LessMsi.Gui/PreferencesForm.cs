@@ -66,12 +66,15 @@ namespace LessMsi.Gui
 			var shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " x " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "extract", "Msi.Package", "Lessmsi &Extract Files", shellCommand);
+			// Merge modules (.msm) have no registered file class of their own, so register the verb on the extension.
+			AddRemoveShortcut(isAdding, "extract", ".msm", "Lessmsi &Extract Files", shellCommand);
 
 			/* Fix for https://code.google.com/p/lessmsi/issues/detail?id=6&sort=-id
 			 */
 			shellCommand = escapedDoubleQuote + GetLessMsiExeFile() + escapedDoubleQuote + " o " + escapedDoubleQuote + "%1" + escapedDoubleQuote;
 			Debug.WriteLine("ShellCommand:[" + shellCommand + "]");
 			AddRemoveShortcut(isAdding, "explore", "Msi.Package", "&Lessmsi Explore", shellCommand);
+			AddRemoveShortcut(isAdding, "explore", ".msm", "&Lessmsi Explore", shellCommand);
 		}
 		void AddRemoveShortcut(bool isAdding, string commandName, string fileClass, string caption, string shellCommand)
 		{

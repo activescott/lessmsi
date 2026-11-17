@@ -631,10 +631,25 @@ namespace LessMsi.Msi
 	    {
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
-		    using (View view = msidb.OpenExecuteView(query))
+		    View mediaView;
+		    try
 		    {
+			    mediaView = msidb.OpenExecuteView(query);
+		    }
+		    catch (Exception eNoMediaTable)
+		    {
+			    // Merge modules (.msm) have no Media table at all: their cabinet always lives in the _Streams table.
+			    Trace.WriteLine(string.Format("Could not read the Media table ({0}). Looking for cabinets in the package streams instead.", eNoMediaTable.Message));
+			    mediaView = null;
+		    }
+
+		    using (mediaView)
+		    {
+			    if (mediaView == null)
+				    return CabsFromPackageStreams(msi, msidb, outputDir);
+
 			    Record record;
-                while (view.Fetch(out record))
+                while (mediaView.Fetch(out record))
                 {
 					using (record)
 					{
@@ -686,7 +701,57 @@ namespace LessMsi.Msi
 					}
                 }
 		    }
+
+		    // A Media table that exists but names no cab is just as useless as no Media table at all.
+		    if (localCabFiles.Count == 0)
+			    localCabFiles.AddRange(CabsFromPackageStreams(msi, msidb, outputDir));
+
 			return localCabFiles;
+	    }
+
+	    /// <summary>
+	    /// Finds the cabinet of a package that has no usable Media table (merge modules, most notably) and
+	    /// writes it to the output directory. The Windows Installer specification requires the cabinet of a
+	    /// merge module to be stored in the _Streams table under the name "MergeModule.CABinet", so that
+	    /// name is preferred; streams with a .cab extension are accepted too.
+	    /// </summary>
+	    private static List<CabInfo> CabsFromPackageStreams(Path msi, Database msidb, string outputDir)
+	    {
+		    const string mergeModuleCabinetName = "MergeModule.CABinet";
+		    var cabStreamNames = new List<string>();
+		    try
+		    {
+			    using (var view = msidb.OpenExecuteView("SELECT `Name` FROM `_Streams`"))
+			    {
+				    Record record;
+				    while (view.Fetch(out record))
+				    {
+					    using (record)
+					    {
+						    var streamName = record.GetString(1);
+						    if (string.IsNullOrEmpty(streamName))
+							    continue;
+						    if (string.Equals(streamName, mergeModuleCabinetName, StringComparison.InvariantCultureIgnoreCase)
+						        || streamName.EndsWith(".cab", StringComparison.InvariantCultureIgnoreCase))
+							    cabStreamNames.Add(streamName);
+					    }
+				    }
+			    }
+		    }
+		    catch (Exception eNoStreamsTable)
+		    {
+			    Trace.WriteLine(string.Format("Could not read the _Streams table ({0}).", eNoStreamsTable.Message));
+		    }
+
+		    var cabFiles = new List<CabInfo>(cabStreamNames.Count);
+		    foreach (var cabStreamName in cabStreamNames)
+		    {
+			    Path localCabFile = Path.Combine(outputDir, cabStreamName);
+			    Trace.WriteLine(string.Format("Extracting cabinet '{0}' from the package streams.", cabStreamName));
+			    ExtractCabFromPackage(localCabFile, cabStreamName, msidb, msi);
+			    cabFiles.Add(new CabInfo(localCabFile.PathString, cabStreamName, true));
+		    }
+		    return cabFiles;
 	    }
 
 	    class CabInfo

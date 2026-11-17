@@ -3,7 +3,7 @@
 ; Produces lessmsi-<version>-setup.exe, which includes the uninstaller (unins000.exe).
 
 #define AppName        "LessMSI"
-#define AppVersion     "2.12.11"
+#define AppVersion     "2.12.12"
 #define AppPublisher   "Scott Willeke"
 #define AppUrl         "https://lessmsi.activescott.com"
 #define GuiExe         "lessmsi-gui.exe"
@@ -48,7 +48,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "explorercontextmenu"; Description: "Add ""Extract with LessMSI"" to the right-click menu of .msi files"; GroupDescription: "Windows Explorer integration:"
+Name: "explorercontextmenu"; Description: "Add ""Extract with LessMSI"" to the right-click menu of .msi and .msm files"; GroupDescription: "Windows Explorer integration:"
 
 [Files]
 ; Binaries, config files and the 21 localized resource folders (cs, da, de, ... zh).
@@ -75,6 +75,21 @@ Root: HKCR; Subkey: "Msi.Package\shell\LessMSIOpen"; ValueType: string; ValueNam
 Root: HKCR; Subkey: "Msi.Package\shell\LessMSIOpen"; ValueType: string; ValueName: "Icon"; \
     ValueData: "{app}\{#GuiExe},0"; Tasks: explorercontextmenu
 Root: HKCR; Subkey: "Msi.Package\shell\LessMSIOpen\command"; ValueType: string; \
+    ValueName: ""; ValueData: """{app}\{#GuiExe}"" ""%1"""; Flags: uninsdeletekey; \
+    Tasks: explorercontextmenu
+; Merge modules (.msm) have no file class of their own, so the verbs are registered on the extension.
+Root: HKCR; Subkey: ".msm\shell\LessMSIExtract"; ValueType: string; ValueName: ""; \
+    ValueData: "Extract with &LessMSI"; Flags: uninsdeletekey; Tasks: explorercontextmenu
+Root: HKCR; Subkey: ".msm\shell\LessMSIExtract"; ValueType: string; ValueName: "Icon"; \
+    ValueData: "{app}\{#GuiExe},0"; Tasks: explorercontextmenu
+Root: HKCR; Subkey: ".msm\shell\LessMSIExtract\command"; ValueType: string; \
+    ValueName: ""; ValueData: """{app}\{#CliExe}"" x ""%1"" ""%1_extracted\\"""; \
+    Flags: uninsdeletekey; Tasks: explorercontextmenu
+Root: HKCR; Subkey: ".msm\shell\LessMSIOpen"; ValueType: string; ValueName: ""; \
+    ValueData: "Open with LessMSI &GUI"; Flags: uninsdeletekey; Tasks: explorercontextmenu
+Root: HKCR; Subkey: ".msm\shell\LessMSIOpen"; ValueType: string; ValueName: "Icon"; \
+    ValueData: "{app}\{#GuiExe},0"; Tasks: explorercontextmenu
+Root: HKCR; Subkey: ".msm\shell\LessMSIOpen\command"; ValueType: string; \
     ValueName: ""; ValueData: """{app}\{#GuiExe}"" ""%1"""; Flags: uninsdeletekey; \
     Tasks: explorercontextmenu
 
@@ -107,3 +122,4 @@ begin
       Result := False;
   end;
 end;
+

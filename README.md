@@ -1,17 +1,43 @@
-# LessMSI 2.12.11
+# LessMSI 2.12.12
 
 A Windows utility with a graphical user interface and a command line interface that can be used to
-view and extract the contents of an MSI file.
+view and extract the contents of an MSI file, a patch (.msp) or a merge module (.msm).
 
 This is a build of the [upstream lessmsi project](https://github.com/activescott/lessmsi) with the
-changes listed under [What's new](#whats-new-in-21211) below, packaged as an installable setup.
+changes listed under [What's new](#whats-new-in-21212) below, packaged as an installable setup.
 
 ---
+
+## What's new in 2.12.12
+
+### Merge module (.msm) support
+
+Merge modules are Windows Installer databases too, but they have no `Media` table: the specification
+requires their cabinet to be stored in the `_Streams` table under the name `MergeModule.CABinet`.
+lessmsi assumed a `Media` table existed and failed on every merge module with
+`Failed to create view with query: SELECT * FROM 'Media'`.
+
+A missing (or empty) `Media` table now falls back to the package streams, so merge modules extract
+like any other package:
+
+```
+lessmsi x Microsoft_VC143_CRT_x64.msm out\
+    1/20    vcruntime140.dll_amd64...
+    ...
+    20/20   vcruntime140_threads.dll_amd64...
+```
+
+* `.msm` files can be opened in the GUI, dropped onto it, or picked in the file dialog.
+* `lessmsi v file.msm` prints the module version from `ModuleSignature` (merge modules have no
+  `ProductVersion` property).
+* The optional Windows Explorer integration now adds **Extract with LessMSI** and
+  **Open with LessMSI GUI** to `.msm` files as well as `.msi` files.
+* Files whose cab entry name collides are still disambiguated with a `.duplicate1` suffix, which is
+  what happens in the Microsoft VC++ runtime modules (they carry several architectures).
 
 ## What's new in 2.12.11
 
 ### 1. Extract stub / wrapper MSI files (2.12.10)
-
 Some MSIs contain no rows in the `File` table at all and instead carry the whole payload in the
 `Binary` table, which they launch with a custom action. Firefox and Thunderbird ship this way, and so
 do many "wrapped" installers. Previously `lessmsi x` extracted nothing from those files and only
@@ -56,7 +82,7 @@ WinForms applications.
 ## Usage
 
 Extract from the command line (the output directory must end with a backslash, otherwise the argument
-is treated as a file filter):
+is treated as a file filter). The input may be an `.msi`, an `.msp` or an `.msm`:
 
 ```
 lessmsi x <msiFileName> [<outputDir>\]
@@ -73,12 +99,12 @@ files dropped onto it.
 
 ## Installation
 
-Run `lessmsi-2.12.11-setup.exe`. The installer:
+Run `lessmsi-2.12.12-setup.exe`. The installer:
 
 * installs to `%ProgramFiles(x86)%\LessMSI` (all users, needs elevation),
 * creates Start Menu entries, an optional desktop icon and the uninstaller,
 * optionally adds **Extract with LessMSI** and **Open with LessMSI GUI** to the right-click menu of
-  `.msi` files (removed again on uninstall),
+  `.msi` and `.msm` files (removed again on uninstall),
 * requires the .NET Framework 4.8 and warns at startup if it is missing.
 
 ## Building
@@ -110,15 +136,15 @@ build-tools\nuget.exe restore src\LessMsi.sln -OutputDirectory src\packages
 ```
 
 Outputs: binaries in `src\LessMsi.Cli\bin\Release` and `src\LessMsi.Gui\bin\Release`, the staged
-release layout in `dist\staging`, and the installer in `dist\lessmsi-2.12.11-setup.exe`
+release layout in `dist\staging`, and the installer in `dist\lessmsi-2.12.12-setup.exe`
 (`stage-and-package.ps1` does the staging and the ISCC run in one step).
 
 ## Release artifacts
 
 | File | Description |
 | --- | --- |
-| `dist\lessmsi-2.12.11-setup.exe` | Inno Setup installer (2.5 MB, includes the uninstaller) |
-| `dist\lessmsi-2.12.11-portable.zip` | Portable copy of the same binaries |
+| `dist\lessmsi-2.12.12-setup.exe` | Inno Setup installer (2.5 MB, includes the uninstaller) |
+| `dist\lessmsi-2.12.12-portable.zip` | Portable copy of the same binaries |
 | `dist\screenshots` | Light and dark mode screenshots used to check the UI |
 
 ## Credits
