@@ -78,6 +78,9 @@ Root: HKCR; Subkey: "Msi.Package\shell\LessMSIOpen\command"; ValueType: string; 
     ValueName: ""; ValueData: """{app}\{#GuiExe}"" ""%1"""; Flags: uninsdeletekey; \
     Tasks: explorercontextmenu
 ; Merge modules (.msm) have no file class of their own, so the verbs are registered on the extension.
+; This entry comes first so that, uninstalling in reverse order, it runs after the verbs and can drop
+; the .msm\shell container again (but only if nothing else uses it).
+Root: HKCR; Subkey: ".msm\shell"; Flags: uninsdeletekeyifempty; Tasks: explorercontextmenu
 Root: HKCR; Subkey: ".msm\shell\LessMSIExtract"; ValueType: string; ValueName: ""; \
     ValueData: "Extract with &LessMSI"; Flags: uninsdeletekey; Tasks: explorercontextmenu
 Root: HKCR; Subkey: ".msm\shell\LessMSIExtract"; ValueType: string; ValueName: "Icon"; \
