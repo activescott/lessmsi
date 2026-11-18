@@ -319,7 +319,7 @@ namespace LessMsi.Msi
 		        Debug.Assert(fileEntryMap.Count == filesToExtract.Length, "Duplicate files must have caused some files to not be in the map.");
 
 		        var cabInfos = CabsFromMsiToDisk(msi, msidb, outputDir);
-		        var cabDecompressors = MergeCabs(cabInfos);
+		        var cabDecompressors = MergeCabs(new List<CabInfo>(cabInfos));
 		        try
 		        {
 			        foreach (MSCabinet decompressor in cabDecompressors)
