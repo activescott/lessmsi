@@ -1,5 +1,18 @@
 # LessMSI 2.12.12
 
+## LessMsiEx 2.13.3 Windows downloads
+
+The [LessMsiEx 2.13.3 packaging release](https://github.com/testednation/lessmsi/releases/tag/v2.13.3) provides a setup executable and a portable ZIP. Run the setup executable to install, or extract the entire ZIP and launch `lessmsi-gui.exe`.
+
+SHA-256 checksums for the supplied packages:
+
+| File | SHA-256 |
+| --- | --- |
+| `LessMsiEx-2.13.3-setup.exe` | `21e6bcc2245eb1f0865f3513f7d5f4187a791dcc7104aa05661012ea7485e361` |
+| `LessMsiEx-2.13.3-portable.zip` | `c7bc09c912b033ff4dee2ee05dfe2caae4c528d29397190325edfe74614b839f` |
+
+
+
 A Windows utility with a graphical user interface and a command line interface that can be used to
 view and extract the contents of an MSI file, a patch (.msp) or a merge module (.msm).
 
