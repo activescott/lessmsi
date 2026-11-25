@@ -1,134 +1,203 @@
-# lessmsi
+# LessMSI 2.12.12
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/activescott/lessmsi?branch=master&svg=true)](https://ci.appveyor.com/project/activescott/lessmsi)
-[![Chocolatey Downloads](https://img.shields.io/chocolatey/dt/lessmsi.svg?style=popout)](https://chocolatey.org/packages/lessmsi)
-[![chocolatey](https://img.shields.io/chocolatey/v/lessmsi.svg?maxAge=2592000)](https://chocolatey.org/packages/lessmsi)
-[![GitHub forks](https://img.shields.io/github/forks/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/network)
-[![GitHub stars](https://img.shields.io/github/stars/activescott/lessmsi?style=flat)](https://github.com/activescott/lessmsi/stargazers)
-[![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316)
-[![GitHub issues](https://img.shields.io/github/issues/activescott/lessmsi.svg)](https://github.com/activescott/lessmsi/issues)
+## LessMsiEx 2.13.3 Windows downloads
 
-This is a utility with a graphical user interface and a command line interface that can be used to view and extract the contents of an MSI file.
+The [LessMsiEx 2.13.3 packaging release](https://github.com/testednation/lessmsi/releases/tag/v2.13.3) provides a setup executable and a portable ZIP. Run the setup executable to install, or extract the entire ZIP and launch `lessmsi-gui.exe`.
 
-# Usage
+SHA-256 checksums for the supplied packages:
 
-To extract from the command line:
+| File | SHA-256 |
+| --- | --- |
+| `LessMsiEx-2.13.3-setup.exe` | `21e6bcc2245eb1f0865f3513f7d5f4187a791dcc7104aa05661012ea7485e361` |
+| `LessMsiEx-2.13.3-portable.zip` | `c7bc09c912b033ff4dee2ee05dfe2caae4c528d29397190325edfe74614b839f` |
 
-     lessmsi x <msiFileName> [<outputDir>]
 
-For more command line usage see [CommandLine](https://github.com/activescott/lessmsi/wiki/Command-Line).
 
-# Installation
+A Windows utility with a graphical user interface and a command line interface that can be used to
+view and extract the contents of an MSI file, a patch (.msp) or a merge module (.msm).
 
-Install [via Chocolatey](https://chocolatey.org/packages/lessmsi) (or [download a zip](https://github.com/activescott/lessmsi/releases/latest)).
-
-# Features
-
-## Windows Explorer Integration
-
-Lessmsi also integrates with Windows Explorer so that you can right-click on a Windows Installer file (.msi file) and select "Extract Files" to extract it into a folder right there:
-
-![lessmsi Explorer Integration screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-explorerintegration.png)
-
-Just select _Preferences_ from the _Edit_ menu to enable (or disable) the explorer integration:
-
-![lessmsi Preferences Dialog screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-preferences.png)
-
-## GUI
-
-In addition to allowing you to extract files from the command line and from inside Windows Explorer, lessmsi has a graphical user interface that allows you to view detailed information about any MSI file.
-
-![lessmsi Files Tab screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-filestab.png)
-
-## MSI Table Viewer
-
-Windows Installer (.msi files) are based on an internal database of tables. Lessmsi features a viewer for those tables. Useful for people who work a lot with installers.
-
-![lessmsi Table Tab screenshot](https://raw.github.com/activescott/lessmsi/master/misc/screenshot-tabletab.png)
-
-# Suggestion? Problem? Comment?
-
-If you have a problem _please_ submit it by clicking in the [Issue tracker](https://github.com/activescott/lessmsi/issues) and I'll look into it when I can.
-
-# Donate to Support Open Source Contributors of lessmsi
-
-Please [Donate via Tip4Commit](https://tip4commit.com/github/activescott/lessmsi) to thank and encourage our contributors. Each new commit to this repository receives a percentage of the available balance.
-
-# Contributing
-
-Pull requests are welcome! Just make sure the build passes and you run unit tests and I'll merge your contributions ASAP!
-
-## You Earn Bitcoin Tips for Contributing!
-
-[![tip for next commit](https://tip4commit.com/projects/316.svg)](https://tip4commit.com/projects/316)
-
-We tip contributors for their PRs with Bitcoin. Look over the [issues in this repository](https://github.com/activescott/lessmsi/issues?q=sort%3Aupdated-desc%20is%3Aissue%20is%3Aopen%20label%3A%22help%20wanted%22), submit a PR to fix one, and when your fix merges we'll send you a tip via Tip4Commit.
-
-If you are going to be working on an issue, please tag us (@activescott or @mega5800) and let us know how your plan goes if it is a non-trivial fix or a new feature. If you want some help or direction please ask. We're happy to help 🫡
-
-## Development Environment
-
-To set up a Windows development environment that works with Lessmsi:
-
-1. Install [VMWare Fusion Player](https://www.vmware.com/products/fusion.html) (using free "Player" version, only needed if developing on MacOS - [homebrew also has a vmware-fusion formula](https://formulae.brew.sh/cask/vmware-fusion))
-2. Download a Virtual Machine for Windows development that Microsoft provides at https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/. These VMs include virtual machine with the latest versions of Windows, the developer tools, SDKs, and samples ready to go.
-3. Install chocolatey as described at https://chocolatey.org/install
-4. Install some things using the "Command Prompt" (`cmd` rather than "Power Shell"/`ps`) and `winget` here):
-
-```sh
-# install git for windows (this also installs "bash" via "Git Bash")
-$ winget install git.git
-
-# install chocolatey (this is required to run the MSBuild script and create the chocolatey package that is deployed by CI)
-$ winget install chocolatey
-
-# NOTE: you'll need to close this window and open a new one to get the cpack and git on the path
-```
-
-Then you can switch to bash by typing "bash" in the start menu and selecting "Git Bash" and follow these steps:
-
-```sh
-# in Git Bash..., generate and ssh key for github:
-$ ssh-keygen
-# follow prompts...
-
-# Print *public* ssh key to console, and register the printed value at github at https://github.com/settings/ssh/new by copying the key printed from the prior step into that box
-$ cat ~/.ssh/id_ed25519.pub
-
-# create directories for code and clone the repo:
-$ mkdir /c/src
-$ cd /c/src
-$ git clone git@github.com:activescott/lessmsi.git
-```
-
-Now I switch back to a "Developer Command Prompt for Visual Studio" (i.e. `cmd` with helpful PATH) to do a build since it is more CI-like:
-
-```sh
-$ cd \src\lessmsi\src
-$ .\build.bat
-
-# I usually start with 0.0.1 when prompted for a version number...
-
-```
-
-## Supported Windows Versions
-
-The latest versions of Lessmsi should support the oldest version of Windows that Microsoft still officially supports according to https://learn.microsoft.com/en-us/windows/release-health/supported-versions-windows-client
-That means we need to also target a .NET Framework version that is included in the oldest version Windows that Microsoft still supports which can be found at https://en.wikipedia.org/wiki/.NET_Framework_version_history
-
-For example as of 2024, Windows 10 is the oldest version of Windows still supported and according to the Wikipedia article, .NET Framework 4.8 is included in Windows 10 (some reasonably current update to Windows 10), so targeting .NET Framework 4.8 is ideal since any reasonably up-to-date version of Windows 10 will have .NET Framework 4.8. Going further, as of April 2024, we see that while .NET Framework 4.8.1 is also available, it is only included in Widnows 11, and not included in any Windows 10 version, so we should *not* target .NET Framework 4.8.1 as some of our Windows 10 users may not yet have 4.8.1 installed.
-
-## Deploying & Publishing New Versions
-
-New versions are published to GitHub Releases and Chocolatey via [semantic-release](https://github.com/semantic-release/semantic-release) to consistently release [semver](https://semver.org/)-compatible versions. Only the master branch is deployed.
-
-To trigger a release just commit (or merge) to the master branch. All commits in master should use the Conventional Commits following [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
-
-Then the CI script in the repo at [/appveyor.yml](https://github.com/activescott/lessmsi/blob/master/appveyor.yml) should build, test the code and if the build & tests succeed deploy it first to github and then to Chocolatey. Release configuration via semantic-release is in [/release.config.js](https://github.com/activescott/lessmsi/blob/master/release.config.js) and the `semantic-release-*.cmd` files in the [/src/.build](https://github.com/activescott/lessmsi/tree/master/src/.build) folder.
+This is a build of the [upstream lessmsi project](https://github.com/activescott/lessmsi) with the
+changes listed under [What's new](#whats-new-in-21212) below, packaged as an installable setup.
 
 ---
 
-_Originally from Scott Willeke's blog http://blogs.pingpoet.com/overflow and http://blog.scott.willeke.com.
-It was also called Less Msiérables as well as lessmsi._
+## What's new in 2.12.12
 
-_Was featured in the book [Windows Developer Power Tools](https://www.oreilly.com/library/view/windows-developer-power/0596527543/) as Less MSIérables._
+### Merge module (.msm) support
+
+Merge modules are Windows Installer databases too, but they have no `Media` table: the specification
+requires their cabinet to be stored in the `_Streams` table under the name `MergeModule.CABinet`.
+lessmsi assumed a `Media` table existed and failed on every merge module with
+`Failed to create view with query: SELECT * FROM 'Media'`.
+
+A missing (or empty) `Media` table now falls back to the package streams, so merge modules extract
+like any other package:
+
+```
+lessmsi x Microsoft_VC143_CRT_x64.msm out\
+    1/20    vcruntime140.dll_amd64...
+    ...
+    20/20   vcruntime140_threads.dll_amd64...
+```
+
+* `.msm` files can be opened in the GUI, dropped onto it, or picked in the file dialog.
+* `lessmsi v file.msm` prints the module version from `ModuleSignature` (merge modules have no
+  `ProductVersion` property).
+* The optional Windows Explorer integration now adds **Extract with LessMSI** and
+  **Open with LessMSI GUI** to `.msm` files as well as `.msi` files.
+* Files whose cab entry name collides are still disambiguated with a `.duplicate1` suffix, which is
+  what happens in the Microsoft VC++ runtime modules (they carry several architectures).
+
+## What's new in 2.12.11
+
+### 1. Extract stub / wrapper MSI files (2.12.10)
+Some MSIs contain no rows in the `File` table at all and instead carry the whole payload in the
+`Binary` table, which they launch with a custom action. Firefox and Thunderbird ship this way, and so
+do many "wrapped" installers. Previously `lessmsi x` extracted nothing from those files and only
+printed `…setup.cab: no folders in cabinet`.
+
+When a full extraction produces no files, lessmsi now falls back to writing the `Binary` table
+streams to `<output dir>\_Binary\<stream name>`, so the payload is never lost:
+
+```
+lessmsi x "Thunderbird Setup 152.0b3.msi" "out\"
+    1/1       WrappedExe
+```
+
+Cabinets that declare zero folders are also skipped before they reach the native cab reader, which
+removes the misleading error text. Normal MSI files extract exactly as before.
+
+### 2. Bigger, resizable user interface (2.12.11)
+
+* Default window is 1100 x 760 instead of 464 x 512, minimum size 860 x 560, and everything scales
+  with the window because all panes are docked or anchored.
+* Base font is now Segoe UI 10 pt (was 9 pt), grid rows are 26 px, and the tab strip, the file name
+  row, the button bars and the summary pane all got more breathing room.
+* Buttons have real padding, so they are easier to hit.
+* The legacy `StatusBar` was replaced with a `StatusStrip` that grows with the font.
+
+### 3. Dark mode (2.12.11)
+
+`Edit > Dark mode` (Ctrl+D) switches the whole application, including dialogs, between the light and
+dark schemes, and the choice is saved per user:
+
+* menu bar and drop downs (custom `ProfessionalColorTable`), tab headers (owner drawn), grids
+  including column headers and alternating rows, text boxes, combo boxes, list boxes, buttons,
+  group boxes and the status strip,
+* the window title bar too, via `DwmSetWindowAttribute(DWMWA_USE_IMMERSIVE_DARK_MODE)`,
+* the error dialog, preferences, language picker, about box and the extraction progress dialog.
+
+Scrollbars are drawn by Windows itself and stay in the system colour, which is the usual look for
+WinForms applications.
+
+---
+
+## Usage
+
+Extract from the command line (the output directory must end with a backslash, otherwise the argument
+is treated as a file filter). The input may be an `.msi`, an `.msp` or an `.msm`:
+
+```
+lessmsi x <msiFileName> [<outputDir>\]
+lessmsi xo  ...   # overwrite existing files
+lessmsi xfo ...   # extract flat into one folder, overwriting
+lessmsi xfr ...   # extract flat into one folder, renaming duplicates
+lessmsi l -t Component <msiFileName>   # list a table as CSV
+lessmsi v <msiFileName>                # print the MSI ProductVersion
+lessmsi o <msiFileName>                # open in the GUI
+```
+
+Run `lessmsi h` for the full help. The GUI accepts one optional file name argument and can also open
+files dropped onto it.
+
+## Installation
+
+Run `lessmsi-2.12.12-setup.exe`. The installer:
+
+* installs to `%ProgramFiles(x86)%\LessMSI` (all users, needs elevation),
+* creates Start Menu entries, an optional desktop icon and the uninstaller,
+* optionally adds **Extract with LessMSI** and **Open with LessMSI GUI** to the right-click menu of
+  `.msi` and `.msm` files (removed again on uninstall),
+* requires the .NET Framework 4.8 and warns at startup if it is missing.
+
+## Building
+
+Requirements: Windows with the .NET Framework 4.8 developer tools, plus the following, which the
+build script expects at these default locations (override with the script parameters):
+
+| Tool | Path |
+| --- | --- |
+| MSBuild (.NET Framework 4.8) | `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe` |
+| Roslyn compiler (`Microsoft.Net.Compilers.Toolset` 4.8, `tasks\net472`) | `build-tools\roslyn\tasks\net472` |
+| .NET Framework 4.8 SDK tools (`AL.exe`) | `%ProgramFiles(x86)%\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8.1 Tools` |
+
+The projects are old style (non SDK) .NET Framework 4.8 projects and the sources use C# 9 syntax, so
+the compiler bundled with MSBuild 4.8 (C# 5) is not enough; that is why the Roslyn toolset is used:
+
+```powershell
+# restore NuGet packages (packages.config based)
+build-tools\nuget.exe restore src\LessMsi.sln -OutputDirectory src\packages
+
+# build Release/x86
+.\build-release.ps1
+
+# run the unit tests
+.\src\packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe src\LessMsi.Tests\bin\Release\LessMsi.Tests.dll
+
+# build the installer (Inno Setup 6 must be installed)
+& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\lessmsi.iss
+```
+
+The test suite extracts real packages from `src\LessMsi.Tests\TestFiles\MsiInput` and compares the
+result with `TestFiles\ExpectedOutput\<name>.expected.csv`. Merge modules are covered by
+`MiscTests.MergeModuleWithoutMediaTable`, which uses `Microsoft_VC143_CRT_x64.msm` as its fixture.
+
+Outputs: binaries in `src\LessMsi.Cli\bin\Release` and `src\LessMsi.Gui\bin\Release`, the staged
+release layout in `dist\staging`, and the installer in `dist\lessmsi-2.12.12-setup.exe`
+(`stage-and-package.ps1` does the staging and the ISCC run in one step).
+
+## Release artifacts
+
+| File | Description |
+| --- | --- |
+| `dist\lessmsi-2.12.12-setup.exe` | Inno Setup installer (2.5 MB, includes the uninstaller) |
+| `dist\lessmsi-2.12.12-portable.zip` | Portable copy of the same binaries |
+| `dist\screenshots` | Light and dark mode screenshots used to check the UI |
+
+## Credits
+
+### Author and maintainers
+
+* **Scott Willeke** ([@activescott](https://github.com/activescott)) — author and maintainer of
+  [lessmsi](https://github.com/activescott/lessmsi), and also the author of the `LessIO` and
+  `libmspack4n` libraries that this tool is built on. Copyright (c) 2004 Scott Willeke.
+* **[@mega5800](https://github.com/mega5800)** — co-maintainer of the upstream project.
+
+### Localization
+
+The 21 UI translations (cs, da, de, es, fi, fr, hu, it, ja, ko, nl, no, pl, pt, ru, sk, sq, sr-Cyrl,
+sr-Latn, sv, zh) are contributed by the lessmsi community through upstream pull requests. Thank you.
+
+### Third party components
+
+| Component | Author / license | Used for |
+| --- | --- | --- |
+| [lessmsi](https://github.com/activescott/lessmsi) | Scott Willeke, MIT | The application itself |
+| `LessIO` | Scott Willeke | Compound file (OLE storage) reader |
+| `libmspack4n` / `mspack.dll` | .NET wrapper by Scott Willeke; [libmspack](https://www.cabextract.org.uk/libmspack/) by Stuart Caie, LGPL | Cabinet (CAB) decompression |
+| WiX Toolset v2 interop (`wix.dll`, `wixcab.dll`) | Microsoft Corporation, [Windows Installer XML](https://wixtoolset.org/) | MSI database access |
+| NDesk.Options / [Mono.Options](https://github.com/xamarin/Xamarin.Forms) | Jonathan Pryor, MIT | Command line parsing |
+| [xUnit.net](https://xunit.net/) | Brad Wilson and contributors, Apache 2.0 | Unit tests |
+| [Inno Setup](https://jrsoftware.org/isinfo.php) | Jordan Russell and Martijn Laan | Installer and uninstaller |
+| [Roslyn](https://github.com/dotnet/roslyn) compiler platform | .NET Foundation, MIT | Build time compiler |
+| .NET Framework 4.8 | Microsoft Corporation | Runtime |
+
+### License
+
+lessmsi is released under the MIT license; see [LICENSE](LICENSE).
+
+## Links
+
+* Upstream project and issue tracker: <https://github.com/activescott/lessmsi>
+* Documentation wiki (including the command line reference): <https://github.com/activescott/lessmsi/wiki>
+* Home page: <https://lessmsi.activescott.com>

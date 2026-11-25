@@ -281,10 +281,12 @@ namespace LessMsi.Msi
             Database msidb = new Database(msi.PathString, OpenDatabase.ReadOnly);
 	        try
 	        {
-		        if (filesToExtract == null || filesToExtract.Length < 1)
+		        var extractAllFiles = filesToExtract == null || filesToExtract.Length < 1;
+		        if (extractAllFiles)
 			        filesToExtract = MsiFile.CreateMsiFilesFromMSI(msidb);
 
-		        progress = new ExtractionProgress(progressCallback, filesToExtract.Length);
+		        // if the msi has no File table rows at all we're going to extract the Binary table instead, so count those for progress reporting.
+		        progress = new ExtractionProgress(progressCallback, extractAllFiles && filesToExtract.Length == 0 ? CountBinaryStreams(msidb) : filesToExtract.Length);
 
 		        if (!FileSystem.Exists(msi))
 		        {
@@ -370,6 +372,15 @@ namespace LessMsi.Msi
                         }
                     }
                 }
+
+                /* Some msi files are what we call "stub" or "wrapper" msi files: they have no rows in the
+                 * File table at all and instead keep their real payload in the Binary table, which they run
+                 * with a custom action (e.g. Thunderbird's setup.msi). For those the loop above extracts
+                 * nothing at all, so fall back to writing the Binary table streams out instead of silently
+                 * producing an empty output directory.
+                 */
+                if (extractAllFiles && filesExtractedSoFar == 0)
+                    filesExtractedSoFar = ExtractBinaryStreams(msidb, outputDir, progress, filesExtractedSoFar);
 	        }
 	        finally
 	        {
@@ -379,6 +390,68 @@ namespace LessMsi.Msi
 			        progress.ReportProgress(ExtractionActivity.Complete, "", filesExtractedSoFar);
 	        }
         }
+        /// <summary>
+        /// The name of the subdirectory of the output directory that binary table streams are extracted to.
+        /// </summary>
+        public const string BinaryOutputDirectoryName = "_Binary";
+
+        /// <summary>
+        /// Extracts the streams stored in the Binary table to the <see cref="BinaryOutputDirectoryName"/> 
+        /// subdirectory of <paramref name="outputDir"/>. Used for msi files that carry their payload in the 
+        /// Binary table rather than in the File table.
+        /// </summary>
+        /// <returns>The number of files extracted so far, including the binary streams extracted here.</returns>
+        private static int ExtractBinaryStreams(Database msidb, string outputDir, ExtractionProgress progress, int filesExtractedSoFar)
+        {
+            if (!msidb.TableExists("Binary"))
+                return filesExtractedSoFar;
+
+            var binaryOutputDir = LessIO.Path.Combine(outputDir, BinaryOutputDirectoryName);
+            using (var view = msidb.OpenView("SELECT `Name`, `Data` FROM `Binary`"))
+            {
+                view.Execute();
+                Record sourceRecord;
+                while (view.Fetch(out sourceRecord))
+                {
+                    using (sourceRecord)
+                    {
+                        var streamName = sourceRecord.GetString(1);
+                        if (string.IsNullOrEmpty(streamName))
+                            continue;
+
+                        streamName = MakeValidFileName(streamName);
+                        progress.ReportProgress(ExtractionActivity.ExtractingFile, streamName, filesExtractedSoFar);
+
+                        if (!FileSystem.Exists(binaryOutputDir))
+                            FileSystem.CreateDirectory(binaryOutputDir);
+
+                        var destName = LessIO.Path.Combine(binaryOutputDir, streamName);
+                        Trace.WriteLine(string.Concat("Extracting Binary table stream \'", streamName, "\' to \'", destName, "\'"));
+
+                        var buffer = new byte[80 * 1024];
+                        using (var target = new FileStream(destName.PathString, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            int bytesRead;
+                            while ((bytesRead = sourceRecord.GetStream(2, buffer, buffer.Length)) > 0)
+                                target.Write(buffer, 0, bytesRead);
+                        }
+                        filesExtractedSoFar++;
+                    }
+                }
+            }
+            return filesExtractedSoFar;
+        }
+
+        /// <summary>
+        /// Replaces characters that are not valid in a file name so a stream name can be used as a file name.
+        /// </summary>
+        private static string MakeValidFileName(string fileName)
+        {
+            foreach (var invalidChar in System.IO.Path.GetInvalidFileNameChars())
+                fileName = fileName.Replace(invalidChar, '_');
+            return fileName;
+        }
+
         /// <summary>
         /// Checks if given extraction mode value allows duplicate files during extraction
         /// </summary>
@@ -390,6 +463,60 @@ namespace LessMsi.Msi
 
 			return duplicateFilesFlag;
 		}
+
+        /// <summary>
+        /// Returns the number of streams in the Binary table of the specified database, or zero if there is no such table.
+        /// </summary>
+        private static int CountBinaryStreams(Database msidb)
+        {
+            if (!msidb.TableExists("Binary"))
+                return 0;
+
+            var count = 0;
+            using (var view = msidb.OpenView("SELECT `Name` FROM `Binary`"))
+            {
+                view.Execute();
+                Record sourceRecord;
+                while (view.Fetch(out sourceRecord))
+                {
+                    using (sourceRecord)
+                        count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns true if the specified cab file declares at least one folder. Cabs that declare no folders at all
+        /// are skipped, because the native cab reader cannot open them.
+        /// </summary>
+        private static bool CabContainsFolders(string cabFilePath)
+        {
+            const int MinimumCabHeaderSize = 36;
+            const int FolderCountOffset = 26;
+            const ushort NoFolders = 0;
+
+            try
+            {
+                using (var cabFile = new FileStream(cabFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var header = new byte[MinimumCabHeaderSize];
+                    var headerBytesRead = cabFile.Read(header, 0, header.Length);
+                    if (headerBytesRead < MinimumCabHeaderSize)
+                        return false;
+                    if (header[0] != (byte)'M' || header[1] != (byte)'S' || header[2] != (byte)'C' || header[3] != (byte)'F')
+                        return false;
+
+                    var folderCount = (ushort)(header[FolderCountOffset] | (header[FolderCountOffset + 1] << 8));
+                    return folderCount != NoFolders;
+                }
+            }
+            catch (IOException)
+            {
+                // let the cab reader itself report problems reading the file.
+                return true;
+            }
+        }
 
         /// <summary>
         /// Deletes a file even if it is readonly.
@@ -419,6 +546,15 @@ namespace LessMsi.Msi
 			{
 				CabInfo cab = cabInfos[i];
                 MSCabinet msCab = null;
+
+                // A cab with no folders at all (e.g. the empty "#setup.cab" of a stub/wrapper msi) only makes
+                // the native cab reader report an error, so skip it before handing it over.
+                if (!CabContainsFolders(cab.LocalCabFile))
+                {
+                    Trace.WriteLine(string.Format("Cab \"{0}\" contains no folders. Skipping it.", cab.CabSourceName));
+                    continue;
+                }
+
                 try
                 {
                     msCab = new MSCabinet(cab.LocalCabFile); // NOTE: Deliberately not disposing. Caller must cleanup.
@@ -495,10 +631,25 @@ namespace LessMsi.Msi
 	    {
 		    const string query = "SELECT * FROM `Media`";
 		    var localCabFiles = new List<CabInfo>();
-		    using (View view = msidb.OpenExecuteView(query))
+		    View mediaView;
+		    try
 		    {
+			    mediaView = msidb.OpenExecuteView(query);
+		    }
+		    catch (Exception eNoMediaTable)
+		    {
+			    // Merge modules (.msm) have no Media table at all: their cabinet always lives in the _Streams table.
+			    Trace.WriteLine(string.Format("Could not read the Media table ({0}). Looking for cabinets in the package streams instead.", eNoMediaTable.Message));
+			    mediaView = null;
+		    }
+
+		    using (mediaView)
+		    {
+			    if (mediaView == null)
+				    return CabsFromPackageStreams(msi, msidb, outputDir);
+
 			    Record record;
-                while (view.Fetch(out record))
+                while (mediaView.Fetch(out record))
                 {
 					using (record)
 					{
@@ -550,7 +701,57 @@ namespace LessMsi.Msi
 					}
                 }
 		    }
+
+		    // A Media table that exists but names no cab is just as useless as no Media table at all.
+		    if (localCabFiles.Count == 0)
+			    localCabFiles.AddRange(CabsFromPackageStreams(msi, msidb, outputDir));
+
 			return localCabFiles;
+	    }
+
+	    /// <summary>
+	    /// Finds the cabinet of a package that has no usable Media table (merge modules, most notably) and
+	    /// writes it to the output directory. The Windows Installer specification requires the cabinet of a
+	    /// merge module to be stored in the _Streams table under the name "MergeModule.CABinet", so that
+	    /// name is preferred; streams with a .cab extension are accepted too.
+	    /// </summary>
+	    private static List<CabInfo> CabsFromPackageStreams(Path msi, Database msidb, string outputDir)
+	    {
+		    const string mergeModuleCabinetName = "MergeModule.CABinet";
+		    var cabStreamNames = new List<string>();
+		    try
+		    {
+			    using (var view = msidb.OpenExecuteView("SELECT `Name` FROM `_Streams`"))
+			    {
+				    Record record;
+				    while (view.Fetch(out record))
+				    {
+					    using (record)
+					    {
+						    var streamName = record.GetString(1);
+						    if (string.IsNullOrEmpty(streamName))
+							    continue;
+						    if (string.Equals(streamName, mergeModuleCabinetName, StringComparison.InvariantCultureIgnoreCase)
+						        || streamName.EndsWith(".cab", StringComparison.InvariantCultureIgnoreCase))
+							    cabStreamNames.Add(streamName);
+					    }
+				    }
+			    }
+		    }
+		    catch (Exception eNoStreamsTable)
+		    {
+			    Trace.WriteLine(string.Format("Could not read the _Streams table ({0}).", eNoStreamsTable.Message));
+		    }
+
+		    var cabFiles = new List<CabInfo>(cabStreamNames.Count);
+		    foreach (var cabStreamName in cabStreamNames)
+		    {
+			    Path localCabFile = Path.Combine(outputDir, cabStreamName);
+			    Trace.WriteLine(string.Format("Extracting cabinet '{0}' from the package streams.", cabStreamName));
+			    ExtractCabFromPackage(localCabFile, cabStreamName, msidb, msi);
+			    cabFiles.Add(new CabInfo(localCabFile.PathString, cabStreamName, true));
+		    }
+		    return cabFiles;
 	    }
 
 	    class CabInfo

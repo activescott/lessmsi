@@ -17,8 +17,22 @@ namespace LessMsi.Cli
 			var msiFileName = args[1];
 			using (var msidb = new Database(msiFileName, OpenDatabase.ReadOnly))
 			{
-				const string tableName = "Property";
-				var query = string.Format(CultureInfo.InvariantCulture, "SELECT * FROM `{0}`", tableName);
+				if (TryWriteProductVersion(msidb))
+					return;
+
+				// Merge modules (.msm) have no ProductVersion property; their version is in ModuleSignature.
+				if (TryWriteModuleVersion(msidb))
+					return;
+
+				Console.WriteLine("Version not found!");
+			}
+		}
+
+		private static bool TryWriteProductVersion(Database msidb)
+		{
+			try
+			{
+				const string query = "SELECT `Property`, `Value` FROM `Property`";
 				using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
 				{
 					foreach (var row in view.Records)
@@ -28,12 +42,41 @@ namespace LessMsi.Cli
 						if (string.Equals("ProductVersion", property, StringComparison.InvariantCultureIgnoreCase))
 						{
 							Console.WriteLine(value);
-							return;
+							return true;
 						}
 					}
-					Console.WriteLine("Version not found!");
 				}
 			}
+			catch (Exception eNoPropertyTable)
+			{
+				System.Diagnostics.Trace.WriteLine("Could not read the Property table: " + eNoPropertyTable.Message);
+			}
+			return false;
+		}
+
+		private static bool TryWriteModuleVersion(Database msidb)
+		{
+			try
+			{
+				const string query = "SELECT `Version` FROM `ModuleSignature`";
+				using (var view = new ViewWrapper(msidb.OpenExecuteView(query)))
+				{
+					foreach (var row in view.Records)
+					{
+						var value = row[view.ColumnIndex("Version")];
+						if (value != null)
+						{
+							Console.WriteLine(value);
+							return true;
+						}
+					}
+				}
+			}
+			catch (Exception eNoModuleSignatureTable)
+			{
+				System.Diagnostics.Trace.WriteLine("Could not read the ModuleSignature table: " + eNoModuleSignatureTable.Message);
+			}
+			return false;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿// Permission is hereby granted, free of charge, to any person obtaining
+// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -25,8 +25,9 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("1.0.10.*")]
-[assembly: AssemblyCopyright("Copyright Scott Willeke © 2004-2021")]
+[assembly: AssemblyVersion("2.12.12.0")]
+[assembly: AssemblyFileVersion("2.12.12.0")]
+[assembly: AssemblyCopyright("Copyright Scott Willeke © 2004-2026")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

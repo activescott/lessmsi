@@ -54,7 +54,7 @@ namespace LessMsi.Gui
         private TableLayoutPanel tlpStreamsBottom;
         private Button btnExtractStreamFiles;
         private ToolStripMenuItem searchFileToolStripMenuItem;
-        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp" };
+        readonly static string[] AllowedDragDropExtensions = new[] { ".msi", ".msp", ".msm" };
 
         public MainForm(string defaultInputFile)
         {
@@ -72,6 +72,30 @@ namespace LessMsi.Gui
             }
 
             Icon = Properties.Resources.LessmsiIcon;
+
+            _suppressThemeEvents = true;
+            darkModeToolStripMenuItem.Checked = Settings.Default.DarkMode;
+            _suppressThemeEvents = false;
+            ApplyTheme(Settings.Default.DarkMode);
+        }
+
+        /// <summary>
+        /// Applies the requested color scheme to this window and remembers it for child dialogs.
+        /// </summary>
+        private void ApplyTheme(bool dark)
+        {
+            DarkTheme.Apply(this, dark);
+            DarkTheme.ApplyTitleBar(this, dark);
+        }
+
+        private void darkModeToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_suppressThemeEvents)
+                return;
+
+            Settings.Default.DarkMode = darkModeToolStripMenuItem.Checked;
+            Settings.Default.Save();
+            ApplyTheme(Settings.Default.DarkMode);
         }
 
         private MainFormPresenter Presenter { get; set; }
@@ -244,9 +268,11 @@ namespace LessMsi.Gui
         public Button btnExtract;
         private FolderBrowserDialog folderBrowser;
         private OpenFileDialog openMsiDialog;
-        private StatusBar fileInfoStatusBar;
-        internal StatusBarPanel statusPanelDefault;
-        private StatusBarPanel statusPanelFileCount;
+        private StatusStrip fileInfoStatusBar;
+        internal ToolStripStatusLabel statusPanelDefault;
+        private ToolStripStatusLabel statusPanelFileCount;
+        private ToolStripMenuItem darkModeToolStripMenuItem;
+        private bool _suppressThemeEvents;
         public Button btnSelectAll;
         public Button btnUnselectAll;
         private TabPage tabSummary;
@@ -328,9 +354,9 @@ namespace LessMsi.Gui
             this.tlpMsiFileBrowse = new System.Windows.Forms.TableLayoutPanel();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.openMsiDialog = new System.Windows.Forms.OpenFileDialog();
-            this.fileInfoStatusBar = new System.Windows.Forms.StatusBar();
-            this.statusPanelDefault = new System.Windows.Forms.StatusBarPanel();
-            this.statusPanelFileCount = new System.Windows.Forms.StatusBarPanel();
+            this.fileInfoStatusBar = new System.Windows.Forms.StatusStrip();
+            this.statusPanelDefault = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusPanelFileCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainMenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -344,6 +370,7 @@ namespace LessMsi.Gui
             this.editStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.darkModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs.SuspendLayout();
             this.tabExtractFiles.SuspendLayout();
@@ -354,14 +381,12 @@ namespace LessMsi.Gui
             ((System.ComponentModel.ISupportInitialize)(this.msiPropertyGrid)).BeginInit();
             this.grpDescription.SuspendLayout();
             this.tabStreams.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).BeginInit();
             this.mainMenuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtMsiFileName
             // 
-            this.txtMsiFileName.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+            this.txtMsiFileName.Anchor = (AnchorStyles.Left | AnchorStyles.Right);
             this.txtMsiFileName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txtMsiFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.txtMsiFileName.Name = "txtMsiFileName";
@@ -382,7 +407,8 @@ namespace LessMsi.Gui
             this.btnBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(24, 19);
+            this.btnBrowse.Size = new System.Drawing.Size(40, 26);
+            this.btnBrowse.Padding = new Padding(4, 2, 4, 2);
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "...";
             this.btnBrowse.Margin = new Padding(0, 0, 13, 0);
@@ -395,10 +421,10 @@ namespace LessMsi.Gui
             this.tabs.Controls.Add(this.tabSummary);
             this.tabs.Controls.Add(this.tabStreams);
             this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabs.Location = new System.Drawing.Point(0, 55);
+            this.tabs.Location = new System.Drawing.Point(0, 72);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(464, 441);
+            this.tabs.Size = new System.Drawing.Size(1100, 662);
             this.tabs.TabIndex = 0;
             this.tabs.TabStop = false;
             // 
@@ -406,10 +432,10 @@ namespace LessMsi.Gui
             // 
             this.tabExtractFiles.Controls.Add(this.fileGrid);
             this.tabExtractFiles.Controls.Add(this.tlpExtractFilesBtns);
-            this.tabExtractFiles.Location = new System.Drawing.Point(4, 24);
+            this.tabExtractFiles.Location = new System.Drawing.Point(4, 34);
             this.tabExtractFiles.Name = "tabExtractFiles";
-            this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(5);
-            this.tabExtractFiles.Size = new System.Drawing.Size(456, 413);
+            this.tabExtractFiles.Padding = new System.Windows.Forms.Padding(8);
+            this.tabExtractFiles.Size = new System.Drawing.Size(1092, 624);
             this.tabExtractFiles.TabIndex = 0;
             this.tabExtractFiles.Text = Strings.ExtractFiles;
             // 
@@ -423,11 +449,12 @@ namespace LessMsi.Gui
             this.fileGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fileGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.fileGrid.Location = new System.Drawing.Point(5, 5);
+            this.fileGrid.Location = new System.Drawing.Point(8, 8);
             this.fileGrid.Name = "fileGrid";
             this.fileGrid.ReadOnly = true;
+            this.fileGrid.RowTemplate.Height = 26;
             this.fileGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.fileGrid.Size = new System.Drawing.Size(446, 366);
+            this.fileGrid.Size = new System.Drawing.Size(1076, 556);
             this.fileGrid.TabIndex = 5;
             this.fileGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fileGrid_KeyDown);
             this.fileGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.fileGrid_KeyPress);
@@ -441,10 +468,10 @@ namespace LessMsi.Gui
             // Column 3 is left empty to act as the spacer
 
             this.tlpExtractFilesBtns.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tlpExtractFilesBtns.Location = new System.Drawing.Point(5, 371);
+            this.tlpExtractFilesBtns.Location = new System.Drawing.Point(8, 564);
             this.tlpExtractFilesBtns.Name = "tlpExtractFilesBtns";
             this.tlpExtractFilesBtns.RowCount = 1;
-            this.tlpExtractFilesBtns.Size = new System.Drawing.Size(446, 37);
+            this.tlpExtractFilesBtns.Size = new System.Drawing.Size(1076, 52);
             this.tlpExtractFilesBtns.TabIndex = 4;
 
             // Column Styles Configuration
@@ -466,8 +493,9 @@ namespace LessMsi.Gui
             this.btnSelectAll.AutoSize = true;
             this.btnSelectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnSelectAll.AutoEllipsis = false;
-            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.btnSelectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnSelectAll.Padding = new Padding(12, 5, 12, 5);
             // btnUnselectAll
             this.btnUnselectAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnUnselectAll.Name = "btnUnselectAll";
@@ -477,8 +505,9 @@ namespace LessMsi.Gui
             this.btnUnselectAll.AutoSize = true;
             this.btnUnselectAll.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnUnselectAll.AutoEllipsis = false;
-            this.btnUnselectAll.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.btnUnselectAll.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.btnUnselectAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnUnselectAll.Padding = new Padding(12, 5, 12, 5);
             // btnExtract
             this.btnExtract.Enabled = false;
             this.btnExtract.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -490,14 +519,15 @@ namespace LessMsi.Gui
             this.btnExtract.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtract.AutoEllipsis = false;
             this.btnExtract.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnExtract.Padding = new Padding(12, 5, 12, 5);
             // 
             // tabTableView
             // 
             this.tabTableView.Controls.Add(this.tlpTableView);
             this.tabTableView.Controls.Add(this.msiTableGrid);
-            this.tabTableView.Location = new System.Drawing.Point(4, 22);
+            this.tabTableView.Location = new System.Drawing.Point(4, 34);
             this.tabTableView.Name = "tabTableView";
-            this.tabTableView.Size = new System.Drawing.Size(456, 415);
+            this.tabTableView.Size = new System.Drawing.Size(1092, 624);
             this.tabTableView.TabIndex = 1;
             this.tabTableView.Text = Strings.TableView;
             // 
@@ -511,7 +541,7 @@ namespace LessMsi.Gui
             this.tlpTableView.Location = new System.Drawing.Point(0, 0);
             this.tlpTableView.Name = "tlpTableView";
             this.tlpTableView.RowCount = 1;
-            this.tlpTableView.Size = new System.Drawing.Size(456, 32);
+            this.tlpTableView.Size = new System.Drawing.Size(1092, 46);
             this.tlpTableView.TabIndex = 11;
 
             // Column Styles
@@ -550,21 +580,22 @@ namespace LessMsi.Gui
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.msiTableGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.msiTableGrid.Location = new System.Drawing.Point(0, 35);
+            this.msiTableGrid.Location = new System.Drawing.Point(0, 49);
             this.msiTableGrid.Name = "msiTableGrid";
             this.msiTableGrid.ReadOnly = true;
+            this.msiTableGrid.RowTemplate.Height = 26;
             this.msiTableGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.msiTableGrid.Size = new System.Drawing.Size(453, 370);
+            this.msiTableGrid.Size = new System.Drawing.Size(1089, 575);
             this.msiTableGrid.TabIndex = 10;
             // 
             // tabSummary
             // 
             this.tabSummary.Controls.Add(this.msiPropertyGrid);
             this.tabSummary.Controls.Add(this.grpDescription);
-            this.tabSummary.Location = new System.Drawing.Point(4, 22);
+            this.tabSummary.Location = new System.Drawing.Point(4, 34);
             this.tabSummary.Name = "tabSummary";
-            this.tabSummary.Padding = new System.Windows.Forms.Padding(5);
-            this.tabSummary.Size = new System.Drawing.Size(456, 415);
+            this.tabSummary.Padding = new System.Windows.Forms.Padding(8);
+            this.tabSummary.Size = new System.Drawing.Size(1092, 624);
             this.tabSummary.TabIndex = 2;
             this.tabSummary.Text = Strings.Summary;
             // 
@@ -576,11 +607,12 @@ namespace LessMsi.Gui
             this.msiPropertyGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.msiPropertyGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.msiPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.msiPropertyGrid.Location = new System.Drawing.Point(5, 5);
+            this.msiPropertyGrid.Location = new System.Drawing.Point(8, 8);
             this.msiPropertyGrid.Name = "msiPropertyGrid";
             this.msiPropertyGrid.ReadOnly = true;
+            this.msiPropertyGrid.RowTemplate.Height = 26;
             this.msiPropertyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.msiPropertyGrid.Size = new System.Drawing.Size(446, 299);
+            this.msiPropertyGrid.Size = new System.Drawing.Size(1076, 426);
             this.msiPropertyGrid.TabIndex = 3;
             this.msiPropertyGrid.SelectionChanged += new System.EventHandler(this.msiPropertyGrid_SelectionChanged);
             // 
@@ -588,9 +620,9 @@ namespace LessMsi.Gui
             // 
             this.grpDescription.Controls.Add(this.txtSummaryDescription);
             this.grpDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpDescription.Location = new System.Drawing.Point(5, 304);
+            this.grpDescription.Location = new System.Drawing.Point(8, 438);
             this.grpDescription.Name = "grpDescription";
-            this.grpDescription.Size = new System.Drawing.Size(446, 106);
+            this.grpDescription.Size = new System.Drawing.Size(1076, 178);
             this.grpDescription.TabIndex = 2;
             this.grpDescription.TabStop = false;
             this.grpDescription.Text = Strings.Description;
@@ -599,11 +631,11 @@ namespace LessMsi.Gui
             // 
             this.txtSummaryDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSummaryDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSummaryDescription.Location = new System.Drawing.Point(3, 19);
+            this.txtSummaryDescription.Location = new System.Drawing.Point(3, 23);
             this.txtSummaryDescription.Multiline = true;
             this.txtSummaryDescription.Name = "txtSummaryDescription";
             this.txtSummaryDescription.ReadOnly = true;
-            this.txtSummaryDescription.Size = new System.Drawing.Size(440, 84);
+            this.txtSummaryDescription.Size = new System.Drawing.Size(1070, 152);
             this.txtSummaryDescription.TabIndex = 1;
             // 
             // tabStreams
@@ -611,9 +643,9 @@ namespace LessMsi.Gui
             this.tabStreams.Controls.Add(this.lstStreamFiles);
             this.tabStreams.Controls.Add(this.tlpStreamsBottom);
             this.tabStreams.Controls.Add(this.tlpStreamView);
-            this.tabStreams.Location = new System.Drawing.Point(4, 22);
+            this.tabStreams.Location = new System.Drawing.Point(4, 34);
             this.tabStreams.Name = "tabStreams";
-            this.tabStreams.Size = new System.Drawing.Size(456, 415);
+            this.tabStreams.Size = new System.Drawing.Size(1092, 624);
             this.tabStreams.TabIndex = 3;
             this.tabStreams.Text = Strings.Streams;
             this.tabStreams.UseVisualStyleBackColor = true;
@@ -622,11 +654,12 @@ namespace LessMsi.Gui
             // 
             this.lstStreamFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstStreamFiles.FormattingEnabled = true;
-            this.lstStreamFiles.ItemHeight = 15;
-            this.lstStreamFiles.Location = new System.Drawing.Point(0, 28);
+            this.lstStreamFiles.ItemHeight = 20;
+            this.lstStreamFiles.IntegralHeight = false;
+            this.lstStreamFiles.Location = new System.Drawing.Point(0, 47);
             this.lstStreamFiles.Name = "lstStreamFiles";
             this.lstStreamFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstStreamFiles.Size = new System.Drawing.Size(456, 351);
+            this.lstStreamFiles.Size = new System.Drawing.Size(1092, 525);
             this.lstStreamFiles.TabIndex = 2;
             // 
             // pnlStreamsBottom
@@ -635,10 +668,10 @@ namespace LessMsi.Gui
             this.tlpStreamsBottom.Controls.Add(this.btnExtractStreamFiles, 0, 0); // Column 0
 
             this.tlpStreamsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tlpStreamsBottom.Location = new System.Drawing.Point(0, 379);
+            this.tlpStreamsBottom.Location = new System.Drawing.Point(0, 572);
             this.tlpStreamsBottom.Name = "tlpStreamsBottom";
             this.tlpStreamsBottom.RowCount = 1;
-            this.tlpStreamsBottom.Size = new System.Drawing.Size(456, 36);
+            this.tlpStreamsBottom.Size = new System.Drawing.Size(1092, 52);
             this.tlpStreamsBottom.TabIndex = 1;
             this.tlpStreamsBottom.BackColor = System.Drawing.SystemColors.Control;
 
@@ -659,8 +692,9 @@ namespace LessMsi.Gui
             this.btnExtractStreamFiles.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.btnExtractStreamFiles.UseVisualStyleBackColor = true;
             this.btnExtractStreamFiles.AutoEllipsis = false;
-            this.btnExtractStreamFiles.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.btnExtractStreamFiles.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnExtractStreamFiles.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnExtractStreamFiles.Padding = new Padding(12, 5, 12, 5);
             // 
             // tlpStreamView
             // 
@@ -672,7 +706,7 @@ namespace LessMsi.Gui
             this.tlpStreamView.Location = new System.Drawing.Point(0, 0);
             this.tlpStreamView.Name = "tlpStreamView";
             this.tlpStreamView.RowCount = 1;
-            this.tlpStreamView.Size = new System.Drawing.Size(456, 32);
+            this.tlpStreamView.Size = new System.Drawing.Size(1092, 47);
             this.tlpStreamView.TabIndex = 0;
             this.tlpStreamView.BackColor = System.Drawing.SystemColors.Control;
 
@@ -709,10 +743,10 @@ namespace LessMsi.Gui
             this.tlpMsiFileBrowse.Controls.Add(this.txtMsiFileName, 1, 0);
             this.tlpMsiFileBrowse.Controls.Add(this.btnBrowse, 2, 0);
             this.tlpMsiFileBrowse.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlpMsiFileBrowse.Location = new System.Drawing.Point(0, 24);
+            this.tlpMsiFileBrowse.Location = new System.Drawing.Point(0, 30);
             this.tlpMsiFileBrowse.Name = "tlpMsiFileBrowse";
             this.tlpMsiFileBrowse.RowCount = 1;
-            this.tlpMsiFileBrowse.Size = new System.Drawing.Size(464, 31);
+            this.tlpMsiFileBrowse.Size = new System.Drawing.Size(1100, 42);
             this.tlpMsiFileBrowse.TabIndex = 0;
             this.tlpMsiFileBrowse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tlpMsiFileBrowse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -722,29 +756,29 @@ namespace LessMsi.Gui
             // openMsiDialog
             // 
             this.openMsiDialog.DefaultExt = "msi";
-            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp|{Strings.AllFilesFilter}|*.*";
+            this.openMsiDialog.Filter = $"{Strings.MsiFilesFilter}|*.msi;*.msp;*.msm|{Strings.AllFilesFilter}|*.*";
             // 
             // statusBar1
             // 
-            this.fileInfoStatusBar.Location = new System.Drawing.Point(0, 496);
-            this.fileInfoStatusBar.Name = "fileInfoStatusBar";
-            this.fileInfoStatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.fileInfoStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusPanelDefault,
             this.statusPanelFileCount});
-            this.fileInfoStatusBar.ShowPanels = true;
-            this.fileInfoStatusBar.Size = new System.Drawing.Size(464, 16);
+            this.fileInfoStatusBar.Location = new System.Drawing.Point(0, 734);
+            this.fileInfoStatusBar.Name = "fileInfoStatusBar";
+            this.fileInfoStatusBar.Size = new System.Drawing.Size(1100, 26);
             this.fileInfoStatusBar.TabIndex = 2;
+            this.fileInfoStatusBar.SizingGrip = true;
             // 
             // statusPanelDefault
             // 
-            this.statusPanelDefault.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
             this.statusPanelDefault.Name = "statusPanelDefault";
-            this.statusPanelDefault.Width = 337;
+            this.statusPanelDefault.Spring = true;
+            this.statusPanelDefault.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusPanelFileCount
             // 
             this.statusPanelFileCount.Name = "statusPanelFileCount";
-            this.statusPanelFileCount.Width = 110;
+            this.statusPanelFileCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // menuStrip1
             // 
@@ -754,7 +788,7 @@ namespace LessMsi.Gui
             this.aboutToolStripMenuItem});
             this.mainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.mainMenuBar.Name = "mainMenuBar";
-            this.mainMenuBar.Size = new System.Drawing.Size(464, 24);
+            this.mainMenuBar.Size = new System.Drawing.Size(1100, 30);
             this.mainMenuBar.TabIndex = 3;
             this.mainMenuBar.Text = "mainMenuBar";
             // 
@@ -809,6 +843,7 @@ namespace LessMsi.Gui
             this.changeLangToolStripMenuItem,
             this.editStripSeparator,
             this.preferencesToolStripMenuItem,
+            this.darkModeToolStripMenuItem,
             this.searchFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
@@ -850,6 +885,15 @@ namespace LessMsi.Gui
             this.searchFileToolStripMenuItem.Text = Strings.SearchFile;
             this.searchFileToolStripMenuItem.Click += new System.EventHandler(this.searchFileToolStripMenuItem_Click);
             // 
+            // darkModeToolStripMenuItem
+            // 
+            this.darkModeToolStripMenuItem.CheckOnClick = true;
+            this.darkModeToolStripMenuItem.Name = "darkModeToolStripMenuItem";
+            this.darkModeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.darkModeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.darkModeToolStripMenuItem.Text = "&Dark mode";
+            this.darkModeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.darkModeToolStripMenuItem_CheckedChanged);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -860,15 +904,15 @@ namespace LessMsi.Gui
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
-            this.ClientSize = new System.Drawing.Size(464, 512);
+            this.AutoScaleBaseSize = new System.Drawing.Size(7, 17);
+            this.ClientSize = new System.Drawing.Size(1100, 760);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.fileInfoStatusBar);
             this.Controls.Add(this.tlpMsiFileBrowse);
             this.Controls.Add(this.mainMenuBar);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.mainMenuBar;
-            this.MinimumSize = new System.Drawing.Size(352, 404);
+            this.MinimumSize = new System.Drawing.Size(860, 560);
             this.Name = "MainForm";
             this.Text = "Less MSIérables";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -886,8 +930,6 @@ namespace LessMsi.Gui
             this.grpDescription.ResumeLayout(false);
             this.grpDescription.PerformLayout();
             this.tabStreams.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.statusPanelDefault)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.statusPanelFileCount)).EndInit();
             this.mainMenuBar.ResumeLayout(false);
             this.mainMenuBar.PerformLayout();
             this.ResumeLayout(false);
@@ -1024,6 +1066,7 @@ namespace LessMsi.Gui
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var frm = new PreferencesForm();
+            DarkTheme.Apply(frm, Settings.Default.DarkMode);
             frm.ShowDialog(this);
         }
 
@@ -1051,6 +1094,7 @@ namespace LessMsi.Gui
                 StartPosition = FormStartPosition.CenterParent,
                 Owner = this
             };
+            DarkTheme.Apply(changeLanguageForm, Settings.Default.DarkMode);
 
             changeLanguageForm.ShowDialog(this);
 
@@ -1071,7 +1115,9 @@ namespace LessMsi.Gui
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new AboutBox().ShowDialog(this);
+            var aboutBox = new AboutBox();
+            DarkTheme.Apply(aboutBox, Settings.Default.DarkMode);
+            aboutBox.ShowDialog(this);
         }
 
         private void MainForm_DragEnter(object sender, DragEventArgs e)
@@ -1150,6 +1196,9 @@ namespace LessMsi.Gui
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // Re-apply now that the window handle exists, so the title bar can be themed too.
+            ApplyTheme(Settings.Default.DarkMode);
+
             Size lastRecordedAppSize = Settings.Default.LastRecordedAppSize;
             Point lastRecordedAppLocation = Settings.Default.LastRecordedAppLocation;
 
@@ -1182,6 +1231,7 @@ namespace LessMsi.Gui
         private ExtractionProgressDialog BeginShowingProgressDialog()
         {
             var progressDialog = new ExtractionProgressDialog(this);
+            DarkTheme.Apply(progressDialog, Settings.Default.DarkMode);
             progressDialog.Show();
             progressDialog.Update();
             return progressDialog;

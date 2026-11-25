@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using System.Linq;
+using Xunit;
 using LessIO;
 
 namespace LessMsi.Tests
@@ -140,5 +142,50 @@ namespace LessMsi.Tests
         {
             ExtractAndCompareToMaster("IviNetSharedComponents32_Fx20_1.3.0.msi");
         }
+
+        /// <summary>
+        /// Merge modules have no Media table; their cabinet lives in the _Streams table under the name
+        /// MergeModule.CABinet. This fixture is the Microsoft VC++ 14.40 x64 CRT merge module, which also
+        /// ships several architectures of the same DLL name, so it covers the duplicate name handling too.
+        /// </summary>
+        [Fact]
+        public void MergeModuleWithoutMediaTable()
+        {
+            ExtractAndCompareToMaster(MsmFileName);
+        }
+
+        /// <summary>
+        /// Documents what makes the fixture a merge module: it has no Media table, and its cabinet is the
+        /// MergeModule.CABinet stream. If either assumption ever changes, the test above stops being
+        /// meaningful, so assert them explicitly.
+        /// </summary>
+        [Fact]
+        public void MergeModuleHasNoMediaTableButHasCabinetStream()
+        {
+            using (var msidb = Msi.MsiDatabase.Create(GetMsiTestFile(MsmFileName)))
+            {
+                Assert.ThrowsAny<Exception>(() => msidb.OpenExecuteView("SELECT * FROM `Media`"));
+
+                var mediaTableMissing = false;
+                try
+                {
+                    msidb.OpenExecuteView("SELECT * FROM `Media`").Close();
+                }
+                catch (Exception)
+                {
+                    mediaTableMissing = true;
+                }
+                Assert.True(mediaTableMissing, "Expected the fixture to have no Media table.");
+
+                using (var view = new Msi.ViewWrapper(msidb.OpenExecuteView("SELECT `Name` FROM `_Streams`")))
+                {
+                    var nameColumn = view.ColumnIndex("Name");
+                    var streamNames = view.Records.Select(row => (string)row[nameColumn]).ToArray();
+                    Assert.Contains("MergeModule.CABinet", streamNames);
+                }
+            }
+        }
+
+        private const string MsmFileName = "Microsoft_VC143_CRT_x64.msm";
     }
 }
